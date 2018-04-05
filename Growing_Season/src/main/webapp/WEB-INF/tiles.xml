@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE  tiles-definitions PUBLIC
+	"-//Aapche Software Foundation//DTD Tiles Configuration 2.0//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_1.dtd"
+>
+
+ -->
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Soft Foundation//DTD Tiles Configuration 3.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+
+<tiles-definitions>
+	<!--
+	<definition name="csslayout" template="/csslayout/layout.jsp">
+		<put-attribute name="title" value="csstest"/>
+		<put-attribute name="top" value = "/csslayout/top.jsp"/>
+		<put-attribute name="body" value = "/csslayout/body.jsp"/>
+		<put-attribute name="footer" value = "/csslayout/footer.jsp"/>
+	</definition>
+
+	<definition name="board_*" extends="csslayout">
+		<put-attribute name="body" value = "/board/board_{1}.jsp"/>
+	</definition>
+	-->
+	
+	<!-- layout 부모들 -->
+	<definition name="layoutDefault" template="/layout/layout_default.jsp">
+		<put-attribute name="title" value="layout"/>
+		<put-attribute name="top" value = "/layout/top.jsp"/>
+		<put-attribute name="body" value = "/layout/body.jsp"/>
+		<put-attribute name="sidebar" value = "/layout/sidebar.jsp"/>
+		<put-attribute name="footer" value = "/layout/footer.jsp"/>
+	</definition>
+	
+	<definition name="layoutWithoutSidebar" template="/layout/layout_without_sidebar.jsp">
+		<put-attribute name="title" value="csstest"/>
+		<put-attribute name="top" value = "/layout/top.jsp"/>
+		<put-attribute name="body" value = "/layout/body.jsp"/>
+		<put-attribute name="footer" value = "/layout/footer.jsp"/>
+	</definition>
+	
+	<definition name="layoutWithoutSidebarAndFooter" template="/layout/layout_without_sidebar_and_footer.jsp">
+		<put-attribute name="title" value="csstest"/>
+		<put-attribute name="top" value = "/layout/top.jsp"/>
+		<put-attribute name="body" value = "/layout/body.jsp"/>
+		<put-attribute name="footer" value = "/layout/footer.jsp"/>
+	</definition>
+	<!-- layout 부모들 끝 -->
+	
+	<!-- Board layout tiles -->
+	<definition name="board_*_*_*_*" extends="layoutDefault">
+		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
+		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
+	</definition>
+	
+	<!-- farm and garden apply layout tiles -->
+	<definition name="apply_*_*_*_*" extends="layoutDefault">
+		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
+		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
+	</definition>
+	
+	<!-- farm apply layout tiles -->
+	<definition name="applyFarm_*_*_*_*" extends="layoutDefault">
+		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
+		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
+	</definition>
+
+	<!-- garden apply layout tiles -->
+	<definition name="applyGarden_*_*_*_*" extends="layoutDefault">
+		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
+		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
+	</definition>
+	
+	<!-- member layout tiles -->
+	<definition name="member_*_*_*_*" extends="layoutDefault">
+		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
+		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
+	</definition>
+	
+	<!-- payment layout tiles -->
+	<definition name="paymentlog_*_*_*_*" extends="layoutDefault">
+		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
+		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
+	</definition>
+	
+	<!-- sns layout userpage tiles -->
+	<definition name="sns_*_user_*_*" extends="layoutWithoutSidebarAndFooter">
+		<put-attribute name="body" value = "/{1}/user_{2}_{3}.jsp"/>
+	</definition>
+	
+	<!-- sns layout admin tiles -->
+	<definition name="sns_*_admin_*_*" extends="layoutDefault">
+		<put-attribute name="sidebar" value = "/{1}/admin_{2}_sidebar.jsp"/>
+		<put-attribute name="body" value = "/{1}/admin_{2}_{3}.jsp"/>
+	</definition>
+	
+	<!-- weather layout userpage tiles -->
+	<definition name="weather_*_*_*_*" extends="layoutWithoutSidebarAndFooter">
+		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
+	</definition>
+	
+	<!-- shop layout userpage tiles -->
+	<definition name="shop_*_*_*_*" extends="layoutWithoutSidebarAndFooter">
+		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
+		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
+	</definition>
+	
+	
+</tiles-definitions>
