@@ -28,7 +28,7 @@
     }
 </style>
 <div class="newsletter">
-	<div class="container">
+	
 		<div class="row">
 			<div class="col-md-6 ab-text">
 				<p><h4>지역을 선택하세요</h4></p>
@@ -68,7 +68,7 @@
 			</div>
 		
 		
-	</div>
+	
 </div>
 
 
