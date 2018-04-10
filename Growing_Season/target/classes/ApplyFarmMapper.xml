@@ -24,6 +24,11 @@
 	<result property="fgtotalarea" column="fgtotalarea" />
 </resultMap>
 
+<resultMap id="farmAreadyReservation" type="java.util.HashMap">
+	<result property="aseq" column="aseq" />
+	<result property="areservation" column="areservation" />
+</resultMap>
+
   <!--
 	<resultMap id="BoardReplyForMap" type="com.board.board.BoardVO">
 		
@@ -75,11 +80,11 @@
 </select>
 
 <select id="selectFarmLocation" resultType="String">
-	select fglocation from farm_garden where fgdivision = '농장' group by fglocation
+	select fglocation from farm_garden where fgdivision = '농장' and fgdelete='n' group by fglocation
 </select>
 
 <select id="selectFarmName" resultMap="farmlist">
-	select fgname, fgseq from farm_garden where fglocation = #{fglocation} and fgdivision ='농장' group by fgname, fgseq
+	select fgname, fgseq from farm_garden where fglocation = #{fglocation} and fgdivision ='농장' and fgdelete='n' group by fgname, fgseq
 </select>
 
 <select id="selectFarmArea" resultMap="farmarea">
@@ -87,14 +92,38 @@
 </select>
 
 <insert id="completeApply">
-	insert into apply (apseq, mseq, fgseq, aseq, year, pdivision, pcode, awinner, apname, apphone, apemail, apbirth, apdate, apcancel)
-    values(apply_seq.nextval, #{mseq},#{fgseq},#{aseq},#{year},#{pdivision},#{pcode},'y',#{apname},#{apphone},#{apemail},#{apbirth}, sysdate,'n') 
+	insert into apply (apseq, mseq, fgseq, aseq, apdivision, year, pdivision, pcode, awinner, apname, apphone, apemail, apbirth, apdate, apcancel)
+    values(apply_seq.nextval, #{mseq},#{fgseq},#{aseq},#{apdivision},#{year},#{pdivision},#{pcode},'y',#{apname},#{apphone},#{apemail},#{apbirth}, sysdate,'n') 
 </insert>
 
 <insert id="insertAreaNO">
 	insert into area (aseq, fgseq) values (#{aseq}, #{fgseq})
 </insert>
 
+<select id="checkAreadyReservationFarm" resultType="int">
+	select aseq from area_year where fgseq=#{fgseq} and areservation = 'y';
+</select>
+
+<select id="farmAreadyReservationList" resultMap="farmAreadyReservation">
+	select a.aseq, nvl(ay.areservation, 'n') as areservation
+	from area a, (select aseq, nvl(areservation, 'n') as areservation from area_year where fgseq=#{fgseq}) ay
+	where a.aseq=ay.aseq(+)	
+    and a.fgseq=#{fgseq}
+	order by a.aseq
+</select>
+<select id="myApplyFarmInfo" resultType="com.kosmo.applyfarm.FarmInfoVO">
+	select
+	a.fgseq, a.aseq, fg.fglocation, fg.fgname, fg.fgmanager, fg.fgaddress, fg.fgphone, fg.fgfeature, fg.fgguide, fg.fgcol, fg.fgrow, fg.fgtotalarea, fg.fglatitude, fg.fglongitude
+	from apply a, farm_garden fg
+	where a.fgseq = fg.fgseq
+	and a.mseq=#{mseq} and a.year=2018 and a.apcancel='n' and fg.fgdetaildiv='농장'
+</select>
+<select id="selectFarmInfo" resultType="com.kosmo.applyfarm.FarmInfoVO">
+select
+fgseq, fgdivision, fgdetaildiv, fglocation, fgname, fgmanager, fgaddress, fgphone, fgfeature, fgguide, fgcol, fgrow, fgtotalarea, fglatitude, fglongitude
+from farm_garden
+where fgseq=#{fgseq} and fgdelete='n'
+</select>
 <!--
 -->
 </mapper>

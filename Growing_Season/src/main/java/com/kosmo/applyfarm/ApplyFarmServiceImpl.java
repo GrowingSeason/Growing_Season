@@ -22,7 +22,20 @@ public class ApplyFarmServiceImpl implements ApplyFarmService {
 		return applyFarmMapper.selectFarmName(fglocation);		
 	}
 	
-	public HashMap<String, Integer> selectFarmArea(int fgseq){
-		return applyFarmMapper.selectFarmArea(fgseq);
+	public HashMap<String, Object> selectFarmArea(int fgseq){
+		HashMap<String, Object> farmAreaInfo = applyFarmMapper.selectFarmArea(fgseq);
+		farmAreaInfo.put("aready", applyFarmMapper.farmAreadyReservationList(fgseq));
+		return farmAreaInfo;
+	}
+	public ArrayList<FarmInfoVO> myApplyFarmInfo(int mseq){
+		return applyFarmMapper.myApplyFarmInfo(mseq);
+		
+	}
+	public void inserttemp(AreaYearVO vo){
+		applyFarmMapper.insertAreaNO(vo);
+	}
+	
+	public FarmInfoVO selectFarmInfo(int fgseq){
+		return applyFarmMapper.selectFarmInfo(fgseq);		
 	}
 }

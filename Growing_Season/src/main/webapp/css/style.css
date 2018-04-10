@@ -2631,7 +2631,7 @@ div#bs-example-navbar-collapse-1 {
 
 /*-- nav-sidebar */
 .nav-sidebar { 
-    width: 100%;
+    width: 70%;
     padding: 8px 0; 
     min-width: 150px;
     margin-top: 3em;
@@ -2668,7 +2668,7 @@ div#bs-example-navbar-collapse-1 {
     text-overflow: ellipsis; 
 }
 
-/* Right-aligned sidebar */
+/* Right-aligned sidebar */axc
 .nav-sidebar.pull-right { 
     border-right: 0; 
     border-left: 1px solid #ddd; 

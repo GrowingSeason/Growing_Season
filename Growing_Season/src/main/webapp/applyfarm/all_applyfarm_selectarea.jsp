@@ -26,8 +26,22 @@
       margin: 5px 5px 5px 5px;
       cursor:pointer;
     }
+    
+    .areadybox {
+      background: #FFD700;
+      border: 1px solid #ccc;
+      height: 25px;
+      width: 25px;
+      display:inline-table;
+      margin: 5px 5px 5px 5px;
+    }
+    
 </style>
 <div class="newsletter">
+		<div class="w3ls-heading">
+			<h2 class="h-two">친환경농장 신청 Step1</h2>
+			<p class="sub two">신청하실 농장과 구획을 선택해주세요</p>
+		</div>
 	
 		<div class="row">
 			<div class="col-md-6 ab-text">
@@ -46,27 +60,27 @@
 				</select>
 			</div>
 		</div>
-		
-		<form id="areaform"  method="post">
-		<input type='hidden' class='fgseq-infrom' value=''>
-		<input type='hidden' class='selectarea-infrom' value=''>
-		</form>
+		<div class="row">
 			<div class="col-md-12">
-				<div id = "farmarea" style="overflow:auto;display:inline-block;width:80%;">
-				<table>		
+				<div id = "farmarea" style="overflow:auto;display:inline-block;width:90%;min-height:20%;max-height:500px;">
+				<table style="margin-left: auto; margin-right: auto;">		
 					<tbody class="farmsector" id ="farmsector">
 						
 					</tbody>		
 				</table>
 				</div>
 			</div>
+		</div>
+		<form id="areaform" action="/applyFarm/all/writeForm.do" method="post">
+		<input type='hidden' class='fgseq-infrom' name = "fgseq" value=''>
+		<input type='hidden' class='selectarea-infrom' name = "areaseq" value=''>
 			<div class="col-md-12">
 				<div class="w3agile-button">
-					<button class="btn btn-primary btn-lg" id="select" type="button"> 완료 </button>
+					<button class="btn btn-primary btn-lg" id="select" type="submit"> 완료 </button>
 					<button class="btn btn-danger btn-lg" type="button"> 취소 </button>
 				</div>
 			</div>
-		
+		</form>
 		
 	
 </div>
@@ -93,6 +107,7 @@ function getList(){
 }
 
 function getArea(){
+
 	var farm = {fgseq:$("#farmlist option:selected").val()};
 	var farmseq = $("#farmlist option:selected").val();
 	$(".fgseq-infrom").attr('value', farmseq);
@@ -114,6 +129,7 @@ function getArea(){
 			var areanum = 1;
 		
 			$("#farmsector").empty()
+			/*
 			for(var i=0;i<row;i++){
 				console.log(areanum);
 				$("#farmsector").append("<tr>");
@@ -126,7 +142,71 @@ function getArea(){
 					}
 				$("#farmsector").append("</tr>");
 				}
-			}
+			*/
+			$.each(result.aready, function(i,v){
+				if(i==0){
+					if(v.areservation=='y'){
+						$("#farmsector").append("<tr>");
+						$("#farmsector").append(
+								"<td><div class='areadybox'><input type='hidden' class='num' id='"+v.aseq+"' value='"+v.aseq+"'></div></td>"
+							);
+						}else{
+						$("#farmsector").append(
+								"<td><div class='box'><input type='hidden' class='num' id='"+v.aseq+"' value='"+v.aseq+"'></div></td>"
+								);
+						}
+				}else{
+					if(v.aseq % col != 0){
+						if(v.aseq == total){
+							if(v.areservation=='y'){
+								console.log(v.areservation);
+								$("#farmsector").append(
+										"<td><div class='areadybox'><input type='hidden' class='num' id='"+v.aseq+"' value='"+v.aseq+"'></div></td>"
+										);
+								$("#farmsector").append("</tr>");
+								return;
+							}else{
+								console.log(v.areservation);
+								$("#farmsector").append(
+										"<td><div class='box'><input type='hidden' class='num' id='"+v.aseq+"' value='"+v.aseq+"'></div></td>"
+										);
+								$("#farmsector").append("</tr>");
+								return;
+							}
+						}else{
+							if(v.areservation=='y'){
+								console.log(v.areservation);
+								$("#farmsector").append(
+										"<td><div class='areadybox'><input type='hidden' class='num' id='"+v.aseq+"' value='"+v.aseq+"'></div></td>"
+										);
+							}else{
+								console.log(v.areservation);
+								$("#farmsector").append(										
+										"<td><div class='box'><input type='hidden' class='num' id='"+v.aseq+"' value='"+v.aseq+"'></div></td>"
+										);
+							}
+						}
+					}else{
+						if((v.areservation=='y')){
+							console.log(v.areservation);
+							$("#farmsector").append("</tr>");
+							$("#farmsector").append(
+									"<td><div class='areadybox'><input type='hidden' class='num' id='"+v.aseq+"' value='"+v.aseq+"'></div></td>"
+									);
+							$("#farmsector").append("<tr>");
+						}else{
+							console.log(v.areservation);
+							$("#farmsector").append("</tr>");
+							$("#farmsector").append(
+									"<td><div class='box'><input type='hidden' class='num' id='"+v.aseq+"' value='"+v.aseq+"'></div></td>"
+									);
+							$("#farmsector").append("<tr>");							
+						}
+					}
+					
+				}
+			});
+		}
 	});
 }
 $(".farmsector").on( "click" , "div", function() {              
@@ -143,6 +223,8 @@ $(".farmsector").on( "click" , "div", function() {
     }else if($(this).attr('class')=='selectbox'){
     	$(this).attr('class','box')
     	$(".selectarea-infrom").attr('value', '');
+    }else if($(this).attr('class')=='areadybox'){
+    	alert("이미 예약된 구획입니다. 다른구획을 선택해주세요");
     }
 
 });       

@@ -28,9 +28,11 @@ public interface ApplyFarmMapper {
 	public int checkMyFarm(int mseq, int year);
 	public ArrayList<String> selectFarmLocation();
 	public ArrayList<HashMap<String, Object>> selectFarmName(String fglocation);
-	public HashMap<String, Integer> selectFarmArea(int fgseq);
+	public HashMap<String, Object> selectFarmArea(int fgseq);
 	public int completeApply(ApplyFarmVO vo);
 	public int insertAreaNO(AreaYearVO vo);
-	
-
+	public ArrayList<Integer> checkAreadyReservationFarm(int fgseq);
+	public ArrayList<HashMap<String, Object>> farmAreadyReservationList(int fgseq);
+	public ArrayList<FarmInfoVO> myApplyFarmInfo(int mseq);
+	public FarmInfoVO selectFarmInfo(int fgseq);
 }
