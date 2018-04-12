@@ -33,6 +33,12 @@ public interface ApplyFarmMapper {
 	public int insertAreaNO(AreaYearVO vo);
 	public ArrayList<Integer> checkAreadyReservationFarm(int fgseq);
 	public ArrayList<HashMap<String, Object>> farmAreadyReservationList(int fgseq);
-	public ArrayList<FarmInfoVO> myApplyFarmInfo(int mseq);
+	public ArrayList<FarmInfoVO> myApplyFarmInfo(Map<String, Integer> map);
 	public FarmInfoVO selectFarmInfo(int fgseq);
+	public int applyCancel(ApplyFarmVO vo);
+	public int applyCancelForAreaYear(ApplyFarmVO vo);
+	public int farmSmsInsert(HashMap<String, Object> map);
+	public int farmSmsValidateUpdate(String phoneNumber);
+	public HashMap<String, Object> checkSmsAuthValidate(HashMap<String, String> map);
+	public int farmSmsAuthResultUpdate(int smsseq);
 }

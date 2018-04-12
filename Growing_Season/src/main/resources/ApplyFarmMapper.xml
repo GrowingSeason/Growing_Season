@@ -29,6 +29,11 @@
 	<result property="areservation" column="areservation" />
 </resultMap>
 
+<resultMap id="smsAuthRes" type="java.util.HashMap">
+	<result property="smsseq" column="smsseq" />
+	<result property="authvalidate" column="auth_validate" />
+</resultMap>
+
   <!--
 	<resultMap id="BoardReplyForMap" type="com.board.board.BoardVO">
 		
@@ -105,24 +110,46 @@
 </select>
 
 <select id="farmAreadyReservationList" resultMap="farmAreadyReservation">
-	select a.aseq, nvl(ay.areservation, 'n') as areservation
-	from area a, (select aseq, nvl(areservation, 'n') as areservation from area_year where fgseq=#{fgseq}) ay
+	select a.aseq, nvl(ay.areservation, 'y') as areservation
+	from area a, (select aseq, nvl(areservation, 'y') as areservation from area_year where fgseq=#{fgseq}) ay
 	where a.aseq=ay.aseq(+)	
     and a.fgseq=#{fgseq}
 	order by a.aseq
 </select>
-<select id="myApplyFarmInfo" resultType="com.kosmo.applyfarm.FarmInfoVO">
+<select id="myApplyFarmInfo" parameterType="hashmap" resultType="com.kosmo.applyfarm.FarmInfoVO">
 	select
 	a.fgseq, a.aseq, fg.fglocation, fg.fgname, fg.fgmanager, fg.fgaddress, fg.fgphone, fg.fgfeature, fg.fgguide, fg.fgcol, fg.fgrow, fg.fgtotalarea, fg.fglatitude, fg.fglongitude
 	from apply a, farm_garden fg
 	where a.fgseq = fg.fgseq
-	and a.mseq=#{mseq} and a.year=2018 and a.apcancel='n' and fg.fgdetaildiv='농장'
+	and a.mseq=#{mseq} and a.year=#{year} and a.apcancel='n' and fg.fgdetaildiv='농장'
 </select>
 <select id="selectFarmInfo" resultType="com.kosmo.applyfarm.FarmInfoVO">
-select
-fgseq, fgdivision, fgdetaildiv, fglocation, fgname, fgmanager, fgaddress, fgphone, fgfeature, fgguide, fgcol, fgrow, fgtotalarea, fglatitude, fglongitude
-from farm_garden
-where fgseq=#{fgseq} and fgdelete='n'
+	select
+	fgseq, fgdivision, fgdetaildiv, fglocation, fgname, fgmanager, fgaddress, fgphone, fgfeature, fgguide, fgcol, fgrow, fgtotalarea, fglatitude, fglongitude
+	from farm_garden
+	where fgseq=#{fgseq} and fgdelete='n'
+</select>
+<update id="applyCancel">
+	update apply set apcancel='y' where mseq=#{mseq} and year=#{year} and fgseq=#{fgseq}
+</update>
+<update id="applyCancelForAreaYear">
+	update area_year set areservation='y' where aseq=#{aseq} and ayear=#{year} and fgseq=#{fgseq}
+</update>
+<insert id="farmSmsInsert" parameterType="hashmap">
+	insert into farm_sms (smsseq,smsphone,auth_number,auth_result,auth_validate, sms_regdate)
+			values(farm_sms_seq.nextval,#{phoneNumber},#{authnumber},'n' ,'y', sysdate)
+</insert>
+<update id="farmSmsValidateUpdate">
+	update farm_sms set auth_validate='n' where smsphone=#{phoneNumber}
+</update>
+<update id="farmSmsAuthResultUpdate">
+	update farm_sms set auth_validate='n', auth_Result = 'y' where smsseq=#{smsseq}
+</update>
+<select id="checkSmsAuthValidate" resultMap="smsAuthRes" parameterType="hashmap">
+select auth_validate, smsseq from farm_sms 
+where smsphone = #{phoneNumber} 
+and auth_number = #{authNumber}
+and sms_regdate = (select max(sms_regdate) from farm_sms where smsphone= #{phoneNumber})
 </select>
 <!--
 -->

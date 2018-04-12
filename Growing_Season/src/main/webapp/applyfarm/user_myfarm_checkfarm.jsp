@@ -106,14 +106,11 @@
 			</div>
 		</div>
 	<div class="col-md-12" style="user-select:none">
-		<div class="layer">
-			<div class="content" id = "farmarea" style="overflow:auto;">
-				<table>		
-					<thead>
-					<tr>
-					회원님께서 신청하신 구획은 ${MY_FARM_INFO[0].aseq}번 구획입니다
-					</tr>
-					</thead>
+		<div id = "layer" style="overflow:auto;display:inline-block;width:90%;min-height:20%;max-height:500px;">
+		<div id = "layer" style="display:inline-block;width:90%">${year.thisyear}년 회원님께서 신청하신 구획은 ${MY_FARM_INFO[0].aseq}번 구획입니다</div>
+		
+				<table style="margin-left: auto; margin-right: auto;">
+					
 					<tbody class="farmsector" id ="farmsector" style="user-select:none;">
 						
 					</tbody>		
@@ -123,15 +120,14 @@
 		</div>
 	</div>
 	<div class="w3agile-button">
-			<button class="btn btn-danger btn-lg" type="button">신청취소</button>
+		<form class="cancelForm" id="cancelForm" action="/myFarm/user/cancelFarm.do" method="post">
+			<button class="btn btn-danger btn-lg" id="cancelBtn" type="button">신청취소</button>
+			<input type="hidden" name = "aseq" value="${MY_FARM_INFO[0].aseq}">
+			<input type="hidden" name = "fgseq" value="${MY_FARM_INFO[0].fgseq}">					
+		</form>
 		</div>
 	<div class="clearfix"></div>
 </div>
-</div>
-
-		
-		
-
 
 
 
@@ -144,24 +140,39 @@ $(window).load(function(){
 		$("#farmsector").empty();
 		var row = ${MY_FARM_INFO[0].fgcol};
 		var col = ${MY_FARM_INFO[0].fgrow};
+		var total = ${MY_FARM_INFO[0].fgtotalarea}
+		console.log(total);
 		var areanum = 1;
 		
 		for(var i=0;i<row;i++){
 		
-		$("#farmsector").append("<tr>");
-		for(var j=0;j<col;j++){
-			if(${MY_FARM_INFO[0].aseq} == areanum){
-				$("#farmsector").append(
-						"<td><div class='selectbox' id='${MY_FARM_INFO[0].aseq}'><input type='hidden' class='num' value='${MY_FARM_INFO[0].aseq}'></div></td>"
-						);
-			}else{
-				$("#farmsector").append(
-						"<td><div class='box'></div></td>"
-						);
-			}
-			areanum++;
+			$("#farmsector").append("<tr>");
+			for(var j=0;j<col;j++){
+				
+					if(${MY_FARM_INFO[0].aseq} == areanum){
+						$("#farmsector").append(
+								"<td><div class='selectbox' id='${MY_FARM_INFO[0].aseq}'><input type='hidden' class='num' value='${MY_FARM_INFO[0].aseq}'></div></td>"
+								);
+						
+						if(areanum == total){
+							break;
+						}
+						
+					}else{
+						$("#farmsector").append(
+								"<td><div class='box'></div></td>"
+								);
+						if(areanum == total){
+							break;
+						}
+					}
+					
+					areanum++;
+				
+					
 				}
-		$("#farmsector").append("</tr>");
+			$("#farmsector").append("</tr>");
+		
 		}
 		
 		var geocoder = new daum.maps.services.Geocoder();
@@ -184,7 +195,11 @@ $(window).load(function(){
 		});
 		
 });
-	
+
+$(".cancelForm #cancelBtn").click(function(){
+	$(".cancelForm").submit();
+})
+
 </script>
 
 
