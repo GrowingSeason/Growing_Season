@@ -71,10 +71,7 @@
 		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
 		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
 	</definition>
-<<<<<<< HEAD
-=======
 
->>>>>>> refs/heads/Growing_Seo
 	<!-- member layout tiles -->
 	<definition name="member_*_*_*_*" extends="layoutDefault">
 		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
