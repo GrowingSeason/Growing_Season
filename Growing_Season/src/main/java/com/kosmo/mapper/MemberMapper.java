@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kosmo.member.MemberVO;
 
-@Repository("dao")
+@Repository("memberdao")
 public interface MemberMapper {
 
 	/**
