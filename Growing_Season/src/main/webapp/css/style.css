@@ -2631,7 +2631,7 @@ div#bs-example-navbar-collapse-1 {
 
 /*-- nav-sidebar */
 .nav-sidebar { 
-    width: 70%;
+    width: 100%;
     padding: 8px 0; 
     min-width: 150px;
     margin-top: 3em;
@@ -2679,3 +2679,8 @@ div#bs-example-navbar-collapse-1 {
     -moz-border-radius: 0 4px 4px 0; 
     border-radius: 0 4px 4px 0; 
 }
+
+
+
+
+
