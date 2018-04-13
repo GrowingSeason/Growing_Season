@@ -20,8 +20,7 @@
 					<td>${BPOP_UP.mid}</td>
 					<td>${BPOP_UP.btitle}</td>
 					<td>${BPOP_UP.bcon}</td>
-					<td>${BPOP_UP
-					.bregdate}</td>
+					<td>${BPOP_UP.bregdate}</td>
 				</tr>
 			</tbody>
 		</table>
