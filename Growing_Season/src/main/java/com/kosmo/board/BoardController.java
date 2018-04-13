@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,11 +41,16 @@ public class BoardController {
 	@Value("${upload_file_format}")
 	String upload_file_format;
 
+	
 
 	//공지 게시판 리스트
 	@RequestMapping(value="/boardnoticelist.do", method = RequestMethod.GET)
-	public ModelAndView boardnoticelist(@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage) 
+	public ModelAndView boardnoticelist(HttpServletRequest request,@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage) 
 	{
+//		HttpSession session=request.getSession();
+//		String mseqStr=(String)session.getAttribute("MSEQ");
+//		int mseq=Integer.parseInt("mseqStr");
+		
 		int totalCount = service.boardNoticeCount();
 
 		PagingUtil pu
@@ -493,11 +499,15 @@ public class BoardController {
 	}
 
 	//게시글 신고 인서트
-	@RequestMapping(value="/bdeclarationinsert.do", method = RequestMethod.GET)
-	public String bdeclarationinsert(BoardVO vo, HttpServletResponse response) throws IOException {
+	@RequestMapping(value="/bdeclarationinsert.do", method = RequestMethod.POST)
+	public String bdeclarationinsert(BDeclarationVO vo, HttpServletResponse response) throws IOException {
 	
 		int res = 0;
-
+		int mseq=4;
+		vo.setBdmseq(mseq);
+		
+		System.out.println(vo.getBdmseq()+"신고자입니다");
+		System.out.println(vo.getBdreason()+"신고이유");
 		res = service.bDeclarationInsert(vo);
 		
 		return "redirect:/boardproposallist.do";	
@@ -517,7 +527,9 @@ public class BoardController {
 		}
 
 		int totalCount = service.bdeclarationCount();
-
+		
+		System.out.println(totalCount);
+		
 		PagingUtil pu
 		= new PagingUtil("/bdeclarationlist.do?"
 				, currentPage
@@ -526,14 +538,17 @@ public class BoardController {
 				, 5 
 				);
 		String  html = pu.getPagingHtml();
+		
+		System.out.println(pu.getStartSeq()+"신고 리스트 스타트");
+		System.out.println(pu.getEndSeq()+"신고 리스트 스타트");
 
 		ArrayList<BDeclarationVO> list = service.bDeclarationList(pu.getStartSeq(), pu.getEndSeq());
-
+		
 		ModelAndView mav = new ModelAndView();
 
-		mav.addObject("LVL_COUNT", totalCount);
-		mav.addObject("LVL_LIST", list);
-		mav.addObject("LVL_PAGING", html);
+		mav.addObject("REPORTBOARD_COUNT", totalCount);
+		mav.addObject("REPORTBOARD_LIST", list);
+		mav.addObject("REPORTBOARD_PAGING", html);
 
 		mav.setViewName("board_board_admin_report_boardlist");     
 

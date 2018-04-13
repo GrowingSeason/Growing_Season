@@ -41,7 +41,7 @@ public interface BoardMapper {
 	
 	public int boardDelete(int bseq);
 	
-	public int bDeclarationInsert(BoardVO vo);
+	public int bDeclarationInsert(BDeclarationVO vo);
 	
 	public ArrayList<BDeclarationVO> bDeclarationList(@Param("sseq") int sseq,@Param("eseq") int eseq);
 

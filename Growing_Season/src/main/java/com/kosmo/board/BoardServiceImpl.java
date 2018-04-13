@@ -95,7 +95,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int bDeclarationInsert(BoardVO vo) {
+	public int bDeclarationInsert(BDeclarationVO vo) {
 		return boarddao.bDeclarationInsert(vo);
 	}
 

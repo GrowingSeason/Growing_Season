@@ -19,6 +19,7 @@ public class BoardVO {
 	private String bdelete;
 	private String mgubun;
 	
+	
 	public String getMgubun() {
 		return mgubun;
 	}

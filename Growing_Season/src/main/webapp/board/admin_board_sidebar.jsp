@@ -10,5 +10,7 @@
                     <li><a href="">공지 게시판</a></li>
                     <li><a href="">자유 게시판</a></li>
                     <li><a href="">건의사항 게시판</a></li>
+                    <li><a href="">게시글신고리스트</a></li>
+                    <li><a href="">댓글신고리스트</a></li>
                </ul>
             </div>

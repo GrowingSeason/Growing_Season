@@ -35,7 +35,7 @@ public interface BoardService {
 	
 	public int boardDelete(int bseq);
 	
-	public int bDeclarationInsert(BoardVO vo);
+	public int bDeclarationInsert(BDeclarationVO vo);
 	
 	public ArrayList<BDeclarationVO> bDeclarationList(int sseq, int eseq);
 	

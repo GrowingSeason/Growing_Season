@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="typo" align="center">
-	<div class="container" >
+	<div class="container">
 		[신고페이지] <br> <br>
 		<table border=1px width=80%>
 			<thead>
@@ -24,12 +24,27 @@
 				</tr>
 			</tbody>
 		</table>
+
+		<br>
+
+<form action="/bdeclarationinsert.do" class="bdeclarationInsert" method="post">
+<input type="hidden" name="bseq" value="${BPOP_UP.bseq}">
+		<div class="row">
+			<label for="ex_input">신고사유</label>
+			<div class="col-lg-12">
+				<div class="input-group">
+					<input name="bdreason" value="" type="text" size=65
+						aria-label="...">
+				</div>
+			</div>
+		</div>
+		
 		<br> <br>
-		<button style="font-size: 18px;">
-			<a href="/bdeclarationinsert.do?bseq=${BPOP_UP.bseq}">신고</a>
-		</button>
+		
+		<input type="submit" style="font-size: 18px;" value="신고">
+			
 		<button onclick="window.close()" style="font-size: 18px;">닫기</button>
 		<br> <br> <br> <br>
-
+</form>
 	</div>
 </div>

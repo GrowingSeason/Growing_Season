@@ -94,9 +94,8 @@
 		
 		window.open("/bdeclarationPopup.do?bseq=${PROPOSAL_DETAIL.bseq}",
 						"게시글신고창",
-						"toolbar=0, status=0, scrollbars=auto, location=0, menubar=0, width=500, height=600;");
+						'toolbar=no, status=no, scrollbars=no, location=no, menubar=no, width=500, height=600, resizable=no');
 		winfrom.document.write("<p>신고창</p>");
-		winfrom.moveTo(screen.availWidth/2-500/2,screen.availHeight/2-600/2);
 	}
 
 	function goPage() {
