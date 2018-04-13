@@ -58,6 +58,7 @@
 	</definition>
 	
 	
+	
 	<!-- farm and garden apply layout tiles -->
 	<definition name="apply_*_*_*_*" extends="layoutDefault">
 		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
