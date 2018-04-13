@@ -5,6 +5,14 @@ public class BDeclarationVO {
 	private String bdreason;
 	private String bdregdate;
 	private int bdmseq;
+	private String bdmid;
+	
+	public String getBdmid() {
+		return bdmid;
+	}
+	public void setBdmid(String bdmid) {
+		this.bdmid = bdmid;
+	}
 	public int getBseq() {
 		return bseq;
 	}

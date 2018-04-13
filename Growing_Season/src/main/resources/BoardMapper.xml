@@ -2,7 +2,7 @@
 <mapper namespace="com.kosmo.mapper.BoardMapper">
 
 <!-- mseq->mgubun -->
-<select id = "selectMgubun" parameterType="int" resultType="String">
+<select id = "selectMgubun" parameterType="int" resultType="com.kosmo.board.BoardVO">
 	select mgubun from member where mseq=#{mseq}
 </select>
 
@@ -129,19 +129,18 @@ update board set bdelete='Y' where bseq=#{bseq}
 
 
 <!-- 게시글 신고 인서트-->
-<insert id = "bDeclarationInsert" parameterType="com.kosmo.board.BoardVO" >
-	insert into BDeclaration(bseq,bdreason,bdregdate,bdmseq) 
-		values(#{bseq},#{bdreason},sysdate,#{mseq})
+<insert id = "bDeclarationInsert" parameterType="com.kosmo.board.BDeclarationVO" >
+	insert into BDeclaration(bseq,bdreason,bdregdate,bdmseq) values(#{bseq},#{bdreason},sysdate,#{bdmseq})
 </insert>
 
 <!-- 신고 게시글 리스트 -->
-<select id = "bDeclarationList" parameterType="map" resultType="com.kosmo.board.BDeclarationVO">
+<select id = "bDeclarationList" resultType="com.kosmo.board.BDeclarationVO">
 	<![CDATA[
-	select rnum,bseq,bdreason,bdregdate,bdmseq 
+	select rnum,bseq,bdreason,bdregdate,bdmseq,bdmid 
 	from 
-	(select rownum as rnum,bseq,bdreason,bdregdate,bdmseq 
+	(select rownum as rnum,bseq,bdreason,bdregdate,bdmseq, bdmid 
 	from
-	(select bseq,bdreason,bdregdate,bdmseq from bdeclaration order by bdregdate)
+	(select bd.bseq,bd.bdreason,bd.bdregdate,bd.bdmseq,m.mid bdmid from bdeclaration bd, member m order by bdregdate)
 	)
 	where rnum >= #{sseq} and rnum <= #{eseq}
 	]]>

@@ -15,8 +15,7 @@
 			<div class="row">
 				<div class="col-lg-6 in-gp-tl">
 					<div class="input-group">
-						<input name="rcon" value="" type="text" size=160
-							placeholder="댓글내용" aria-label="...">
+						<input name="rcon" value="" type="text" size=160 placeholder="댓글내용" aria-label="...">
 					</div>
 				</div>
 			</div>
