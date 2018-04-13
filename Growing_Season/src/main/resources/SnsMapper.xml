@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosmo.mapper.SnsMapper">
+
+<select id="snsFeedList" resultType="com.kosmo.sns.SnsFeedVO">
+select feseq,mseq,fecon,feregdate,ferange,fedelete from snsfeed 
+where ferange='all' and fedelete='N'
+</select>
+
+<select id="snsFeedDetail" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+select feseq,mseq,fecon,feregdate,ferange,fedelete
+from snsfeed 
+where feseq=#{feseq}
+</select>
+
+<select id="snsFollowersList" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+select m.mid, m.mname, f.femseq from member m,followers f where m.mseq=f.femseq and f.mseq= #{mseq}
+</select>
+
+<select id="snsFollowingList" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+select m.mid, m.mname, f.fimseq from member m,following f where m.mseq=f.mseq and f.fimseq= #{mseq}
+</select>
+
+<select id="snsCommentList" parameterType="int" resultType="com.kosmo.sns.SnsCommentVO">
+<![CDATA[ select rnum,scseq,feseq,sccon,mseq, scdelete, scregdate from 
+( select rownum rnum,scseq,feseq,sccon,mseq, scdelete, scregdate from 
+(select scseq,feseq,sccon,mseq, scdelete,to_char(scregdate, 'YYYY-MM-DD') from snscomment where feseq=#{feseq} and scdelete='N' order by fdregdate desc))
+ where rnum >= #{sseq} and rnum <= #{eseq} ]]>
+</select>
+
+<select id="snsLike" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+select count(*) from snslike where feseq=#{feseq}
+</select>
+
+<insert id="snsFeedInsert" parameterType="com.kosmo.sns.SnsFeedVO">
+insert into snsfeed (feseq,mseq,fecon,feregdate,ferange,fedelete)
+values (#{feseq},#{mseq},#{fecon},sysdate,#{ferange},#{fedelete})
+</insert>
+
+<insert id="snsImgInsert" parameterType="com.kosmo.sns.SnsImgVO">
+insert into snsimage (feseq,feimgname,feimgpath,feimgsize)
+values (#{feseq},#{feimgname},#{feimgpath},#{feimgsize})
+</insert>
+
+<insert id="snscommentInsert" parameterType="com.kosmo.sns.SnsCommentVO">
+insert into snscomment (scseq,feseq,sccon,mseq,scregdate,scdelete)
+values (#{scseq},#{feseq},#{sccon},#{mseq},sysdate,'N')
+</insert>
+
+<insert id="snsFollowersInsert" parameterType="com.kosmo.sns.SnsFeedVO">
+insert into followers (mseq,femseq)
+values (#{mseq},#{femeq})
+</insert>
+
+<insert id="snsFollowingInsert" parameterType="com.kosmo.sns.SnsFeedVO">
+insert into following (mseq,fimseq)
+values (#{femseq},#{meq})
+</insert>
+
+<insert id="snsHashtagInsert" parameterType="com.kosmo.sns.SnsFeedVO">
+insert into hashtag (htseq,feseq,htcon)
+values (#{htseq},#{feseq},#{htcon})
+</insert>
+
+<insert id="snscdeclarationInsert" parameterType="com.kosmo.sns.DeclarationVO">
+insert into clarationin (scseq,cdcon,cdregdate,cdmseq)
+values (#{scseq},#{cdcon},sysdate,#{cdmseq})
+</insert>
+
+<insert id="snsfdeclarationInsert" parameterType="com.kosmo.sns.DeclarationVO">
+insert into hashtag (feseq,fdcon,fdregdate,fdmseq)
+values (#{feseq},#{fdcon},sysdate,#{fdmseq})
+</insert>
+
+<update id="snsFeedupdate" parameterType="com.kosmo.sns.SnsFeedVO">
+update snsfeed set fecon=#{fecon}, ferange=#{ferange}, ferange=sysdate
+where feseq=#{feseq}
+</update>
+
+<update id="snsCommentupdate" parameterType="com.kosmo.sns.SnsCommentVO">
+update snsfeed set sccon=#{sccon}, scrange=sysdate
+where scseq=#{scseq}
+</update>
+
+<update id="snsHashtagupdate" parameterType="com.kosmo.sns.SnsFeedVO">
+update snscomment set htcon=#{htcon} where htseq=#{htseq}
+</update>
+
+<delete id="cdeclarationdelete" parameterType="Integer">
+delete from cdeclaration where feseq=#{feseq} 
+</delete>
+
+<update id="snsFeedDelete" parameterType="Integer">
+update snsfeed set fedelete="Y" where feseq=#{feseq} 
+</update>
+
+<delete id="fdeclarationdelete" parameterType="Integer">
+delete from fdeclaration where feseq=#{feseq}
+</delete>
+
+<update id="snsCommentDelete" parameterType="Integer">
+update snscomment set scdelete='Y' where scseq=#{scseq}
+</update>
+
+<select id="snsfDeclarationList" parameterType="Integer" resultType="com.kosmo.sns.SnsFeedVO">
+<![CDATA[ select rnum, feseq,fdcon, fdregdate, fdmseq from 
+( select rownum rnum, feseq,fdcon, fdregdate, fdmseq from 
+(select feseq,fdcon,to_char(fdregdate, 'YYYY-MM-DD') fdregdate,fdmseq from fdeclaration order by fdregdate desc))
+ where rnum >= #{sseq} and rnum <= #{eseq} ]]>
+</select>
+
+<select id="snscDeclarationList" parameterType="Integer" resultType="com.kosmo.sns.DeclarationVO">
+<![CDATA[ select rnum, scseq, cdcon, cdregdate, cdmseq from 
+( select rownum rnum, scseq, cdcon, cdregdate, cdmseq from 
+(select scseq, cdcon,to_char(cdregdate, 'YYYY-MM-DD') cdregdate,fdmseq from fdeclaration order by cdregdate desc))
+ where rnum >= #{sseq} and rnum <= #{eseq} ]]>
+</select>
+
+<select id="hashtagSearch" parameterType="map" resultType="com.kosmo.sns.SnsFeedVO">
+select htseq, feseq, htcon from hashtag where htcon like '%' || #{searchStr} || '%'
+</select>
+
+<select id="snsMypage" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+select feseq, mseq, fecon, feregdate,ferange,fedelete from snsfeed where fedelete='N' and mseq=#{mseq}
+</select>
+
+<select id="snsFollowerspage" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+select feseq, mseq, fecon, feregdate,ferange,fedelete from snsfeed where fedelete='N' and mseq=#{mseq} and ferange='all'
+</select>
+
+<select id="snsallpage" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+select feseq, mseq, fecon, feregdate,ferange,fedelete from snsfeed where fedelete='N' and mseq=#{mseq} and ferange !='secret'
+</select>
+
+<select id="snsFollowerCheck" parameterType="int" resultType="int">
+select mseq from
+(select m.mid, m.mname, f.femseq mseq from member m,followers f where m.mseq=f.femseq and f.mseq=
+(select mseq from snsfeed where feseq=#{feseq})) where mseq=#{mseq};
+</select>
+
+<select id="fdeclarationCnt" resultType="Integer"> 
+select count(*) fdcnt from fdeclaration 
+</select>
+
+<select id="cdeclarationCnt" resultType="Integer"> 
+select count(*) cdcnt from cdeclaration 
+</select>
+
+<select id="hashtagSearchCnt" resultType="Integer"> 
+select count(*) hscnt from hashtag 
+</select>
+
+<delete id="snsFollowersdelete" parameterType="int">
+delete from followers where femseq=#{femseq} and mseq=#{mseq}
+</delete>
+
+<delete id="snsFollowingdelete" parameterType="int">
+delete from followers where fimseq=#{fimseq} and mseq=#{mseq}
+</delete>
+
+<select id="snsFollowingCheck" parameterType="int" resultType="int">
+select mseq from
+(select m.mseq,m.mid, m.mname, f.fimseq from member m,following f 
+where m.mseq=f.mseq and f.fimseq=
+(select mseq from snsfeed where feseq=#{feseq})) where mseq=#{mseq}
+</select>
+
+<select id="snsLikeCheck" parameterType="int" resultType="int">
+select mseq from snslike where feseq=#{feseq} and mseq=#{mseq}
+</select>
+
+<insert id="snsLikeInsert" parameterType="com.kosmo.sns.SnsFeedVO">
+insert into snslike (feseq,mseq) values(#{feseq},#{mseq});
+</insert>
+
+<delete id="snsLikedelete" parameterType="int">
+delete from snslike where mseq=#{mseq} and feseq=#{feseq}
+</delete>
+
+<update id="snsImgupdate" parameterType="com.kosmo.sns.SnsImgVO">
+update snsimage set feimgname=#{feimgname}, feimgpath=#{feimgpath}, feimgsize=#{feimgsize}
+where feseq=#{feseq}
+</update>
+
+<select id="snscommentCnt" resultType="Integer"> 
+select count(*) sccnt from snscomment 
+</select>
+
+<select id="snsHashtagList" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+select htseq,feseq,htcon from hashtag where feseq=#{feseq}
+</select>
+
+<select id="snsImgList" parameterType="int" resultType="com.kosmo.sns.SnsImgVO">
+select feseq,feimgname,feimgpath,feimgsize from snsimage where feseq=#{feseq}
+</select>
+
+<delete id="snsHashtagdelete" parameterType="int">
+delete from hashtag where mseq=#{mseq}
+</delete>
+
+<delete id="snsImgdelete" parameterType="int">
+delete from snsimage where mseq=#{mseq}
+</delete>
+
+<select id="snsImgdetail" parameterType="int" resultType="com.kosmo.sns.SnsImgVO">
+select feseq,feimgname,feimgpath,feimgsize from snsimage where feseq=#{feseq}
+</select>
+
+
+</mapper>
