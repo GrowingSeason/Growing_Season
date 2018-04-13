@@ -174,6 +174,13 @@ public class GardenController {
 		mav.setViewName("applyGarden_garden_all_farm_location");
 		return mav;
 	}
+	
+	
+	
+	
+	
+	
+	
 
 	
 	@RequestMapping(value="/findFarmAddress1.do")
@@ -234,8 +241,10 @@ public class GardenController {
 		mav.setViewName("applyGarden_garden_all_applycondition_main");
 		return mav;
 	}	
+
 	
-	@RequestMapping(value="/myGarden/user/mygarden_condition")
+
+	@RequestMapping(value="/myGarden/user/mygarden_condition.do")
 	public ModelAndView gardenCondition(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		
@@ -243,17 +252,19 @@ public class GardenController {
 		//int mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ"));
 		
 		//ApplyGardenVO avo = service.applyGardenByMseq(mseq);
+		
+		
 		int mseq = 50;
+		
 		ApplyGardenVO avo = service.applyGardenByMseq(mseq);
-		ArrayList<DocumentVO> docList = service.documentListByMseq(mseq); 
-		
-		
+		ArrayList<DocumentVO> docList = service.documentListByMseq(mseq);
+		FarmGardenVO fgvo = service.getFgInfoByFseq(avo.getFgseq());
 		mav.addObject("LVL_DOCLIST",docList);
-		mav.addObject("LVL_AWINNER", avo.getAwinner());
-		mav.addObject("LVL_PCODE",avo.getPcode());
-		mav.addObject("LVL_PCODE",avo.getPcode());
-		
-		
+		mav.addObject("LVL_AGVO", avo);
+		mav.addObject("LVL_FGVO",fgvo);
+		System.out.println(avo.getApname());
+		System.out.println(avo.getAseq());
+		System.out.println(fgvo.getFgaddress());
 		mav.setViewName("applyGarden_garden_user_mygarden_condition");
 		return mav;
 	}	

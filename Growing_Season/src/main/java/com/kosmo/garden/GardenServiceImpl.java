@@ -80,6 +80,11 @@ public class GardenServiceImpl implements GardenService {
 		return gardenDao.applyGardenPayComplete(apseq);
 	}
 
+	@Override
+	public FarmGardenVO getFgInfoByFseq(int fgseq) {
+		return gardenDao.getFgInfo(fgseq);
+	}
+
 
 	
 	

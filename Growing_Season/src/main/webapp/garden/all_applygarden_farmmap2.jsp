@@ -7,6 +7,58 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
+.box {
+	background: #228b22;
+	border: 1px solid #ccc;
+	height: 25px;
+	width: 25px;
+	display: inline-table;
+	margin: 5px 5px 5px 5px;
+	
+}
+
+.selectbox {
+	background: #FF4500;
+	border: 1px solid #ccc;
+	height: 25px;
+	width: 25px;
+	display: inline-table;
+	margin: 5px 5px 5px 5px;
+	
+}
+
+.agile-map div {
+	min-height: 370px;
+	width: 100%;
+}
+
+.layer {
+	
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	user-select:none;
+}
+
+.layer .content {
+	display: inline-block;
+	vertical-align: middle;
+	user-select:none;
+	height: 100%;
+	overflow:auto
+}
+
+.layer .blank {
+	display: inline-block;
+	width: 0;
+	height: 100%;
+	vertical-align: middle;
+	user-select:none;
+}
+</style>
+    <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
@@ -155,5 +207,9 @@
     
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcWoUFld3Rko3G3ZORgTT4ZOsTTVw4T8I&libraries=places&callback=initMap"
         async defer></script>
+        
+       
+        
+        
   </body>
 </html>

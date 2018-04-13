@@ -29,4 +29,6 @@ public interface GardenService {
 	
 	public int applyGardenPayComplete(int apseq);
 	
+	public FarmGardenVO getFgInfoByFseq(int fgseq);
+	
 }
