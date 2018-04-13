@@ -32,7 +32,7 @@ public class PagingUtil {
 		startSeq = (currentPage - 1) * blockCount + 1;
 		endSeq = currentPage * blockCount;
 
-		// (3) 시작페이지와 끝페이지 값 구하기
+		// (3) 시작페이지와 끝페이지 값 구하기  
 		if ( currentPage % blockPage == 0 ) {
 			startBlock = currentPage - ( blockPage - 1 );
 		} else {
@@ -48,43 +48,74 @@ public class PagingUtil {
 		//################## HTML 만들기 ###################
 		// [이전] HTML
 		pagingHtml = new StringBuffer();
+//		if (currentPage > blockPage) {
+//			pagingHtml.append("<a href='"+ url +"&currentPage="  + (startBlock - 1) + "'>");
+//			pagingHtml.append("이전");
+//			pagingHtml.append("</a>");
+//		}
+//
+//		pagingHtml.append(" | ");
+//		// |1|2|3|4|5|  HTML (현재 페이지는 빨간색으로 강조하고 링크 제거)
+//		for (int i = startBlock; i <= endBlock; i++) {
+//			if (i > maxPage) {
+//				break;
+//			}
+//			if (i == currentPage) {
+//				pagingHtml.append(" <b><font color='red'>");
+//				pagingHtml.append(i);
+//				pagingHtml.append("</font></b>");
+//			} else {
+//				pagingHtml.append(" <a href='" + url +"&currentPage=");
+//				pagingHtml.append(i);
+//				pagingHtml.append("'>");
+//				pagingHtml.append(i);
+//				pagingHtml.append("</a>");
+//			}
+//
+//			pagingHtml.append(" ");
+//		}
+//		pagingHtml.append("  |  ");
+//
+//		// [다음] HTML
+//		if (maxPage - startBlock >= blockPage) {
+//			pagingHtml.append("<a href='" + url +"&currentPage="  + (endBlock + 1) + "'>");
+//			pagingHtml.append("다음");
+//			pagingHtml.append("</a>");
+//		}
+		
 		if (currentPage > blockPage) {
-			pagingHtml.append("<nav><ul class='pagination'><li><a href='"+ url +"?currentPage="  + (startBlock - 1) + "'>");
-			pagingHtml.append("이전");
-			pagingHtml.append("</a></li>");
-		}else{
-			pagingHtml.append("<nav><ul class='pagination'>");
+			pagingHtml.append("<a href='"+ url +"&currentPage="  + (startBlock - 1) + "'>");
+			pagingHtml.append("<span class='big'>&nbsp;-&nbsp;</span>");
+			pagingHtml.append("</a>");
 		}
 
-		//pagingHtml.append(" | ");
 		// |1|2|3|4|5|  HTML (현재 페이지는 빨간색으로 강조하고 링크 제거)
 		for (int i = startBlock; i <= endBlock; i++) {
 			if (i > maxPage) {
 				break;
 			}
 			if (i == currentPage) {
-				pagingHtml.append("<li class='active'>");
-				pagingHtml.append("<a");
-				pagingHtml.append(">");
-				pagingHtml.append(i);
-				pagingHtml.append("</a></li>");
+				// 
+				pagingHtml.append("<span style='background-color: #755c24; color: #fffff0;'>");
+				pagingHtml.append("&nbsp;"+i+"&nbsp;");
+				pagingHtml.append("</span>");
 			} else {
-				pagingHtml.append("<li><a href='" + url +"?currentPage=");
+				//<a class="none" onfocus="blur()" href='?id=secret&page=2'>&nbsp;2&nbsp;</a>
+				pagingHtml.append(" <a class='none' onfocus='blur()' href='" + url + "&currentPage=");
 				pagingHtml.append(i);
-				pagingHtml.append("'>");
-				pagingHtml.append(i);
-				pagingHtml.append("</a></li>");
+				pagingHtml.append("' >");
+				pagingHtml.append("&nbsp;"+i+"&nbsp;");
+				pagingHtml.append("</a>");
 			}
 
 			pagingHtml.append(" ");
 		}
-		//pagingHtml.append("  |  ");
 
 		// [다음] HTML
 		if (maxPage - startBlock >= blockPage) {
-			pagingHtml.append("<li><a href='" + url +"?currentPage="  + (endBlock + 1) + "'>");
-			pagingHtml.append("다음");
-			pagingHtml.append("</a></li></ul></nav>");
+			pagingHtml.append("<a href='" + url +"&currentPage="  + (endBlock + 1) + "'>");
+			pagingHtml.append("<span class='big'>&nbsp;+&nbsp;</span>");
+			pagingHtml.append("</a>");
 		}
 	}
 
