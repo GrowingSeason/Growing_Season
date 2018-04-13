@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.kosmo.mapper.GardenMapper">
+
+
+	<select id="applyGardenList" resultType="com.kosmo.garden.ApplyGardenVO">
+		select apseq, mseq, fgseq, aseq, year, pdivision, pcode, apname, apphone,
+		apemail, apbirth, apcancel,apdivision,awinner from apply
+	</select>
+
+	<select id="applyGardenByMseq" resultType="com.kosmo.garden.ApplyGardenVO"
+		parameterType="int">
+		select apseq, mseq, fgseq, aseq, year, pdivision, pcode, apname, apphone,
+		apemail, apbirth, apcancel, apdivision,awinner
+		from apply
+		where mseq=#{mseq} and apdivision != '농장'
+	</select>
+
+
+	<insert id="documentInsert" parameterType="com.kosmo.garden.DocumentVO">
+		insert into
+		document(dseq, apseq, mseq, dname, dregdate, docureturn,
+		dfilename,dfilesize,dfilepath)
+		values(document_seq.nextval,
+		#{apseq},#{mseq},#{dname},sysdate,'N',#{dfileName},#{dfileSize},#{dfilePath})
+	</insert>
+
+
+	<select id="documentListByMseq" parameterType="Integer"
+		resultType="com.kosmo.garden.DocumentVO">
+
+		select dseq, apseq, mseq, dname, dregdate, docureturn, dreturncause,
+		dreturndate, dfilename as dfileName, dfilesize, dfilepath
+		from document where mseq = #{mseq}
+	</select>
+	
+
+	<insert id="applyGardenInsert" parameterType="com.kosmo.garden.ApplyGardenVO">
+		insert into
+		apply(apseq, mseq, year, awinner, apname, apphone, apemail,
+		apbirth,
+		apdate, apcancel, apdivision)
+		values(apply_seq.nextval,#{mseq},to_char(sysdate,'yyyy'),'N',#{apname},#{apphone},#{apemail},
+		to_date(#{apbirth},'yy/mm/dd'),sysdate,'N',#{apdivision})
+	</insert>
+	
+	
+	<update id="applyGardenPayComplete" parameterType="int">
+		update apply set pdivision=1, pcode='입금확인' where apseq=#{apseq}
+	</update>
+	
+	
+
+	<select id="getFgDivision" resultType="String">
+		select fgdivision from farm_garden group by fgdivision
+	</select>
+
+
+	<select id="getFgDetailDiv" parameterType="String" resultType="String">
+		select fgdetaildiv from farm_garden where fgdivision=#{fgDivision}
+		group by fgdetaildiv
+	</select>
+
+	<select id="getFgLocation" parameterType="String" resultType="String">
+		select fglocation from farm_garden where fgdetaildiv=#{fgDetailDiv}
+		group by fglocation
+	</select>
+
+	<select id="getFgName" parameterType="String" resultType="String">
+		select fgname from farm_garden where fgDivision=#{fgDivision} and
+		fgDetailDiv=#{fgDetailDiv} and fgLocation=#{fgLocation} group by
+		fgname
+	</select>
+
+	<select id="getFgSeq" parameterType="String" resultType="int">
+		select fgseq from farm_garden
+		where fgdivision=#{fgDivision} and fgdetaildiv=#{fgDetailDiv} and
+		fglocation=#{fgLocation} and fgname=#{fgName}
+	</select>
+
+	<select id="getFgInfo" parameterType="Integer"
+		resultType="com.kosmo.garden.FarmGardenVO">
+
+		select fgseq, fgdivision, fgdetaildiv, fglocation, fgname, fgmanager,
+		fgaddress, fgphone, fgfeature, fgguide, fgcol, fgrow, fgtotalarea,
+		fglatitude,
+		fglongitude, fgdelete from farm_garden where fgseq = #{fgseq}
+
+	</select>
+
+
+</mapper>
