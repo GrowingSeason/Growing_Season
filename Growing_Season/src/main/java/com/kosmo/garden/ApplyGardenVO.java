@@ -1,10 +1,16 @@
 package com.kosmo.garden;
 
+import java.util.ArrayList;
+
+import org.springframework.stereotype.Component;
+
+@Component
 public class ApplyGardenVO {
 	private int apseq; // applyseq
 	private int mseq; // memberseq
 	private int fgseq; // farmgardenseq
 	private int aseq; // areaseq
+	private String awinner;//당첨여부
 	private String year; // 연도
 	private String pdivision; // 결제구분 
 	private String pcode; // 입금대기 // 입금완료 
@@ -13,6 +19,9 @@ public class ApplyGardenVO {
 	private String apemail; // 이메일
 	private String apbirth; // 생일
 	private String apcancel; // 취소여부('N','Y')
+	private String apdivision; // 텃밭 상세구분
+	
+	private ArrayList<DocumentVO> dlist; // 서류리스트
 	
 	
 	public int getApseq() {
@@ -86,6 +95,24 @@ public class ApplyGardenVO {
 	}
 	public void setApcancel(String apcancel) {
 		this.apcancel = apcancel;
+	}
+	public ArrayList<DocumentVO> getDlist() {
+		return dlist;
+	}
+	public void setDlist(ArrayList<DocumentVO> dlist) {
+		this.dlist = dlist;
+	}
+	public String getApdivision() {
+		return apdivision;
+	}
+	public void setApdivision(String apdivision) {
+		this.apdivision = apdivision;
+	}
+	public String getAwinner() {
+		return awinner;
+	}
+	public void setAwinner(String awinner) {
+		this.awinner = awinner;
 	}
 	
 }
