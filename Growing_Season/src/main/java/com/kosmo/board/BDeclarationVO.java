@@ -3,7 +3,7 @@ package com.kosmo.board;
 public class BDeclarationVO {
 	private int bseq;
 	private String bdreason;
-	private int bdregdate;
+	private String bdregdate;
 	private int bdmseq;
 	public int getBseq() {
 		return bseq;
@@ -17,10 +17,10 @@ public class BDeclarationVO {
 	public void setBdreason(String bdreason) {
 		this.bdreason = bdreason;
 	}
-	public int getBdregdate() {
+	public String getBdregdate() {
 		return bdregdate;
 	}
-	public void setBdregdate(int bdregdate) {
+	public void setBdregdate(String bdregdate) {
 		this.bdregdate = bdregdate;
 	}
 	public int getBdmseq() {
