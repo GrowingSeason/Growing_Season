@@ -85,8 +85,8 @@
 	</definition>
 	
 	<!-- sns layout userpage tiles -->
-	<definition name="sns_*_user_*_*" extends="layoutWithoutSidebarAndFooter">
-		<put-attribute name="body" value = "/{1}/user_{2}_{3}.jsp"/>
+	<definition name="sns_*_*_*_*" extends="layoutWithoutSidebarAndFooter">
+		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
 	</definition>
 	
 	<!-- sns layout admin tiles -->
