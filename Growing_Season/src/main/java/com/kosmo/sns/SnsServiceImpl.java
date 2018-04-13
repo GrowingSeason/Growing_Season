@@ -19,16 +19,7 @@ public class SnsServiceImpl implements SnsService{
 	
 	@Override
 	public ArrayList<SnsFeedVO> snsFeedList() {
-		ArrayList<SnsFeedVO> fList= snsdao.snsFeedList();
-		ArrayList<SnsImgVO> iList=new ArrayList<SnsImgVO>();
-		SnsFeedVO vo=new SnsFeedVO();
-		for(int i = 0;i<fList.size();i++){
-			iList=snsdao.snsImgList(fList.get(i).getFeseq());
-			vo.setiList(iList);
-			fList.set(i, vo);
-		}
-	
-		return fList;
+		return snsdao.snsFeedList();
 	}
 	
 	@Override
@@ -196,16 +187,7 @@ public class SnsServiceImpl implements SnsService{
 
 	@Override
 	public ArrayList<SnsFeedVO> hashtagSearch(String searchStr) {
-		ArrayList<SnsFeedVO> hsearch=snsdao.hashtagSearch(searchStr);
-		ArrayList<SnsImgVO> iList=new ArrayList<SnsImgVO>();
-		SnsFeedVO vo=new SnsFeedVO();
-		for(int i = 0;i<hsearch.size();i++){
-			iList=snsdao.snsImgList(iList.get(i).getFeseq());
-			vo.setiList(iList);
-			hsearch.set(i, vo);
-		}
-		
-		return hsearch;
+		return snsdao.hashtagSearch(searchStr);
 	}
 
 	@Override
