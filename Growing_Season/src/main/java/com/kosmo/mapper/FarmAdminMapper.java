@@ -11,7 +11,7 @@ import com.kosmo.farmadmin.FarmGardenVO;
 import com.kosmo.farmadmin.MemberVO;
 
 
-@Repository("dao")
+@Repository("farmdao")
 public interface FarmAdminMapper {
 	
 	public ArrayList<MemberVO> applyList(MemberVO mvo);
