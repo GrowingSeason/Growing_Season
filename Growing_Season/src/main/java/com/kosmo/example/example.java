@@ -17,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kosmo.applyfarm.ApplyFarmService;
-import com.kosmo.member.MemberService;
-import com.kosmo.member.MemberVO;
 
 @Controller
 public class example {
