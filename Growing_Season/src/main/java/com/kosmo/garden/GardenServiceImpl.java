@@ -68,8 +68,7 @@ public class GardenServiceImpl implements GardenService {
 		
 
 		int i = gardenDao.getFgSeq(fgDivision,fgDetailDiv,fgLocation,fgName);
-		
-		System.out.println(i+"아이");
+
 		FarmGardenVO vo = gardenDao.getFgInfo(i);
 		
 		return vo;
@@ -83,6 +82,31 @@ public class GardenServiceImpl implements GardenService {
 	@Override
 	public FarmGardenVO getFgInfoByFseq(int fgseq) {
 		return gardenDao.getFgInfo(fgseq);
+	}
+
+	@Override
+	public MemberVO getMemberInfo(int mseq) {
+		return gardenDao.getMemberInfo(mseq);
+	}
+
+	@Override
+	public int applyGardenCntByMseq(int mseq) {
+		return gardenDao.applyGardenCntByMseq(mseq);
+	}
+
+	@Override
+	public int documentReturnChange(int apseq) {
+		return gardenDao.documentReturnChange(apseq);
+	}
+
+	@Override
+	public int documentReturnCount(int apseq) {
+		return gardenDao.documentReturnCount(apseq);
+	}
+
+	@Override
+	public int applyGardenCancel(int apseq) {
+		return gardenDao.applyGardenCancel(apseq);
 	}
 
 
