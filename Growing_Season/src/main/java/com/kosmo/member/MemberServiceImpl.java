@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kosmo.mapper.MemberMapper;
+import com.kosmo.payment.PaymentVO;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -65,11 +66,22 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
-	public int payment(@Param("mseq")int mseq, @Param("apseq")int apseq, @Param("pprice")int pprice, @Param("ppermit")String ppermit){
-		return dao.payment(mseq, apseq, pprice, ppermit);
+	public int paymentInsert(PaymentVO pvo){
+		int res = 0;
+//		int insert = dao.payment(mseq, apseq, pprice, ppermit);
+//		int update = dao.----update(\\\\); //apseq 결제완료
+		
+//		int res = dao.paymentFormInsert(pvo);
+//		res = dao.paymentInsert(pvo);
+//		res = dao.pcodeUpdate(pvo.getApseq());
+		
+		return res;
 	}
 	
-	public boolean memID(@Param("mid")String mid){
-		return dao.memID(mid);
-	}
+	public int memIDCheck(@Param("mid")String mid){
+        
+        return dao.memIDCheck(mid);
+        
+    }
+	
 }
