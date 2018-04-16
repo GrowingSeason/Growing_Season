@@ -155,7 +155,7 @@ and auth_number = #{authNumber}
 and sms_regdate = (select max(sms_regdate) from farm_sms where smsphone= #{phoneNumber})
 </select>
 <update id="checkOvertimeSmsAuthValidate" parameterType="hashmap">
-	update farm_sms set auth_validate ='n' where smsphone=#{phoneNumber} and auth_number=#{authNumber} and trunc(((sysdate-SMS_REGDATE)*24*60),0) > 3;
+	update farm_sms set auth_validate ='n' where smsphone=#{phoneNumber} and auth_number=#{authNumber} and trunc(((sysdate-SMS_REGDATE)*24*60),0) > 3
 </update>
 
 

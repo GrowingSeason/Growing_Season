@@ -30,13 +30,13 @@
   <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">이름</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="name" placeholder="이름을 입력해주세요">
+      <input type="text" class="form-control" id="inputname" placeholder="이름을 입력해주세요">
     </div>
   </div>
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">휴대폰 번호</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="phoneNumber" placeholder="전화번호를 입력해 주세요" value=''>
+      <input type="text" class="form-control" id="inputphoneNumber" placeholder="전화번호를 입력해 주세요" value=''>
     </div>
     <div class="col-sm-2">
     	 <div class="form-group">
@@ -62,10 +62,14 @@
 
 <div class="clearfix"></div>
 
-<input type="hidden" class="authseq">
+</form>
+<form class="inputform" method="post" action="/applyFarm/all/selectFarmArea.do">
+<input type="hidden" class="authseq" name="smsseq">
+<input type="hidden" class="form-control" id="name" name="name">
+<input type="hidden" class="form-control" id="phoneNumber" name="phoneNumber">
 <div class="newsletter">
 <div class="w3agile-button">
-	<button class="btn btn-primary btn-lg" type="button">인증</button>
+	<button class="btn btn-primary btn-lg" type="submit">인증</button>
 	<button class="btn btn-danger btn-lg" type="button">취소</button>
 </div>
 </div>
@@ -80,7 +84,7 @@
 		var test = $("#name").val();
 		alert(test)
 		
-		if($("#name").val()==''){
+		if($("#inputname").val()==''){
 			alert("이름을 입력해주세요");
 			return;
 		}
@@ -89,7 +93,7 @@
 			url : "/applyFarm/all/smsauth.do",
 			dataType : "json",
 			data:{
-				"phoneNumber":$("#phoneNumber").val()
+				"phoneNumber":$("#inputphoneNumber").val()
 			},
 			type : "post",
 			success : function(result) {
@@ -108,7 +112,7 @@
 	$("#smsauth").click(function(){
 		alert("클릭");
 		var authNumber = $("#authinput").val();
-		var phoneNumber = $("#phoneNumber").val();
+		var phoneNumber = $("#inputphoneNumber").val();
 		alert(authNumber);
 		
 		$.ajax({
@@ -123,6 +127,8 @@
 				if(result.authvalidate == 'y'){
 					console.log(result.smsseq);
 					$(".authseq").attr('value', result.smsseq);
+					$("#name").attr('value', $("#inputname").val());
+					$("#phoneNumber").attr('value', $("#inputphoneNumber").val());
 					console.log($(".authseq").val());
 					$(".form-horizontal :input").attr("disabled", true);
 					

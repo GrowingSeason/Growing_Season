@@ -27,9 +27,9 @@
 						<div>
 						<form class="inputboxes" action="#" method="post">
 							<h4>신청자명</h4>
-							<input type="text" name="apname" placeholder="이름을 입력해주세요" required>
+							<input type="text" name="apname" placeholder="이름을 입력해주세요" value='${APPLY_FARM_VO.apname}' required>
 							<h4>연락처</h4>
-							<input type="text" name="apphone" placeholder="연락처를 입력해주세요" required>
+							<input type="text" name="apphone" placeholder="연락처를 입력해주세요"  value='${APPLY_FARM_VO.apphone}'required>
 							<h4>주소</h4>
 							<input type="text" name="addr" placeholder="주소를 입력해주세요" required>
 							<h4>이메일</h4>
