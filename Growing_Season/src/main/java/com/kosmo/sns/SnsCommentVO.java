@@ -7,7 +7,7 @@ public class SnsCommentVO {
 	private String sccon;
 	private int mseq;
 	private String scregdate;
-	private String scrange;
+	private String scdelete;
 	private int sseq;
 	private int eseq;
 	
@@ -42,11 +42,23 @@ public class SnsCommentVO {
 	public void setScregdate(String scregdate) {
 		this.scregdate = scregdate;
 	}
-	public String getScrange() {
-		return scrange;
+	public String getScdelete() {
+		return scdelete;
 	}
-	public void setScrange(String scrange) {
-		this.scrange = scrange;
+	public int getSseq() {
+		return sseq;
+	}
+	public void setSseq(int sseq) {
+		this.sseq = sseq;
+	}
+	public int getEseq() {
+		return eseq;
+	}
+	public void setEseq(int eseq) {
+		this.eseq = eseq;
+	}
+	public void setScdelete(String scdelete) {
+		this.scdelete = scdelete;
 	}
 	
 	
