@@ -12,7 +12,7 @@ public class FarmGardenVO {
 	private String fgfeature; 
 	private String fgguide;
 	private int fgcol;
-	private int fglow;
+	private int fgrow;
 	private int fgtotalarea;
 	private int fglatitude;
 	private int fglongitude;
@@ -84,11 +84,11 @@ public class FarmGardenVO {
 	public void setFgcol(int fgcol) {
 		this.fgcol = fgcol;
 	}
-	public int getFglow() {
-		return fglow;
+	public int getFgrow() {
+		return fgrow;
 	}
-	public void setFglow(int fglow) {
-		this.fglow = fglow;
+	public void setFgrow(int fgrow) {
+		this.fgrow = fgrow;
 	}
 	public int getFgtotalarea() {
 		return fgtotalarea;

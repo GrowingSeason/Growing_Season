@@ -7,8 +7,9 @@
 			<div class="nav-sidebar" style="margin-top:10%;margin-left:5%;">
                 <ul class="nav">
                		<li class="active"><a>게시판</a></li>
-                    <li><a href="">공지 게시판</a></li>
-                    <li><a href="">자유 게시판</a></li>
-                    <li><a href="">건의사항 게시판</a></li>
+ 					<li><a href="/boardnoticelist.do">공지 게시판</a></li>
+                    <li><a href="/boardfreelist.do">자유 게시판</a></li>
+                    <li><a href="/boardproposallist.do">건의사항 게시판</a></li>
+                    <li><a href="/boardnoticelist.do">게시글 신고 관리</a></li>
                </ul>
             </div>

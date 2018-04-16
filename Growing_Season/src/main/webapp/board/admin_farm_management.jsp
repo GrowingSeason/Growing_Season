@@ -330,7 +330,7 @@
 				success:function(result) {
 					
 					$.each(result.LVL_ALIST, function(i,v){
-						console.log(v.fgtotalarea);
+						console.log(v.fgseq);
 					});
 				}
 			});

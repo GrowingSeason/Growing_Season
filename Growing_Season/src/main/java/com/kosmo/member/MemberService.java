@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.kosmo.payment.PaymentVO;
+
 public interface MemberService {
 
 	/**
@@ -25,21 +27,21 @@ public interface MemberService {
 	 * @return int
 	 */
 	public int memberUpdate(MemberVO vo);
-	
+
 	/**
 	 * 삭제
 	 * @param MemberVO
 	 * @return int
 	 */
 	public int memberDelete(int mseq);
-	
+
 	/**
 	 * 상세보기
 	 * @param MemberVO
 	 * @return BoardVO
 	 */
 	public MemberVO memberDetail(int mseq);
-	
+
 	/**
 	 * 목록
 	 * @return List<MemberVO>
@@ -52,14 +54,16 @@ public interface MemberService {
 	 * @return
 	 */
 	public int memberCount();
-	
+
 	/**
 	 *
 	 * @return MemverVO
 	 */
 	public MemberVO loginCheck(@Param("mid")String mid, @Param("mpw")String mpw);
+
+	//결제 정보 insert
+	public int paymentInsert(PaymentVO pvo);
 	
-	public int payment(@Param("mseq")int mseq, @Param("apseq")int apseq, @Param("pprice")int pprice, @Param("ppermit")String ppermit);
+	public int memIDCheck(@Param("mid")String mid);
 	
-	public boolean memID(@Param("mid")String mid);
 }

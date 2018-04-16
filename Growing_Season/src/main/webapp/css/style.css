@@ -2631,9 +2631,9 @@ div#bs-example-navbar-collapse-1 {
 
 /*-- nav-sidebar */
 .nav-sidebar { 
-    width: 100%;
-    padding: 8px 0; 
-    min-width: 150px;
+    width:	70%;
+    padding: 300px 0; 
+    min-width: 330px;
     margin-top: 3em;
     border-top: 1px solid #ddd;
     border-right: 1px solid #ddd;
@@ -2668,7 +2668,7 @@ div#bs-example-navbar-collapse-1 {
     text-overflow: ellipsis; 
 }
 
-/* Right-aligned sidebar */
+/* Right-aligned sidebar */axc
 .nav-sidebar.pull-right { 
     border-right: 0; 
     border-left: 1px solid #ddd; 
@@ -2679,8 +2679,27 @@ div#bs-example-navbar-collapse-1 {
     -moz-border-radius: 0 4px 4px 0; 
     border-radius: 0 4px 4px 0; 
 }
-
-
-
-
+  #page-wrapper {
+    padding-left: 250px;
+  }
+  
+  #sidebar-wrapper {
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    margin-left: -250px;
+    background: #000;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  
+  #page-content-wrapper {
+    width: 100%;
+    padding: 20px;
+  }
+ 
+ 
+ 
+ 
+ 
 
