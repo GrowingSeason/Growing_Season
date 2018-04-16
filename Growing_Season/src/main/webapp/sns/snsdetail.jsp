@@ -7,14 +7,17 @@
 	<div class="container">
 		<div class="row" align="center">
 		<div class="col-md-6" align="center">
-		<img src="${SNS_IMAGE_LIST}.feimgpath">	
+		
+		<img src="/uploads/${SNS_IMAGE_LIST.feimgname}" style="width:300px; height:300px;">
 		</div>
 		<div class="col-md-6" align="center">
+		${SNS_FOLLOWER_CNT},${SNS_FOLLOWING_CNT} <br>
+		<input type="text" value="${SNS_HASHTAG_LIST.htcon}">
 		<table>
 		
 		</table>
 		</div>
 		
-
+	</div>
 	</div>
 </div>
