@@ -8,9 +8,5 @@
 </head>
 <body>
 	나는 유저 사이드 바다아아알알아람ㅇㄴ란ㅇ라아랑ㄹㅇ낳ㄴㅇ햊고ㅠ
-	<div>
-		<a href="#myModal" class="trigger-btn" data-toggle="modal">Click
-			to Open Login Modal</a>
-	</div>
 </body>
 </html>

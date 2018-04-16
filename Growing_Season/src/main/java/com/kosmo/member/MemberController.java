@@ -140,7 +140,7 @@ public class MemberController { //extends MultiActionController {
 	public ModelAndView memberLoginTest(){
 
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("member_member_user_member_loginTest");
+		mav.setViewName("member_member_user_member_loginmodal");
 		return mav;
 	}
 

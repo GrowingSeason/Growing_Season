@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
 <style type="text/css">
 /*     
 	body {
@@ -79,14 +78,12 @@
 }
 </style>
 
- <script>
+<script>
 	function goPage() {
 		/* location.href="/loginCheck.do"; */
 		$("#login").submit();
 		}
 </script>
-
-<div>나는 로그인페이지아다다다ㅏ아아아아</div>
 
 <!-- Modal HTML -->
 <div id="myModal" class="modal fade">

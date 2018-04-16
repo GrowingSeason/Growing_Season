@@ -90,7 +90,9 @@ public class KakaoTest4 {
 	
 	@RequestMapping(value = "/kakao.do")
 	@ResponseBody
-	public String getCode3(@RequestBody OpenVO ovo, @RequestBody PaymentVO pvo) {
+	public String getCode3(@RequestBody OpenVO ovo)
+			//, @RequestBody PaymentVO pvo) 
+			{
 //		OpenVO ovo = new OpenVO();
 		HashMap<String, Object> prm = new HashMap<String, Object>();
 		HashMap<String, Object> resMap = new HashMap<String, Object>();
