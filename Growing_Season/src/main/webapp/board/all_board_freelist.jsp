@@ -1,15 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
 <div class="typo">
-	
-
+	<div class="container">
 		<div class="alert alert-info" role="alert" align="center">
 			<strong><h3>[자유게시판]</h3></strong></br>
 			<h4>※농장관련 글을 자유롭게 올려주세요※</h4>
 		</div>
-
 		<div class="bs-docs-example">
 			<table class="table">
 				<thead>
@@ -44,6 +41,5 @@
 				<a href="/boardfreeinsert.do">글쓰기</a>
 			</button>
 		</div>
-	
-
+	</div>
 </div>

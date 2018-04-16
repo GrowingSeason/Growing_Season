@@ -44,6 +44,7 @@
 	</definition>
 	
 	
+	
 	<!-- farm and garden apply layout tiles -->
 	<definition name="apply_*_*_*_*" extends="layoutDefault">
 		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>

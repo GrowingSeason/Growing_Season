@@ -35,9 +35,9 @@ public interface BoardService {
 	
 	public int boardDelete(int bseq);
 	
-	public int bDeclarationInsert(BoardVO vo);
+	public int bDeclarationInsert(BDeclarationVO vo);
 	
-	public ArrayList<BDeclarationVO> bDeclarationList(int sseq, int eseq);
+	public ArrayList<BDeclarationVO> bDeclarationList();
 	
 	public int bDeclarationDelete(int bseq);
 	
@@ -45,7 +45,9 @@ public interface BoardService {
 	
 	public int replyInsert(ReplyVO vo);
 	
-	public ReplyVO replyDetail(int rseq);
+	public ReplyVO freereplyDetail(int rseq);
+	
+	public ReplyVO proposalreplyDetail(int rseq);
 	
 	public int replyUpdate(ReplyVO vo);
 	
@@ -70,5 +72,7 @@ public interface BoardService {
 	public int bdeclarationCount();
 	
 	public int rdeclarationCount();
+	
+	public ArrayList<BoardVO> bDdetailList();
 	
 }

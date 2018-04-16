@@ -1,68 +1,46 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
 <div class="typo">
-	<div class="container">
 	
+
 		<div class="alert alert-info" role="alert" align="center">
-			<strong><h3>게시글 신고 List</h3></strong></br>
-			<h4>신고당한 글 리스트</h4>
+			<strong><h3>[게시글 신고리스트]</h3></strong></br>
 		</div>
+
 		<div class="bs-docs-example">
-			<table class="table">
+			<table class="table" BORDER=1>
 				<thead>
 					<tr>
-						<th>NO</th>
-						<th>신고당한 회원</th>
-						<th>신고당한 글</th>
-						<th>신고자</th>
-						<th>신고사유</th>
-						<th>삭제여부</th>
+						<th>글번호</th>
+						<th>글쓴이</th>
+						<th>제목</th>
+						<th>신고내용(신고자,신고사유,신고일)</th>
 					</tr>
 				</thead>
 				<tbody>
+					<c:forEach items="${BDLIST}" var="vo">
 					<tr>
-						<td>1</td>
-						<td>Mark</td>
-						<td>Otto</td>
-						<td>@mdo</td>
-						<td>@mdo</td>
-						<td>@mdo</td>
+						<td>${vo.bseq}</td>
+						<td>${vo.mid}</td>
+						<td>${vo.btitle}</td>
+						<td>
+							<c:forEach items="${vo.declarationList}" var="dlist">
+								${dlist.bdmid}  ${dlist.bdreason} ${dlist.bdregdate}<br>
+							</c:forEach>
+						</td>
 					</tr>
-					<tr>
-						<td>2</td>
-						<td>Jacob</td>
-						<td>Thornton</td>
-						<td>@fat</td>
-						<td>@fat</td>
-						<td>@fat</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>Larry</td>
-						<td>the Bird</td>
-						<td>@twitter</td>
-						<td>@twitter</td>
-						<td>@twitter</td>
-					</tr>
-				</tbody>
+					</c:forEach>
+			</tbody>
 			</table>
 		</div>
-		<div style="margin:0px 310px 0px;">
-		<div class="col-md-6" align="center">
+		<div align="center">
 			<nav>
 				<ul class="pagination">
-					<li><a href="#" aria-label="Previous"><span
-							aria-hidden="true">«</span></a></li>
-					<li><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-					<li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+					<li>${REPORTBOARD_PAGING}</li>
 				</ul>
 			</nav>
 		</div>
-		</div>
-	</div>
+		
 </div>

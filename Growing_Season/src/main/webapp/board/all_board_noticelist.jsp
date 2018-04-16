@@ -3,12 +3,10 @@
 
 <div class="typo">
 	<div class="container">
-
 		<div class="alert alert-info" role="alert" align="center">
 			<strong><h3>[공지게시판]</h3></strong></br>
 			<h4>※농장관련 새로운 정보와 뉴스를 전달해드립니다※</h4>
 		</div>
-
 		<div class="bs-docs-example">
 			<table class="table">
 				<thead>
@@ -19,7 +17,6 @@
 					</tr>
 				</thead>
 				<tbody>
-				
 					<c:forEach items="${NOTICE_LIST}" var="vo">
 						<tr>
 							<td>${vo.bseq}</td>
@@ -27,7 +24,7 @@
 							<td>${vo.bregdate}</td>
 						</tr>
 					</c:forEach>
-					
+
 				</tbody>
 			</table>
 		</div>
@@ -37,19 +34,16 @@
 					<li>${NOTICE_PAGING}</li>
 				</ul>
 			</nav>
-		
-</div>
+		</div>
+		<div align="right">
 			<c:choose>
 				<c:when test="${NOTICE_LIST_MGUBUN == 'A'}">
 					<button value="글쓰기">
 						<a href="/boardnoticeinsert.do">글쓰기</a>
 					</button>
 				</c:when>
-				
-
 			</c:choose>
-
-
 		</div>
+	</div>
 </div>
 

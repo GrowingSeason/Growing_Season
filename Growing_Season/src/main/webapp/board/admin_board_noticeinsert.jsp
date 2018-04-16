@@ -4,7 +4,7 @@
 <div class="typo">
 	<div class="container">
 
-		<form action="/boardnoticeinsert.do" class="boardInsert" method="get">
+		<form action="/boardnoticeinsert.do" class="boardInsert" enctype="multipart/form-data" method="post">
 			<div class="row">
 				<div class="col-lg-6 in-gp-tl">
 					<div class="input-group">
@@ -22,7 +22,8 @@
 					</div>
 				</div>
 			</div>
-
+			<INPUT type='file'
+						name='ufile' size='25'>
 			<input type="button" value="완료" onClick="goPage()">
 		</form>
 		<button>
