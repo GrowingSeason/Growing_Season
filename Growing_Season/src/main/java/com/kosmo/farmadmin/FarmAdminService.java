@@ -27,4 +27,6 @@ public interface FarmAdminService {
 	public int manyCultureLotto(ApplyVO avo);
 	public ArrayList<ApplyVO> lottoList(ApplyVO avo);
 	public int lottoListCount();
+	public ArrayList<MemberVO> usingList(MemberVO mvo);
+	public ArrayList<ApplyVO> areaList(ApplyVO avo);
 }

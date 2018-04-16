@@ -149,6 +149,18 @@ public class FarmAdminServiceImpl implements FarmAdminService {
 		return count;
 	}
 
+	@Override
+	public ArrayList<MemberVO> usingList(MemberVO mvo) {
+		ArrayList<MemberVO> list = dao.usingList(mvo);
+		return list;
+	}
+
+	@Override
+	public ArrayList<ApplyVO> areaList(ApplyVO avo) {
+		ArrayList<ApplyVO> list = dao.areaList(avo);
+		return list;
+	}
+
 	
 	
 }
