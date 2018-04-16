@@ -25,7 +25,7 @@
 			<div class="agileits_mail_grids">
 					<div class="col-md-7 agileits_mail_grid_left">
 						<div>
-						<form class="inputboxes" action="#" method="post">
+						<form class="inputboxes" action="/paymentSelect.do" method="post">
 							<h4>신청자명</h4>
 							<input type="text" name="apname" placeholder="이름을 입력해주세요" required>
 							<h4>연락처</h4>
