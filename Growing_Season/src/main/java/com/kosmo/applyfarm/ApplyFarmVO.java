@@ -16,7 +16,14 @@ public class ApplyFarmVO {
 	private String apbirth;
 	private String apdate;
 	private String apcancel;
+	private String areservation;
 	
+	public String getAreservation() {
+		return areservation;
+	}
+	public void setAreservation(String areservation) {
+		this.areservation = areservation;
+	}
 	public String getApphone() {
 		return apphone;
 	}

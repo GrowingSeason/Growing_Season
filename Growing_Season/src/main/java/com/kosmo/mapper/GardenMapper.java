@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.kosmo.garden.ApplyGardenVO;
 import com.kosmo.garden.DocumentVO;
 import com.kosmo.garden.FarmGardenVO;
+import com.kosmo.garden.MemberVO;
 
 @Repository("gardenDao")//ServiceImpl에 @Autowired GardenMapper gardenDao<<<< 요부분
 public interface GardenMapper {
@@ -40,5 +41,15 @@ public interface GardenMapper {
 	public FarmGardenVO getFgInfo(int fgseq);
 	
 	public int applyGardenPayComplete(int apseq);
+	
+	public MemberVO getMemberInfo(int mseq);
+	
+	public int applyGardenCntByMseq(int mseq);
+	
+	public int documentReturnChange(int apseq);
+	
+	public int documentReturnCount(int apseq);
+	
+	public int applyGardenCancel(int apseq);
 	
 }

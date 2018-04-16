@@ -17,12 +17,13 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public String selectMgubun(int mseq) {
-		return boarddao.selectMgubun(mseq);
+		return boarddao.selectMgubun(mseq).getMgubun();
 	}
 	
 	@Override
 	public Map<String,Object> boardNoticeList(int sseq, int eseq, int mseq) {
-		String mgubun=boarddao.selectMgubun(mseq);
+		System.out.println("공지사항 리스트 Impl");
+		String mgubun=boarddao.selectMgubun(mseq).getMgubun();
 		ArrayList<BoardVO> list=boarddao.boardNoticeList(sseq, eseq);
 		
 		Map<String,Object> map=new HashMap<String,Object>();
@@ -95,13 +96,13 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int bDeclarationInsert(BoardVO vo) {
+	public int bDeclarationInsert(BDeclarationVO vo) {
 		return boarddao.bDeclarationInsert(vo);
 	}
 
 	@Override
-	public ArrayList<BDeclarationVO> bDeclarationList(int sseq, int eseq) {
-		return boarddao.bDeclarationList(sseq, eseq);
+	public ArrayList<BDeclarationVO> bDeclarationList() {
+		return boarddao.bDeclarationList();
 	}
 
 	@Override
@@ -132,8 +133,13 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	@Override
-	public ReplyVO replyDetail(int rseq) {
-		return boarddao.replyDetail(rseq);
+	public ReplyVO freereplyDetail(int rseq) {
+		return boarddao.freereplyDetail(rseq);
+	}
+	
+	@Override
+	public ReplyVO proposalreplyDetail(int rseq) {
+		return boarddao.proposalreplyDetail(rseq);
 	}
 
 	@Override
@@ -194,6 +200,19 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int rdeclarationCount() {
 		return boarddao.rdeclarationCount();
+	}
+	
+	
+	public ArrayList<BoardVO> bDdetailList() {
+		System.out.println("게시글신고 리스트 Impl");
+		
+		ArrayList<BoardVO> bdList=boarddao.boardAndDeclarationList(new BoardVO());  //bDeclarationList();
+//		for(int i=0;i<bdList.size();i++){
+//			ArrayList<BDeclarationVO> declationList = boarddao.bDeclarationListByBseq(bdList.get(i).getBseq());
+//			bdList.get(i).setDeclarationList(declationList);
+//		}
+		
+		return bdList;
 	}
 
 	

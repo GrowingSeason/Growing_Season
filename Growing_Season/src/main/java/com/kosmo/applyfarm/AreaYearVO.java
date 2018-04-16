@@ -2,11 +2,12 @@ package com.kosmo.applyfarm;
 
 public class AreaYearVO {
 	
-	public int aseq;
-	public int fgseq;
-	public int ayear;
-	public String areservation;
-	public int getAseq() {
+	private int aseq;
+	private int fgseq;
+	private int ayear;
+	private String areservation;
+	
+	int getAseq() {
 		return aseq;
 	}
 	public void setAseq(int aseq) {

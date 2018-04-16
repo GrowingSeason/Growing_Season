@@ -11,6 +11,13 @@ public interface ApplyFarmService {
 	 */
 	public ArrayList<String> selectFarmLocation();
 	public ArrayList<HashMap<String, Object>> selectFarmName(String fglocation);
-	public HashMap<String, Integer> selectFarmArea(int fgseq);
+	public HashMap<String, Object> selectFarmArea(int fgseq);
+	public void inserttemp(AreaYearVO vo);
+	public ArrayList<FarmInfoVO> myApplyFarmInfo(int mseq, int year);
+	public FarmInfoVO selectFarmInfo(int fgseq);
+	public boolean cancelMyFarm(ApplyFarmVO vo);
+	public boolean sendSmsAuthNumber(String phoneNumber);
+	public HashMap<String, Object> checkAuthNumber(String authNumber, String phoneNumber);
+	
 
 }

@@ -3,6 +3,7 @@ package com.kosmo.applyfarm;
 public class FarmInfoVO {
 	
 	private int fgseq;
+	private int aseq;
 	private String fgdivision;
 	private String fgdetaildiv;
 	private String fglocation;
@@ -18,6 +19,16 @@ public class FarmInfoVO {
 	private long fglatitude;
 	private long fglongitude;
 	private String fgdelete;
+	
+	public int getAseq() {
+		return aseq;
+	}
+	public void setAseq(int aseq) {
+		this.aseq = aseq;
+	}
+	public void setFgdivision(String fgdivision) {
+		this.fgdivision = fgdivision;
+	}
 	public int getFgseq() {
 		return fgseq;
 	}
