@@ -1,43 +1,74 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="footer-agile">
-		<div class="container">
-			<div class="footer-agileinfo"> 
-				<div class="col-md-5 col-sm-5 footer-wthree-grid"> 
-					<div class="agileits-w3layouts-tweets">  
-						<h5><a href="index.html"><i class="fa fa-pagelines" aria-hidden="true"></i>Growing</a></h5> 
-						<div class="social-icon footerw3ls">
-							<a href="#" class="social-button facebook"><i class="fa fa-facebook"></i></a> 
-							<a href="#" class="social-button twitter"><i class="fa fa-twitter"></i></a> 
-							<a href="#" class="social-button google"><i class="fa fa-google-plus"></i></a>  
-						</div>
-					</div>
-					<p>Aenean vitae metus sit amet purus sodales blandit. Nullam ut dolor eu urna viverra semper. Mauris est odio, laoreet laoreet sapien non, sollicitudin bibendum nulla.</p>
-				</div> 
-				<div class="col-md-3 col-sm-3 footer-wthree-grid">
-					<h3>Quick Links</h3>
-					<ul>
-						<li><a href="index.html"><span class="glyphicon glyphicon-menu-right"></span> Home</a></li>
-						<li><a href="about.html"><span class="glyphicon glyphicon-menu-right"></span> About</a></li> 
-						<li><a href="gallery.html"><span class="glyphicon glyphicon-menu-right"></span> Gallery</a></li>
-						<li><a href="codes.html"><span class="glyphicon glyphicon-menu-right"></span> Short Codes</a></li>
-						<li><a href="contact.html"><span class="glyphicon glyphicon-menu-right"></span> Contact</a></li>
-					</ul>
-				</div> 	 
-				<div class="col-md-4 col-sm-4 footer-wthree-grid">
-					<h3>Contact Info</h3>
-					<ul>
-						<li>123 Broome St,2nd Block</li> 
-						<li>NY 10002, New York</li>
-						<li>Phone: +01 111 222 3333</li>
-						<li><a href="mailto:info@example.com"> mail@example.com</a></li>
-					</ul>
-				</div>
-				<div class="clearfix"> </div>		
-			</div>
-			<div class="copy-right"> 
-				<p>Â© 2017 Growing . All rights reserved | Design by <a href="http://w3layouts.com/" target="_blank"> W3layouts.</a></p>
-			</div>
-		</div>
-	</div> 
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="span4">
+            <div class="widget">
+              <div class="footer_logo">
+                <h3><a href="index.html"><i class="icon-tint"></i> Remember</a></h3>
+              </div>
+              <address>
+							  <strong>Remember company Inc.</strong><br>
+  							Somestreet KW 101, Park Village W.01<br>
+  							Jakarta 13426 Indonesia
+  						</address>
+              <p>
+                <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891 <br>
+                <i class="icon-envelope-alt"></i> email@domainname.com
+              </p>
+            </div>
+          </div>
+          <div class="span4">
+            <div class="widget">
+              <h5 class="widgetheading">Browse pages</h5>
+              <ul class="link-list">
+                <li><a href="#">Our company</a></li>
+                <li><a href="#">Terms and conditions</a></li>
+                <li><a href="#">Privacy policy</a></li>
+                <li><a href="#">Press release</a></li>
+                <li><a href="#">What we have done</a></li>
+                <li><a href="#">Our support forum</a></li>
+              </ul>
+
+            </div>
+          </div>
+          <div class="span4">
+            <div class="widget">
+              <h5 class="widgetheading">From flickr</h5>
+              <div class="flickr_badge">
+                <script type="text/javascript" src="http://www.flickr.com/badge_code_v2.gne?count=8&amp;display=random&amp;size=s&amp;layout=x&amp;source=user&amp;user=34178660@N03"></script>
+              </div>
+              <div class="clear"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="sub-footer">
+        <div class="container">
+          <div class="row">
+            <div class="span6">
+              <div class="copyright">
+                <p><span>&copy; Remember Inc. All right reserved</span></p>
+              </div>
+
+            </div>
+
+            <div class="span6">
+              <div class="credits">
+                <!--
+                  All the links in the footer should remain intact.
+                  You can delete the links only if you purchased the pro version.
+                  Licensing information: https://bootstrapmade.com/license/
+                  Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Remember
+                -->
+                Created by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <a href="#" class="scrollup"><i class="icon-angle-up icon-rounded icon-bglight icon-2x"></i></a>

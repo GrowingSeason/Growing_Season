@@ -144,6 +144,8 @@
 				<form id="areaform" action="/applyFarm/all/writeForm.do" method="post">
 				<input type='hidden' class='fgseq-infrom' name = "fgseq" value=''>
 				<input type='hidden' class='selectarea-infrom' name = "areaseq" value=''>
+				<input type='hidden' name = "apname" value='${PHONENUMBER}'>
+				<input type='hidden' name = "apphone" value='${NAME}'>
 						<div class="w3agile-button">
 							<button class="btn btn-primary btn-lg" id="select" type="submit"> 완료 </button>
 							<button class="btn btn-danger btn-lg" type="button"> 취소 </button>

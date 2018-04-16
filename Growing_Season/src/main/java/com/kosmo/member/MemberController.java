@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kosmo.common.PagingUtil;
-import com.kosmo.payment.PaymentVO;
 
 
 @Controller
@@ -72,8 +73,12 @@ public class MemberController { //extends MultiActionController {
 	public ModelAndView memberInsert(MemberVO vo)
 			throws IOException
 	{
+		vo.setMaddress(vo.getMaddress() + " " + vo.getMaddress2());
+		vo.setMemail(vo.getMemail()+"@"+vo.getMemail2());
+		vo.setMphone(vo.getMphone()+vo.getMphone1()+vo.getMphone2());
+		
 		int res = service.memberInsert(vo);
-		System.out.println(res + "건 입력");
+		System.out.println(res + "건 정보 입력");
 
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("member_member_admin_member_list");
@@ -84,11 +89,9 @@ public class MemberController { //extends MultiActionController {
 	public ModelAndView memberDetail(MemberVO vo)
 	{
 		String temp = vo.getCurrentPage();
-		System.out.println(vo.getCurrentPage()+"----");
 
 		vo = service.memberDetail(vo.getMseq());
 		vo.setCurrentPage(temp);
-		System.out.println(vo.getCurrentPage()+"--sss--");
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("LVL_VO", vo);
@@ -113,14 +116,8 @@ public class MemberController { //extends MultiActionController {
 	@RequestMapping(value = "/memberUpdate.do", method = RequestMethod.POST)
 	public String memberUpdate(MemberVO vo)
 	{
-		//		String mseq = request.getParameter("mseq");
-		//		//BoardDAO impl = new BoardDAO();
-		//		MemberVO vo = new MemberVO();
+		
 		int res = service.memberUpdate(vo);
-
-		//		ModelAndView mav = new ModelAndView();
-		//		mav.addObject("LVL_VO", vo);
-		//		mav.setViewName("member_member_user_member_update");
 
 		return "redirect:/list.do?currentPage="+vo.getCurrentPage();
 	}
@@ -159,23 +156,49 @@ public class MemberController { //extends MultiActionController {
 			
 			HttpSession session = request.getSession();
 			session.setAttribute("LVL_SESS_MSEQ", vo.getMseq());
+			session.setAttribute("LVL_SESS_GUBUN", vo.getMgubun());
 			
 			mav.addObject("LVL_VO", vo);
 			mav.setViewName("member_member_admin_member_list");
 			
 			return mav;
-		}else {
-			mav.setViewName("member_member_user_member_loginTest");
+		}else{
+			mav.setViewName("member_member_user_member_input");
 			return mav;
 		}
 	}
 	
-	@RequestMapping(value = "/payment.do", method = RequestMethod.GET)
-	public String payment(PaymentVO pvo){
+	//---------------- TODO
+//	/*
+//	@RequestMapping(value = "/paymentSelect.do", method = RequestMethod.POST)
+//	public ModelAndView paymentSelect(PaymentVO pvo, HttpServletRequest request){
+//		//입력양식 폼 값을 가지고 카카오 제공 결제 페이지로 이동
+//		//해당 페이지에서는 pvo 값들을 hidden으로 가지고 kakao.do로 이동
+//		
+//		
+//		ModelAndView mav = new ModelAndView();
+//		mav.addObject("LVL_VO", pvo);
+//		//카카오에서 제공하는 결제 jsp 페이지
+//		mav.setViewName("카카오에서 제공하는 결제 jsp 페이지");
+//		
+//		return mav;
+//	}
+//	*/
+	
+//	@RequestMapping(value = "/payment.do", method = RequestMethod.POST)
+//	public String payment(PaymentVO pvo, HttpServletRequest request){
+//		//pvo.getPrice()금액이 결제 되었습니다. 라는 문구를 가진 jsp로 단순 이동...
+//		return "redirect:/common.do";
+//	}
+	
+	@RequestMapping(value = "/UserRegisterCheck.do", method = RequestMethod.POST)
+	public ResponseEntity<Integer> UserRegisterCheck(
+			@RequestParam String mid
+			) throws Exception {
+		int idCount  = service.memIDCheck(mid);
 		
-		int res = service.payment(81, 42, 300, "Y");
-		
-		return "redirect:/common.do";
+		return new ResponseEntity<Integer>(idCount, HttpStatus.OK);
 	}
-
+	
+	
 }

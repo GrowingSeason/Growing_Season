@@ -7,6 +7,18 @@ public class PaymentVO {
 	private String pregdate;
 	private int pprice;
 	private String ppermit;
+	
+	
+	private String pcode;
+	
+	public String getPcode() {
+		return pcode;
+	}
+	public void setPcode(String pcode) {
+		this.pcode = pcode;
+	}
+	
+	
 	public int getPseq() {
 		return pseq;
 	}

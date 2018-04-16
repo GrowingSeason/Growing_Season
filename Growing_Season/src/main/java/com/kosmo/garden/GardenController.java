@@ -3,12 +3,12 @@ package com.kosmo.garden;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.text.Document;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,8 +32,13 @@ public class GardenController {
 	@RequestMapping(value="/applyGarden/user/applyGarden_step1.do")
 	public ModelAndView applyGardenStep1(HttpServletRequest request, HttpServletResponse response) {
 
+		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
-
+		HttpSession session = request.getSession();
+		int mseq = (Integer)session.getAttribute("LVL_SESS_MSEQ");
+		MemberVO mvo = service.getMemberInfo(mseq);
+		
+		mav.addObject("LVL_MVO",mvo);
 		mav.setViewName("applyGarden_garden_user_applygarden_step1");
 		return mav;
 	}
@@ -41,10 +46,22 @@ public class GardenController {
 	
 	
 	@RequestMapping(value="/applyGarden/user/applyGarden_step2.do")
-	public ModelAndView applyGardenStep2(HttpServletRequest request) {
-
+	public ModelAndView applyGardenStep2(HttpServletRequest request,HttpServletResponse response, 
+			@RequestParam(value="fgseq") int fgseq
+			,@RequestParam(value="apdivision") String apdivision) {
+		
+		
+		
 		ModelAndView mav = new ModelAndView();
 		
+		HttpSession session = request.getSession();
+		int mseq = (Integer)session.getAttribute("LVL_SESS_MSEQ");
+
+		MemberVO mvo = service.getMemberInfo(mseq);
+		
+		mav.addObject("LVL_MVO",mvo);
+		mav.addObject("LVL_FGSEQ", fgseq);
+		mav.addObject("LVL_APDIVISION", apdivision);
 		mav.setViewName("applyGarden_garden_user_applygarden_step2");
 		return mav;
 	}
@@ -60,10 +77,35 @@ public class GardenController {
 
 		
 	@RequestMapping(value="/applyGarden/user/documentInsert.do")
-	public String applyGardenInsert(@ModelAttribute(value = "dvo") DocumentVO dvo, 
+	public String applyGardenInsert(HttpServletRequest request,@ModelAttribute(value = "dvo") DocumentVO dvo, 
 			@ModelAttribute(value = "avo") ApplyGardenVO avo,
 			@RequestParam(value="files") MultipartFile [] files){
 		int tryNum=0;
+
+		
+		HttpSession session = request.getSession();
+		int mseq = (Integer)session.getAttribute("LVL_SESS_MSEQ");
+
+		int cnt = service.applyGardenCntByMseq(mseq);
+		
+		if(cnt==0){//기존 신청서가 없을때만.
+		int r = service.applyGardenInsert(avo);
+		System.out.println(r+"건 입력");
+		}
+		
+		ApplyGardenVO avo2 = service.applyGardenByMseq(mseq);
+		
+		int apseq = avo2.getApseq();
+		dvo.setApseq(apseq);
+		
+		
+		
+		//반려된 서류가 있을경우, 반려된 기존서류들의 dreturn컬럼값을 'NN'으로 변경
+		int dr = service.documentReturnChange(apseq);
+		System.out.println(dr+"건 NN으로 변경");
+		
+		
+		
 		
 		for(int i=0;i<files.length;i++){
 		//Multipart+어노테이션이용
@@ -87,14 +129,25 @@ public class GardenController {
 		service.documentInsert(dvo);
 		tryNum++;
 		}
-
-		int r = service.applyGardenInsert(avo);
+		
 		
 		
 		System.out.println("총"+tryNum + "건 업로드");
-		System.out.println(r+"건 입력");
-		return "redirect:/applyGarden/user/applyGarden_complete.do";
+		
+		return "forward:/applyGarden/user/applyGarden_complete.do";
 	}
+	
+	@RequestMapping(value="/myGarden/user/cancelGarden.do")
+	public String applyCancel(HttpServletRequest request,@RequestParam("apseq") int apseq) {
+
+		
+		
+		return "redirect:applyGarden_apply_user_apply_main2";
+	}
+	
+	
+	
+	
 	
 	@RequestMapping(value="/applyGarden/user/applyGarden_complete.do")
 	public ModelAndView applyGardenComplete(HttpServletRequest request) {
@@ -120,6 +173,7 @@ public class GardenController {
 	public String applyGardenPayment(HttpServletRequest request,HttpServletResponse response, @RequestParam String pay) {
 		
 		HttpSession session = request.getSession();
+		int mseq = (Integer)session.getAttribute("LVL_SESS_MSEQ");
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out=null;
 		try {
@@ -129,11 +183,7 @@ public class GardenController {
 			e.printStackTrace();
 		}
 	
-		
-		//service.applygarden
-		
-		//service.applyGardenByMseq(Integer.parseInt((String)session.getAttribute("LVL_SESS_MSEQ")));
-		ApplyGardenVO avo = service.applyGardenByMseq(50);
+		ApplyGardenVO avo = service.applyGardenByMseq(mseq);
 		
 		int i = service.applyGardenPayComplete(avo.getApseq());
 		
@@ -149,10 +199,9 @@ public class GardenController {
 	public ModelAndView document(HttpServletRequest request){
 		ModelAndView mav = new ModelAndView();
 		
-		//HttpSession session = request.getSession();
-		//int mseq = Integer.parseInt((String)session.getAttribute("LVL_SESS_MSEQ"));
-		//ArrayList<DocumentVO> dlist = service.documentListByMseq(mseq);
-		ArrayList<DocumentVO> dlist = service.documentListByMseq(50);
+		HttpSession session = request.getSession();
+		int mseq = (Integer)session.getAttribute("LVL_SESS_MSEQ");
+		ArrayList<DocumentVO> dlist = service.documentListByMseq(mseq);
 		mav.addObject("LVL_DOCLIST",dlist); 
 		mav.setViewName("applyGarden_garden_user_mygarden_document");
 		return mav;
@@ -185,7 +234,14 @@ public class GardenController {
 	
 	@RequestMapping(value="/findFarmAddress1.do")
 	@ResponseBody
-	public ArrayList<String> findFarmAddress1(@RequestParam String fgDivision){
+	public ArrayList<String> findFarmAddress1(HttpServletRequest request, HttpServletResponse response, @RequestParam String fgDivision){
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		response.setCharacterEncoding("UTF-8");
+		
 		System.out.println(fgDivision);
 		ArrayList<String> fgDetailDivList = service.getFgDetailDiv(fgDivision);
 		System.out.println(fgDetailDivList.size()+"사이즈");
@@ -196,7 +252,14 @@ public class GardenController {
 	
 	@RequestMapping(value="/findFarmAddress2.do")
 	@ResponseBody
-	public ArrayList<String> findFarmAddress2(@RequestParam String fgDetailDiv){
+	public ArrayList<String> findFarmAddress2(HttpServletRequest request, HttpServletResponse response,@RequestParam String fgDetailDiv){
+		
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		response.setCharacterEncoding("UTF-8");
 		System.out.println(fgDetailDiv);
 		ArrayList<String> fgLocationList = service.getFgLocation(fgDetailDiv);
 		System.out.println(fgLocationList.size()+"사이즈");
@@ -208,7 +271,14 @@ public class GardenController {
 	
 	@RequestMapping(value="/findFarmAddress3.do")
 	@ResponseBody
-	public ArrayList<String> findFarmAddress3(@RequestParam String fgDivision,@RequestParam String fgDetailDiv,@RequestParam String fgLocation){
+	public ArrayList<String> findFarmAddress3(HttpServletRequest request, HttpServletResponse response,@RequestParam String fgDivision,@RequestParam String fgDetailDiv,@RequestParam String fgLocation){
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		response.setCharacterEncoding("UTF-8");
+		
 		System.out.println(fgDivision+fgDetailDiv+fgLocation);
 		ArrayList<String> fgNameList = service.getFgName(fgDivision, fgDetailDiv, fgLocation);
 		System.out.println(fgNameList.size()+"사이즈");
@@ -217,21 +287,20 @@ public class GardenController {
 	
 	@RequestMapping(value="/findFarmAddress4.do")
 	@ResponseBody
-	public FarmGardenVO findFarmAddress4(@RequestParam String fgDivision,@RequestParam String fgDetailDiv,
+	public FarmGardenVO findFarmAddress4(HttpServletRequest request, HttpServletResponse response,@RequestParam String fgDivision,@RequestParam String fgDetailDiv,
 			@RequestParam String fgLocation,@RequestParam String fgName){
+		
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		response.setCharacterEncoding("UTF-8");
 		
 		FarmGardenVO fvo = service.getFgInfo(fgDivision, fgDetailDiv, fgLocation, fgName);
 		return fvo;
 	}
 	
-	@RequestMapping(value="/farmMap.do")
-	public ModelAndView farmMap(HttpServletRequest request){
-
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("garden/newFile");
-		
-		return mav;
-	}
 
 	
 	@RequestMapping(value="/myApplyCondition/all/applyCondition_main.do")
@@ -248,23 +317,37 @@ public class GardenController {
 	public ModelAndView gardenCondition(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		
-		//HttpSession session = request.getSession();
-		//int mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ"));
-		
-		//ApplyGardenVO avo = service.applyGardenByMseq(mseq);
-		
-		
-		int mseq = 50;
+		HttpSession session = request.getSession();
+		int mseq = (Integer)session.getAttribute("LVL_SESS_MSEQ");
 		
 		ApplyGardenVO avo = service.applyGardenByMseq(mseq);
 		ArrayList<DocumentVO> docList = service.documentListByMseq(mseq);
+		
 		FarmGardenVO fgvo = service.getFgInfoByFseq(avo.getFgseq());
+		
+		String docuReturn="";
+		
+		int apseq = service.applyGardenByMseq(mseq).getApseq();
+		
+		if(service.documentReturnCount(apseq)==0){
+		docuReturn="N" ;
+		}else{
+		docuReturn="Y" ;	
+		}
+		
+		String dreturnCause="";
+		for(int i=0;i<docList.size();i++){
+			if(!docList.get(i).getDreturnCause().equals(null)||!docList.get(i).getDreturnCause().equals("")){
+				dreturnCause=docList.get(i).getDreturnCause();
+				break;
+			}
+		}
+		mav.addObject("LVL_DRETURNCAUSE",dreturnCause);
+		mav.addObject("LVL_DOCURETURN",docuReturn);
+		
 		mav.addObject("LVL_DOCLIST",docList);
 		mav.addObject("LVL_AGVO", avo);
 		mav.addObject("LVL_FGVO",fgvo);
-		System.out.println(avo.getApname());
-		System.out.println(avo.getAseq());
-		System.out.println(fgvo.getFgaddress());
 		mav.setViewName("applyGarden_garden_user_mygarden_condition");
 		return mav;
 	}	

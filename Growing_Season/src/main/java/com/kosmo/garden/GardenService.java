@@ -31,4 +31,14 @@ public interface GardenService {
 	
 	public FarmGardenVO getFgInfoByFseq(int fgseq);
 	
+	public MemberVO getMemberInfo(int mseq);
+	
+	public int applyGardenCntByMseq(int mseq);
+	
+	public int documentReturnChange(int mseq);
+	
+	public int documentReturnCount(int mseq);
+	
+	public int applyGardenCancel(int apseq);
+	
 }

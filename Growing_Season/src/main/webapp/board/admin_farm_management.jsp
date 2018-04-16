@@ -75,17 +75,17 @@
 				<div class="row">
 					<div class="col-md-4">
 						<div style="float:right;">
-							<input type="button" id="fdetail" style="width:60pt; height:30pt; color:black" value="농장상세">
+							<input type="button"  style="width:60pt; height:30pt; color:black" value="농장상세" onClick="goPage('농장상세')">
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div>
-							<input type="button" id="fusers"style="width:60pt; height:30pt; color:black" value="이용자목록">
+							<input type="button" id="using" style="width:60pt; height:30pt; color:black" value="이용자목록" onClick="goPage('이용자목록')">
 						</div>
 					</div>
 					<div class="col-md-4" >
 						<div style="float:left;">
-							<input type="button" id="fdiv" style="width:60pt; height:30pt; color:black" value="구획보기">
+							<input type="button"  id="area" style="width:60pt; height:30pt; color:black" value="구획보기">
 						</div>
 					</div>
 				</div>
@@ -93,83 +93,121 @@
 			<br/>
 			<br/>
 			
-			<form class="dform" action="/farmdelete.do" method="post">
-			<input type="hidden" id="fgseq" name="fgseq" value="">
-			</form>
-			
-			<form class="uform" action="/farmupdate.do" method="post">
-			<input type="hidden" id="fgseqed" name="fgseq" value="">
-			<div class="row">
-				<div class="col-md-4">
-					<div  style="float:right;">
-						지역
+			<div class="fdetail" style="display:none">
+				<form class="dform" action="/farmdelete.do" method="post">
+				<input type="hidden" id="fgseq" name="fgseq" value="">
+				</form>
+				
+				<form class="uform" action="/farmupdate.do" method="post">
+				<input type="hidden" id="fgseqed" name="fgseq" value="">
+				<div class="row">
+					<div class="col-md-4">
+						<div  style="float:right;">
+							지역
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div id="dloc" style="float:left;">
+						</div>
 					</div>
 				</div>
-				<div class="col-md-8">
-					<div id="dloc" style="float:left;">
+				
+				<div class="row">
+					<div class="col-md-4">
+						<div  style="float:right;">
+							농장이름
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div id="dname" style="float:left;">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<div style="float:right;">
+							농장주소
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div id="daddress" style="float:left;">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<div style="float:right;">
+							농장연락처
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div id="dphone" style="float:left;">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<div style="float:right;">
+							농장관리인
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div id="dadmin" style="float:left;">
+						</div>
+					</div>
+				</div>
+				</form>
+				<div class="row">
+					<div class="col-md-6">
+						<div style="float:right;">
+							<input type="button" id="edit" style="width:60pt; height:30pt; color:black" value="수정">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div>
+							<input type="button" id="cancel"style="width:60pt; height:30pt; color:black" value="취소">
+						</div>
 					</div>
 				</div>
 			</div>
-			
-			<div class="row">
-				<div class="col-md-4">
-					<div  style="float:right;">
-						농장이름
-					</div>
-				</div>
-				<div class="col-md-8">
-					<div id="dname" style="float:left;">
-					</div>
+			<div class="fusers" style="display:none">
+				 <div style="width:100%; padding: 20px"> <!-- 회원리스트 테이블 부분 -->
+				 	<table class="table table-bordered" style="width:100%;">
+				 		<thead>
+					 		<tr>
+					 			<th width="20%">회원번호</th>
+					 			<th width="20%">회원이름</th>
+					 			<th width="20%">회원아이디</th>
+					 			<th width="20%">회원연락처</th>
+					 			<th width="20%">체크박스</th>
+					 		</tr>
+				 		</thead>
+				 		<!-- foreach부분 -->
+				 		<tbody id="tr">
+					 		<%-- <c:forEach items="${LVL_ULIST}" var="mvo"> --%>
+						 		<tr>
+						 			<td>${mvo.mseq}</td>
+						 			<td>${mvo.mname}</td>
+						 			<td>${mvo.mid}</td>
+						 			<td>${mvo.mphone}</td>
+						 			<td><input type="checkbox" value=""/></td>
+						 		</tr>
+					 		<%-- </c:forEach --%>
+				 		</tbody>
+				 		<!-- foreach 끝나는 부분 -->
+				 	</table>
+				 </div>
+				 <div style="text-align:center; margin:10px">
+				 	<button>배정취소</button>
+				 	<button>취소</button>
+				 </div>
+			</div>
+			<div class="area">
+				<div style="width:100%; padding: 20px">
+					
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-4">
-					<div style="float:right;">
-						농장주소
-					</div>
-				</div>
-				<div class="col-md-8">
-					<div id="daddress" style="float:left;">
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4">
-					<div style="float:right;">
-						농장연락처
-					</div>
-				</div>
-				<div class="col-md-8">
-					<div id="dphone" style="float:left;">
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4">
-					<div style="float:right;">
-						농장관리인
-					</div>
-				</div>
-				<div class="col-md-8">
-					<div id="dadmin" style="float:left;">
-					</div>
-				</div>
-			</div>
-			</form>
-			<div class="row">
-				<div class="col-md-6">
-					<div style="float:right;">
-						<input type="button" id="edit" style="width:60pt; height:30pt; color:black" value="수정">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div>
-						<input type="button" id="cancel"style="width:60pt; height:30pt; color:black" value="취소">
-					</div>
-				</div>
-			</div>
-			
-			
+		
 		</div>
 	</div>
 
@@ -202,7 +240,7 @@
 					$("#name").append("<option>선택해주세요</option>");
 					$.each(result.LVL_RLIST, function(i,v){
 						console.log(v.fgname);
-						$("#name").append("<option value="+v.fgseq+ ">"+ v.fgname + "</option>");
+						$("#name").append("<option value="+ v.fgseq + ">"+ v.fgname + "</option>");
 					});
 				}
 			});
@@ -225,7 +263,7 @@
 				data: JSON.stringify(data),
 				type:"post",
 				success:function(result) {
-					
+					$(".fdetail").show();
 					
 					console.log(result.LVL_ELIST);
 					$("#dloc").empty();
@@ -240,16 +278,73 @@
 						$("#dphone").append("<input type=text name='fgphone' value="+ v.fgphone +">");
 						$("#dadmin").append("<input type=text name='fgmanager' value="+ v.fgmanager +">");
 					});
-					/* var htmlStr="";
-					$("#name").empty();
-					$("#name").append("<option>선택해주세요</option>");
-					$.each(result.LVL_RLIST, function(i,v){
-						console.log(v.fgname);
-						htmlStr += "<option value="+v.fgname+ ">"+ v.fgname + "</option>"
-						$("#name").html(htmlStr);
-					}); */
+		
 				}
 			});
 	  	})
+	  	
+	  	$('#using').click(function(){
+	  		
+	  		var data = new Object();
+	  		data.fglocation =  $("#loc option:selected").val();
+	  		data.fgname = $("#name option:selected").text();
+	  		
+	  		$.ajax({
+				url:"/usinglist.do",
+				headers: {
+					"DataType" : "application/json",
+	                "Content-Type" : "application/json"
+	              },
+				data: JSON.stringify(data),
+				type:"post",
+				success:function(result) {
+					$('.fusers').show();
+		  			$('.fdetail').hide();
+					$('#tr').empty();
+					$.each(result.LVL_ULIST, function(i,v){
+						$("#tr").append("<tr>");
+						$("#tr").append("<td>"+v.mseq+"</td>");
+						$("#tr").append("<td>"+v.mname+"</td>");
+						$("#tr").append("<td>"+v.mid+"</td>");
+						$("#tr").append("<td>"+v.mphone+"</td>");
+						$("#tr").append("<td><input type='checkbox' value=''/></td>");
+						$("#tr").append("</tr>");
+					});
+				}
+			});
+	  	});
+	  	
+	  	$('#area').click(function(){
+	  		var data = new Object;
+	  		data.fgseq = $("#name option:selected").val();
+	  		console.log(data);
+	  		
+	  		$.ajax({
+				url:"/arealist.do",
+				headers: {
+					"DataType" : "application/json",
+	                "Content-Type" : "application/json"
+	              },
+				data: JSON.stringify(data),
+				type:"post",
+				success:function(result) {
+					
+					$.each(result.LVL_ALIST, function(i,v){
+						console.log(v.fgtotalarea);
+					});
+				}
+			});
+	  	});
+	  	
+	  	function goPage(btn) {
+	  		if(btn == "농장상세") {
+	  			$('.fdetail').show();
+	  			$('.fusers').hide();
+	  		} else if (btn == "이용자목록") {
+	  			/* $('.fusers').show();
+	  			$('.fdetail').hide(); */
+	  		}
+	  		
+	  	}
 	
 </script>
