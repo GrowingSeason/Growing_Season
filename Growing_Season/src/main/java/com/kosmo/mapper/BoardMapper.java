@@ -1,6 +1,7 @@
 package com.kosmo.mapper;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,7 @@ import com.kosmo.board.ReplyVO;
 @Repository("boarddao")
 public interface BoardMapper {
 
-	public String selectMgubun(@Param("mseq") int mseq);
+	public BoardVO selectMgubun(@Param("mseq") int mseq);
 	
 	public ArrayList<BoardVO> boardNoticeList(@Param("sseq") int sseq,@Param("eseq") int eseq);
 	
@@ -39,11 +40,15 @@ public interface BoardMapper {
 	
 	public int boardProposalUpdate(BoardVO vo);
 	
+	public ArrayList<BoardVO> boardAndDeclarationList(BoardVO vo);
+	
 	public int boardDelete(int bseq);
 	
 	public int bDeclarationInsert(BDeclarationVO vo);
 	
-	public ArrayList<BDeclarationVO> bDeclarationList(@Param("sseq") int sseq,@Param("eseq") int eseq);
+	public ArrayList<BDeclarationVO> bDeclarationList();
+	public ArrayList<BDeclarationVO> bDeclarationListByBseq(int bseq);
+	
 
 	public int bDeclarationDelete(int bseq);
 	
@@ -51,7 +56,9 @@ public interface BoardMapper {
 	
 	public int replyInsert(ReplyVO vo);
 	
-	public ReplyVO replyDetail(int rseq);
+	public ReplyVO freereplyDetail(int rseq);
+	
+	public ReplyVO proposalreplyDetail(int rseq);
 	
 	public int replyUpdate(ReplyVO vo);
 	
@@ -71,10 +78,15 @@ public interface BoardMapper {
 	
 	public int boardProposalCount();
 	
+
+	
+	
 	public int replyCount();
 	
 	public int bdeclarationCount();
 	
 	public int rdeclarationCount();
+	
+	public Map<String,Object> bDdetailList();
 	
 }

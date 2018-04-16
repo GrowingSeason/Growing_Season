@@ -10,33 +10,29 @@
 		</div>
 
 		<div class="bs-docs-example">
-			<table class="table">
+			<table class="table" BORDER=1>
 				<thead>
 					<tr>
-						<th>신고당한게시글쓴사람mid</th>
-						<th>신고당한게시글번호</th>
-						<th>신고당한게시글제목</th>
-						<th>신고당한게시글내용</th>
-						<th>신고당한게시글작성일</th>
-						<th>신고자mid</th>
-						<th>신고이유</th>
-						<th>신고일</th>
+						<th>글번호</th>
+						<th>글쓴이</th>
+						<th>제목</th>
+						<th>신고내용(신고자,신고사유,신고일)</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${REPORTBOARD_LIST}" var="vo">
-						<tr>
-							<td>${BPOP_UP.mid}</td>
-							<td>${vo.bseq}</td>
-							<td>${BPOP_UP.btitle}</td>
-							<td>${BPOP_UP.bcon}</td>
-							<td>${BPOP_UP.bregdate}</td>
-							<td>${vo.bdmid}</td>
-							<td>${vo.bdreason}</td>
-							<td>${vo.bdregdate}</td>
-						</tr>
+					<c:forEach items="${BDLIST}" var="vo">
+					<tr>
+						<td>${vo.bseq}</td>
+						<td>${vo.mid}</td>
+						<td>${vo.btitle}</td>
+						<td>
+							<c:forEach items="${vo.declarationList}" var="dlist">
+								${dlist.bdmid}  ${dlist.bdreason} ${dlist.bdregdate}<br>
+							</c:forEach>
+						</td>
+					</tr>
 					</c:forEach>
-				</tbody>
+			</tbody>
 			</table>
 		</div>
 		<div align="center">

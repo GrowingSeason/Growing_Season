@@ -9,31 +9,29 @@
 				<tr align="center">
 					<th>NO</th>
 					<th>작성자</th>
-					<th>제목</th>
 					<th>내용</th>
 					<th>작성일</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr align="center">
-					<td>${BPOP_UP.bseq}</td>
-					<td>${BPOP_UP.mid}</td>
-					<td>${BPOP_UP.btitle}</td>
-					<td>${BPOP_UP.bcon}</td>
-					<td>${BPOP_UP.bregdate}</td>
+					<td>${FRPOP_UP.rseq}</td>
+					<td>${FRPOP_UP.mid}</td>
+					<td>${FRPOP_UP.rcon}</td>
+					<td>${FRPOP_UP.rregdate}</td>
 				</tr>
 			</tbody>
 		</table>
 
 		<br>
 
-<form action="/bdeclarationinsert.do" class="bdeclarationInsert" method="post">
-<input type="hidden" name="bseq" value="${BPOP_UP.bseq}">
+<form action="/freerdeclarationinsert.do" class="rdeclarationInsert" method="post">
+<input type="hidden" name="rseq" value="${FRPOP_UP.rseq}">
 		<div class="row">
 			<label for="ex_input">신고사유</label>
 			<div class="col-lg-12">
 				<div class="input-group">
-					<input name="bdreason" value="" type="text" size=65
+					<input name="rdreason" value="" type="text" size=65
 						aria-label="...">
 				</div>
 			</div>

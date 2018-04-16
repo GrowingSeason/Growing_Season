@@ -33,13 +33,10 @@ public class BoardController {
 	@Autowired
 	private BoardService service;   
 
-	int upload_file_max_size;
 
-	@Value("${upload_file_dir}")
-	String upload_file_dir;
-
-	@Value("${upload_file_format}")
-	String upload_file_format;
+	private int upload_file_max_size=100000000;
+	private String upload_file_format="UTF-8";
+	private String upload_file_dir="C:\\34DEV\\git\\Growing_Season\\Growing_Season\\src\\main\\webapp\\boarduploads";
 
 	
 
@@ -47,10 +44,10 @@ public class BoardController {
 	@RequestMapping(value="/boardnoticelist.do", method = RequestMethod.GET)
 	public ModelAndView boardnoticelist(HttpServletRequest request,@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage) 
 	{
-//		HttpSession session=request.getSession();
-//		String mseqStr=(String)session.getAttribute("MSEQ");
-//		int mseq=Integer.parseInt("mseqStr");
-		
+		//		HttpSession session=request.getSession();
+		//		String mseqStr=(String)session.getAttribute("MSEQ");
+		//		int mseq=Integer.parseInt("mseqStr");
+
 		int totalCount = service.boardNoticeCount();
 
 		PagingUtil pu
@@ -61,18 +58,18 @@ public class BoardController {
 				, 5 
 				);
 		String  html = pu.getPagingHtml();
-		
+
 		int mseq=5;
 		Map<String,Object> list = service.boardNoticeList(pu.getStartSeq(), pu.getEndSeq(),mseq);
-		
+
 		System.out.println();
-		
+
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("NOTICE_LIST", list.get("nList"));
 		mav.addObject("NOTICE_LIST_MGUBUN", list.get("Mgubun"));
 		mav.addObject("NOTICE_PAGING", html);
 		mav.setViewName("board_board_all_board_noticelist");   
-		
+
 		return mav;
 	}
 
@@ -127,87 +124,100 @@ public class BoardController {
 
 		return mav;
 	}
-	
+
 	//공지 게시판 인서트(관리자만)
-	@RequestMapping(value="/boardnoticeinsert.do", method = RequestMethod.GET)
-	public String boardnoticeinsert(BoardVO vo) throws IOException {
-		MultipartFile ufile = vo.getUfile();
-
-		int res = 0;
-		System.out.println(vo.getMseq()+"글쓰기 버튼 클릭");
-
-		if(vo.getBcon()==null){
-			System.out.println(vo.getMseq()+"내용없으면 jsp로");
-			return "board_board_admin_board_noticeinsert";	
-		}
-		else if(ufile !=null) {
-			String fullPath = upload_file_dir+"\\"+ufile.getOriginalFilename();
-			File newFile = new File(fullPath); 		
-			ufile.transferTo(newFile); 
-			vo.setBfilesize(ufile.getSize());
-			vo.setBfilepath(upload_file_dir);
-			vo.setBfilename(ufile.getOriginalFilename());
-		}
-
-			res = service.boardNoticeInsert(vo);
-
-		System.out.println(res + "자유글insert됐음");
-		return "redirect:/boardnoticelist.do";	
-	}
+	  @RequestMapping(value="/boardnoticeinsert.do")
+	   public String boardnoticeinsert(BoardVO vo 
+	         ) throws IllegalStateException, IOException {
+		  int mseq=5;
+		   vo.setMseq(mseq);
+	      //신규첨부파일
+		  MultipartFile ufile = vo.getUfile();
+	      if(vo.getBcon()==null){
+				
+				return "board_board_admin_board_noticeinsert";	
+	      }else if(ufile != null) {
+	          String fullPath = upload_file_dir+"\\"+ufile.getOriginalFilename();
+	          File newFile = new File(fullPath); 
+	          
+	             ufile.transferTo(newFile);
+	             vo.setBfilesize(ufile.getSize());
+	             vo.setBfilepath(upload_file_dir);
+	             vo.setBfilename(ufile.getOriginalFilename());
+	      }
+	           
+	      int res = service.boardNoticeInsert(vo);
+	      
+	      return "redirect:/boardnoticelist.do";
+	   } 
 
 
 	//자유 게시판 인서트
-	@RequestMapping(value="/boardfreeinsert.do", method = RequestMethod.GET)
-	public String boardfreeinsert(BoardVO vo, HttpServletResponse response) throws IOException {
-		MultipartFile ufile = vo.getUfile();
-
-		int res = 0;
-		System.out.println(vo.getMseq()+"글쓰기 버튼 클릭");
-
-		if(vo.getBcon()==null){
-			System.out.println(vo.getMseq()+"내용없으면 jsp로");
-			return "board_board_user_board_freeinsert";	
-		}else if(ufile !=null) {
-			String fullPath = upload_file_dir+"\\"+ufile.getOriginalFilename();
-			File newFile = new File(fullPath); 		
-			ufile.transferTo(newFile); 
-			vo.setBfilesize(ufile.getSize());
-			vo.setBfilepath(upload_file_dir);
-			vo.setBfilename(ufile.getOriginalFilename());
-
-		}
-			res = service.boardFreeInsert(vo);
-
-		System.out.println(res + "자유글insert됐음");
-		return "redirect:/boardfreelist.do";	
-	}
+	   @RequestMapping(value="/boardfreeinsert.do")
+	   public String boardfreeinsert(BoardVO vo 
+	         ) throws IllegalStateException, IOException {
+		   int mseq=4;
+		   vo.setMseq(mseq);
+	      //신규첨부파일
+		  MultipartFile ufile = vo.getUfile();
+	      if(vo.getBcon()==null){
+				
+				return "board_board_user_board_freeinsert";	
+	      }else if(ufile != null) {
+	          String fullPath = upload_file_dir+"\\"+ufile.getOriginalFilename();
+	          File newFile = new File(fullPath); 
+	          
+	             ufile.transferTo(newFile);
+	             vo.setBfilesize(ufile.getSize());
+	             vo.setBfilepath(upload_file_dir);
+	             vo.setBfilename(ufile.getOriginalFilename());
+	      }
+	           
+	      int res = service.boardFreeInsert(vo);
+	      
+	      return "redirect:/boardfreelist.do";
+	   } 
 
 	//건의사항 게시판 인서트
-	@RequestMapping(value="/boardproposalinsert.do", method = RequestMethod.GET)
-	public String boardproposalinsert(BoardVO vo, HttpServletResponse response) throws IOException {
-		MultipartFile ufile = vo.getUfile();
+	   @RequestMapping(value="/boardproposalinsert.do")
+	   public String boardproposalinsert(BoardVO vo 
+	         ) throws IllegalStateException, IOException {
+		   int mseq=4;
+		   vo.setMseq(mseq);
+	      //신규첨부파일
+		  MultipartFile ufile = vo.getUfile();
+	      if(vo.getBcon()==null){
+				
+				return "board_board_user_board_proposalinsert";	
+	      }else if(ufile != null) {
+	          String fullPath = upload_file_dir+"\\"+ufile.getOriginalFilename();
+	          File newFile = new File(fullPath); 
+	          
+	             ufile.transferTo(newFile);
+	             vo.setBfilesize(ufile.getSize());
+	             vo.setBfilepath(upload_file_dir);
+	             vo.setBfilename(ufile.getOriginalFilename());
+	      }
+	           
+	      int res = service.boardProposalInsert(vo);
+	     
+	      return "redirect:/boardproposallist.do";
+	   } 
 
-		int res = 0;
-		System.out.println(vo.getMseq()+"글쓰기 버튼 클릭");
+	 //자유 댓글 상세보기(수정, 삭제 때문에)
+	 		@RequestMapping(value="/freereplydetail.do", method = RequestMethod.GET)
+	 		public ModelAndView freereplydetail(ReplyVO vo) {
+	 			int mseq=4;
+	 			String mgubun=service.selectMgubun(mseq);
+	 			System.out.println(vo.getMseq()+"mseq");
 
-		if(vo.getBcon()==null){
-			System.out.println(vo.getMseq()+"내용없으면 jsp로");
-			return "board_board_user_board_proposalinsert";	
-		}else if(ufile !=null) {
-			String fullPath = upload_file_dir+"\\"+ufile.getOriginalFilename();
-			File newFile = new File(fullPath); 		
-			ufile.transferTo(newFile); 
-			vo.setBfilesize(ufile.getSize());
-			vo.setBfilepath(upload_file_dir);
-			vo.setBfilename(ufile.getOriginalFilename());
+	 			ModelAndView mav = new ModelAndView();
+	 			vo = service.freereplyDetail(vo.getRseq());
+	 			mav.addObject("FREE_REPLY_DETAIL", vo);
 
-		}
-			res = service.boardProposalInsert(vo);
+	 			return mav;
+	 		}
 
-		System.out.println(res + "건의사항글insert됐음");
-		return "redirect:/boardproposallist.do";	
-	}
-	
 	//공지 게시판 상세보기 //mgubun에 따라서 디테일 페이지 다르게 보여줌->admin일 때만 수정, 삭제 가능하게 
 	@RequestMapping(value="/boardnoticedetail.do", method = RequestMethod.GET)
 	public ModelAndView boardnoticedetail(BoardVO vo) {
@@ -216,12 +226,12 @@ public class BoardController {
 		System.out.println(vo.getMseq()+"set전 mseq");
 		System.out.println(vo.getBtitle()+"가지고 들어온 vo");
 		System.out.println(vo.getMseq()+"set이후 mseq");
-		
+
 		ModelAndView mav = new ModelAndView();
 		vo = service.boardNoticeDetail(vo.getBseq());
 		mav.addObject("NOTICE_DETAIL", vo);
 		mav.addObject("MGUBUN", mgubun);
-		
+
 		if(mgubun==null){
 			mav.setViewName("board_board_all_board_noticedetail");
 		}
@@ -242,8 +252,6 @@ public class BoardController {
 	public ModelAndView boardfreedetail(HttpServletRequest request, HttpServletResponse response) {
 
 		String bseq = request.getParameter("bseq");
-		System.out.println(bseq+"detail에서 넘어온 bseq");
-		
 
 		int currentPage = 1;
 
@@ -262,32 +270,31 @@ public class BoardController {
 				);
 		String  html = pu.getPagingHtml();
 
-		Map<String,Object> list = service.replyList(pu.getStartSeq(), pu.getEndSeq(),Integer.parseInt(bseq));
-		
+		Map<String,Object> listMap = service.replyList(pu.getStartSeq(), pu.getEndSeq(),Integer.parseInt(bseq));
+
 		ModelAndView mav = new ModelAndView();
 
-		System.out.println(pu.getStartSeq() + "댓글 페이징 start");
-		System.out.println(pu.getEndSeq() + "댓글 페이징 end");
-		
 		int mseq=4;
+
+		mav.addObject("flistMap", listMap);
 		
-		mav.addObject("FREE_DETAIL", list.get("freedetail"));
-		mav.addObject("FREE_REPLY_LIST", list.get("freerlist"));
 		mav.addObject("MSEQ", mseq);
 		mav.addObject("FREE_REPLY_PAGING", html);
 		mav.setViewName("board_board_all_board_freedetail");     
 
+		
+		
 		return mav;
 	}
+	
+	
 
 	//건의사항 게시판 상세보기
 	@RequestMapping(value="/boardproposaldetail.do", method = RequestMethod.GET)
 	public ModelAndView boardproposaldetail(HttpServletRequest request, HttpServletResponse response) {
 
 		String bseq = request.getParameter("bseq");
-		System.out.println(bseq+"detail에서 넘어온 bseq");
-		
-
+	
 		int currentPage = 1;
 
 		if(request.getParameter("currentPage") != null) {
@@ -305,24 +312,24 @@ public class BoardController {
 				);
 		String  html = pu.getPagingHtml();
 
-		Map<String,Object> list = service.replyList(pu.getStartSeq(), pu.getEndSeq(),Integer.parseInt(bseq));
-		
+
+		Map<String,Object> listMap = service.replyList(pu.getStartSeq(), pu.getEndSeq(),Integer.parseInt(bseq));
+
 		ModelAndView mav = new ModelAndView();
 
-		System.out.println(pu.getStartSeq() + "댓글 페이징 start");
-		System.out.println(pu.getEndSeq() + "댓글 페이징 end");
-		
 		int mseq=4;
+
+		mav.addObject("plistMap", listMap);
 		
-		mav.addObject("PROPOSAL_DETAIL", list.get("proposaldetail"));
-		mav.addObject("PROPOSAL_REPLY_LIST", list.get("proposalrlist"));
 		mav.addObject("MSEQ", mseq);
 		mav.addObject("PROPOSAL_REPLY_PAGING", html);
 		mav.setViewName("board_board_all_board_proposaldetail");     
 
+		
+		
 		return mav;
 	}
-	
+
 	//공지 게시판 수정(예전edit.spring)
 	@RequestMapping(value="/boardnoticeupdatepage.do", method = RequestMethod.GET)
 	public ModelAndView boardnoticeupdatepage(BoardVO vo) {
@@ -356,9 +363,9 @@ public class BoardController {
 	//공지 게시판 파일수정(예전update.spring)
 	@RequestMapping(value = "/boardnoticeupdate.do", method = RequestMethod.GET)
 	public String boardnoticefileupdate(BoardVO vo)throws IOException{
-		
+
 		System.out.println(vo.getBseq()+"update에서 넘어온 bseq");
-		
+
 		int res = 0;
 		MultipartFile ufile = vo.getUfile();
 		if(vo.getBcon()==null){
@@ -384,9 +391,9 @@ public class BoardController {
 	//자유 게시판 파일수정(예전update.spring)
 	@RequestMapping(value = "/boardfreeupdate.do", method = RequestMethod.GET)
 	public String boardfreefileupdate(BoardVO vo)throws IOException{
-		
+
 		System.out.println(vo.getBseq()+"update에서 넘어온 bseq");
-		
+
 		int res = 0;
 		MultipartFile ufile = vo.getUfile();
 		if(vo.getBcon()==null){
@@ -412,9 +419,9 @@ public class BoardController {
 	//건의사항 게시판 파일수정(예전update.spring)
 	@RequestMapping(value = "/boardproposalupdate.do", method = RequestMethod.GET)
 	public String boardproposalfileupdate(BoardVO vo)throws IOException{
-		
+
 		System.out.println(vo.getBseq()+"update에서 넘어온 bseq");
-		
+
 		int res = 0;
 		MultipartFile ufile = vo.getUfile();
 		if(vo.getBcon()==null){
@@ -498,58 +505,76 @@ public class BoardController {
 		}
 	}
 
-	//게시글 신고 인서트
-	@RequestMapping(value="/bdeclarationinsert.do", method = RequestMethod.POST)
-	public String bdeclarationinsert(BDeclarationVO vo, HttpServletResponse response) throws IOException {
-	
+	//자유 게시글 신고 인서트
+	@RequestMapping(value="/freebdeclarationinsert.do", method = RequestMethod.POST)
+	public String freebdeclarationinsert(BDeclarationVO vo, HttpServletResponse response) throws IOException {
+
 		int res = 0;
 		int mseq=4;
 		vo.setBdmseq(mseq);
-		
+
 		System.out.println(vo.getBdmseq()+"신고자입니다");
 		System.out.println(vo.getBdreason()+"신고이유");
 		res = service.bDeclarationInsert(vo);
-		
-		return "redirect:/boardproposallist.do";	
+
+		return "redirect:/boardfreedetail.do?bseq="+vo.getBseq();	
 	}
 
-	
-	//댓글 신고 인서트
-	
+	//건의사항 게시글 신고 인서트
+	@RequestMapping(value="/proposalbdeclarationinsert.do", method = RequestMethod.POST)
+	public String proposalbdeclarationinsert(BDeclarationVO vo, HttpServletResponse response) throws IOException {
+
+		int res = 0;
+		int mseq=4;
+		vo.setBdmseq(mseq);
+
+		System.out.println(vo.getBdmseq()+"신고자입니다");
+		System.out.println(vo.getBdreason()+"신고이유");
+		res = service.bDeclarationInsert(vo);
+
+		return "redirect:/boardproposaldetail.do?bseq="+vo.getBseq();	
+	}
+
+
+	//자유 댓글 신고 인서트
+	@RequestMapping(value="/freerdeclarationinsert.do", method = RequestMethod.POST)
+	public String freerdeclarationinsert(RDeclarationVO vo, HttpServletResponse response) throws IOException {
+
+		int res = 0;
+		int mseq=4;
+		vo.setRdmseq(mseq);
+
+		System.out.println(vo.getRdmseq()+"신고자입니다");
+		System.out.println(vo.getRdreason()+"신고이유");
+		res = service.rDeclarationInsert(vo);
+		System.out.println(res+"신고됨?");
+
+		return "redirect:/boardfreelist.do";
+	}
+
+	//건의사항 댓글 신고 인서트
+		@RequestMapping(value="/proposalrdeclarationinsert.do", method = RequestMethod.POST)
+		public String proposalrdeclarationinsert(RDeclarationVO vo, HttpServletResponse response) throws IOException {
+
+			int res = 0;
+			int mseq=4;
+			vo.setRdmseq(mseq);
+
+			System.out.println(vo.getRdmseq()+"신고자입니다");
+			System.out.println(vo.getRdreason()+"신고이유");
+			res = service.rDeclarationInsert(vo);
+			System.out.println(res+"신고됨?");
+
+			return "redirect:/boardproposallist.do";	
+		}
+
 	//게시글 신고 리스트
 	@RequestMapping(value="/bdeclarationlist.do")
 	public ModelAndView bdeclarationlist(HttpServletRequest request, HttpServletResponse response) {
-
-		int currentPage = 1;
-
-		if(request.getParameter("currentPage") != null) {
-			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		}
-
-		int totalCount = service.bdeclarationCount();
-		
-		System.out.println(totalCount);
-		
-		PagingUtil pu
-		= new PagingUtil("/bdeclarationlist.do?"
-				, currentPage
-				, totalCount 
-				, 5	
-				, 5 
-				);
-		String  html = pu.getPagingHtml();
-		
-		System.out.println(pu.getStartSeq()+"신고 리스트 스타트");
-		System.out.println(pu.getEndSeq()+"신고 리스트 스타트");
-
-		ArrayList<BDeclarationVO> list = service.bDeclarationList(pu.getStartSeq(), pu.getEndSeq());
-		
+		System.out.println("컨트롤러는 들어옴");
+		ArrayList<BoardVO> list = service.bDdetailList();
 		ModelAndView mav = new ModelAndView();
-
-		mav.addObject("REPORTBOARD_COUNT", totalCount);
-		mav.addObject("REPORTBOARD_LIST", list);
-		mav.addObject("REPORTBOARD_PAGING", html);
-
+		mav.addObject("BDLIST", list);
 		mav.setViewName("board_board_admin_report_boardlist");     
 
 		return mav;
@@ -603,51 +628,71 @@ public class BoardController {
 		return "redirect:/boardproposaldetail.do?bseq="+vo.getBseq();
 	}
 
-	//댓글 상세보기(수정, 삭제 때문에)
-	@RequestMapping(value="/replydetail.do", method = RequestMethod.GET)
-	public ModelAndView replydetail(ReplyVO vo) {
-		int mseq=0;
-		String mgubun=service.selectMgubun(mseq);
-		System.out.println(vo.getMseq()+"mseq");
 	
-		ModelAndView mav = new ModelAndView();
-		vo = service.replyDetail(vo.getRseq());
-		mav.addObject("NOTICE_DETAIL", vo);
-		
-		//로그인한 사람 mseq랑 댓글 쓴 사람 mseq랑 같으면 수정, 삭제 가능
-		if(mgubun==null){
-			mav.setViewName("board_board_all_board_noticedetail");
+
+	//건의사항 댓글 상세보기(수정, 삭제 때문에)
+		@RequestMapping(value="/proposalreplydetail.do", method = RequestMethod.GET)
+		public ModelAndView proposalreplydetail(ReplyVO vo) {
+			int mseq=4;
+			String mgubun=service.selectMgubun(mseq);
+			System.out.println(vo.getMseq()+"mseq");
+
+			ModelAndView mav = new ModelAndView();
+			vo = service.proposalreplyDetail(vo.getRseq());
+			mav.addObject("PROPOSAL_REPLY_DETAIL", vo);
+
+			return mav;
 		}
-		else if(mgubun.equals("A")){
-			mav.setViewName("board_board_admin_board_noticedetail");
-			System.out.println("A들어옴");
-		}
-		else if(!mgubun.equals("A")){
-			mav.setViewName("board_board_all_board_noticedetail");
-			System.out.println("A아님");
-		}
-		return mav;
-	}
 	
-	//댓글 수정페이지
-	@RequestMapping(value="/replyupdatepage.do", method = RequestMethod.GET)
-	public ModelAndView replyupdatepage(HttpServletRequest request, HttpServletResponse response) {
+	//자유 댓글 수정페이지
+	@RequestMapping(value="/freereplyupdatepage.do", method = RequestMethod.GET)
+	public ModelAndView freereplyupdatepage(HttpServletRequest request, HttpServletResponse response) {
 
 		String rseq = request.getParameter("rseq");
 		ReplyVO vo = new ReplyVO();
-		vo = service.replyDetail(Integer.parseInt(rseq));
+		vo = service.freereplyDetail(Integer.parseInt(rseq));
 
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("REPLY_UPDATE_VO", vo);
-		mav.setViewName("board_board_user_board_replyupdate");     
+		mav.addObject("FREE_REPLY_UPDATE_VO", vo);
+		mav.setViewName("board/freeboardreplyupdate");     
 
 		return mav;
 	}	
 	
-	//댓글 수정
-		@RequestMapping(value = "/replyupdate.do", method = RequestMethod.GET)
-		public String replyupdate(ReplyVO vo)throws IOException{
-		
+	//건의사항 댓글 수정페이지
+		@RequestMapping(value="/proposalreplyupdatepage.do", method = RequestMethod.GET)
+		public ModelAndView proposalreplyupdatepage(HttpServletRequest request, HttpServletResponse response) {
+
+			String rseq = request.getParameter("rseq");
+			ReplyVO vo = new ReplyVO();
+			vo = service.proposalreplyDetail(Integer.parseInt(rseq));
+
+			ModelAndView mav = new ModelAndView();
+			mav.addObject("PROPOSAL_REPLY_UPDATE_VO", vo);
+			mav.setViewName("board/proposalboardreplyupdate");     
+
+			return mav;
+		}	
+	
+	
+	
+	
+	
+	
+
+	//자유 댓글 수정
+	@RequestMapping(value = "/freereplyupdate.do", method = RequestMethod.POST)
+	public String freereplyupdate(ReplyVO vo){
+				
+		service.replyUpdate(vo);
+		return "redirect:/boardfreedetail.do?bseq="+vo.getBseq();
+
+	}
+	
+	//건의사항 댓글 수정
+		@RequestMapping(value = "/proposalreplyupdate.do", method = RequestMethod.POST)
+		public String proposalreplyupdate(ReplyVO vo){
+					
 			service.replyUpdate(vo);
 			return "redirect:/boardproposaldetail.do?bseq="+vo.getBseq();
 
@@ -655,23 +700,16 @@ public class BoardController {
 
 
 	//자유 게시판 댓글 델리트
-	@RequestMapping(value = "/replyfreedelete.do", method = RequestMethod.POST)
-	public String replyfreedelete(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/replyfreedelete.do")
+	public String replyfreedelete(int rseq,int bseq)
 	{
-		String rseq = request.getParameter("rseq");
-
-		String bfilepath = request.getParameter("bfilepath");
-		String bfilename = request.getParameter("bfilename");
-		File oldFile = new File(bfilepath+"/"+bfilename);
-		if(oldFile.exists())
-			oldFile.delete();
-
-		int res = service.replyDelete(Integer.parseInt(rseq));
+	
+		int res = service.replyDelete(rseq);
 		if(res > 0) {
-			return "redirect:/boardproposaldetail.do";
+			return "redirect:/boardfreedetail.do?bseq="+bseq;
 
 		}else {
-			return "redirect:/boardproposaldetail.do?rseq="+rseq;
+			return "redirect:/boardfreedetail.do?bseq="+bseq;
 		}
 	}
 	//건의사항 게시판 댓글 델리트
@@ -694,21 +732,71 @@ public class BoardController {
 			return "redirect:/boardproposaldetail.do?rseq="+rseq;
 		}
 	}
-	
-	//게시글 신고 팝업가기전 setting
-		@RequestMapping(value="/bdeclarationPopup.do", method = RequestMethod.GET)
-		public ModelAndView bdeclarationPopup(
-				@RequestParam("bseq") int bseq
-				) throws IOException {
-			BoardVO vo=service.boardFreeDetail(bseq);
-			
-			int mseq=8;
-			
-			ModelAndView mav = new ModelAndView();
-			mav.addObject("BPOP_UP", vo);
-			mav.addObject("BPOP_UP_MSEQ", mseq);
-			mav.setViewName("board_board_user_report_popup");
-			
-			return mav;	
-		}
+
+	//자유게시글 신고 팝업가기전 setting
+	@RequestMapping(value="/freebdeclarationPopup.do", method = RequestMethod.GET)
+	public ModelAndView freebdeclarationPopup(
+			@RequestParam("bseq") int bseq
+			) throws IOException {
+		BoardVO vo=service.boardFreeDetail(bseq);
+
+		int mseq=4;
+
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("FBPOP_UP", vo);
+		mav.addObject("FBPOP_UP_MSEQ", mseq);
+		mav.setViewName("board_board_user_report_freeboardpopup");
+
+		return mav;	
+	}
+
+	//건의사항 게시글 신고 팝업가기전 setting
+	@RequestMapping(value="/proposalbdeclarationPopup.do", method = RequestMethod.GET)
+	public ModelAndView proposalbdeclarationPopup(
+			@RequestParam("bseq") int bseq
+			) throws IOException {
+		BoardVO vo=service.boardProposalDetail(bseq);
+
+		int mseq=4;
+
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("PBPOP_UP", vo);
+		mav.addObject("PBPOP_UP_MSEQ", mseq);
+		mav.setViewName("board_board_user_report_proposalboardpopup");
+
+		return mav;	
+	}
+	//자유 댓글 신고 팝업가기전 setting
+	@RequestMapping(value="/freerdeclarationPopup.do", method = RequestMethod.GET)
+	public ModelAndView freerdeclarationPopup(
+			@RequestParam("rseq") int rseq
+			) throws IOException {
+		ReplyVO vo=service.freereplyDetail(rseq);
+		int mseq=4;
+
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("FRPOP_UP", vo);
+		mav.addObject("FRPOP_UP_MSEQ", mseq);
+		mav.setViewName("board_board_user_report_freereplypopup");
+
+		return mav;	
+	}
+
+	//건의사항 댓글 신고 팝업가기전 setting
+	@RequestMapping(value="/proposalrdeclarationPopup.do", method = RequestMethod.GET)
+	public ModelAndView proposalrdeclarationPopup(
+			@RequestParam("rseq") int rseq
+			) throws IOException {
+		ReplyVO vo=service.proposalreplyDetail(rseq);
+
+		int mseq=4;
+
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("PRPOP_UP", vo);
+		mav.addObject("PRPOP_UP_MSEQ", mseq);
+		mav.setViewName("board_board_user_report_proposalreplypopup");
+
+		return mav;	
+	}
+
 }

@@ -1,8 +1,10 @@
 package com.kosmo.board;
 
+import java.util.ArrayList;
+
 import org.springframework.web.multipart.MultipartFile;
 
-public class BoardVO {
+public class BoardVO { //extends BDeclarationVO {
 	
 	private MultipartFile ufile;
 	private String mid;
@@ -20,6 +22,41 @@ public class BoardVO {
 	private String mgubun;
 	
 	
+	
+	private int bdmseq;
+	private String bdreason;
+	private String bdregdate;
+
+	
+	public int getBdmseq() {
+		return bdmseq;
+	}
+	public void setBdmseq(int bdmseq) {
+		this.bdmseq = bdmseq;
+	}
+	public String getBdreason() {
+		return bdreason;
+	}
+	public void setBdreason(String bdreason) {
+		this.bdreason = bdreason;
+	}
+	public String getBdregdate() {
+		return bdregdate;
+	}
+	public void setBdregdate(String bdregdate) {
+		this.bdregdate = bdregdate;
+	}
+	private ArrayList<BDeclarationVO> declarationList;
+	
+	
+	
+	
+	public ArrayList<BDeclarationVO> getDeclarationList() {
+		return declarationList;
+	}
+	public void setDeclarationList(ArrayList<BDeclarationVO> declarationList) {
+		this.declarationList = declarationList;
+	}
 	public String getMgubun() {
 		return mgubun;
 	}
