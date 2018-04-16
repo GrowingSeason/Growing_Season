@@ -133,6 +133,46 @@ public class AdminController {
         return map;
 	}
 	
+	@RequestMapping(value = "/usinglist.do")
+	@ResponseBody
+	public Map<String, Object> usingList(
+			@RequestBody FarmGardenVO fgvo 
+			
+	) throws Exception {
+		System.out.println(fgvo.getFglocation());
+		System.out.println("이용자리스트");
+		MemberVO mvo = new MemberVO();
+		mvo.setFgvo(fgvo);
+		ArrayList<MemberVO> list = imp.usingList(mvo);
+		if (list == null) {
+			//throw new NotFoundException("selectBoardList null");
+			System.out.println("리스트 널");
+        }
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("LVL_ULIST", list);
+		
+        return map;
+	}
+	
+	@RequestMapping(value = "/arealist.do")
+	@ResponseBody
+	public Map<String, Object> areaList(
+			@RequestBody FarmGardenVO fgvo 
+			
+	) throws Exception {
+		System.out.println("구획리스트");
+		ApplyVO avo = new ApplyVO();
+		ArrayList<ApplyVO> list = imp.areaList(avo);
+		if (list == null) {
+			//throw new NotFoundException("selectBoardList null");
+			System.out.println("리스트 널");
+        }
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("LVL_ALIST", list);
+		
+        return map;
+	}
+	
 	@RequestMapping(value="/create.do")
 	public ModelAndView farmCreate(HttpServletRequest request, HttpServletResponse response) {
 		

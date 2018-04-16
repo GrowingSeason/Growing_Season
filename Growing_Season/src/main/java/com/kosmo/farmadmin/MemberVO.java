@@ -21,12 +21,21 @@ public class MemberVO {
 	private String profilname;
 	private String profilpath;
 	private String profilsize;
+	
 	private ApplyVO avo;
 	private DocumentVO dvo;
+	private FarmGardenVO fgvo;
+	
 	private int sseq;
 	private int eseq;
 	
 	
+	public FarmGardenVO getFgvo() {
+		return fgvo;
+	}
+	public void setFgvo(FarmGardenVO fgvo) {
+		this.fgvo = fgvo;
+	}
 	private ArrayList<DocumentVO> dvoList;
 	
 	public ArrayList<DocumentVO> getDvoList() {

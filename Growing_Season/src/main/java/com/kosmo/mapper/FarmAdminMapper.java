@@ -11,7 +11,7 @@ import com.kosmo.farmadmin.FarmGardenVO;
 import com.kosmo.farmadmin.MemberVO;
 
 
-@Repository("dao")
+@Repository("farmdao")
 public interface FarmAdminMapper {
 	
 	public ArrayList<MemberVO> applyList(MemberVO mvo);
@@ -35,4 +35,7 @@ public interface FarmAdminMapper {
 	public int manyCultureLotto(ApplyVO avo);
 	public ArrayList<ApplyVO> lottoList(ApplyVO avo);
 	public int lottoListCount();
+	public ArrayList<MemberVO> usingList(MemberVO mvo);
+	public ArrayList<ApplyVO> areaList(ApplyVO avo);
+	
 }
