@@ -168,7 +168,7 @@ public class ApplyFarmController {
 	@RequestMapping(value="/applyFarm/all/smsauth.do")
 	@ResponseBody
 	public boolean sendSmsAuth(@RequestParam String phoneNumber)
-	{
+	{		
 		boolean res = applyFarmServiceImpl.sendSmsAuthNumber(phoneNumber);
 		System.out.println(phoneNumber);
 		return res; 
