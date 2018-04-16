@@ -48,8 +48,8 @@ public class MemberController { //extends MultiActionController {
 		= new PagingUtil("/list.do?"
 				, currentPage
 				, totalCount  //------------
-				, 3	//선택한 2번 블럭에 나타날 게시물 갯수
-				, 2 // 1 2 [다음]
+				, 5	//선택한 2번 블럭에 나타날 게시물 갯수
+				, 5 // 1 2 [다음]
 				);
 		String  html = pu.getPagingHtml();
 
