@@ -15,6 +15,7 @@ public class SnsServiceImpl implements SnsService{
 
 	@Autowired
 	private SnsMapper snsdao;
+	
 
 	
 	@Override
@@ -30,6 +31,8 @@ public class SnsServiceImpl implements SnsService{
 		ArrayList<SnsCommentVO> clist=snsdao.snsCommentList(feseq, sseq, eseq);
 		ArrayList<SnsFeedVO> felist=snsdao.snsFollowersList(fvo.getMseq());
 		ArrayList<SnsFeedVO> filist=snsdao.snsFollowingList(fvo.getMseq());
+		int fecnt=snsdao.snsFollwersCnt(fvo.getMseq());
+		int ficnt=snsdao.snsFollwingCnt(fvo.getMseq());
 		Map<String , Object> map = new HashMap<String , Object>();
 		map.put("cList", clist);
 		map.put("fDetail", fvo);
@@ -37,6 +40,8 @@ public class SnsServiceImpl implements SnsService{
 		map.put("fiList", filist);
 		map.put("hList", hList);
 		map.put("iList", iList);
+		map.put("feCnt", fecnt);
+		map.put("fiCnt", ficnt);
 		
 		return map;
 	}
@@ -74,19 +79,41 @@ public class SnsServiceImpl implements SnsService{
 	@Override
 	public int snsInsertService(SnsFeedVO vo,SnsImgVO ivo) {
 		int res = 0;
+		
+	    //현재 인덱스
+	    int curIdx = 0;
+	    //시작 인덱스
+	    int startIdx = 0;
+	    StringBuffer sb = new StringBuffer();
+	    while (curIdx < vo.getFecon().length()) {
+	        if (vo.getFecon().charAt(curIdx) == '#') {
+	            startIdx = curIdx++;
+	            String tag = vo.getFecon().substring(startIdx, vo.getFecon().length());
+	            // 빈 문자열이 아니면
+	            if ( !tag.isEmpty() ) { 
+	                sb.append(tag);
+	            }
+	        } else {
+	            curIdx++;
+	        }
+	    }
+	   vo.setHtcon(sb.toString());
+	
+		res=snsdao.snsFeedInsert(vo);
+		System.out.println("feed 인서트 입니당-" + res);
+		System.out.println(vo.getFeseq()+"등록된 feseq");
+		ivo.setFeseq(vo.getFeseq());
 		if(vo.getHtcon() != null){
 			res=snsdao.snsHashtagInsert(vo);
 			System.out.println("해시태그 인서트 입니당-" + res);
 		}
-		
-		res=snsdao.snsFeedInsert(vo);
-		System.out.println("feed 인서트 입니당-" + res);
-
 		res = snsdao.snsImgInsert(ivo);
 		System.out.println("image 인서트 입니당-" + res);
 		
 		return res;
 	}
+	    
+	    
 
 	@Override
 	public int snscommentInsert(SnsCommentVO vo) {
@@ -317,9 +344,9 @@ public class SnsServiceImpl implements SnsService{
 	}
 
 	@Override
-	public ArrayList<SnsImgVO> snsImgList(int feseq) {
+	public ArrayList<SnsImgVO> snsImgList() {
 		
-		return snsdao.snsImgList(feseq);
+		return snsdao.snsImgList();
 	}
 
 	@Override
@@ -338,6 +365,18 @@ public class SnsServiceImpl implements SnsService{
 	public SnsImgVO snsImgdetail(int feseq) {
 		
 		return snsdao.snsImgdetail(feseq);
+	}
+
+	@Override
+	public int snsFollwersCnt(int mseq) {
+		// TODO Auto-generated method stub
+		return snsdao.snsFollwersCnt(mseq);
+	}
+
+	@Override
+	public int snsFollwingCnt(int fimseq) {
+		// TODO Auto-generated method stub
+		return snsdao.snsFollwingCnt(fimseq);
 	}
 
 	

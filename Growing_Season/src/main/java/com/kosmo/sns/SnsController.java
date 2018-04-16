@@ -32,7 +32,7 @@ public class SnsController {
 	
 	private int upload_file_max_size=100000000;
 	private String upload_file_format="UTF-8";
-	private String upload_file_dir="C:\\Users\\정규반\\gitGrowing_Season\\Growing_Season\\src\\main\\webapp\\uploads";
+	private String upload_file_dir="C:\\Users\\정규반\\git\\Growing_Season\\Growing_Season\\src\\main\\webapp\\uploads";
 
 	/**
 	 * sns 메인페이지
@@ -41,8 +41,10 @@ public class SnsController {
 	@RequestMapping(value="/snsmain.do")
 	public ModelAndView snsmain() {
 		ModelAndView mav = new ModelAndView();
-		ArrayList<SnsFeedVO> list=service.snsFeedList();
-		mav.addObject("SNS_FEED_LIST", list);
+		ArrayList<SnsImgVO> list=service.snsImgList();
+		
+		System.out.println(list.get(1).getFeimgpath()+"파일경로");
+		mav.addObject("SNS_IMG_LIST", list);
 		mav.setViewName("sns_sns_all_sns_main");
 		return mav;
 	}
@@ -80,8 +82,11 @@ public class SnsController {
 		mav.addObject("SNS_FOLLOWING_LIST", map.get("fiList"));
 		mav.addObject("SNS_COMMENT_LIST", map.get("cList"));
 		mav.addObject("SNS_DETAIL", map.get("fDetail"));
+		mav.addObject("SNS_FOLLOWER_CNT", map.get("feCnt"));
+		mav.addObject("SNS_FOLLOWING_CNT", map.get("fiCnt"));
 		mav.addObject("SNS_COMMENT_PAGING", html);
-		mav.setViewName("sns_sns_user_sns_detail");
+		
+		mav.setViewName("sns/cardtest");
 
 		return mav;
 	}
@@ -94,7 +99,11 @@ public class SnsController {
 	 */
 	@RequestMapping(value="/snsFeedInsert.do")
 	public String snsFeedInsert(SnsFeedVO vo,SnsImgVO ivo) {
+		System.out.println("값이 넘어 와쓰요!!!!!");
+		System.out.println(vo.getFecon()+"넘어온 내용");
+		System.out.println(vo.getFerange()+"넘어온 내용");
 		MultipartFile ufile=ivo.getUfile();
+		
 		if(ufile != null) {
 			String fullPath = upload_file_dir+"\\"+ufile.getOriginalFilename();
 			File newFile = new File(fullPath); //파일생성
@@ -103,8 +112,6 @@ public class SnsController {
 				ivo.setFeimgsize(ufile.getSize());
 				ivo.setFeimgpath(upload_file_dir);
 				ivo.setFeimgname(ufile.getOriginalFilename());
-				int res = service.snsInsertService(vo, ivo);
-				System.out.println(res + "sns,이미지,hash 등록 테스트!!");
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -112,6 +119,8 @@ public class SnsController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			int res = service.snsInsertService(vo, ivo);
+			System.out.println(res + "sns,이미지,hash 등록 테스트!!");
 		}		
 		return "redirect:/snsmain.do";
 	}
@@ -409,15 +418,16 @@ public class SnsController {
 		if (list == null) {
 			//throw new NotFoundException("selectBoardList null");
 		}
+		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("SNS_HASHTAGSERCH_LIST", list);
+		map.put("SNS_HASHTAGSERCH_LIST",list);
 		return map;
 	}
 	
 	@RequestMapping(value = "/snssample.do")
 	public String snssample(){
 		
-		return "sns_sns_admin_sns_sample";
+		return "sns_sns_user_sns_draganddroptest";
 	}
 	
 

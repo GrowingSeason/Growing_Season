@@ -164,7 +164,7 @@ public interface SnsMapper {
 	public SnsFeedVO snsHashtagList(@Param("feseq") int feseq);
 	
 //	feseq에 해당하는 이미지 목록
-	public ArrayList<SnsImgVO> snsImgList(@Param("feseq") int feseq);
+	public ArrayList<SnsImgVO> snsImgList();
 	
 //	신고피드 fedelete값 변경
 	public int snsHashtagdelete(@Param("feseq") int feseq);
@@ -174,4 +174,11 @@ public interface SnsMapper {
 	
 //	feseq에 해당하는 이미지
 	public SnsImgVO snsImgdetail(@Param("feseq")int feseq);
+	
+//	팔로워 수
+	public int snsFollwersCnt(@Param("mseq")int mseq);
+	
+//	팔로잉 수
+	public int snsFollwingCnt(@Param("fimseq")int fimseq);
+	
 }

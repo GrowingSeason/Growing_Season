@@ -25,7 +25,7 @@ select m.mid, m.mname, f.fimseq from member m,following f where m.mseq=f.mseq an
 <select id="snsCommentList" parameterType="int" resultType="com.kosmo.sns.SnsCommentVO">
 <![CDATA[ select rnum,scseq,feseq,sccon,mseq, scdelete, scregdate from 
 ( select rownum rnum,scseq,feseq,sccon,mseq, scdelete, scregdate from 
-(select scseq,feseq,sccon,mseq, scdelete,to_char(scregdate, 'YYYY-MM-DD') from snscomment where feseq=#{feseq} and scdelete='N' order by fdregdate desc))
+(select scseq,feseq,sccon,mseq, scdelete,to_char(scregdate, 'YYYY-MM-DD') as scregdate from snscomment where feseq=#{feseq} and scdelete='N' order by scregdate desc))
  where rnum >= #{sseq} and rnum <= #{eseq} ]]>
 </select>
 
@@ -35,7 +35,10 @@ select count(*) from snslike where feseq=#{feseq}
 
 <insert id="snsFeedInsert" parameterType="com.kosmo.sns.SnsFeedVO">
 insert into snsfeed (feseq,mseq,fecon,feregdate,ferange,fedelete)
-values (#{feseq},#{mseq},#{fecon},sysdate,#{ferange},#{fedelete})
+values (snsfeed_seq.nextval,#{mseq},#{fecon},sysdate,#{ferange},'N')
+<selectKey resultType="integer" keyProperty="feseq" order="AFTER">
+  SELECT snsfeed_seq.currval FROM dual
+</selectKey>
 </insert>
 
 <insert id="snsImgInsert" parameterType="com.kosmo.sns.SnsImgVO">
@@ -45,7 +48,7 @@ values (#{feseq},#{feimgname},#{feimgpath},#{feimgsize})
 
 <insert id="snscommentInsert" parameterType="com.kosmo.sns.SnsCommentVO">
 insert into snscomment (scseq,feseq,sccon,mseq,scregdate,scdelete)
-values (#{scseq},#{feseq},#{sccon},#{mseq},sysdate,'N')
+values (snscomment_seq.nextval,#{feseq},#{sccon},#{mseq},sysdate,'N')
 </insert>
 
 <insert id="snsFollowersInsert" parameterType="com.kosmo.sns.SnsFeedVO">
@@ -60,7 +63,7 @@ values (#{femseq},#{meq})
 
 <insert id="snsHashtagInsert" parameterType="com.kosmo.sns.SnsFeedVO">
 insert into hashtag (htseq,feseq,htcon)
-values (#{htseq},#{feseq},#{htcon})
+values (hashtag_seq.nextval,#{feseq},#{htcon})
 </insert>
 
 <insert id="snscdeclarationInsert" parameterType="com.kosmo.sns.DeclarationVO">
@@ -79,7 +82,7 @@ where feseq=#{feseq}
 </update>
 
 <update id="snsCommentupdate" parameterType="com.kosmo.sns.SnsCommentVO">
-update snsfeed set sccon=#{sccon}, scrange=sysdate
+update snsfeed set sccon=#{sccon}, scregdate=sysdate
 where scseq=#{scseq}
 </update>
 
@@ -118,7 +121,7 @@ update snscomment set scdelete='Y' where scseq=#{scseq}
 </select>
 
 <select id="hashtagSearch" parameterType="map" resultType="com.kosmo.sns.SnsFeedVO">
-select htseq, feseq, htcon from hashtag where htcon like '%' || #{searchStr} || '%'
+select h.htseq, h.feseq, h.htcon, i.feimgname feimgname from hashtag h,snsimage i where h.feseq=i.feseq and htcon like '%' || #{searchStr} || '%'
 </select>
 
 <select id="snsMypage" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
@@ -192,7 +195,7 @@ select htseq,feseq,htcon from hashtag where feseq=#{feseq}
 </select>
 
 <select id="snsImgList" parameterType="int" resultType="com.kosmo.sns.SnsImgVO">
-select feseq,feimgname,feimgpath,feimgsize from snsimage where feseq=#{feseq}
+select feseq,feimgname,feimgpath,feimgsize from snsimage
 </select>
 
 <delete id="snsHashtagdelete" parameterType="int">
@@ -207,5 +210,12 @@ delete from snsimage where mseq=#{mseq}
 select feseq,feimgname,feimgpath,feimgsize from snsimage where feseq=#{feseq}
 </select>
 
+<select id="snsFollwersCnt" parameterType="int" resultType="int">
+select count(*) from followers where mseq=#{mseq}
+</select>
+
+<select id="snsFollwingCnt" parameterType="int" resultType="int">
+select count(*) from following where fimseq=#{fimseq}
+</select>
 
 </mapper>
