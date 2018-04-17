@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.kosmo.member.MemberVO;
+import com.kosmo.payment.PaymentVO;
 
 @Repository("memberdao")
 public interface MemberMapper {
@@ -56,7 +57,28 @@ public interface MemberMapper {
 	 */
 	public MemberVO loginCheck(@Param("mid")String mid, @Param("mpw")String mpw);
 	
-	public int payment(@Param("mseq")int mseq, @Param("apseq")int apseq, @Param("pprice")int pprice, @Param("ppermit")String ppermit);
+	//결제 정보 insert
+	public int paymentInsert(PaymentVO pvo);
 	
-	public boolean memID(@Param("mid")String mid);
+	//결제상태 apply pcode update
+	public int pcodeUpdate(PaymentVO pvo);
+	
+	public int memIDCheck(@Param("mid")String mid);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

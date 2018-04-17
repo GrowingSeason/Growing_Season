@@ -5,126 +5,179 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/css/my.css">
 
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
-function checkValue()
-        {
-            if(!document.userInfo.mid.value){
-                alert("아이디를 입력하세요.");
-                return false;
-            }
-            
-            if(!document.userInfo.mpw.value){
-                alert("비밀번호를 입력하세요.");
-                return false;
-            }
-            
-            // 비밀번호와 비밀번호 확인에 입력된 값이 동일한지 확인
-            if(document.userInfo.mpw.value != document.userInfo.mpwcheck.value ){
-                alert("비밀번호를 동일하게 입력하세요.");
-                return false;
-            }
-        }
-        
-        // 취소 버튼 클릭시 로그인 화면으로 이동
-        function goPage() {
-            location.href="/common.do";
-        }
-     </script>
+// 취소 버튼 클릭시 로그인 화면으로 이동
+function goPage() {
+	location.href="/common.do";
+}
+</script>
 
 <script type="text/javascript">
-$(document).ready(function(){ 
-	$("#id_check").click(function(){//중복체크 아이디 클릭이벤트
-		$.ajax({
-			url:"idcheck.jsp",//아이디 중복체크 할 페이지
-			data:({
-				mid:$("input[name=mid]").val()//파라메터로 userid이름으로 값은 사용자가 입력한 사용자 아이디를 저장
-			}),
-			success:function(data){//중복 확인후의 값은 data로 들어온다.
-				if(jQuery.trim(data)=='YES'){
-					$('#idmessage').html("<font color=red>사용가능 합니다.</font>");
-					$('#idmessage').show();
-					$('input[name=pwd]').focus();//비밀번호 입력칸으로 자동이동
-				}else{
-					$('#idmessage').html("<font color=red>이미 사용중인 아이디입니다.</font>");
-					$('#idmessage').show();
-				}
-			}});
-	});
-});
+//아이디 중복체크 화면open
+function openIdChk(){
+	
+  ///에이작스 위치
+  var userID = $('#Mid').val();
+  if($('#Mid').val() == "") {
+	  alert("아이디를 입력해주세요.");
+  }else {
+  			$.ajax({
+  					type:'POST',
+  					url:'/UserRegisterCheck.do',
+  					data:{mid: userID},
+  					dataType: "json",
+  					success: function(result){
+  						if(result == 0){  							
+  							alert("사용할 수 있는 아이디입니다.");						
+  						}
+  						else{
+  							alert("사용할 수 없는 아이디입니다.");
+  						}
+				
+  					}
+  				
+  			})
+	  
+  }
+
+}
+</script>
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script>
+    function sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var fullAddr = ''; // 최종 주소 변수
+                var extraAddr = ''; // 조합형 주소 변수
+
+                // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    fullAddr = data.roadAddress;
+
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    fullAddr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+                if(data.userSelectedType === 'R'){
+                    //법정동명이 있을 경우 추가한다.
+                    if(data.bname !== ''){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있을 경우 추가한다.
+                    if(data.buildingName !== ''){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample6_postcode').value = data.zonecode; //5자리 새우편번호 사용
+                document.getElementById('sample6_address').value = fullAddr;
+
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById('sample6_address2').focus();
+            }
+        }).open();
+    }
 </script>
 
 </head>
 <body>
 	<h2>회원가입</h2>
 	<hr>
-
-	<form name="myForm" id="myForm" class="myForm"
-		action="/memberInsert.do" enctype="multipart/form-data">
-		<input type="hidden" id="ACTIONSTR" name="ACTIONSTR" value="INSERT">
+	<form name="userInfo" class="myForm" action="/memberInsert.do"
+		enctype="multipart/form-data">
 		<table class="demo-table">
 			<tr>
 				<td id="title">아이디</td>
-				<td><input type="text" name="mid" maxlength="50"> 
-				<input type="button" value="중복검사">
-				<a onclick="window.open('idcheck.jsp','win','width=450,height=200,
-					menubar=no,scrollbars=yes');return false"></a>
-				<div id="idmessage" style="display: none;"></div>
+				<td>
+					<input type="text" name="mid" id="Mid" maxlength="50" required /> 
+					<input class="btn1" onclick="openIdChk()" type="button" value="중복체크"> 
+				</td>
 			</tr>
 
 			<tr>
 				<td id="title">비밀번호</td>
-				<td><input type="password" name="mpw" maxlength="50"></td>
-			</tr>
-
-			<!-- <tr>
-				<td id="title">비밀번호 확인</td>
-				<td><input type="password" name="mpwcheck" maxlength="50">
+				<td>
+					<input type="password" name="mpw" maxlength="50" required>
 				</td>
-			</tr> -->
+			</tr>
 
 			<tr>
 				<td id="title">이름</td>
-				<td><input type="text" name="mname" maxlength="50"></td>
+				<td><input type="text" name="mname" maxlength="20" required></td>
 			</tr>
 
 			<tr>
 				<td id="title">생년월일</td>
-				<td><input type="text" name="mbirth" maxlength="8"></td>
+				<td>
+					<input type="text" name="mbirth" maxlength="8" placeholder="'-'없이 입력해주세요!" required>
+				</td>
 			</tr>
 
 			<tr>
 				<td id="title">성별</td>
-				<td><input type="radio" name="mgender" value="M">남 <input
-					type="radio" name="mgender" value="F">여</td>
+				<td>
+					<input type="radio" name="mgender" value="M">남 
+					<input type="radio" name="mgender" value="F">여
+				</td>
 			</tr>
 
 			<tr>
 				<td id="title">전화번호</td>
-				<td><input type="text" name="mphone" /></td>
+				<td>
+					<input type="text" style="width: 50px" name="mphone" maxlength="4" placeholder="010" required>-
+					<input type="text" style="width: 50px" name="mphone1" maxlength="4" placeholder="1234" required>-
+					<input type="text" style="width: 50px" name="mphone2" maxlength="4" placeholder="1234" required>
+				</td>
 			</tr>
 
 			<tr>
 				<td id="title">주소</td>
-				<td><input type="text" size="50" name="maddress" /></td>
+				<td>
+					<input style="width: 100px" type="text" id="sample6_postcode" placeholder="우편번호"> 
+					<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+					<br>
+					<input style="width: 300px" type="text" id="sample6_address" name="maddress" placeholder="주소" required> 
+					<input style="width: 500px" type="text" id="sample6_address2" name="maddress2" placeholder="상세주소">
+				</td>
 			</tr>
 
 			<tr>
 				<td id="title">이메일</td>
-				<td><input type="text" name="memail" maxlength="50">
+				<td>
+					<input type="text" name="memail" maxlength="50" required> @ <select
+						id="url" name="memail2">
+							<option>naver.com</option>
+							<option>daum.net</option>
+							<option>nate.com</option>
+							<option>gmail.com</option>
+							<option>yahoo.co.kr</option>
+					</select>
+				</td>
 			</tr>
 
 			<tr>
 				<td id="title">메일링 수신여부</td>
-				<td><input type="radio" name="mmailreceive" value="Y" checked>예
-					<input type="radio" name="mmailreceive" value="N">아니오</td>
+				<td>
+					<input type="radio" name="mmailreceive" value="Y" checked>예
+					<input type="radio" name="mmailreceive" value="N">아니오
+				</td>
 			</tr>
 		</table>
-		<br> <input type="submit" value="가입"> <input
-			type="button" value="취소" onclick="goPage()">
+		<br> 
+		<input type="submit" value="가입"> 
+		<input type="button" value="취소" onclick="goPage()">
 	</form>
 
 	<a id="kakao-login-btn"></a>

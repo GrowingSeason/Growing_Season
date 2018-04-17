@@ -5,6 +5,14 @@ public class RDeclarationVO {
 	private String rdreason;
 	private int rdregdate;
 	private int rdmseq;
+	private String rdmid;
+	
+	public String getRdmid() {
+		return rdmid;
+	}
+	public void setRdmid(String rdmid) {
+		this.rdmid = rdmid;
+	}
 	public int getRseq() {
 		return rseq;
 	}

@@ -20,10 +20,16 @@ public class ApplyVO {
 	private String apcancel;
 	private String apdivision;
 	private MemberVO mvo;
-	private DocumentVO dvo;
+	private FarmGardenVO fgvo;
 	private int sseq;
 	private int eseq;
 	
+	public FarmGardenVO getFgvo() {
+		return fgvo;
+	}
+	public void setFgvo(FarmGardenVO fgvo) {
+		this.fgvo = fgvo;
+	}
 	public int getSseq() {
 		return sseq;
 	}
@@ -41,12 +47,6 @@ public class ApplyVO {
 	}
 	public void setMvo(MemberVO mvo) {
 		this.mvo = mvo;
-	}
-	public DocumentVO getDvo() {
-		return dvo;
-	}
-	public void setDvo(DocumentVO dvo) {
-		this.dvo = dvo;
 	}
 	public String getApdivision() {
 		return apdivision;

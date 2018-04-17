@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class KakaoTest4 {
 	
+//	@Autowired
+//	private MemberService service;
+	
 	private HashMap<String, Object> openAPI(OpenVO ovo) {
 		String result = "";
 		HashMap<String, Object> resMap = new HashMap<String, Object>();
@@ -31,8 +34,8 @@ public class KakaoTest4 {
 			conn.setDefaultUseCaches(false);
 			conn.setRequestMethod(ovo.getRequestMethod());
 //			
-				conn.setRequestProperty("Host", ovo.getHost());
-				conn.setRequestProperty("Authorization", ovo.getAuth());
+			conn.setRequestProperty("Host", ovo.getHost());
+			conn.setRequestProperty("Authorization", ovo.getAuth());
 //		
 			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
@@ -83,11 +86,11 @@ public class KakaoTest4 {
 
 	//	파라미터값:cid=TC0ONETIME&partner_order_id=20180410LV50&partner_user_id=COMEALONE&item_name=러브볼50개충전&quantity=1&total_amount=5000&tax_free_amount=5000&vat_amount=0&approval_url=http://localhost/alone/community/kakaopay.jsp&cancel_url=http://localhost/alone/community/kakaopay.jsp&fail_url=http://localhost/alone/community/kakaopay.jsp
 	//	파라미터값:partner_order_id=20180410LV50&quantity=1&vat_amount=0&total_amount=5000&tax_free_amount=5000&partner_user_id=COMEALONE&item_name=러브볼50개충전&approval_url=http://localhost/alone/community/kakaopay.jsp&cancel_url=http://localhost/alone/community/kakaopay.jsp&fail_url=http://localhost/alone/community/kakaopay.jsp&cid=TC0ONETIME&
-	//	
 
+	
 	@RequestMapping(value = "/kakao.do")
 	@ResponseBody
-	public String getCode3(@RequestBody OpenVO ovo) {
+	public String getCode3(@RequestBody OpenVO ovo, @RequestBody PaymentVO pvo) {
 //		OpenVO ovo = new OpenVO();
 		HashMap<String, Object> prm = new HashMap<String, Object>();
 		HashMap<String, Object> resMap = new HashMap<String, Object>();
@@ -102,10 +105,10 @@ public class KakaoTest4 {
 		prm.put("total_amount",+1);//결제금액
 		prm.put("tax_free_amount",+1);//비가세금액
 		prm.put("vat_amount",+0);//부가가치세
-		prm.put("approval_url","http://localhost:5000/payment.do");//결제완료 이동 url
-		prm.put("cancel_url","http://localhost:5000/member/admin_member_list.jsp");//취소버튼 눌렀을때 이동 url
-		prm.put("fail_url","http://localhost:5000/common.do");//결제 실패시 이동 url
-
+		prm.put("approval_url","http://localhost:5004/member/admin_member_list.jsp");//결제완료 이동 url //?price=total_amount"
+		prm.put("cancel_url","http://localhost:5004/member/admin_member_list.jsp");//취소버튼 눌렀을때 이동 url
+		prm.put("fail_url","http://localhost:5004/common.do");//결제 실패시 이동 url
+		
 		ovo.setUrl("https://kapi.kakao.com/v1/payment/ready");
 		ovo.setRequestMethod("POST");
 		ovo.setHost("https://kapi.kakao.com");
@@ -117,6 +120,19 @@ public class KakaoTest4 {
 		resMap = openAPI(ovo);
 		System.out.println(resMap.get("code") + "----" + resMap.get("message"));
 		
+//		//-----------------처리부 3개 (컨트롤러 3개)----------------------
+//		//결제가 성공이면
+//		if(resMap.get("code").toString().equals("200")) {
+//			int mseq = 2; 
+//		
+//			//#{apseq}:, #{pprice}:total_amount, #{ppermit}:'Y'
+//			//신청번호
+//			//
+//			int res = service.paymentInsert(pvo);
+//			System.out.println(res +"건 결제 완료");
+//			
+//		}
+//		
 		return (String) resMap.get("message");
 
 	}

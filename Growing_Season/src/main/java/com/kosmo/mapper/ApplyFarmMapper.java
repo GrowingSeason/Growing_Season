@@ -41,4 +41,5 @@ public interface ApplyFarmMapper {
 	public int farmSmsValidateUpdate(String phoneNumber);
 	public HashMap<String, Object> checkSmsAuthValidate(HashMap<String, String> map);
 	public int farmSmsAuthResultUpdate(int smsseq);
+	public int checkOvertimeSmsAuthValidate(HashMap map);
 }

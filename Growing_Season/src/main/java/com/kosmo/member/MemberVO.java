@@ -4,11 +4,18 @@ public class MemberVO {
 	private int mseq;
 	private String mid;
 	private String mphone;
+	private String mphone1;
+	private String mphone2;
+	
 	private String mpw;
 	private String mname;
 	private String mbirth;
 	private String memail;
+	private String memail2;
+	
 	private String maddress;
+	private String maddress2;
+	
 	private String mgender;
 	private String mmailreceive;
 	private String mgubun;
@@ -31,7 +38,35 @@ public class MemberVO {
 	private int sseq;
 	private int eseq;
 	
-
+	
+	public String getMphone1() {
+		return mphone1;
+	}
+	public void setMphone1(String mphone1) {
+		this.mphone1 = mphone1;
+	}
+	public String getMphone2() {
+		return mphone2;
+	}
+	public void setMphone2(String mphone2) {
+		this.mphone2 = mphone2;
+	}
+	public String getMemail2() {
+		return memail2;
+	}
+	
+	
+	public void setMemail2(String memail2) {
+		this.memail2 = memail2;
+	}
+	
+	public String getMaddress2() {
+		return maddress2;
+	}
+	public void setMaddress2(String maddress2) {
+		this.maddress2 = maddress2;
+	}
+	
 	public String getCurrentPage() {
 		return currentPage;
 	}
