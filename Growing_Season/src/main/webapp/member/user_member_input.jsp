@@ -199,7 +199,7 @@ function openIdChk(){
 			obj.access_token = access_token;
 			
  		 	 $.ajax({
-		 		url : "/kakao.do",
+		 		url : "/kakaoForGarden.do",
 				headers : {
 				'Content-Type' : 'application/json',
 							},

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.kosmo.garden.ApplyGardenVO;
 import com.kosmo.member.MemberVO;
 import com.kosmo.payment.PaymentVO;
 
@@ -58,7 +59,10 @@ public interface MemberMapper {
 	public MemberVO loginCheck(@Param("mid")String mid, @Param("mpw")String mpw);
 	
 	//결제 정보 insert
-	public int paymentInsert(PaymentVO pvo);
+	public int paymentInsertForGarden(PaymentVO pvo);
+	
+	//신청테이블에서 mseq로 정보 가져오기
+	public ApplyGardenVO applyGardenData(int mseq);
 	
 	//결제상태 apply pcode update
 	public int pcodeUpdate(PaymentVO pvo);

@@ -13,6 +13,15 @@
 
 	-->
 	
+	<insert id="paymentInsertForGarden" parameterType="com.kosmo.payment.PaymentVO">
+		insert into paymentlog (pseq,mseq,apseq,pregdate,pprice,ppermit)
+		values(payment_seq.nextval, #{mseq}, #{apseq}, sysdate, #{pprice}, #{ppermit})
+	</insert>
+	
+	<select id="applyGardenData" parameterType="com.kosmo.garden.ApplyGardenVO" resultType="com.kosmo.garden.ApplyGardenVO">
+		select * from apply where mseq=#{mseq}
+	</select>
+	
 	<select id="memIDCheck" parameterType="String" resultType="int">
 		select count(*) from member where mid=#{mid}
 	</select>
@@ -49,11 +58,6 @@
 		insert into member(mseq, mid, mphone, mpw, mname, mbirth, memail, maddress, mgender, mmailreceive, mauth, mauthtoken, mregdate)
 	values(MEMBER_SEQ.NEXTVAL, #{mid}, #{mphone}, #{mpw}, #{mname}, to_date(#{mbirth}, 'YYYY-MM-DD'), #{memail},
  	#{maddress}, #{mgender} , #{mmailreceive}, #{mauth}, #{mauthtoken}, sysdate)
-	</insert>
-	  
-	<insert id="paymentInsert" parameterType="com.kosmo.payment.PaymentVO">
-		insert into paymentlog (pseq,mseq,apseq,pregdate,pprice,ppermit)
-		values(payment_seq.nextval, #{mseq}, #{apseq}, sysdate, #{pprice}, #{ppermit})
 	</insert>
 	
 	<update id="pcodeUpdate" parameterType="com.kosmo.payment.PaymentVO">

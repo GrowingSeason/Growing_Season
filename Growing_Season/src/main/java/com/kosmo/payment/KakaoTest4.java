@@ -10,16 +10,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kosmo.member.MemberService;
+
 @Controller
 public class KakaoTest4 {
 	
-//	@Autowired
-//	private MemberService service;
+	@Autowired
+	private MemberService service;
 	
 	private HashMap<String, Object> openAPI(OpenVO ovo) {
 		String result = "";
@@ -139,43 +142,55 @@ public class KakaoTest4 {
 
 	}
 	
-	/*@RequestMapping(value = "/kakao2.do")
+	@RequestMapping(value = "/kakaoForGarden.do")
 	@ResponseBody
-	public String getCode(@RequestBody OpenVO ovo) {
-//	public String getCode() {
+	public String kakaoForGarden(@RequestBody OpenVO ovo, @RequestBody PaymentVO pvo)
+			//, @RequestBody PaymentVO pvo) 
+			{
 //		OpenVO ovo = new OpenVO();
-		System.out.println("++++++++++++++++++++++++"+ovo.getAccess_token());
 		HashMap<String, Object> prm = new HashMap<String, Object>();
 		HashMap<String, Object> resMap = new HashMap<String, Object>();
-		
+
+//      여기 수정해야되..
 		
 		prm.put("cid","TC0ONETIME");
-		prm.put("partner_order_id","20180410LV5057489s7");
-		prm.put("partner_user_id","COMEALONE");
-		prm.put("item_name","러브볼50개충전");
-		prm.put("quantity",+1);
-		prm.put("total_amount",+5000);
-		prm.put("tax_free_amount",+5000);
-		prm.put("vat_amount",+0);
-		prm.put("approval_url","http://localhost/alone/community/kakaopay.jsp");
-		prm.put("cancel_url","http://localhost/alone/community/kakaopay.jsp");
-		prm.put("fail_url","http://localhost/alone/community/kakaopay.jsp");
-
+		prm.put("partner_order_id","20180410LV5057489s7");//내맘대로 수정
+		prm.put("partner_user_id","TESTPAYMENT");//내맘대로 수정
+		prm.put("item_name","농장 A-41번 자리");//상품이름
+		prm.put("quantity",+2);//수량
+		prm.put("total_amount",+1);//결제금액
+		prm.put("tax_free_amount",+1);//비가세금액
+		prm.put("vat_amount",+0);//부가가치세
+		prm.put("approval_url","http://localhost:5004/member/admin_member_list.jsp");//결제완료 이동 url //?price=total_amount"
+		prm.put("cancel_url","http://localhost:5004/member/admin_member_list.jsp");//취소버튼 눌렀을때 이동 url
+		prm.put("fail_url","http://localhost:5004/common.do");//결제 실패시 이동 url
+		
 		ovo.setUrl("https://kapi.kakao.com/v1/payment/ready");
 		ovo.setRequestMethod("POST");
 		ovo.setHost("https://kapi.kakao.com");
-		
-//		ovo.setAuth("bearer {2IVvorBMCmO2nWR9ecUZ9Jod4DGSzTh6LrWhFgopdkgAAAFirwLtQA}");  //ACCESS_TOKEN
-		ovo.setAuth("bearer {"+ovo.getAccess_token()+"}");  //ACCESS_TOKEN
+//		ovo.setAuth("Bearer {aLzkwoXVVzjlunBCaRe2bRDedh8hk6nKWM1iGAo8BdgAAAFirxCXKA}");  //ACCESS_TOKEN
+		ovo.setAuth("Bearer {"+ovo.getAccess_token()+"}");  //ACCESS_TOKEN
 //		ovo.setAuth("KakaoAK {d17be967963b0f416b148fdb8b4069f9}");
 		ovo.setMap(prm);
 
 		resMap = openAPI(ovo);
 		System.out.println(resMap.get("code") + "----" + resMap.get("message"));
-
-		return "인증성고";
+		
+		//-----------------처리부 3개 (컨트롤러 3개)----------------------
+		//결제가 성공이면
+		if(resMap.get("code").toString().equals("200")) {
+			
+		
+			//#{apseq}:, #{pprice}:total_amount, #{ppermit}:'Y'
+			//신청번호
+			//
+			int res = service.paymentInsertForGarden(pvo); //여기가 아까 만든 서비스를 불러옴
+			System.out.println(res +"건 결제 완료");
+			
+		}
+		
+		return (String) resMap.get("message");
 
 	}
-*/
-
+	
 }
