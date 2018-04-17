@@ -19,7 +19,7 @@
 	<h3>수정하기</h3>
 	<hr>
 	
-	<form name="myForm" class="myForm" id="myForm" action="/memberUpdate.do" method="post">
+	<form name="myForm" class="myForm" id="myForm" action="/member/user/memberUpdate.do" method="post">
 	<input type="hidden" name="mseq" value="${LVL_VO.mseq}">
 	<input type="hidden" name="currentPage" value="${LVL_VO.currentPage}">
 		<table class="demo-table">
@@ -64,7 +64,7 @@
 				</td>
 			</tr>
 		</table>
-		<input type="submit" value="저장!"> 
+		<input type="submit" value="저장"> 
 		<input type="button"
 			value="취소" onclick="goPage()">
 	</form>

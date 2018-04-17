@@ -1,5 +1,7 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <style type="text/css">
 /*     
@@ -8,7 +10,7 @@
 	} 
 	*/
 .modal-login {
-	width: 350px;
+	width: 100%;
 }
 
 .modal-login .modal-content {
@@ -25,11 +27,11 @@
 
 .modal-login h4 {
 	text-align: center;
-	font-size: 26px;
+	font-size: 34px;
 }
 
 .modal-login .form-group {
-	margin-bottom: 20px;
+	margin-bottom: 5%;
 }
 
 .modal-login .form-control, .modal-login .btn {
@@ -49,7 +51,7 @@
 
 .modal-login .hint-text {
 	text-align: center;
-	padding-top: 10px;
+	padding-top: 5%;
 }
 
 .modal-login .close {
@@ -85,28 +87,34 @@
 		}
 </script>
 
+<body>
+<div>나는 로그인페이지아다다다ㅏ아아아아</div>
+<div>
+	<a href="#myModal" class="trigger-btn" data-toggle="modal">Click to Open Login Modal</a>
+</div>
+
 <!-- Modal HTML -->
 <div id="myModal" class="modal fade">
-	<div class="modal-dialog modal-login" style="margin-top: 250px">
+	<div class="modal-dialog modal-login" style="margin-top: 100px">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">LOOOOOGIN</h4>
+				<h4 class="modal-title">로그인</h4>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">×</button>
 			</div>
 			<div class="modal-body">
-				<form id="login" action="/loginCheck.do" method="post">
+				<form id="login" action="/member/user/loginCheck.do" method="post">
 					<div class="form-group">
-						<input type="text" name="mid" id="mid" class="form-control" placeholder="id"
+						<input style="width: 100%" type="text" name="mid" id="mid" class="form-control" placeholder="id"
 							required="required">
 					</div>
 					<div class="form-group">
-						<input type="password" name="mpw" id="mpw" class="form-control"
+						<input style="width: 100%" type="password" name="mpw" id="mpw" class="form-control"
 							placeholder="Password" required="required">
 					</div>
 					<div class="form-group">
 						<input type="button" class="btn btn-primary btn-block btn-lg"
-							value="들어가즈아" onClick="goPage()" >
+							value="로 그 인" onClick="goPage()" >
 					</div>
 				</form>
 				<p class="hint-text small">
@@ -116,3 +124,6 @@
 		</div>
 	</div>
 </div>
+
+</body>
+</html>

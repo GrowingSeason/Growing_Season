@@ -9,7 +9,7 @@
 <body>
 	<h3>상세보기</h3>
 	<hr>
-	<form name="myForm" class="myForm" action="/memberDetail.do"
+	<form name="myForm" class="myForm" action="/member/user/memberDetail.do"
 		enctype="multipart/form-data">
 		<table class="demo-table">
 			<tr>
@@ -49,6 +49,6 @@
 				<td>${LVL_VO.mmailreceive}</td>
 			</tr>
 		</table>
-		<br><a href="/memberUpdateForJSP.do?mseq=${LVL_VO.mseq}&currentPage=${LVL_VO.currentPage}">수정하러 가즈아</a>
+		<br><a href="/member/user/memberUpdateForJSP.do?mseq=${LVL_VO.mseq}&currentPage=${LVL_VO.currentPage}">수정하러 가기</a>
 </body>
 </html>

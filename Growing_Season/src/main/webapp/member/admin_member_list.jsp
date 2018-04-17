@@ -29,14 +29,14 @@
 	<c:forEach items="${LVL_LIST}" var="vo">
 		<tr>
 			<td>${vo.mseq}</td>
-			<td><a href="/memberDetail.do?mseq=${vo.mseq}&currentPage=${LVL_CURRENTPAGE}">${vo.mid}</a></td>
+			<td><a href="/member/user/memberDetail.do?mseq=${vo.mseq}&currentPage=${LVL_CURRENTPAGE}">${vo.mid}</a></td>
 			<td>${vo.mpw}</td>
 			<td>${vo.mbirth}</td>
 			<td>${vo.mname}</td>
 			<td>${vo.mgender}</td>
 			<td>${vo.mphone}</td>
 			<td>${vo.memail}</td>
-			<td><a href="/memberDelete.do?mseq=${vo.mseq}">삭제</a></td>
+			<td><a href="/member/user/memberDelete.do?mseq=${vo.mseq}">삭제</a></td>
 		</tr>
 	</c:forEach>
 	</tbody>
@@ -44,6 +44,6 @@
 <br>
 ${LVL_PAGING}
 <br>
-<a href="/member/user_member_input.jsp">가입페이지</a>
+<a href="/member/user/memberInput.do">가입페이지</a>
 </body>
 </html>

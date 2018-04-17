@@ -26,7 +26,7 @@ function openIdChk(){
   }else {
   			$.ajax({
   					type:'POST',
-  					url:'/UserRegisterCheck.do',
+  					url:'/member/user/UserRegisterCheck.do',
   					data:{mid: userID},
   					dataType: "json",
   					success: function(result){
@@ -95,8 +95,8 @@ function openIdChk(){
 <body>
 	<h2>회원가입</h2>
 	<hr>
-	<form name="userInfo" class="myForm" action="/memberInsert.do"
-		enctype="multipart/form-data">
+	<form name="userInfo" class="myForm" action="/member/user/memberInsert.do"
+		enctype="multipart/form-data" method="POST">
 		<table class="demo-table">
 			<tr>
 				<td id="title">아이디</td>
@@ -160,9 +160,7 @@ function openIdChk(){
 						id="url" name="memail2">
 							<option>naver.com</option>
 							<option>daum.net</option>
-							<option>nate.com</option>
 							<option>gmail.com</option>
-							<option>yahoo.co.kr</option>
 					</select>
 				</td>
 			</tr>
