@@ -59,9 +59,13 @@ public class GardenController {
 
 		MemberVO mvo = service.getMemberInfo(mseq);
 		
+		FarmGardenVO fgvo = service.getFgInfoByFseq(fgseq);
+		System.out.println(fgvo.getFgaddress());
+		mav.addObject("LVL_FGVO",fgvo);
 		mav.addObject("LVL_MVO",mvo);
 		mav.addObject("LVL_FGSEQ", fgseq);
 		mav.addObject("LVL_APDIVISION", apdivision);
+		
 		mav.setViewName("applyGarden_garden_user_applygarden_step2");
 		return mav;
 	}
@@ -134,7 +138,7 @@ public class GardenController {
 		
 		System.out.println("총"+tryNum + "건 업로드");
 		
-		return "forward:/applyGarden/user/applyGarden_complete.do";
+		return "redirect:/applyGarden/user/applyGarden_complete.do";
 	}
 	
 	@RequestMapping(value="/myGarden/user/cancelGarden.do")
@@ -342,10 +346,10 @@ public class GardenController {
 				break;
 			}
 		}
+
 		
 		mav.addObject("LVL_DRETURNCAUSE",dreturnCause);
 		mav.addObject("LVL_DOCURETURN",docuReturn);
-		
 		mav.addObject("LVL_DOCLIST",docList);
 		mav.addObject("LVL_AGVO", avo);
 		mav.addObject("LVL_FGVO",fgvo);

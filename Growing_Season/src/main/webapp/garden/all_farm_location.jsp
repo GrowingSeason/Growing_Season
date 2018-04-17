@@ -191,26 +191,84 @@ $(document).ready(function(){
 
 
 <body>
-	<h1>농장 위치찾기</h1>
 
-	<select name="fgDivision" id="fgDivision" style="width: 80px;"
-		class="select">
-		<option value="미선택">선택하세요</option>
-		<c:forEach items="${LVL_FGDIVLIST}" var="fgdl">
-			<option value="${fgdl}">${fgdl}</option>
-		</c:forEach>
-	</select> 
-	
-	<select name="fgDetailDiv" id="fgDetailDiv" style="width: 80px;">
-	</select> 
-	
-	<select name="fgLocation" id="fgLocation" style="width: 80px;">
-	</select> 
-	
-	<select name="fgName" id="fgName" style="width: 80px;">
-	</select> 
+	<section id="inner-headline">
+      <div class="container">
+        <div class="row">
+          <div class="span4">
+            <div class="inner-heading">
+              <h2>사이드바있는 예제입니다</h2>
+            </div>
+          </div>
+          <div class="span8">            
+          </div>
+        </div>
+      </div>
+    </section>
 
-<h1 id="fgAddress"></h1>
+<section id="content"> <!-- 여기하단부터 수정하시고, 보여주실 화면은 <section id="content"></section> 으로 묶어주셔야 합니다-->
+      <div class="container">
+        <div class="row">
+
+          <div class="span8">
+            <article>
+              <div class="row">
+                <div class="span8">
+                  <select name="fgDivision" id="fgDivision" style="width: 80px;"
+					class="select">
+						<option value="미선택">선택하세요</option>
+							<c:forEach items="${LVL_FGDIVLIST}" var="fgdl">
+								<option value="${fgdl}">${fgdl}</option>
+							</c:forEach>
+			      </select> 
+					
+					<select name="fgDetailDiv" id="fgDetailDiv" style="width: 80px;">
+					</select> 
+					
+					<select name="fgLocation" id="fgLocation" style="width: 80px;">
+					</select> 
+					
+					<select name="fgName" id="fgName" style="width: 80px;">
+					</select> 
+					
+					<h5 id="fgAddress"></h5>
+		                </div>
+		              </div>
+		            </article>
+
+
+
+
+
+
+          </div>
+
+          <div class="span4">
+
+            <aside class="right-sidebar">
+              <div class="widget">
+                <h5 class="widgetheading">다른 메뉴</h5>
+                 <ul class="cat" style="font-size: 18px;">
+                  <li><i class="icon-angle-right"></i> <a href="/"><strong>신청하기</strong></a><span></span></li>
+                  <li><i class="icon-angle-right"></i> <a href="#"><strong>신청현황</strong></a><span></span></li>
+                  <li><i class="icon-angle-right"></i> <a href="#"><strong>게시판</strong></a><span></span></li>
+                  <li><i class="icon-angle-right"></i> <a href="#"><strong>SNS</strong></a><span></span></li>
+                  <li><i class="icon-angle-right"></i> <a href="#"><strong>날씨 정보</strong></a><span></span></li>
+                </ul>
+              </div>
+            </aside>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+
+	
 
 <div align="center">
     <input id="pac-input" class="controls" type="text" value="${LVL_FGDIVLIST}">
