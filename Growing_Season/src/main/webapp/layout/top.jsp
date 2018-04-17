@@ -10,6 +10,8 @@ border:none;
 	font-weight:1000;
 	font-size: 17px; /*세부메뉴 글자크기*/
 	color: black;
+}header ul.nav li a i {
+	color:red;
 }
 
 </style>
