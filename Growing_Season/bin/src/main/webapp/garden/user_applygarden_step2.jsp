@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -36,9 +35,12 @@ input[type=file] {
 	width: 30%;
 	margin-left: 10px;
 	margin-right: 10px;
+
 }
 </style>
 
+<script type="text/javascript" src="./js/jquery-3.1.0.min.js"
+	charset="utf-8"></script>
 <script type="text/javascript">
 	// 이미지 정보들을 담을 배열
 	var sel_files = [];
@@ -46,6 +48,8 @@ input[type=file] {
 	$(document).ready(function() {
 		$("#input_imgs").on("change", handleImgFileSelect);
 	});
+
+	
 
 	function handleImgFileSelect(e) {
 
@@ -102,10 +106,6 @@ input[type=file] {
 		$("#input_imgs").trigger('click');
 	}
 
-	
-	
-	
-	
 </script>
 
 
@@ -113,23 +113,22 @@ input[type=file] {
 
 </head>
 <body>
-<H1>${LVL_APDIVISION}</H1>
 	<div id="all" style="width: 80%; margin-bottom: 500px;">
-		<form action="/applyGarden/user/documentInsert.do"
-			enctype="multipart/form-data" method="post">
-		
-		
-			<input type="hidden" name="mseq" value="${LVL_SESS_MSEQ}">
-			<!--  -->
-			<input type="hidden" name="fgseq" value="${LVL_FGSEQ}">
-			<input type="hidden" name="apname" value="${LVL_MVO.mname}">
-			<input type="hidden" name="apphone" value="${LVL_MVO.mphone}">
-			<input type="hidden" name="apemail" value="${LVL_MVO.memail}">
-			<input type="hidden" name="apbirth" value="${LVL_MVO.mbirth}">
-			<input type="hidden" name="apdivision" value="${LVL_APDIVISION}">
-			<!--  -->
-
-			<input id="input_imgs" multiple="multiple" type="file" name="files" />
+		<form action="/applyGarden/user/documentInsert.do" enctype="multipart/form-data"
+			method="post">
+			
+			
+			<input type="hidden" name="mseq" value="50">  <!--  -->
+			<input type="hidden" name="apname" value="sessionName"> 
+			<input type="hidden" name="apphone" value="010-1234-1234">
+			<input type="hidden" name="apemail" value="session@s.com">
+			<input type="hidden" name="apbirth" value="50/01/01"> <!--  -->
+	
+			<input type="hidden" name="dseq" value="1"> 
+			<input type="hidden" name="apseq" value="1"> 
+			<input type="hidden" name="dname" value="dd"> 			
+			
+			<input id="input_imgs" multiple="multiple" type="file" name="files"/>
 			<table>
 				<tr>
 					<td>
@@ -139,15 +138,24 @@ input[type=file] {
 						</div>
 					</td>
 				</tr>
-								
+				<tr align="center" style="width: 200px;"><h1>신청유형</h1></td>
+					<td align="center" style="width: 500px;">
+
+						<h3>
+							<input type="radio" name="apdivision" value="실버" checked>실버
+							<input type="radio" name="apdivision" value="다둥이">다둥이
+							<input type="radio" name="apdivision" value="다문화">다문화
+						</h3>
+
+					</td>
+				</tr>
 				<tr>
 					<td>
 						<div>
 							<div class="imgs_wrap" style="width: 100%"></div>
 						</div>
 					</td>
-				</tr>
-
+				</tr>         
 				<tr>
 					<td>
 						<div class="input_wrap">

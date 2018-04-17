@@ -90,9 +90,15 @@ public class KakaoTest4 {
 	
 	@RequestMapping(value = "/kakao.do")
 	@ResponseBody
+<<<<<<< HEAD
 	public String getCode3(@RequestBody OpenVO ovo
 			//, @RequestBody PaymentVO pvo
 			) {
+=======
+	public String getCode3(@RequestBody OpenVO ovo)
+			//, @RequestBody PaymentVO pvo) 
+			{
+>>>>>>> refs/heads/work_space
 //		OpenVO ovo = new OpenVO();
 		HashMap<String, Object> prm = new HashMap<String, Object>();
 		HashMap<String, Object> resMap = new HashMap<String, Object>();
@@ -130,7 +136,7 @@ public class KakaoTest4 {
 //			//#{apseq}:, #{pprice}:total_amount, #{ppermit}:'Y'
 //			//신청번호
 //			//
-//			int res = service.paymentInsert(pvo);
+//			int res = service.paymentInsert(pvo, mvo); 여기가 아까 만든 서비스를 불러옴
 //			System.out.println(res +"건 결제 완료");
 //			
 //		}

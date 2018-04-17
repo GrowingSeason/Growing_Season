@@ -28,7 +28,7 @@ public class MemberController { //extends MultiActionController {
 	//		this.service = service;
 	//	}
 
-	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/member/admin/memberList.do", method = RequestMethod.GET)
 	public ModelAndView list(HttpServletRequest request, MemberVO vo)
 	{
 
@@ -68,8 +68,17 @@ public class MemberController { //extends MultiActionController {
 		mav.setViewName("member_member_admin_member_list");
 		return mav;
 	}
-
-	@RequestMapping(value = "/memberInsert.do", method = RequestMethod.GET)
+	
+	@RequestMapping(value = "/member/user/memberInput.do", method = RequestMethod.GET)
+	public ModelAndView memberInput()
+	{
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("member_member_user_member_input");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/member/user/memberInsert.do", method = RequestMethod.GET)
 	public ModelAndView memberInsert(MemberVO vo)
 			throws IOException
 	{
@@ -85,7 +94,7 @@ public class MemberController { //extends MultiActionController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/memberDetail.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/member/user/memberDetail.do", method = RequestMethod.GET)
 	public ModelAndView memberDetail(MemberVO vo)
 	{
 		String temp = vo.getCurrentPage();
@@ -100,7 +109,7 @@ public class MemberController { //extends MultiActionController {
 		return mav;
 	} 
 
-	@RequestMapping(value = "/memberUpdateForJSP.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/member/user/memberUpdateForJSP.do", method = RequestMethod.GET)
 	public ModelAndView memberUpdateForJSP(MemberVO vo)
 	{
 		String temp = vo.getCurrentPage();
@@ -113,38 +122,30 @@ public class MemberController { //extends MultiActionController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/memberUpdate.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/member/user/memberUpdate.do", method = RequestMethod.POST)
 	public String memberUpdate(MemberVO vo)
 	{
 		
 		int res = service.memberUpdate(vo);
 
-		return "redirect:/list.do?currentPage="+vo.getCurrentPage();
+		return "redirect:/member/admin/memberList.do?currentPage="+vo.getCurrentPage();
 	}
 
-	@RequestMapping(value = "/memberDelete.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/member/user/memberDelete.do", method = RequestMethod.GET)
 	public String delete(MemberVO vo)
 	{
 		//DB에 게시물 지우기
 		int res = service.memberDelete(vo.getMseq());
 		System.out.println(res + "건 삭제");
 		if(res > 0) {
-			return "redirect:/list.do";
+			return "redirect:/member/admin/memberList.do";
 
 		}else {
-			return "redirect:/detail.do?mseq="+vo.getMseq();
+			return "redirect:/member/user/memberDetail.do?mseq="+vo.getMseq();
 		}
 	}
 
-	@RequestMapping(value = "/memberLoginTest.do", method = RequestMethod.GET)
-	public ModelAndView memberLoginTest(){
-
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("member_member_user_member_loginTest");
-		return mav;
-	}
-
-	@RequestMapping(value = "/loginCheck.do")
+	@RequestMapping(value = "/member/user/loginCheck.do")
 	public ModelAndView loginCheck(@RequestParam("mid") String mid
 			,@RequestParam("mpw") String mpw
 			,HttpServletRequest request){
@@ -191,7 +192,7 @@ public class MemberController { //extends MultiActionController {
 //		return "redirect:/common.do";
 //	}
 	
-	@RequestMapping(value = "/UserRegisterCheck.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/member/user/UserRegisterCheck.do", method = RequestMethod.POST)
 	public ResponseEntity<Integer> UserRegisterCheck(
 			@RequestParam String mid
 			) throws Exception {
