@@ -94,8 +94,8 @@
 </div>
 
 <!-- Modal HTML -->
-<div id="myModal" class="modal fade">
-	<div class="modal-dialog modal-login" style="margin-top: 0px">
+<div id="myModal" class="modal fade" style="margin-top: 13%;">
+	<div class="modal-dialog modal-login">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">로그인</h4>

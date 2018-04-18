@@ -1,34 +1,51 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<section id="inner-headline">
+	<div class="container">
+		<div class="row">
+			<div class="span12">
+				<div class="inner-heading">
+					<h2>
+						<font color="#008000">회원 정보 수정하기</font>
+					</h2>
+				</div>
+			</div>
+			<div class="span8"></div>
+		</div>
+	</div>
+</section>
 <style>
 #page-wrap {
 	margin: 50px;
 }
+
 p {
-	margin: 20px 0; 
+	margin: 20px 0;
 }
 
-	/* 
+/* 
 	Generic Styling, for Desktops/Laptops 
 	*/
-	table { 
-		width: 100%; 
-		border-collapse: collapse; 
-	}
-	/* Zebra striping */
-	tr:nth-of-type(odd) { 
-		background: #eee; 
-	}
-	th { 
-		background: #333; 
-		color: white; 
-		font-weight: bold; 
-	}
-	td, th { 
-		padding: 6px; 
-		border: 1px solid #ccc; 
-		text-align: left; 
-	}
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+/* Zebra striping */
+tr:nth-of-type(odd) {
+	background: #eee;
+}
+
+th {
+	background: #333;
+	color: white;
+	font-weight: bold;
+}
+
+td, th {
+	padding: 6px;
+	border: 1px solid #ccc;
+	text-align: left;
+}
 </style>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -88,72 +105,77 @@ p {
 				}).open();
 	}
 </script>
-
 </head>
-<body>
-	<h2>수정하기</h2>
-	<hr>
-	
-	<form name="myForm" class="myForm" id="myForm" action="/member/user/memberUpdate.do" method="post">
-	<input type="hidden" name="mseq" value="${LVL_VO.mseq}">
-	<input type="hidden" name="currentPage" value="${LVL_VO.currentPage}">
-		<table class="page-wrap">
-			<tr>
-				<td id="title">아이디</td>
-				<td>${LVL_VO.mid}</td>
-			</tr>
-			<tr>
-				<td id="title">비밀번호</td>
-				<td><input type="password" name="mpw" value="${LVL_VO.mpw}"></td>
-			</tr>
-			<tr>
-				<td id="title">이름</td>
-				<td><input type="text" name="mname" value="${LVL_VO.mname}"></td>
-			</tr>
-			<tr>
-				<td id="title">생년월일</td>
-				<td>${LVL_VO.mbirth}</td>
-			</tr>
-			<tr>
-				<td id="title">성별</td>
-				<td>${LVL_VO.mgender}</td>
-			</tr>
-			<tr>
-				<td id="title">전화번호</td>
-				<td><input type="text" name="mphone" value="${LVL_VO.mphone}"></td>
-			</tr>
-			<tr>
-				<td id="title">주소</td>
-				<td>
-					<input style="width: 100px" type="text" id="sample6_postcode"
-						placeholder="우편번호"> 
-					<input class="aqua_btn" type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-					<input type="text" id="sample6_address" name="maddress" placeholder="주소" style="width:370px;" required><br>
-					<input type="text" id="sample6_address2" name="maddress2" placeholder="상세주소" style="width:370px;" required>
-				</td>
-			</tr>
-			<tr>
-				<td id="title">이메일</td>
-				<td>
-					<input type="text" name="memail" maxlength="50" required> @ 
-					<select id="url" name="memail2">
-						<option>naver.com</option>
-						<option>daum.net</option>
-						<option>gmail.com</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td id="title">메일링 수신여부</td>
-				<td>
-					<input type="radio" name="mmailreceive" value="Y" checked>예
-					<input type="radio" name="mmailreceive" value="N">아니오</td>
-				</td>
-			</tr>
-		</table>
-		<input type="submit" value="저장"> 
-		<input type="button"
-			value="취소" onclick="goPage()">
-	</form>
-</body>
+<section id="content">
+	<div class="container">
+		<div class="row">
+			<div class="span12">
+				<body>
+					<form name="myForm" class="myForm" id="myForm"
+						action="/member/user/memberUpdate.do" method="post">
+						<input type="hidden" name="mseq" value="${LVL_VO.mseq}"> <input
+							type="hidden" name="currentPage" value="${LVL_VO.currentPage}">
+						<table class="page-wrap">
+							<tr>
+								<td id="title">아이디</td>
+								<td>${LVL_VO.mid}</td>
+							</tr>
+							<tr>
+								<td id="title">비밀번호</td>
+								<td><input type="password" name="mpw" value="${LVL_VO.mpw}"></td>
+							</tr>
+							<tr>
+								<td id="title">이름</td>
+								<td><input type="text" name="mname" value="${LVL_VO.mname}"></td>
+							</tr>
+							<tr>
+								<td id="title">생년월일</td>
+								<td>${LVL_VO.mbirth}</td>
+							</tr>
+							<tr>
+								<td id="title">성별</td>
+								<td>${LVL_VO.mgender}</td>
+							</tr>
+							<tr>
+								<td id="title">전화번호</td>
+								<td>
+									<input type="text" name="mphone" value="${LVL_VO.mphone}">
+								</td>
+							</tr>
+							<tr>
+								<td id="title">주소</td>
+								<td><input style="width: 100px" type="text" id="sample6_postcode" placeholder="우편번호"> 
+									<input class="aqua_btn" type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+									<br>
+									<input type="text" id="sample6_address" name="maddress"placeholder="주소" style="width: 370px;" required>
+									<br>
+									<input type="text" id="sample6_address2" name="maddress2" placeholder="상세주소" style="width: 370px;" required>
+								</td>
+							</tr>
+							<tr>
+								<td id="title">이메일</td>
+								<td>
+									<input type="text" name="memail" maxlength="50" required> @
+									<select id="url" name="memail2">
+											<option>naver.com</option>
+											<option>daum.net</option>
+											<option>gmail.com</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td id="title">메일링 수신여부</td>
+								<td>
+									<input type="radio" name="mmailreceive" value="Y" checked>예 
+									<input type="radio" name="mmailreceive" value="N">아니오
+								</td>
+							</tr>
+						</table>
+						<input type="submit" value="저장"> <input type="button" value="취소" onclick="goPage()">
+					</form>
+				</body>
+			</div>
+		</div>
+	</div>
+</section>
 </html>

@@ -1,6 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<section id="inner-headline">
+   <div class="container">
+      <div class="row">
+         <div class="span12">
+            <div class="inner-heading">
+               <h2><font color="#008000">회원 리스트</font></h2>
+            </div>
+         </div>
+         <div class="span8"></div>
+      </div>
+   </div>
+</section>
 <style>
 #page-wrap {
 	margin: 50px;
@@ -8,7 +19,6 @@
 p {
 	margin: 20px 0; 
 }
-
 	/* 
 	Generic Styling, for Desktops/Laptops 
 	*/
@@ -37,9 +47,14 @@ p {
 	<title>Insert title here</title>
 	<link rel="stylesheet" href="/css/my.css">
 </head>
+<section id="content">
+   <div class="container">
+      <div class="row">
+         <div class="span12">
 <body>
-<h2>회원 리스트</h2><hr>
 총 회원수 : ${LVL_COUNT} 명 <br>
+
+
 <table class="page-wrap">
 	<thead>
 		<tr>
@@ -69,10 +84,17 @@ p {
 		</tr>
 	</c:forEach>
 	</tbody>
+	
 </table>
-<br>
-${LVL_PAGING}
-<br>
+<div align="center">
+                  <ul class="pagination">
+                     ${LVL_PAGING}
+                  </ul>
+            </div>
 <a href="/member/user/memberInput.do">가입페이지</a>
 </body>
+</div>
+	</div>
+	</div>
+	</section>
 </html>

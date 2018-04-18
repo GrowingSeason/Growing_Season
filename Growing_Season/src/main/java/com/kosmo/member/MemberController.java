@@ -29,24 +29,21 @@ public class MemberController { //extends MultiActionController {
 	//		this.service = service;
 	//	}
 
+	//관리자는 회원의 리스트를 보기 위해 지나가는 컨트롤러
 	@RequestMapping(value = "/member/admin/memberList.do", method = RequestMethod.GET)
-	public ModelAndView list(HttpServletRequest request, MemberVO vo)
+	public ModelAndView list(MemberVO vo,@RequestParam (value="currentPage", required=false, defaultValue="1" )int currentPage)
 	{
 
-		int currentPage = 1;
-
-
-		if(request.getParameter("currentPage") != null) {
-			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		}
+//		if(request.getParameter("currentPage") != null) {
+//			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+//		}
 
 		//BoardDAO impl = new BoardDAO();
 		int totalCount = service.memberCount();
 
-
 		//------------페이징
 		PagingUtil pu
-		= new PagingUtil("/list.do?"
+		= new PagingUtil("/member/admin/memberList.do"
 				, currentPage
 				, totalCount  //------------
 				, 5	//선택한 2번 블럭에 나타날 게시물 갯수
@@ -69,17 +66,17 @@ public class MemberController { //extends MultiActionController {
 		mav.setViewName("member_member_admin_member_list");
 		return mav;
 	}
-	
+
 	//회원이 회원가입 화면을 가기위해 들어오는 컨트롤러
 	@RequestMapping(value = "/member/user/memberInput.do", method = RequestMethod.GET)
 	public ModelAndView memberInput()
 	{
 		ModelAndView mav = new ModelAndView();
-		
+
 		mav.setViewName("member_member_user_member_input");
 		return mav;
 	}
-	
+
 	//회원가입을 했을때 db에 insert를 위하여 들어오는 컨트롤러
 	@RequestMapping(value = "/member/user/memberInsert.do", method = RequestMethod.GET)
 	public ModelAndView memberInsert(MemberVO vo)
@@ -88,7 +85,7 @@ public class MemberController { //extends MultiActionController {
 		vo.setMaddress(vo.getMaddress() + " " + vo.getMaddress2());
 		vo.setMemail(vo.getMemail()+"@"+vo.getMemail2());
 		vo.setMphone(vo.getMphone()+vo.getMphone1()+vo.getMphone2());
-		
+
 		int res = service.memberInsert(vo);
 		System.out.println(res + "건 정보 입력");
 
@@ -132,7 +129,7 @@ public class MemberController { //extends MultiActionController {
 	public String memberUpdate(MemberVO vo)
 	{
 		vo.setMemail(vo.getMemail()+"@"+vo.getMemail2());
-		
+
 		int res = service.memberUpdate(vo);
 
 		return "redirect:/member/admin/memberList.do?currentPage="+vo.getCurrentPage();
@@ -153,6 +150,19 @@ public class MemberController { //extends MultiActionController {
 		}
 	}
 
+	//loginmodal.jsp로 보내기 위한 컨트롤러
+	@RequestMapping(value = "/member/user/memberLoginForJSP.do", method = RequestMethod.GET)
+	public ModelAndView memberLoginForJSP()
+	{
+		
+		ModelAndView mav = new ModelAndView();
+		//mav.addObject("LVL_VO", vo);
+		mav.setViewName("member_member_user_member_loginmodal");
+
+		return mav;
+	}
+
+	//로그인 할때 id 와 pw를 비교하여 로그인시킨후 보내는 페이지를 지정함. 
 	@RequestMapping(value = "/member/user/loginCheck.do")
 	public ModelAndView loginCheck(@RequestParam("mid") String mid
 			,@RequestParam("mpw") String mpw
@@ -162,39 +172,42 @@ public class MemberController { //extends MultiActionController {
 		vo = service.loginCheck(mid, mpw);
 		ModelAndView mav = new ModelAndView();
 		if(vo != null){
-			
+
+			System.out.println("나는 로그인했다.");
 			HttpSession session = request.getSession();
 			session.setAttribute("LVL_SESS_MSEQ", vo.getMseq());
 			session.setAttribute("LVL_SESS_GUBUN", vo.getMgubun());
 			session.setAttribute("LVL_SESS_MNAME", vo.getMname());
-			
+
 			mav.addObject("LVL_VO", vo);
 			mav.setViewName("member_member_admin_member_list");
-			
+
 			return mav;
 		}else{
+			
+			System.out.println("로그인 못해따");
 			mav.setViewName("member_member_user_member_input");
 			return mav;
 		}
 	}
-	
+
 	//---------------- TODO
-//	/*
-//	@RequestMapping(value = "/paymentSelect.do", method = RequestMethod.POST)
-//	public ModelAndView paymentSelect(PaymentVO pvo, HttpServletRequest request){
-//		//입력양식 폼 값을 가지고 카카오 제공 결제 페이지로 이동
-//		//해당 페이지에서는 pvo 값들을 hidden으로 가지고 kakao.do로 이동
-//		
-//		
-//		ModelAndView mav = new ModelAndView();
-//		mav.addObject("LVL_VO", pvo);
-//		//카카오에서 제공하는 결제 jsp 페이지
-//		mav.setViewName("카카오에서 제공하는 결제 jsp 페이지");
-//		
-//		return mav;
-//	}
-//	*/
-	
+	//	/*
+	//	@RequestMapping(value = "/paymentSelect.do", method = RequestMethod.POST)
+	//	public ModelAndView paymentSelect(PaymentVO pvo, HttpServletRequest request){
+	//		//입력양식 폼 값을 가지고 카카오 제공 결제 페이지로 이동
+	//		//해당 페이지에서는 pvo 값들을 hidden으로 가지고 kakao.do로 이동
+	//		
+	//		
+	//		ModelAndView mav = new ModelAndView();
+	//		mav.addObject("LVL_VO", pvo);
+	//		//카카오에서 제공하는 결제 jsp 페이지
+	//		mav.setViewName("카카오에서 제공하는 결제 jsp 페이지");
+	//		
+	//		return mav;
+	//	}
+	//	*/
+
 	@RequestMapping(value = "/member/user/paymentForGarden.do", method = RequestMethod.GET)
 	public ModelAndView paymentForGarden(PaymentVO pvo, HttpSession session){
 		//pvo.getPrice()금액이 결제 되었습니다. 라는 문구를 가진 jsp로 단순 이동...
@@ -202,33 +215,33 @@ public class MemberController { //extends MultiActionController {
 		//int mseq1 = (Integer) session.getAttribute("LVL_SESS_MSEQ");
 		//int apseq = 42;
 		String year = "2018";
-		
+
 		String pprice = "10";
-		
+
 		pvo.setMseq(mseq);
 		//pvo.setApseq(apseq);
 		pvo.setPprice(pprice);
-		
+
 		//pvo.setPprice(Integer.parseInt(total_amount));
-		
+
 		int res = service.paymentInsertForGarden(pvo, year);
-		
+
 		System.out.println(res +"건 insert 및 pcode update완료ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
-		
+
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("member_member_user_payment_success");
-		
+
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/member/user/UserRegisterCheck.do", method = RequestMethod.POST)
 	public ResponseEntity<Integer> UserRegisterCheck(
 			@RequestParam String mid
 			) throws Exception {
 		int idCount  = service.memIDCheck(mid);
-		
+
 		return new ResponseEntity<Integer>(idCount, HttpStatus.OK);
 	}
-	
-	
+
+
 }
