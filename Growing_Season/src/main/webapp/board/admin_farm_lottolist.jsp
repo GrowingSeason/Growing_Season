@@ -22,14 +22,18 @@
 <script>
 	
 </script>
+<section id="content"> 
 <div class="typo">
 	<!---728x90--->
 	<div class="container">
 
 		<div class="page-header">
-			<h3 class="bars">텃밭 신청자 리스트   신청서 : ${LVL_COUNT}개</h3>
+			<h3 class="bars">텃밭 당첨자 리스트   당첨자 수 : ${LVL_COUNT}명</h3>
 		</div>
-
+		<div style="padding:5px;">
+			<input type="button" class="btn btn-default" value="신청서 리스트" onClick="location.href='/alist.do'">
+		</div>
+		<br>
 		<div class="bs-docs-example">
 			<table class="table table-bordered">
 				<thead>
@@ -63,11 +67,14 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="newsletter" style="height:50px;">
-		${LVL_PAGING}
-		</div>
-		<div class="newsletter">
-			<input type="button" id="lotto" style="width:60pt; height:30pt; color:black;" value="추첨하기" onClick="location.href='/lotto.do'">
+		<div align="center">
+			<ul class="pagination">
+				${LVL_PAGING}
+			</ul>
 		</div>
 	</div>
 </div>
+</section>
+<script>
+	
+</script>

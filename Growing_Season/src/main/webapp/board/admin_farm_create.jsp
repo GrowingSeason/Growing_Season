@@ -11,150 +11,142 @@
       display:inline-table;
       margin: 5px 5px 5px 5px;
       cursor:pointer;
-    }
+  }
 </style>
-
-	<br/>
-		<div class="col-md-6">
-			<h1 id="h1.-bootstrap-heading">친환경농장관리생성</h1>
+ <section id="inner-headline">
+   <div class="container">
+     <div class="row">
+       <div class="span4">
+         <div class="inner-heading">
+         </div>
+       </div>
+       <div class="span8">            
+       </div>
+     </div>
+   </div>
+ </section>
+ 
+ <section id="content"> <!-- 여기하단부터 수정하시고, 보여주실 화면은 <section id="content"></section> 으로 묶어주셔야 합니다-->
+    <div class="container">
+	<br>
+		<div class="span6">
+			<h1 id="h1.-bootstrap-heading">친환경농장생성</h1>
 		</div>
-	<br/>
-	<br/>
-	<br/>
-	<br/>
-	<br/>
-	<div class="total" style="border:1px solid black; float:left; margin:10px; width:100%; height:100%;">
-		<div class="left" style="text-align:center; border:1px solid blue; float:left; margin:10px; width:400px; height:600px;">
-		<form class="qwer" action="/farminsert.do" method="post">
-			<div class="row">
-				<div class="col-md-6" style="float:left;">
-					<select class="form-control" id="division" name="fgdivision" style="width:150px">
-						<option value="">선택해주세요</option>
-						<option value="텃밭">텃밭</option>
-						<option value="농장">농장</option>
-					</select>
-				</div>
-				<div class="col-md-6">
-					<select class="form-control" id="detaildiv" name="fgdetaildiv" style="width:150px">
-					
-					</select>
-				</div>
-			<br/>
-			<br/>
-			<br/>
-			<br/>
-				<div class="col-md-4">
-					<div  style="float:right;">
-						지역
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="row">
+		<div class="left" style="border:3px solid black; text-align:center; float:left; margin:10px; width:500px; height:600px; ">
+		
+		<form class="ins" action="/farminsert.do" method="post">
+			<div class="row" >
+				<br>
+				<br>
+				
+				<div class="span6">
+					<div class="span2">
+						<select class="form-control" id="division" name="fgdivision" style="width:150px">
+							<option value="">선택해주세요</option>
+							<option value="텃밭">텃밭</option>
+							<option value="농장">농장</option>
+						</select>
+					</div>
+					<div class="span2">
+						<select class="form-control" id="detaildiv" name="fgdetaildiv" style="width:150px">
+						</select>
 					</div>
 				</div>
-				<div class="col-md-8">
-					<div style="float:left;">
-						<input type="text" name="fglocation">
-					</div>
+			</div>
+			<br>
+			<div class="span6">
+				<div class="span1">
+					지역
+				</div>
+				<div class="span3">
+					<input type="text" name="fglocation">
 				</div>
 			</div>
 			
-			<div class="row">
-				<div class="col-md-4">
-					<div  style="float:right;">
-						농장이름
-					</div>
+			<div class="span6">
+				<div class="span1">
+					농장이름
 				</div>
-				<div class="col-md-8">
-					<div style="float:left;">
-						<input type="text" name="fgname">
-					</div>
+				<div class="span3">
+					<input type="text" name="fgname">
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-4">
-					<div style="float:right;">
-						농장주소
-					</div>
+			
+			<div class="span6">
+				<div class="span1">
+					농장주소
 				</div>
-				<div class="col-md-8">
-					<div style="float:left;">
-						<input type="text" name="fgaddress">
-					</div>
+				<div class="span3">
+					<input type="text" name="fgaddress">
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-4">
-					<div style="float:right;">
-						관리인명
-					</div>
+			
+			<div class="span6">
+				<div class="span1">
+					관리인명
 				</div>
-				<div class="col-md-8">
-					<div style="float:left;">
-						<input type="text" name="fgmanager">
-					</div>
+				<div class="span3">
+					<input type="text" name="fgmanager">
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-4">
-					<div style="float:right;">
-						관리인 연락처
-					</div>
+			<div class="span6">
+				<div class="span1">
+					관리인 연락처
 				</div>
-				<div class="col-md-8">
-					<div style="float:left;">
-						<input type="text" name="fgphone">
-					</div>
+				<div class="span3">
+					<input type="text" name="fgphone">
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-4">
-					<div style="float:right;">
-						농장특징
-					</div>
+			<div class="span6">
+				<div class="span1">
+					농장특징
 				</div>
-				<div class="col-md-8">
-					<div style="float:left;">
-						<input type="text" name="fgfeature">
-					</div>
+				<div class="span3">
+					<input type="text" name="fgfeature">
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-4">
-					<div style="float:right;">
-						찾아가는길
-					</div>
+			<div class="span6">
+				<div class="span1">
+					찾아가는길
 				</div>
-				<div class="col-md-8">
-					<div style="float:left;" >
-						<input type="text" name="fgguide" style="width:200px; height:100px;">
-					</div>
+				<div class="span3">
+					<input type="text" name="fgguide" style="width:200px; height:100px;">
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-2" >
-					<div style="width:40px">
+			<div class="span6" style="width: 100%; text-align:center; margin: 0%;">
+				<div class="span1" style="width: 20%; margin-left: 0px;">
+					<div>
 						농장
 					</div>
 				</div>
-				<div class="col-md-2" >
-					<div id="dadmin" >
+				<div class="span1" style="width: 10%; margin-left: 0px;">
+					<div>
 						<input type="text" id="row" name="fgrow" style="width:40px">
 					</div>
 				</div>
-				<div class="col-md-2">
-					<div style="width:40px">
+				<div class="span1" style="width: 20%; margin-left: 0px;">
+					<div>
 						행 
 					</div>
 				</div>
-				<div class="col-md-2">
-					<div id="dadmin" >
+				<div class="span1" style="width: 10%; margin-left: 0px;">
+					<div>
 						<input type="text" id="col" name="fgcol" style="width:40px">
 					</div>
 				</div>
-				<div class="col-md-2"> 
-					<div style="width:40px">
+				<div class="span1" style="width: 20%; margin-left: 0px;">
+					<div>
 						열 총 
 					</div>
 				</div>
-				<div class="col-md-2">
-					<div id="dadmin" >
+				<div class="span1" style="width: 10%; margin-left: 0px;">
+					<div>
 						<input type="text" id="total" name="fgtotalarea" style="width:40px">
 					</div>
 				</div>
@@ -167,29 +159,28 @@
 			<br/>
 			
 			<div class="row">
-				<div class="col-md-6">
+				<div class="span6" style="width: 100%;margin-left: 0px;">
 					<div>
-						<input type="button" id="insert" style="width:60pt; height:30pt; color:black" value="농장생성" >
+						<input type="button" class="btn btn-success" id="insert" style="width:60pt; height:30pt; color:black" value="농장생성" >
+						<input type="button" class="btn btn-success" id="cancel" style="width: 60pt; height: 30pt; color: black" value="취소" onClick="location.href='/manager.do'">
 					</div>
 				</div>
-				<div class="col-md-6">
-				<div>
-					<input type="button" id="cancel" style="width: 60pt; height: 30pt; color: black" value="취소">
-				</div>
-			</div>
+				
 			</div>
 			
 	
 			
 		</div>
-		<div class="right" style="border:1px solid red; float:left; margin:10px; width:805px; height:600px;">
+		<div class="right" style="border:3px solid black; float:left; margin:10px; width:640px; height:600px;">
 			<div style="text-align:center; margin:10px">
-				<div class="farm">
+				<div class="farm" style="height:570px; overflow:auto;">
 				
 				</div>
 			</div>
 		</div>
 	</div>
+	</div>
+</section>
 
 <script>
 		/* var r;
@@ -204,7 +195,7 @@
 		var area = 1;
 		
 		$('#insert').click(function() {
-			$('.qwer').submit();
+			$('.ins').submit();
 		});
 		
 		$('#division').change(function() {

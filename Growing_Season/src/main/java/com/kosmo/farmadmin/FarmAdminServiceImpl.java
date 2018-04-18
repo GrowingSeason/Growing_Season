@@ -77,65 +77,6 @@ public class FarmAdminServiceImpl implements FarmAdminService {
 		return res;
 	}
 
-	@Override
-	public int silverDivCount(FarmGardenVO fgvo) {
-		int res = 0;
-		res = dao.silverDivCount(fgvo);
-		return res;
-	}
-	
-	@Override
-	public ArrayList<ApplyVO> silverApplyCount(ApplyVO avo) {
-		ArrayList<ApplyVO> list = dao.silverApplyCount(avo);
-		return list;
-	}
-	
-	@Override
-	public int manyBabyDivCount(FarmGardenVO fgvo) {
-		int res = 0;
-		res = dao.manyBabyDivCount(fgvo);
-		return res;
-	}
-
-	@Override
-	public ArrayList<ApplyVO> manyBabyApplyCount(ApplyVO avo) {
-		ArrayList<ApplyVO> list = dao.manyBabyApplyCount(avo);
-		return list;
-	}
-
-	@Override
-	public int manyCultureDivCount(FarmGardenVO fgvo) {
-		int res = 0;
-		res = dao.manyCultureDivCount(fgvo);
-		return res;
-	}
-
-	@Override
-	public ArrayList<ApplyVO> manyCultureApplyCount(ApplyVO avo) {
-		ArrayList<ApplyVO> list = dao.manyCultureApplyCount(avo);
-		return list;
-	}
-
-	@Override
-	public int silverLotto(ApplyVO avo) {
-		int res = 0;
-		res = dao.silverLotto(avo);
-		return res;
-	}
-
-	@Override
-	public int manyBabyLotto(ApplyVO avo) {
-		int res = 0;
-		res = dao.manyBabyLotto(avo);
-		return res;
-	}
-
-	@Override
-	public int manyCultureLotto(ApplyVO avo) {
-		int res = 0;
-		res = dao.manyCultureLotto(avo);
-		return res;
-	}
 
 	@Override
 	public ArrayList<ApplyVO> lottoList(ApplyVO avo) {
@@ -156,9 +97,47 @@ public class FarmAdminServiceImpl implements FarmAdminService {
 	}
 
 	@Override
-	public ArrayList<ApplyVO> areaList(ApplyVO avo) {
-		ArrayList<ApplyVO> list = dao.areaList(avo);
+	public FarmGardenVO areaList(FarmGardenVO fgvo) {
+		return dao.areaList(fgvo);
+	}
+
+	@Override
+	public ArrayList<ApplyVO> locnameApply(ApplyVO avo) {
+		ArrayList<ApplyVO> list = dao.locnameApply(avo);
 		return list;
+	}
+
+	@Override
+	public ArrayList<FarmGardenVO> locnameAreaCount(FarmGardenVO fgvo) {
+		ArrayList<FarmGardenVO> list = dao.locnameAreaCount(fgvo);
+		return list;
+	}
+
+	@Override
+	public int lottoUpdate(ApplyVO avo) {
+		int res = 0;
+		res = dao.lottoUpdate(avo);
+		return res;
+	}
+
+	@Override
+	public ArrayList<ApplyVO> winnerList(ApplyVO avo) {
+		ArrayList<ApplyVO> list = dao.winnerList(avo);
+		return list;
+	}
+
+	@Override
+	public int returnUpdate(DocumentVO dvo) {
+		int res = 0;
+		res = dao.returnUpdate(dvo);
+		return res;
+	}
+
+	@Override
+	public int assignUpdate(int mseq) {
+		int res = 0;
+		res = dao.assignUpdate(mseq);		
+		return res;
 	}
 
 	
