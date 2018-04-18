@@ -19,6 +19,15 @@ public class FarmGardenVO {
 	private int fglongitude;
 	private String fgdelete;
 	
+	private AreaVO arvo;
+	
+	
+	public AreaVO getArvo() {
+		return arvo;
+	}
+	public void setArvo(AreaVO arvo) {
+		this.arvo = arvo;
+	}
 	public int getFgseq() {
 		return fgseq;
 	}

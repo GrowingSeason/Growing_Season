@@ -16,7 +16,14 @@ public class DocumentVO {
 	private String dfilename;
 	private String dfilpath;
 	private long dfilesize;
+	private ApplyVO avo;
 	
+	public ApplyVO getAvo() {
+		return avo;
+	}
+	public void setAvo(ApplyVO avo) {
+		this.avo = avo;
+	}
 	public String getDocureturn() {
 		return docureturn;
 	}

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kosmo.farmadmin.ApplyVO;
+import com.kosmo.farmadmin.DocumentVO;
 import com.kosmo.farmadmin.FarmAdminService;
 import com.kosmo.farmadmin.FarmGardenVO;
 import com.kosmo.farmadmin.MemberVO;
@@ -51,7 +52,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/alist.do")
-	public ModelAndView commontest(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView commontest(FarmGardenVO fgvo, HttpServletRequest request, HttpServletResponse response) {
 		int currentPage = 1;
 		
 		MemberVO mvo = new MemberVO();
@@ -72,6 +73,11 @@ public class AdminController {
 //		System.out.println(mvo.getEseq());
 		
 		ArrayList<MemberVO> list = imp.applyList(mvo);
+		ArrayList<FarmGardenVO> floclist = imp.farmlocationList(fgvo);
+		ArrayList<FarmGardenVO> fnamelist = imp.farmnameList(fgvo);
+		
+		mav.addObject("LVL_FLOC", floclist);
+		mav.addObject("LVL_FNAME", fnamelist);
 		
 		mav.addObject("LVL_PAGING", html);
 		mav.addObject("LVL_LIST", list);
@@ -99,12 +105,12 @@ public class AdminController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/ajaxsearch.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/flist.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> locSearchList(
 			@RequestBody FarmGardenVO fgvo
 	) throws Exception {
-		System.out.println("서치원");
+	
 		ArrayList<FarmGardenVO> list = imp.searchlocList(fgvo);
 		if (list == null) {
 			//throw new NotFoundException("selectBoardList null");
@@ -116,12 +122,12 @@ public class AdminController {
         return map;
 	}
 	
-	@RequestMapping(value = "/ajaxsearch2.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/detail.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> nameSearchList(
+	public Map<String, Object> farmDetail(
 			@RequestBody FarmGardenVO fgvo
 	) throws Exception {
-		System.out.println("서치투");
+		
 		ArrayList<FarmGardenVO> list = imp.searchfarmList(fgvo);
 		if (list == null) {
 			//throw new NotFoundException("selectBoardList null");
@@ -139,8 +145,6 @@ public class AdminController {
 			@RequestBody FarmGardenVO fgvo 
 			
 	) throws Exception {
-		System.out.println(fgvo.getFglocation());
-		System.out.println("이용자리스트");
 		MemberVO mvo = new MemberVO();
 		mvo.setFgvo(fgvo);
 		ArrayList<MemberVO> list = imp.usingList(mvo);
@@ -156,21 +160,11 @@ public class AdminController {
 	
 	@RequestMapping(value = "/arealist.do")
 	@ResponseBody
-	public Map<String, Object> areaList(
+	public FarmGardenVO areaList(
 			@RequestBody FarmGardenVO fgvo 
 			
 	) throws Exception {
-		System.out.println("구획리스트");
-		ApplyVO avo = new ApplyVO();
-		ArrayList<ApplyVO> list = imp.areaList(avo);
-		if (list == null) {
-			//throw new NotFoundException("selectBoardList null");
-			System.out.println("리스트 널");
-        }
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("LVL_ALIST", list);
-		
-        return map;
+        return imp.areaList(fgvo);
 	}
 	
 	@RequestMapping(value="/create.do")
@@ -178,7 +172,6 @@ public class AdminController {
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("board_board_admin_farm_create");
-
 		return mav;
 	}
 	
@@ -187,16 +180,14 @@ public class AdminController {
 		
 		int res = 0;
 		res = imp.farmInsert(fgvo);
-
 		return "redirect: /manager.do";
 	}
 	
 	@RequestMapping(value="/farmupdate.do")
 	public String farmUpdate(FarmGardenVO fgvo) {
-		System.out.println("들어왔당");
+		
 		int res = 0;
 		res = imp.farmUpdate(fgvo);
-		System.out.println("처리함");
 		return "redirect: /manager.do";
 	}
 	
@@ -205,71 +196,11 @@ public class AdminController {
 		
 		int res = 0;
 		res = imp.farmDelete(fgvo);
-
 		return "redirect: /manager.do";
 	}
 	
-	@RequestMapping(value="/lotto.do")
-	public ModelAndView lotto(FarmGardenVO fgvo , ApplyVO avo, HttpServletRequest request, HttpServletResponse response) {
-		
-//		int silverDiv = imp.silverDivCount(fgvo);
-//		ArrayList<ApplyVO> silverList = imp.silverApplyCount(avo);
-//		
-//		int silverRes = 0;
-//		
-//		HashSet<ApplyVO> silverMap = new HashSet<ApplyVO>();
-//		
-//		for(; silverMap.size()<silverDiv; ) {
-//			silverMap.add(silverList.get(silverMap.size()));
-//			System.out.println("실버맵사이즈" + silverMap.size());
-//		}
-//		
-//		Iterator<ApplyVO> silverIt = silverMap.iterator();
-//		
-//		while(silverIt.hasNext()) {
-//			avo.setApseq(silverIt.next().getApseq());
-//			silverRes = imp.silverLotto(avo);
-//		}
-//		// 실버 로또 끝
-//		
-//		int manyBabyDiv = imp.manyBabyDivCount(fgvo);
-//		ArrayList<ApplyVO> manyBabyList = imp.manyBabyApplyCount(avo);
-//		
-//		int manyBabyRes = 0;
-//		HashSet<ApplyVO> manyBabyMap = new HashSet<ApplyVO>();
-//		
-//		for(; manyBabyMap.size()<manyBabyDiv; ) {
-//			manyBabyMap.add(manyBabyList.get(manyBabyMap.size()));
-//			System.out.println("다둥이맵사이즈" + manyBabyMap.size());
-//		}
-//		
-//		Iterator<ApplyVO> manyBabyIt = manyBabyMap.iterator();
-//		
-//		while(manyBabyIt.hasNext()) {
-//			avo.setApseq(manyBabyIt.next().getApseq());
-//			manyBabyRes = imp.manyBabyLotto(avo);
-//		}
-//		//다둥이 로또 끝
-//		
-//		int manyCultureDiv = imp.manyCultureDivCount(fgvo);
-//		ArrayList<ApplyVO> manyCultureList = imp.manyCultureApplyCount(avo);
-//		
-//		int manyCultureRes = 0;
-//		
-//		HashSet<ApplyVO> manyCultureMap = new HashSet<ApplyVO>();
-//
-//		for(; manyCultureMap.size()<manyCultureDiv; ) {
-//			manyCultureMap.add(manyCultureList.get(manyCultureMap.size()));
-//			System.out.println("다문화맵사이즈" + manyCultureMap.size());
-//		}
-//		
-//		Iterator<ApplyVO> manyCultureIt = manyCultureMap.iterator();
-//		
-//		while(manyCultureIt.hasNext()) {
-//			avo.setApseq(manyCultureIt.next().getApseq());
-//			manyCultureRes = imp.manyCultureLotto(avo);
-//		}
-		//다문화 로또 끝
+	@RequestMapping(value="/lottolist.do")
+	public ModelAndView lottoList(FarmGardenVO fgvo , ApplyVO avo, HttpServletRequest request, HttpServletResponse response) {
 		
 		//리스트 뿌려
 		int currentPage = 1;
@@ -279,7 +210,7 @@ public class AdminController {
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
-		PagingUtil pu = new PagingUtil("/lotto.do", currentPage, totalcount, 8 , 5);
+		PagingUtil pu = new PagingUtil("/lottolist.do", currentPage, totalcount, 8 , 5);
 		String html = pu.getPagingHtml();
 		
 		ModelAndView mav = new ModelAndView();
@@ -287,13 +218,7 @@ public class AdminController {
 		avo.setSseq(pu.getStartSeq());
 		avo.setEseq(pu.getEndSeq());
 		
-	
-		System.out.println(avo.getSseq());
-		System.out.println(avo.getEseq());
-		
 		ArrayList<ApplyVO> list = imp.lottoList(avo);
-		
-		System.out.println(list.size());
 		
 		mav.addObject("LVL_PAGING", html);
 		mav.addObject("LVL_LIST", list);
@@ -301,6 +226,57 @@ public class AdminController {
 		mav.setViewName("board_board_admin_farm_lottolist");
 		
 		return mav;
+	}
+	
+	@RequestMapping(value="/lotto.do")
+	public String lotto(FarmGardenVO fgvo , ApplyVO avo, HttpServletRequest request, HttpServletResponse response) {
+		
+		int res = 0;
+		
+		ArrayList<FarmGardenVO> areaList = imp.locnameAreaCount(fgvo);
+		avo.setFgvo(fgvo);
+		ArrayList<ApplyVO> applyList = imp.locnameApply(avo);
+		
+		HashSet<ApplyVO> applyMap = new HashSet<ApplyVO>();
+		
+		for(; applyMap.size()<areaList.size(); ) {
+			applyMap.add(applyList.get(applyMap.size()));
+			System.out.println("맵 사이즈" + applyMap.size());
+		}
+		
+		Iterator<ApplyVO> applyIt = applyMap.iterator();
+		int i=1;
+		while(applyIt.hasNext()) {
+			avo.setApseq(applyIt.next().getApseq());
+			avo.setAseq(i);
+			res = imp.lottoUpdate(avo);
+			i++;
+		}
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("board_board_admin_farm_lottolist");
+		return "redirect: /lottolist.do";
+	}
+	
+	@RequestMapping(value="/returnUpdate.do")
+	public String returnUpdate(DocumentVO dvo, ApplyVO avo) {
+		
+		dvo.setAvo(avo);
+		int res = 0;
+		res = imp.returnUpdate(dvo);
+		return "redirect: /alist.do";
+	}
+	
+	@RequestMapping(value="/assigncancel.do")
+	public String assignCancel(int[] arr) {
+		int res = 0;
+		for(int i =0; i<arr.length; i++) {
+			System.out.println(arr[i]);
+			res = imp.assignUpdate(arr[i]);
+		}
+		
+		return "redirect: /manager.do";
 	}
 	
 	@RequestMapping(value="/snsuser.do")
