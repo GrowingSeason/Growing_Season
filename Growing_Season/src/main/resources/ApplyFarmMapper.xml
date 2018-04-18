@@ -124,7 +124,7 @@
 	a.fgseq, a.aseq, fg.fglocation, fg.fgname, fg.fgmanager, fg.fgaddress, fg.fgphone, fg.fgfeature, fg.fgguide, fg.fgcol, fg.fgrow, fg.fgtotalarea, fg.fglatitude, fg.fglongitude
 	from apply a, farm_garden fg
 	where a.fgseq = fg.fgseq
-	and a.mseq=#{mseq} and a.year=#{year} and a.apcancel='n' and fg.fgdetaildiv='농장'
+	and a.mseq=#{mseq} and a.year=#{year} and a.apcancel='N' and fg.fgdetaildiv='농장'
 </select>
 <select id="selectFarmInfo" resultType="com.kosmo.applyfarm.FarmInfoVO">
 	select

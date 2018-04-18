@@ -137,7 +137,7 @@ public class ApplyFarmController {
 //		int mseq = Integer.parseInt(session.getAttribute("mseq").toString());
 		//int year = Integer.parseInt(thisYear);
 		
-		mav.addObject("MY_FARM_INFO", applyFarmServiceImpl.myApplyFarmInfo(3, thisYear));
+		mav.addObject("MY_FARM_INFO", applyFarmServiceImpl.myApplyFarmInfo(8, thisYear));
 		mav.setViewName("applyFarm_applyfarm_user_myfarm_checkfarm");
 		return mav;
 	}
@@ -182,6 +182,24 @@ public class ApplyFarmController {
 		//applyFarmServiceImpl.sendSmsAuthNumber(1);
 		//System.out.println(phoneNumber);
 		return applyFarmServiceImpl.checkAuthNumber(authNumber, phoneNumber);
+	}
+	
+	@RequestMapping(value="/applyFarm/all/payment.do")
+	public ModelAndView paymentAll(ApplyFarmVO vo){
+		ModelAndView mav = new ModelAndView();
+
+		mav.setViewName("applyFarm_applyfarm_all_applyfarm_payment");
+
+		return mav;
+	}
+	
+	@RequestMapping(value="/applyFarm/user/payment.do")
+	public ModelAndView paymentUser(ApplyFarmVO vo){
+		ModelAndView mav = new ModelAndView();
+
+		mav.setViewName("applyFarm_applyfarm_user_applyfarm_payment");
+
+		return mav;
 	}
 	
 	//농장별 구획 셋팅하는 메서드...임시

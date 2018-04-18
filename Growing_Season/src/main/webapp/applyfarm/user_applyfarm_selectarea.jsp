@@ -53,83 +53,84 @@
     background: url(/images/farmback.jpg)no-repeat center;
     background-size: 100% 100%;
   	
-    }
-    .farmarea {
-    overflow:auto;
-    display:inline-block;
-    width:80%;
-    margin-top:10%;
-    margin-bottom:10%;
-    min-height:20%;
-    max-height:500px;
-    background-color:#ffffff;
-  
-	} 
-	
-	.farmarea ::-webkit-scrollbar {
-	    width: 12px;
-	}
-
-	/* Track */
-	.farmarea ::-webkit-scrollbar-track {
-	    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-	    -webkit-border-radius: 10px;
-	    border-radius: 10px;
-	}
-	 
-	/* Handle */
-	.farmarea ::-webkit-scrollbar-thumb {
-	    -webkit-border-radius: 10px;
-	    border-radius: 10px;
-	    background: rgba(255,0,0,0.8); 
-	    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
-	}
-	.farmarea ::-webkit-scrollbar-thumb:window-inactive {
-		background: rgba(255,0,0,0.4); 
-	}
-
-    
      }
+     .page-header {
+	  padding-bottom: 9px;
+	  margin: 40px 0 20px;
+	  border-bottom: 5px solid #eee;
+	}
+	.shadow{
+	-webkit-box-shadow: 6px 10px 27px 7px rgba(194,194,194,0.6);
+	-moz-box-shadow: 6px 10px 27px 7px rgba(194,194,194,0.6);
+	box-shadow: 6px 10px 27px 7px rgba(194,194,194,0.6);
+	padding:10%;
+	border:rgba(0,0,0,0.2);
+	}
 
     
 </style>
-
-<div class="newsletter" style="min-height:600px">
-		<div class="w3ls-heading">
-			<h2 class="h-two">친환경농장 신청 Step1</h2>
-			<p class="sub two">신청하실 농장과 구획을 선택해주세요</p>
+	 <section id="inner-headline">
+      <div class="container">
+        <div class="row">
+          <div class="span4">
+            <div class="inner-heading">
+              <h2>사이드바없는 예제입니니다</h2>
+            </div>
+          </div>
+          <div class="span8">            
+          </div>
+        </div>
+      </div>
+    </section>
+<section id="content">
+     
+<div class="container" style="backgruond-color:#ffffff;min-height:600px">
+	<div class="row">
+		<div class="page-header">
+			<h2 class="h-two">친환경농장 신청 Step1 - <small>신청하실 농장과 구획을 선택해주세요</small></h2>			
 		</div>
-	
-<div class = "col-md-5">
-	
-		<div class="row">
-			<div class="col-md-12 ab-text"  style="margin-top:15%; margin-bottom:15%;">
-				<p><h4>지역을 선택하세요</h4></p>
-				<select class="form-control" id="farmlocation" name="farmlocation" onChange="getList()" required>
+	</div>
+	<div class="row" style="display: flex">
+<div class = "span6">
+	<div class="shadow">
+			<div class="row">
+			<div class="span12 ab-text">
+				<div><h4>지역을 선택하세요</h4></div><hr width="30%">
+				<select class="form-control input-lg" id="farmlocation" name="farmlocation" onChange="getList()" required style="width:40%">
 					<option value=''>선택해주세요</option>
 					<c:forEach items="${FARM_LIST}" var="farmlocation">
 						<option value="${farmlocation}">${farmlocation}</option>
 					</c:forEach>
 				</select>
 			</div>
-			<div class="col-md-12 ab-text">
-				<p><h4>농장을 선택하세요</h4></p>
-				<select class="form-control" id="farmlist" name="farmlist" onChange="getArea()" required>
+			</div>
+			<hr>
+			<div class="row">
+			<div class="span12 ab-text">
+				<div><h4>농장을 선택하세요</h4></div><hr width="30%">
+				<select class="form-control input-lg" id="farmlist" name="farmlist" onChange="getArea()" required style="width:40%">
 					
 				</select>
 			</div>
-		</div>
+			</div>
+			<hr>
+			<div class="row">
+			<div class="span12 ab-text">
+				<div><h4>선택하신 구획은</h4></div>
+				<div><h4><span id="selectNum"></span>구획입니다</h4></div>
+				
+			</div>
+			</div>
+			
+	</div>	
 	</div>
-		<div class="w3ls-heading">
-			<h2 class="h-two"></h2>
+	
+		<div class = "span6">	
+		
+			<div class="span12" id = "farmback">
 			
-		</div>
-		<div class = "col-md-7">	
-		<div class="row">
-			<div class="col-md-12" id = "farmback">
-			
-				<div id = "farmarea" style="overflow:auto;display:inline-block;width:80%;margin-top:10%;margin-bottom:10%;min-height:20%;max-height:500px;">
-				<table style="margin-left: auto; margin-right: auto;background-color:#ffffff;opacity:0.5">		
+				<div id = "farmarea" style="overflow:auto;display:inline-block;width:80%;margin:10%;min-height:20%;max-height:500px;">
+				<table style="margin-left: auto; margin-right: auto;background: rgba(0, 0, 0, 0.4);opacity:0.9">		
 					<tbody class="farmsector" id ="farmsector">
 						
 					</tbody>		
@@ -138,27 +139,28 @@
 			</div>
 		</div>
 		</div>
-	
+				<form id="areaform" action="/applyFarm/all/writeForm.do" method="post">
 		<div class="row">
-			<div class="col-md-12">
-				<form id="areaform" action="/applyFarm/user/writeForm.do" method="post">
-				<input type='hidden' class='fgseq-infrom' name = "fgseq" value=''>
-				<input type='hidden' class='selectarea-infrom' name = "aseq" value=''>
-						<div class="w3agile-button">
-							<button class="btn btn-primary btn-lg" id="select" type="submit"> 완료 </button>
-							<button class="btn btn-danger btn-lg" type="button"> 취소 </button>
-						</div>
-				</form>
+			<div class="span12">
+				<div class="pricing-box-plain">
+					<div class="action">
+						<input type='hidden' class='fgseq-infrom' name = "fgseq" value=''>
+						<input type='hidden' class='selectarea-infrom' name = "areaseq" value=''>
+
+						
+							<button class="btn-large btn-info" id="select" type="submit"> 완료 </button>
+							<button class="btn-large btn-danger" type="button"> 취소 </button>
+						
+					</div>
+				</div>
 			</div>
+
 		</div>
-		
+		</form>
+		</div>
 	
-</div>
 
-
-
-
-
+</section>
 <script>
 function getList(){
 	
