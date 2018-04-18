@@ -10,6 +10,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -144,10 +146,12 @@ public class KakaoTest4 {
 	
 	@RequestMapping(value = "/kakaoForGarden.do")
 	@ResponseBody
-	public String kakaoForGarden(@RequestBody OpenVO ovo, @RequestBody PaymentVO pvo)
+	public String kakaoForGarden(@RequestBody OpenVO ovo, HttpSession session)
 			//, @RequestBody PaymentVO pvo) 
 			{
 //		OpenVO ovo = new OpenVO();
+		
+		System.out.println("여기?");
 		HashMap<String, Object> prm = new HashMap<String, Object>();
 		HashMap<String, Object> resMap = new HashMap<String, Object>();
 
@@ -156,12 +160,12 @@ public class KakaoTest4 {
 		prm.put("cid","TC0ONETIME");
 		prm.put("partner_order_id","20180410LV5057489s7");//내맘대로 수정
 		prm.put("partner_user_id","TESTPAYMENT");//내맘대로 수정
-		prm.put("item_name","농장 A-41번 자리");//상품이름
-		prm.put("quantity",+2);//수량
+		prm.put("item_name","텃밭 A-45번 자리");//상품이름
+		prm.put("quantity",+1);//수량
 		prm.put("total_amount",+1);//결제금액
 		prm.put("tax_free_amount",+1);//비가세금액
 		prm.put("vat_amount",+0);//부가가치세
-		prm.put("approval_url","http://localhost:5004/member/admin_member_list.jsp");//결제완료 이동 url //?price=total_amount"
+		prm.put("approval_url","http://localhost:5004/member/user/paymentForGarden.do?pprice="+prm.get("total_amount"));//결제완료 이동 url //?price=total_amount"
 		prm.put("cancel_url","http://localhost:5004/member/admin_member_list.jsp");//취소버튼 눌렀을때 이동 url
 		prm.put("fail_url","http://localhost:5004/common.do");//결제 실패시 이동 url
 		
@@ -173,24 +177,31 @@ public class KakaoTest4 {
 //		ovo.setAuth("KakaoAK {d17be967963b0f416b148fdb8b4069f9}");
 		ovo.setMap(prm);
 
+		//price 세션 넣음
+		//session.setAttribute("LVL_SESS_PPRICE", prm.get("total_amount"));
+		
 		resMap = openAPI(ovo);
+		//int amount = Integer.parseInt(resMap.get("total_amount").toString());
 		System.out.println(resMap.get("code") + "----" + resMap.get("message"));
+		System.out.println(prm.get("total_amount"));
+		//세션의 시큐를 ovo넣는다
 		
 		//-----------------처리부 3개 (컨트롤러 3개)----------------------
 		//결제가 성공이면
 		if(resMap.get("code").toString().equals("200")) {
 			
-		
+			//ovo.setPprice(amount);
 			//#{apseq}:, #{pprice}:total_amount, #{ppermit}:'Y'
 			//신청번호
 			//
-			int res = service.paymentInsertForGarden(pvo); //여기가 아까 만든 서비스를 불러옴
-			System.out.println(res +"건 결제 완료");
+			//int res = service.paymentInsertForGarden(ovo); //여기가 아까 만든 서비스를 불러옴
+			System.out.println("건 결제 완료");
 			
 		}
 		
 		return (String) resMap.get("message");
 
 	}
+	
 	
 }

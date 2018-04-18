@@ -62,8 +62,7 @@ public interface MemberService {
 	public MemberVO loginCheck(@Param("mid")String mid, @Param("mpw")String mpw);
 
 	//텃밭 결제 정보 insert
-	public int paymentInsertForGarden(PaymentVO pvo);
+	public int paymentInsertForGarden(PaymentVO pvo, String year);
 	
 	public int memIDCheck(@Param("mid")String mid);
-	
 }

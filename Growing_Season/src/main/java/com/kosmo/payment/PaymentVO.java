@@ -5,9 +5,7 @@ public class PaymentVO {
 	private int mseq;
 	private int apseq;
 	private String pregdate;
-	private int pprice;
-	private String ppermit;
-	
+	private String pprice;
 	
 	private String pcode;
 	
@@ -43,16 +41,11 @@ public class PaymentVO {
 	public void setPregdate(String pregdate) {
 		this.pregdate = pregdate;
 	}
-	public int getPprice() {
+	public String getPprice() {
 		return pprice;
 	}
-	public void setPprice(int pprice) {
+	public void setPprice(String pprice) {
 		this.pprice = pprice;
 	}
-	public String getPpermit() {
-		return ppermit;
-	}
-	public void setPpermit(String ppermit) {
-		this.ppermit = ppermit;
-	}
+	
 }

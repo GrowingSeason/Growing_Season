@@ -95,12 +95,14 @@ public class MemberServiceImpl implements MemberService{
 	//}
 	
 	@Override
-	public int paymentInsertForGarden(PaymentVO pvo){
+	public int paymentInsertForGarden(PaymentVO pvo, String year){
+		ApplyGardenVO vo = new ApplyGardenVO();
+		vo.setYear(year);
+		vo.setMseq(pvo.getMseq());
+		int res = dao.applyGardenData(vo);
+		pvo.setApseq(res);
 		
-		ApplyGardenVO gardenData = dao.applyGardenData(pvo.getMseq());
-		
-		pvo.setApseq(gardenData.getApseq());
-		
+		int res1 = dao.pcodeUpdate(pvo);
 		return dao.paymentInsertForGarden(pvo);
 		//kakao결제완료 후 서비스 호출시 받아오는 값은 mseq랑 금액
 		//추가로 필요한건 apseq하나다

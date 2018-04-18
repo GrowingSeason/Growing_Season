@@ -13,13 +13,17 @@
 
 	-->
 	
+	<update id="pcodeUpdate" parameterType="com.kosmo.payment.PaymentVO">
+		update apply set pcode = '입금확인' where mseq=#{mseq}
+	</update>
+	
 	<insert id="paymentInsertForGarden" parameterType="com.kosmo.payment.PaymentVO">
 		insert into paymentlog (pseq,mseq,apseq,pregdate,pprice,ppermit)
-		values(payment_seq.nextval, #{mseq}, #{apseq}, sysdate, #{pprice}, #{ppermit})
+		values(payment_seq.nextval, #{mseq}, #{apseq}, sysdate, #{pprice}, 'Y')
 	</insert>
 	
-	<select id="applyGardenData" parameterType="com.kosmo.garden.ApplyGardenVO" resultType="com.kosmo.garden.ApplyGardenVO">
-		select * from apply where mseq=#{mseq}
+	<select id="applyGardenData" parameterType="com.kosmo.garden.ApplyGardenVO" resultType="int">
+		select apseq from apply where mseq=#{mseq} and year=#{year}
 	</select>
 	
 	<select id="memIDCheck" parameterType="String" resultType="int">
@@ -59,10 +63,6 @@
 	values(MEMBER_SEQ.NEXTVAL, #{mid}, #{mphone}, #{mpw}, #{mname}, to_date(#{mbirth}, 'YYYY-MM-DD'), #{memail},
  	#{maddress}, #{mgender} , #{mmailreceive}, #{mauth}, #{mauthtoken}, sysdate)
 	</insert>
-	
-	<update id="pcodeUpdate" parameterType="com.kosmo.payment.PaymentVO">
-		update apply set pcode = '결제완료' where apseq=#{apseq}
-	</update>
 	
 	<update id="memberUpdate" parameterType="com.kosmo.member.MemberVO">
 		update member

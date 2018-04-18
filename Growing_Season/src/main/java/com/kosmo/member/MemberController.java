@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kosmo.common.PagingUtil;
+import com.kosmo.payment.PaymentVO;
 
 
 @Controller
@@ -69,6 +70,7 @@ public class MemberController { //extends MultiActionController {
 		return mav;
 	}
 	
+	//회원이 회원가입 화면을 가기위해 들어오는 컨트롤러
 	@RequestMapping(value = "/member/user/memberInput.do", method = RequestMethod.GET)
 	public ModelAndView memberInput()
 	{
@@ -78,6 +80,7 @@ public class MemberController { //extends MultiActionController {
 		return mav;
 	}
 	
+	//회원가입을 했을때 db에 insert를 위하여 들어오는 컨트롤러
 	@RequestMapping(value = "/member/user/memberInsert.do", method = RequestMethod.GET)
 	public ModelAndView memberInsert(MemberVO vo)
 			throws IOException
@@ -94,6 +97,7 @@ public class MemberController { //extends MultiActionController {
 		return mav;
 	}
 
+	//맴버의 상세정보 보기를 위하여 들어오는 컨트롤러
 	@RequestMapping(value = "/member/user/memberDetail.do", method = RequestMethod.GET)
 	public ModelAndView memberDetail(MemberVO vo)
 	{
@@ -109,6 +113,7 @@ public class MemberController { //extends MultiActionController {
 		return mav;
 	} 
 
+	//detail 화면에서 수정하러 갔을때 tils적용을 위하여 들렀다 가는곳
 	@RequestMapping(value = "/member/user/memberUpdateForJSP.do", method = RequestMethod.GET)
 	public ModelAndView memberUpdateForJSP(MemberVO vo)
 	{
@@ -122,15 +127,18 @@ public class MemberController { //extends MultiActionController {
 		return mav;
 	}
 
+	//유저가 정보를 수정했을때 왔다 가는곳
 	@RequestMapping(value = "/member/user/memberUpdate.do", method = RequestMethod.POST)
 	public String memberUpdate(MemberVO vo)
 	{
+		vo.setMemail(vo.getMemail()+"@"+vo.getMemail2());
 		
 		int res = service.memberUpdate(vo);
 
 		return "redirect:/member/admin/memberList.do?currentPage="+vo.getCurrentPage();
 	}
 
+	//회원 및 관리자가 탈퇴 or 삭제를 눌렀을때 오는곳
 	@RequestMapping(value = "/member/user/memberDelete.do", method = RequestMethod.GET)
 	public String delete(MemberVO vo)
 	{
@@ -158,6 +166,7 @@ public class MemberController { //extends MultiActionController {
 			HttpSession session = request.getSession();
 			session.setAttribute("LVL_SESS_MSEQ", vo.getMseq());
 			session.setAttribute("LVL_SESS_GUBUN", vo.getMgubun());
+			session.setAttribute("LVL_SESS_MNAME", vo.getMname());
 			
 			mav.addObject("LVL_VO", vo);
 			mav.setViewName("member_member_admin_member_list");
@@ -186,11 +195,31 @@ public class MemberController { //extends MultiActionController {
 //	}
 //	*/
 	
-//	@RequestMapping(value = "/payment.do", method = RequestMethod.POST)
-//	public String payment(PaymentVO pvo, HttpServletRequest request){
-//		//pvo.getPrice()금액이 결제 되었습니다. 라는 문구를 가진 jsp로 단순 이동...
-//		return "redirect:/common.do";
-//	}
+	@RequestMapping(value = "/member/user/paymentForGarden.do", method = RequestMethod.GET)
+	public ModelAndView paymentForGarden(PaymentVO pvo, HttpSession session){
+		//pvo.getPrice()금액이 결제 되었습니다. 라는 문구를 가진 jsp로 단순 이동...
+		int mseq = 112;
+		//int mseq1 = (Integer) session.getAttribute("LVL_SESS_MSEQ");
+		//int apseq = 42;
+		String year = "2018";
+		
+		String pprice = "10";
+		
+		pvo.setMseq(mseq);
+		//pvo.setApseq(apseq);
+		pvo.setPprice(pprice);
+		
+		//pvo.setPprice(Integer.parseInt(total_amount));
+		
+		int res = service.paymentInsertForGarden(pvo, year);
+		
+		System.out.println(res +"건 insert 및 pcode update완료ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("member_member_user_payment_success");
+		
+		return mav;
+	}
 	
 	@RequestMapping(value = "/member/user/UserRegisterCheck.do", method = RequestMethod.POST)
 	public ResponseEntity<Integer> UserRegisterCheck(

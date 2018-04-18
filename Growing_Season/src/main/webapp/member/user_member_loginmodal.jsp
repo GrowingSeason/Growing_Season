@@ -95,7 +95,7 @@
 
 <!-- Modal HTML -->
 <div id="myModal" class="modal fade">
-	<div class="modal-dialog modal-login" style="margin-top: 100px">
+	<div class="modal-dialog modal-login" style="margin-top: 0px">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">로그인</h4>
@@ -117,9 +117,6 @@
 							value="로 그 인" onClick="goPage()" >
 					</div>
 				</form>
-				<p class="hint-text small">
-					<a href="#">Forgot Your Password?</a>
-				</p>
 			</div>
 		</div>
 	</div>

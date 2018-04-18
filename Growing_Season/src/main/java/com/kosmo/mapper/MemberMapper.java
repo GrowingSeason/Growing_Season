@@ -62,12 +62,13 @@ public interface MemberMapper {
 	public int paymentInsertForGarden(PaymentVO pvo);
 	
 	//신청테이블에서 mseq로 정보 가져오기
-	public ApplyGardenVO applyGardenData(int mseq);
+	public int applyGardenData(ApplyGardenVO vo);
 	
 	//결제상태 apply pcode update
 	public int pcodeUpdate(PaymentVO pvo);
 	
 	public int memIDCheck(@Param("mid")String mid);
+	
 }
 
 

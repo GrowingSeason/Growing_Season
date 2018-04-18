@@ -1,17 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<style>
+#page-wrap {
+	margin: 50px;
+}
+p {
+	margin: 20px 0; 
+}
+
+	/* 
+	Generic Styling, for Desktops/Laptops 
+	*/
+	table { 
+		width: 100%; 
+		border-collapse: collapse; 
+	}
+	/* Zebra striping */
+	tr:nth-of-type(odd) { 
+		background: #eee; 
+	}
+	th { 
+		background: #333; 
+		color: white; 
+		font-weight: bold; 
+	}
+	td, th { 
+		padding: 6px; 
+		border: 1px solid #ccc; 
+		text-align: left; 
+	}
+</style>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
-	<h3>상세보기</h3>
+	<h2>상세보기</h2>
 	<hr>
 	<form name="myForm" class="myForm" action="/member/user/memberDetail.do"
 		enctype="multipart/form-data">
-		<table class="demo-table">
+		<table class="page-wrap">
 			<tr>
 				<td id="title">아이디</td>
 				<td>${LVL_VO.mid} ${LVL_VO.mseq}</td>
@@ -49,6 +77,41 @@
 				<td>${LVL_VO.mmailreceive}</td>
 			</tr>
 		</table>
+		</form>
 		<br><a href="/member/user/memberUpdateForJSP.do?mseq=${LVL_VO.mseq}&currentPage=${LVL_VO.currentPage}">수정하러 가기</a>
+		
+		<form name="deleteForm" class="deleteForm" action="/member/user/memberDelete.do">
+		<input type="hidden" id="mseq" name="mseq" value="110">
+		</form>
+		
+		<div>
+	<a href="#myModal" class="w3-button w3-black" data-toggle="modal">탈퇴하기</a>
+</div>
+
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade" style="margin-top: 20%;">
+	<div class="modal-dialog modal-login" style="margin-top: 0px">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+			</div>
+			<div class="modal-body">
+				<div>정말탈퇴?</div>
+					<div class="form-group">
+						<input type="button" class="btn btn-primary btn-block btn-lg"
+							value="탈퇴" onClick="test()" >
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+		
+		<script>
+		function test() {
+			alert("탈퇴완료");
+			$(".deleteForm").submit();
+		}
+		</script>
 </body>
 </html>
