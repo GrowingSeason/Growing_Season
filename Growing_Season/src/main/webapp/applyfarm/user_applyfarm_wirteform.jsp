@@ -46,7 +46,7 @@
 
 
 
-            <form id="contactform" action="/applyFarm/all/payment.do" method="post" role="form" class="contactForm">
+            <form id="contactform" action="/applyFarm/user/payment.do" method="post" role="form" class="contactForm">
 
               <div id="sendmessage">Your message has been sent. Thank you!</div>
               <div id="errormessage"></div>
@@ -54,7 +54,7 @@
               <div class="row">
                 <div class="span6 margintop10 field form-group">
                   <label for="apname">신청자명</label>	
-                  <input type="text" name="apname" placeholder="이름을 입력해주세요" value='${MEMBER_DETAIL.apname}' required>
+                  <input type="text" name="apname" placeholder="이름을 입력해주세요" value='${MEMBER_DETAIL.mname}' required>
                   <div class="validation"></div>
                 </div>
                 <div class="span6 margintop10 field form-group">

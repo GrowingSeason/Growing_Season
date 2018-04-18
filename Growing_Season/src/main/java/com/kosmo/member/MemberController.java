@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kosmo.applyfarm.ApplyFarmService;
 import com.kosmo.common.PagingUtil;
+
 import com.kosmo.payment.PaymentVO;
+import com.kosmo.applyfarm.ApplyFarmVO;
 
 
 @Controller
@@ -25,6 +28,9 @@ public class MemberController { //extends MultiActionController {
 
 	@Autowired
 	private MemberService service;
+	@Autowired
+	private ApplyFarmService applyFarmServiceImpl;
+	
 	//	public void setBoardService(BoardService service) {
 	//		this.service = service;
 	//	}
@@ -242,6 +248,49 @@ public class MemberController { //extends MultiActionController {
 
 		return new ResponseEntity<Integer>(idCount, HttpStatus.OK);
 	}
+	@RequestMapping(value = "/index.do")
+	public ModelAndView index(HttpSession session){
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/example/index");
+		if(session.getAttribute("LVL_SESS_GUBUN")==null){
+		session.setAttribute("LVL_SESS_GUBUN","");
+		}
+
+		return mav;
+		
+		
+	}
+	@RequestMapping(value = "/logout.do")
+	public String logouttest(HttpSession session){
+		
+		session.invalidate();	
+		
+
+		return "redirect:/index.do";
+		
+		
+	}
+	@RequestMapping(value = "/member/user/paymentForFarmMember.do")
+	public String paymentForFarmMember(HttpSession session, PaymentVO pvo){
+		ApplyFarmVO vo = new ApplyFarmVO();
+		vo = (ApplyFarmVO) session.getAttribute("FARM_APPLY_VO");
+		System.out.println(vo.getApname());
+		System.out.println(pvo.getPprice());
+		applyFarmServiceImpl.ApplyCompletForMenber(vo, pvo);
+		return "redirect:/index.do";
+			
+	}
+	@RequestMapping(value = "/member/user/paymentForFarmNonJoinMember.do")
+	public String paymentForFarmNonJoinMember(HttpSession session, PaymentVO pvo){
+		ApplyFarmVO vo = new ApplyFarmVO();
+		vo = (ApplyFarmVO) session.getAttribute("FARM_APPLY_VO");
+		System.out.println(vo.getApname());
+		System.out.println(pvo.getPprice());
+		applyFarmServiceImpl.ApplyCompletForNonJoin(vo, pvo);
+		return "redirect:/index.do";
+			
+	}
+	
 
 
 }

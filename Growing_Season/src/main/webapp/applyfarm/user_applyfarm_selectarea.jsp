@@ -139,7 +139,7 @@
 			</div>
 		</div>
 		</div>
-				<form id="areaform" action="/applyFarm/all/writeForm.do" method="post">
+				<form id="areaform" action="/applyFarm/user/writeForm.do" method="post">
 		<div class="row">
 			<div class="span12">
 				<div class="pricing-box-plain">
@@ -282,6 +282,7 @@ $(".farmsector").on( "click" , "div", function() {
     	var test2 = $(".fgseq-infrom").attr('value');
     	alert(test);
     	alert(test2);
+    	$("#selectNum").html("["+number+"]");
     }else if($(this).attr('class')=='selectbox'){
     	$(this).attr('class','box')
     	$(".selectarea-infrom").attr('value', '');

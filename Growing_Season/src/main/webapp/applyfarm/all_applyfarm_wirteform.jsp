@@ -80,7 +80,7 @@
                 </div>
                 <div class="span6 margintop10 field form-group">
                   <label for="addr">주소</label>	
-                  <input type="text" name="addr" placeholder="주소를 입력해주세요" required>
+                  <input type="text" name="apaddr" placeholder="주소를 입력해주세요" required>
                   <div class="validation"></div>
                 </div>
                 <div class="span6 margintop10 field form-group">

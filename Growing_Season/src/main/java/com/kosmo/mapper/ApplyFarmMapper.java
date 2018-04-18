@@ -43,4 +43,6 @@ public interface ApplyFarmMapper {
 	public int farmSmsAuthResultUpdate(int smsseq);
 	public int checkOvertimeSmsAuthValidate(HashMap map);
 	public ArrayList<HashMap<String, Object>> selectFarmList();
+	public int memberInsertForApplyFarmNonJoin(ApplyFarmVO vo);
+	
 }

@@ -185,18 +185,20 @@ public class ApplyFarmController {
 	}
 	
 	@RequestMapping(value="/applyFarm/all/payment.do")
-	public ModelAndView paymentAll(ApplyFarmVO vo){
+	public ModelAndView paymentAll(ApplyFarmVO vo, HttpSession session){
 		ModelAndView mav = new ModelAndView();
-
+		session.setAttribute("FARM_APPLY_VO", vo);
 		mav.setViewName("applyFarm_applyfarm_all_applyfarm_payment");
 
 		return mav;
 	}
 	
 	@RequestMapping(value="/applyFarm/user/payment.do")
-	public ModelAndView paymentUser(ApplyFarmVO vo){
+	public ModelAndView paymentUser(ApplyFarmVO vo, HttpSession session){
 		ModelAndView mav = new ModelAndView();
-
+		vo.setMseq(3);
+		System.out.println(vo.getApname());
+		session.setAttribute("FARM_APPLY_VO", vo);
 		mav.setViewName("applyFarm_applyfarm_user_applyfarm_payment");
 
 		return mav;
@@ -222,12 +224,12 @@ public class ApplyFarmController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/wtest.do")
+	@RequestMapping(value="/weather/all/weatherInfo.do")
 	public ModelAndView viewWeather(){
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("FARM_INFO",applyFarmServiceImpl.selectFarmInfo(25));
 		mav.addObject("FARM_LIST", applyFarmServiceImpl.selectFarmList());
-		mav.setViewName("applyFarm_applyfarm_user_applyfarm_wethertest");
+		mav.setViewName("applyFarm_applyfarm_all_applyfarm_weatherinfo");
 		return mav;
 	}
 	
