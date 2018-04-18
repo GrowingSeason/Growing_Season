@@ -67,7 +67,7 @@ public interface SnsService {
 	public int snsFeedDelete(int feseq);
 	
 //	신고댓글 fedelete값 변경
-	public int snsCommentDelete(int feseq);
+	public int snsCommentDelete(SnsCommentVO vo);
 	
 //	신고피드 리스트
 	public Map<String , Object> snsDeclarationList(int sseq,int eseq);
@@ -81,8 +81,11 @@ public interface SnsService {
 //	sns Mypage
 	public ArrayList<SnsFeedVO> snsMypage(int mseq);
 	
+//	sns Mypage
+	public Map<String , Object> snsMypageSErvice(int mseq);
+	
 //	팔로워가 볼수있는 페이지
-	public ArrayList<SnsFeedVO> snsFollowerspageService(int feseq, int mseq);
+	public Map<String , Object> snsFollowerspageService(int feseq, int mseq, int fmseq);
 	
 //	회원이 다 볼수 있는 페이지
 	public ArrayList<SnsFeedVO> snsallpage(int feseq, int mseq);
@@ -125,7 +128,7 @@ public interface SnsService {
 	public SnsFeedVO snsHashtagList(int feseq);
 	
 //	feseq에 해당하는 이미지 목록
-	public ArrayList<SnsImgVO> snsImgList();
+	public ArrayList<SnsImgVO> snsImgList(int feseq);
 	
 //	feseq에 해당하는 이미지
 	public SnsImgVO snsImgdetail(int feseq);
@@ -141,5 +144,9 @@ public interface SnsService {
 	
 //	팔로잉 수
 	public int snsFollwingCnt(@Param("mseq")int mseq);
+	
+	public int cdeclarationdeleteservice(
+			@Param("feseq") int feseq,
+			@Param("scseq") int scseq);
 	
 }

@@ -56,6 +56,9 @@ public interface SnsMapper {
 //	sns Mypage
 	public ArrayList<SnsFeedVO> snsMypage(@Param("mseq") int mseq);
 
+//	sns Mypage
+	public Map<String , Object> snsMypageSErvice(@Param("mseq") int mseq);
+
 //	피드 신고글 카운트
 	public int fdeclarationCnt();
 //	해시태그 검색 카운트
@@ -73,7 +76,7 @@ public interface SnsMapper {
 	public SnsFeedVO snsHashtagList(@Param("feseq") int feseq);
 	
 //	feseq에 해당하는 이미지 목록
-	public ArrayList<SnsImgVO> snsImgList();
+	public ArrayList<SnsImgVO> snsImgList(@Param("feseq") int feseq);
 	
 //	신고피드 fedelete값 변경
 	public int snsHashtagdelete(@Param("feseq") int feseq);
@@ -105,7 +108,7 @@ public interface SnsMapper {
 //	신고댓글삭제
 	public int cdeclarationdelete(@Param("feseq") int feseq);
 //	신고댓글 scdelete값 변경
-	public int snsCommentDelete(@Param("feseq") int feseq);
+	public int snsCommentDelete(SnsCommentVO vo);
 
 //	신고댓글 리스트
 	public ArrayList<DeclarationVO> snscDeclarationList(
@@ -153,5 +156,11 @@ public interface SnsMapper {
 	
 //	팔로잉 수
 	public int snsFollwingCnt(@Param("mseq")int mseq);
+	
+	public Map<String , Object> snsFollowerspageService(
+			@Param("feseq") int feseq,
+			@Param("mseq") int mseq ,
+			@Param("fmseq") int fmseq
+			);
 	
 }

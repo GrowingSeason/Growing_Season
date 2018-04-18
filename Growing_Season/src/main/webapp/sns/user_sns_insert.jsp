@@ -47,7 +47,7 @@ button:hover:before,button:hover:after{
 <div class="typo">
 	<!---728x90--->
 	<div class="container">
-		<p id="status" align="center">Feed Insert</p>
+		<p id="status" align="center">파일을 먼저 선택해 주세요</p>
 		<form action="/snsFeedInsert.do" enctype="multipart/form-data" method="post">
 
 			<div id="holder" align="center" style="border: 2px; width: 300;">
@@ -69,7 +69,7 @@ button:hover:before,button:hover:after{
 			
 			<div id="imgfile" align="center">
 				<p>
-					<input type="file" name="ufile">
+					<input class="btn btn-inverse" type="file" name="ufile">
 				</p><br><br>
 				<button id="btn" type="submit" align="right" style="display: none;">
 				글올리기

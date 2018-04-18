@@ -8,7 +8,7 @@ public class SnsFeedVO {
 
 	private int mseq;
 	private int fmseq;
-	private int fmid;
+	private String fmid;
 	
 	
 	private int feseq;
@@ -31,10 +31,10 @@ public class SnsFeedVO {
 	public void setFmseq(int fmseq) {
 		this.fmseq = fmseq;
 	}
-	public int getFmid() {
+	public String getFmid() {
 		return fmid;
 	}
-	public void setFmid(int fmid) {
+	public void setFmid(String fmid) {
 		this.fmid = fmid;
 	}
 	public String getFeimgname() {

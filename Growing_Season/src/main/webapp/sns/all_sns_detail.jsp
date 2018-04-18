@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<head>
+<%@ page import="java.net.URLEncoder"%> 
+
 <meta charset='UTF-8'>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" type="image/x-icon" href="//static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
@@ -10,13 +11,7 @@
 <link rel='stylesheet prefetch' href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
 
 <style class="cp-pen-styles">
-body {
-  background: #f2f2f2;
-  font-family: 'proxima-nova-soft', sans-serif;
-  font-size: 14px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+
 .post-module {
   position: relative;
   z-index: 1;
@@ -47,7 +42,7 @@ body {
   opacity: .6;
 }
 .post-module .thumbnail {
-  background: #000000;
+  background: #01a026;
   height: 100px;
   overflow: hidden;
 }
@@ -79,7 +74,7 @@ body {
 }
 .post-module .thumbnail img {
   display: block;
-  width: 120%;
+  width: 100%;
   -webkit-transition: all 0.3s linear 0s;
   -moz-transition: all 0.3s linear 0s;
   -ms-transition: all 0.3s linear 0s;
@@ -87,11 +82,10 @@ body {
   transition: all 0.3s linear 0s;
 }
 .post-module .post-content {
-  position: absolute;
   bottom: 0;
   background: #FFFFFF;
   width: 100%;
-  padding: 30px;
+  padding: 40px;
   -webkti-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -102,7 +96,7 @@ body {
   transition: all 0.3s cubic-bezier(0.37, 0.75, 0.61, 1.05) 0s;
 }
 .post-module .post-content .category {
-  position: absolute;
+ /*  position: absolute; */
   top: -34px;
   left: 0;
   background: #e74c3c;
@@ -198,8 +192,82 @@ body {
   color: #e74c3c;
 }
 
+/*     
+   body {
+      font-family: 'Varela Round', sans-serif;
+   } 
+   */
+.modal-login {
+   width: 350px;
+}
 
-</style></head>
+.modal-login .modal-content {
+   padding: 20px;
+   border-radius: 1px;
+   border: none;
+}
+
+.modal-login .modal-header {
+   border-bottom: none;
+   position: relative;
+   justify-content: center;
+}
+
+.modal-login h4 {
+   text-align: center;
+   font-size: 26px;
+}
+
+.modal-login .form-group {
+   margin-bottom: 20px;
+}
+
+.modal-login .form-control, .modal-login .btn {
+   min-height: 40px;
+   border-radius: 30px;
+   font-size: 15px;
+   transition: all 0.5s;
+}
+
+.modal-login .form-control {
+   font-size: 13px;
+}
+
+.modal-login .form-control:focus {
+   border-color: #a177ff;
+}
+
+.modal-login .hint-text {
+   text-align: center;
+   padding-top: 10px;
+}
+
+.modal-login .close {
+   position: absolute;
+   top: -5px;
+   right: -5px;
+}
+
+.modal-login .btn {
+   background: #a177ff;
+   border: none;
+   line-height: normal;
+}
+
+.modal-login .btn:hover, .modal-login .btn:focus {
+   background: #8753ff;
+}
+
+.modal-login .hint-text a {
+   color: #999;
+}
+
+.trigger-btn {
+   display: inline-block;
+   margin: 100px auto;
+}
+
+</style>
 
 <script>
 	$(function() {
@@ -277,95 +345,248 @@ body {
 				}
 			});
 		});	
+		
 	});
 </script>
 
 
-<body>
+
+
 <section id="content">
-<div class="container">
-   <div class="info">
-    <h1>상세 보기</h1>
-    <span>Made with <i class='fa fa-heart animated infinite pulse'></i>
-     by <a href='http://andy.design'>Andy Tran</a> | Designed by 
-     <a href='http://justinkwak.com'>JustinKwak</a></span>
-  </div>
-  <!-- Normal Demo-->
-  
-    <div class="demo-title col-mg-6"></div>
-    <!-- Post-->
-			<div class="post-module span8">
-				<!-- Thumbnail-->
-				<div class="thumbnail" style="height: 300px;" align="right">
-						<button id="follower" class="btn btn-primary">
-						<div class="day">${SNS_FOLLOWER_CNT}</div>
-						<div class="month">Follower</div>
-						</button>
-						<button id="follow" class="btn btn-primary">
-						<div class="day">${SNS_FOLLOWING_CNT}</div>
-						<div class="month">Following</div>
-						</button>
-					
-					<img src="/uploads/${SNS_IMAGE_LIST.feimgname}"
-						style="width: 90%; height: 200px;" />
-				</div>
-				<!-- Post Content-->
-				<div class="post-content">
-					<h2 class="title">${SNS_DETAIL.fecon}</h2>
-					<button id="snslike"
-								class='fa fa-heart animated infinite pulse btn-danger'>${SNS_LIKE_CNT}</button>
-					<div class="post-meta">
-					
-					</div>
+	<div class="container">
+		<!-- Post-->
+		<div class="post-module span8">
+			<!-- Thumbnail-->
+			<div class="thumbnail" style="height: 300px;" align="right">
+				<button id="follower" class="btn btn-primary">
+					<div class="day">${SNS_FOLLOWER_CNT}</div>
+					<div class="month">Follower</div>
+				</button>
+				<button id="follow" class="btn btn-primary">
+					<div class="day">${SNS_FOLLOWING_CNT}</div>
+					<div class="month">Following</div>
+				</button>
+
+				<img src="/uploads/${SNS_IMAGE_LIST.feimgname}"
+					style="width: 90%; height: 240px;" />
+			</div>
+			<!-- Post Content-->
+			<div class="post-content">
+
+				<h1 class="title">${SNS_DETAIL.fecon}</h1>
+				<button id="snslike"
+					class='fa fa-heart animated infinite pulse btn-danger'>${SNS_LIKE_CNT}</button>
+				&nbsp;&nbsp;
+				<button class='icon-fighter-jet animated infinite pulse btn-color'
+					onClick='location.href="/snsFollowerspage.do?feseq=${SNS_DETAIL.feseq}&fmseq=${SNS_DETAIL.mseq}"'>놀러가기</button>
+				<c:choose>
+					<c:when test="${MSEQ == SNS_DETAIL.mseq}">
+						<a href="#testModal" class="btn btn-color pull-right"
+							data-toggle="modal">수정</a>
+						<button class='btn btn-danger pull-right'
+							onClick='location.href="/snsFeedDelete.do?feseq=${SNS_DETAIL.feseq}"'>삭제</button>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${MSEQ != SNS_DETAIL.mseq}">
+						<button id="fdreasen" class="btn btn-warning pull-right">신고</button>
+					</c:when>
+				</c:choose>
+				
+					<form class="freason" action='/snsfdeclarationInsert.do'
+									method='post'>
+									<input type='hidden' name='feseq' value='${SNS_DETAIL.feseq}'>
+									<div>
+										<input type='text' id='fdcon'
+											style='display: none; height: 10px; width: 400px; margin: 25px 20px 75px;'
+											placeholder='feed 신고이유를 적어주세요' name='fdcon' value=''>
+										<button id="btnfreason" class='btn btn-warning'
+											onClick='fdreason()' style="display: none;">확인</button>
+									</div>
+								</form>
+				<div class="post-meta">
 					<!-- SNS : 글쓴이번호 (하단 폼안에 넣지 말것~!) -->
-					<input id="fmseq" type="hidden" name="fmseq" value="${SNS_DETAIL.mseq}"> 
-					
+					<input id="fmseq" type="hidden" name="fmseq"
+						value="${SNS_DETAIL.mseq}">
+
 					<!-- 커맨트 작성 -->
-					<form action="/snscommentInsert.do" class="commentInsert" method="post">
-						<input id="feseq" type="hidden" name="feseq" value="${SNS_DETAIL.feseq}"> 
-						<label for="ex_input">댓글</label> <input type="text"
-							style="display: inline; height: 10px; width: 400px; margin: 25px 20px 75px;"
-							placeholder="댓글 작성을 위해 로그인 해주세요" name="sccon" value=""> 
-						<input type="button" value="입력" onClick="goPage()">
-					</form>
-					<div class="span8">
+					<c:choose>
+						<c:when test="${MSEQ > 0}">
+							<label for="ex_input">댓글</label>
+							<input type="text"
+								style="display: inline; height: 10px; width: 400px; margin: 25px 20px 75px;"
+								placeholder="댓글을 작성 해주세요" name="sccon" value="">
+							<input type="button" value="입력" onClick="goPage()">
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${MSEQ <= 0}">
+							<label for="ex_input">댓글</label>
+							<input type="text"
+								style="display: inline; height: 10px; width: 400px; margin: 25px 20px 75px;"
+								placeholder="댓글 작성을 위해 로그인 해주세요" name="sccon" value="">
+							<input type="button" value="입력">
+						</c:when>
+					</c:choose>
+
+					<div class="span6" align="center">
 						<table class="table">
 							<c:forEach var="vo" items="${SNS_COMMENT_LIST}">
 								<tr>
 									<td>${vo.sccon}</td>
 									<td>${vo.scregdate}</td>
+									<c:choose>
+										<c:when test="${5 == vo.mseq}">
+											<td style="cursor: pointer;">
+											<a href="#reply" data-toggle="modal">수정</a>
+											<td style="cursor: pointer;">
+											<a href="/snsCommentDelete.do?scseq=${vo.scseq}&feseq=${vo.feseq}">삭제</a>
+											</td>
+										</c:when>
+									</c:choose>
+									<td><c:choose>
+											<c:when test="${MSEQ != vo.mseq}">
+												<button id="cdreasen" class="btn btn-warning">신고</button>
+											</c:when>
+										</c:choose></td>
 								</tr>
+								<form class="reason" action='/snscdeclarationInsert.do'
+									method='post'>
+									<input id="scseq" type='hidden' name='scseq' value='${vo.scseq}'>
+									<input type='hidden' name='feseq' value='${SNS_DETAIL.feseq}'>
+									<div>
+										<input type='text' id='cdcon'
+											style='display: none; height: 10px; width: 400px; margin: 25px 20px 75px;'
+											placeholder='reply 신고이유를 적어주세요' name='cdcon' value=''>
+										<button id="btncreason" class='btn btn-warning'
+											onClick='creason()' style="display: none;">확인</button>
+									</div>
+								</form>
 							</c:forEach>
 						</table>
-						${SNS_COMMENT_PAGING}
+						<div align="center">
+							<ul class="pagination">${SNS_COMMENT_PAGING}</ul>
+						</div>
+						<div align="center">
+						<button class="btn btn-color" value="글쓰기" style="width:200px;">
+                        <a href="/snsmain.do"><font color="white">SNSmain으로</font></a>
+                     </button>
+						</div>
 					</div>
+
 				</div>
 			</div>
-
-
 		</div>
+	</div>
+	<div class="modal" id="testModal">
+		<div class="modal-dialog modal-login" style="width:100%">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">수정하기</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+				</div>
+
+				<div class="modal-body">
+					<form class="fupdate" action="/snsFeedupdate.do" method="post">
+						<input type="hidden" name="feseq" value="${SNS_DETAIL.feseq}">
+						
+						<div class="form-group">
+							<div class='span4' id="snstext"
+								style='float: left;'>
+								<select class='form-control' id='division' name='ferange'
+									style='width: 150px'>
+									<option value="all">모두공개</option>
+									<option value="friend">팔로우공개</option>
+									<option value="secret">비공개</option>
+								</select>
+								<input type='text' id='fecon'
+								style='display: inline; height: 10px; width: 200px; margin: 25px 20px 35px;'
+								placeholder='수정할 내용' name='fecon' value=''>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button id="mdbtn" class="btn" onClick="mdbtn()">수정</button>
+				<button type="button" class="btn" data-dismiss="modal">닫기</button>
+
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal" id="reply" style="top-margin:30px">
+		<div class="modal-dialog modal-login" style="width:100%">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">수정하기</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+				</div>
+
+				<div class="modal-body">
+					<form class="fupdate" action="/snsCommentupdate.do" method="post">
+						<input type="hidden" name="feseq" value="${SNS_DETAIL.feseq}">
+						
+						<div class="form-group">
+							<div class='span4' id="snstext"
+								style='float: left;'>
+								<input type='text' id='sccon'
+								style='display: inline; height: 10px; width: 200px; margin: 25px 20px 35px;'
+								placeholder='수정할 내용' name='sccon' value=''>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button id="mdbtn" class="btn" onClick="mdbtn()">수정</button>
+				<button type="button" class="btn" data-dismiss="modal">닫기</button>
+
+			</div>
+		</div>
+	</div>
 </section>
 <!-- <script src='//codepen.io/andytran/pen/vLmRVp.js'></script> -->
 <script >
-$(window).load(function() {
-  $('.post-module').hover(function() {
-    $(this).find('.description').stop().animate({
-      height: "toggle",
-      opacity: "toggle"
-    }, 300);
-  });
-});
-//# sourceURL=pen.js
+	$(window).load(function() {
+		$('.post-module').hover(function() {
+			$(this).find('.description').stop().animate({
+				height : "toggle",
+				opacity : "toggle"
+			}, 300);
+		});
+	});
+	$("#cdreasen").click(function() {
+		$("#cdcon").show();
+		$("#btncreason").show();
+	});
+	$("#fdreasen").click(function() {
+		$("#fdcon").show();
+		$("#btnfreason").show();
+	});
+
+	//# sourceURL=pen.js
 </script>
 <script type="text/javascript">
 function goPage() {
 	$(".commentInsert").submit();
 }
+function dreason() {
+	$(".reason").submit();
+}
+function mdbtn() {
+	$(".fupdate").submit();
+}
+function fdreason() {
+	$(".freason").submit();
+}
+
 </script>
+
+<script src='//static.codepen.io/assets/editor/live/console_runner-ce3034e6bde3912cc25f83cccb7caa2b0f976196f2f2d52303a462c826d54a73.js'></script>
 <script src='//static.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
 <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script src='//static.codepen.io/assets/editor/live/console_runner-ce3034e6bde3912cc25f83cccb7caa2b0f976196f2f2d52303a462c826d54a73.js'></script>
 <script src='//static.codepen.io/assets/editor/live/css_live_reload_init-890dc39bb89183d4642d58b1ae5376a0193342f9aed88ea04330dc14c8d52f55.js'></script>
-<script src="//use.typekit.net/xyl8bgh.js"></script>
-<script>try{Typekit.load();}catch(e){}</script>
-</body></html>
+</html>

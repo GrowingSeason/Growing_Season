@@ -4,8 +4,8 @@
 <mapper namespace="com.kosmo.mapper.SnsMapper">
 
 <select id="snsFeedList" resultType="com.kosmo.sns.SnsFeedVO">
-select feseq,mseq,fecon,feregdate,ferange,fedelete from snsfeed 
-where ferange='all' and fedelete='N'
+select f.feseq, f.mseq, f.fecon, f.feregdate,f.ferange,f.fedelete,i.feimgname 
+from snsfeed f, snsimage i where f.feseq=i.feseq and ferange='all' and fedelete='N'
 </select>
 
 <select id="snsFeedDetail" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
@@ -17,12 +17,12 @@ where feseq=#{feseq}
 
 <!-- 난 니 팬이야 -->
 <select id="snsFollowersList" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
-select m.mid as fmid  from member m, follow f where m.mseq=f.fmseq and f.mseq= #{mseq}
+select m.mid as fmid  from member m, follow f where m.mseq=f.fmseq and f.mseq= ${mseq}
 </select>
 
 <!-- 누가 내 팬이냐 -->
 <select id="snsFollowingList" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
-select m.mid as fmid  from member m, follow f where m.mseq=f.mseq and f.fmseq= #{mseq}
+select m.mid as fmid  from member m, follow f where m.mseq=f.mseq and f.fmseq= ${mseq}
 </select>
 
 <!-- 난 더이상 니 팬 안할래 -->
@@ -58,8 +58,8 @@ delete from follow where mseq=#{mseq} and fmseq=#{fmseq}
 </delete>
 
 <select id="snsFollowerspage" parameterType="com.kosmo.sns.SnsFeedVO" resultType="com.kosmo.sns.SnsFeedVO">
-select f.feseq, f.mseq, f.fecon, f.feregdate,f.ferange,f.fedelete,i.snsimgname 
-from snsfeed f, snsimage i where f.mseq=i.mseq and fedelete='N' and mseq=#{mseq} and ferange='all'
+select f.feseq, f.mseq, f.fecon, f.feregdate,f.ferange,f.fedelete,i.feimgname 
+from snsfeed f, snsimage i where f.feseq=i.feseq and fedelete='N' and mseq=#{mseq} and ferange='all'
 </select>
 
 
@@ -103,27 +103,27 @@ values (hashtag_seq.nextval,#{feseq},#{htcon})
 </insert>
 
 <insert id="snscdeclarationInsert" parameterType="com.kosmo.sns.DeclarationVO">
-insert into clarationin (scseq,cdcon,cdregdate,cdmseq)
+insert into cdeclaration (scseq,cdcon,cdregdate,cdmseq)
 values (#{scseq},#{cdcon},sysdate,#{cdmseq})
 </insert>
 
 <insert id="snsfdeclarationInsert" parameterType="com.kosmo.sns.DeclarationVO">
-insert into hashtag (feseq,fdcon,fdregdate,fdmseq)
+insert into fdeclaration (feseq,fdcon,fdregdate,fdmseq)
 values (#{feseq},#{fdcon},sysdate,#{fdmseq})
 </insert>
 
 <update id="snsFeedupdate" parameterType="com.kosmo.sns.SnsFeedVO">
-update snsfeed set fecon=#{fecon}, ferange=#{ferange}, ferange=sysdate
+update snsfeed set fecon=#{fecon}, ferange=#{ferange}, feregdate=sysdate
 where feseq=#{feseq}
 </update>
 
 <update id="snsCommentupdate" parameterType="com.kosmo.sns.SnsCommentVO">
-update snsfeed set sccon=#{sccon}, scregdate=sysdate
+update snscomment set sccon=#{sccon}, scregdate=sysdate
 where scseq=#{scseq}
 </update>
 
 <update id="snsHashtagupdate" parameterType="com.kosmo.sns.SnsFeedVO">
-update snscomment set htcon=#{htcon} where htseq=#{htseq}
+update hashtag set htcon=#{htcon} where feseq=#{feseq}
 </update>
 
 <delete id="cdeclarationdelete" parameterType="Integer">
@@ -131,15 +131,15 @@ delete from cdeclaration where feseq=#{feseq}
 </delete>
 
 <update id="snsFeedDelete" parameterType="Integer">
-update snsfeed set fedelete="Y" where feseq=#{feseq} 
+update snsfeed set fedelete='Y' where feseq=${feseq} 
 </update>
 
 <delete id="fdeclarationdelete" parameterType="Integer">
 delete from fdeclaration where feseq=#{feseq}
 </delete>
 
-<update id="snsCommentDelete" parameterType="Integer">
-update snscomment set scdelete='Y' where scseq=#{scseq}
+<update id="snsCommentDelete" parameterType="com.kosmo.sns.SnsCommentVO">
+update snscomment set scdelete='Y' where scseq=#{scseq} and feseq=#{feseq}
 </update>
 
 <select id="snsfDeclarationList" parameterType="Integer" resultType="com.kosmo.sns.SnsFeedVO">
@@ -157,18 +157,18 @@ update snscomment set scdelete='Y' where scseq=#{scseq}
 </select>
 
 <select id="hashtagSearch" parameterType="map" resultType="com.kosmo.sns.SnsFeedVO">
-select h.htseq, h.feseq, h.htcon, i.feimgname feimgname from hashtag h,snsimage i where h.feseq=i.feseq and htcon like '%' || #{searchStr} || '%'
+select h.htseq, h.feseq, h.htcon, i.feimgname from hashtag h,snsimage i where h.feseq=i.feseq and htcon like '%' || #{searchStr} || '%'
 </select>
 
 <select id="snsMypage" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
-select feseq, mseq, fecon, feregdate,ferange,fedelete,i.snsimgname 
-from snsfeed f, snsimage i where f.mseq=i.mseq and fedelete='N' and mseq=#{mseq}
+select f.feseq, f.mseq, f.fecon, f.feregdate,f.ferange,f.fedelete,i.feimgname 
+from snsfeed f, snsimage i where f.feseq=i.feseq and fedelete='N' and f.mseq=#{mseq}
 </select>
 
 
 <select id="snsallpage" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
-select feseq, mseq, fecon, feregdate,ferange,fedelete,i.snsimgname 
-from snsfeed f, snsimage i where f.mseq=i.mseq and fedelete='N' and mseq=#{mseq} and ferange !='secret'
+select f.feseq, f.mseq, f.fecon, f.feregdate,f.ferange,f.fedelete,i.feimgname 
+from snsfeed f, snsimage i where f.feseq=i.feseq and fedelete='N' and f.mseq=${mseq} and ferange !='secret'
 </select>
 
 
@@ -215,11 +215,11 @@ select feseq,feimgname,feimgpath,feimgsize from snsimage
 </select>
 
 <delete id="snsHashtagdelete" parameterType="int">
-delete from hashtag where mseq=#{mseq}
+delete from hashtag where feseq=#{feseq}
 </delete>
 
 <delete id="snsImgdelete" parameterType="int">
-delete from snsimage where mseq=#{mseq}
+delete from snsimage where feseq=#{feseq}
 </delete>
 
 <select id="snsImgdetail" parameterType="int" resultType="com.kosmo.sns.SnsImgVO">

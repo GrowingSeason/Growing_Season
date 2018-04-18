@@ -20,6 +20,7 @@ public class SnsServiceImpl implements SnsService{
 
 	@Override
 	public ArrayList<SnsFeedVO> snsFeedList() {
+			
 		return snsdao.snsFeedList();
 	}
 	
@@ -183,26 +184,37 @@ public class SnsServiceImpl implements SnsService{
 
 	@Override
 	public int cdeclarationdelete(int feseq) {
-		snsdao.snsCommentDelete(feseq);
+		
+		return snsdao.cdeclarationdelete(feseq);
+	}
+	
+	@Override
+	public int cdeclarationdeleteservice(int feseq,int scseq) {
+		SnsCommentVO vo=new SnsCommentVO();
+		vo.setFeseq(feseq);
+		vo.setScseq(scseq);
+		snsdao.snsCommentDelete(vo);
 		return snsdao.cdeclarationdelete(feseq);
 	}
 
 	@Override
 	public int fdeclarationdelete(int feseq) {
-		snsdao.snsFeedDelete(feseq);
+		
 		return snsdao.fdeclarationdelete(feseq);
 	}
 
 	@Override
 	public int snsFeedDelete(int feseq) {
-		
+		snsdao.snsFeedDelete(feseq);
+		snsdao.snsHashtagdelete(feseq);
+		snsdao.snsImgdelete(feseq);
 		return snsdao.snsFeedDelete(feseq);
 	}
 
 	@Override
-	public int snsCommentDelete(int feseq) {
+	public int snsCommentDelete(SnsCommentVO vo) {
 		
-		return snsdao.snsCommentDelete(feseq);
+		return snsdao.snsCommentDelete(vo);
 	}
 
 	@Override
@@ -227,19 +239,48 @@ public class SnsServiceImpl implements SnsService{
 	}
 
 	@Override
+	public Map<String , Object> snsMypageSErvice(int mseq) {
+		ArrayList<SnsFeedVO> fList= snsdao.snsMypage(mseq);
+		ArrayList<SnsFeedVO> feList=snsdao.snsFollowersList(mseq);
+		ArrayList<SnsFeedVO> fiList=snsdao.snsFollowingList(mseq);
+		int fecnt=snsdao.snsFollwersCnt(mseq);
+		int ficnt=snsdao.snsFollwingCnt(mseq);
+		Map<String , Object> map = new HashMap<String , Object>();
+		map.put("fList", fList);
+		map.put("feList", feList);
+		map.put("fiList", fiList);
+		map.put("fecnt", fecnt);
+		map.put("ficnt", ficnt);
+		return map;
+	}
+	
+	@Override
 	public ArrayList<SnsFeedVO> snsMypage(int mseq) {
-		
 		return snsdao.snsMypage(mseq);
 	}
  
 	@Override
-	public ArrayList<SnsFeedVO> snsFollowerspageService(int feseq, int mseq) {
+	public Map<String , Object> snsFollowerspageService(int feseq,int mseq ,int fmseq) {
 //		팔로워인지 체크
-		int fmseq=snsdao.snsFollowerCheck(feseq, mseq);
-		if(fmseq!=mseq){
-			return snsdao.snsallpage(fmseq);
+		int fecheck=snsdao.snsFollowerCheck(feseq, fmseq);
+		ArrayList<SnsFeedVO> fList= snsdao.snsFollowerspage(fmseq);
+		ArrayList<SnsFeedVO> allList= snsdao.snsallpage(fmseq);
+		ArrayList<SnsFeedVO> feList=snsdao.snsFollowersList(fmseq);
+		ArrayList<SnsFeedVO> fiList=snsdao.snsFollowingList(fmseq);
+		int fecnt=snsdao.snsFollwersCnt(fmseq);
+		int ficnt=snsdao.snsFollwingCnt(fmseq);
+		
+		Map<String , Object> map = new HashMap<String , Object>();
+		map.put("feList", feList);
+		map.put("fiList", fiList);
+		map.put("fecnt", fecnt);
+		map.put("ficnt", ficnt);
+		if(fecheck>=0){
+			map.put("allList", allList);
+		} else if(fecheck>=1){
+			map.put("fList", fList);
 		}
-		return snsdao.snsFollowerspage(fmseq);
+		return map;
 	}
 
 	@Override
@@ -357,9 +398,9 @@ public class SnsServiceImpl implements SnsService{
 	}
 
 	@Override
-	public ArrayList<SnsImgVO> snsImgList() {
+	public ArrayList<SnsImgVO> snsImgList(int feseq) {
 		
-		return snsdao.snsImgList();
+		return snsdao.snsImgList(feseq);
 	}
 
 	@Override

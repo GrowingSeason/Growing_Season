@@ -74,18 +74,23 @@
 <section id="content">
 	<!---728x90--->
 	<div class="container">
-		
-			<form action="/hashtagSearch.do" method="post">
-				
-					<input type="text" placeholder="Search for..."
-						id="searchStr" align="center" style="width:800px;"> 
-						<span class="input-group-btn">
-						<button class="btn btn-default" type="button" id="seach">Go!</button>
-					</span>
-				
-			</form>
-		
-		
+
+		<div class="grid_7 grid_5 agileits" align="center">
+         <form action="/hashtagSearch.do" method="post">
+            <div class="input-group">
+               <input type="text" class="form-control" placeholder="Search for..."
+                  id="searchStr"> <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" id="seach">Go!</button>
+                  
+               </span>
+            </div>
+         </form>
+         <div align="right">
+         	<button class="btn btn-color" value="글쓰기" style="width:200px;">
+            	<a href="/snsMypage.do"><b><font color="white">마이페이지로</font></b></a></button>
+        </div>
+		 </div><br><br><br>
+		<div class="span12">
 		<div id="returnFalse" class="row" align="center">
 				<c:forEach var="vo" items="${SNS_IMG_LIST}">
 					<div class="span4">
@@ -95,13 +100,16 @@
 					</div>
 				</c:forEach>
 			</div>
-
-
-
-		<div  id="returnTrue" class="row" align="center">
-			<div class="span4" id="searchRes">
+			
+			<div  id="returnTrue" class="row" align="center">
+				<div class="span4" id="searchRes">
+				</div>
 			</div>
-	</div>
+			</div>
+			
+			
+
+		
 </div>
 
 <!-- 
