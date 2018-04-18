@@ -34,7 +34,7 @@
 		<div align="center">
 			<nav>
 				<ul class="pagination">
-					<li>${PROPOSAL_PAGING}</li>
+					${PROPOSAL_PAGING}
 				</ul>
 			</nav>
 		</div>

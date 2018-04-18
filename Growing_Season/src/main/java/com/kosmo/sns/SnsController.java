@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,7 +124,12 @@ public class SnsController {
 	 * @return mav
 	 */
 	@RequestMapping(value="/snsMypage.do")
-	public ModelAndView snsMypage(@RequestParam ("mseq") int mseq) {
+	public ModelAndView snsMypage(HttpSession session) {
+		int mseq=0;
+		if(session.getAttribute("MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("MSEQ").toString());
+		}
+		mseq = 7;
 		ArrayList<SnsFeedVO> list=service.snsMypage(mseq);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("SNS_MYPAGE_LIST",list);

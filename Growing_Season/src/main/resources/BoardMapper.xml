@@ -3,7 +3,8 @@
 
 	<resultMap id="replyMap" type="com.kosmo.board.ReplyVO">
 		<result property="rseq" column="rseq" />
-		<collection property="rList" columnPrefix="r_" 
+		<result property="mid" column="mid" />
+		<collection property="rDeclarationList" columnPrefix="r_" 
 		 resultMap="rdeclarationMap" javaType="java.util.ArrayList" />
 	</resultMap>
 	
@@ -23,17 +24,14 @@
 		order by r.rseq
 	</select>
 	
-
 	
 	
-	
-
 	<resultMap id="boradMap" type="com.kosmo.board.BoardVO">
 		<result property="bseq" column="bseq" />
 		<result property="mid" column="mid" />
 		<result property="mseq" column="mseq" />
 		<result property="btitle" column="btitle" />
-		<collection property="declarationList" columnPrefix="r_"
+		<collection property="bDeclarationList" columnPrefix="r_"
 			resultMap="bdeclarationMap" javaType="java.util.ArrayList" />
 	</resultMap>
 

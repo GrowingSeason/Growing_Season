@@ -65,9 +65,9 @@
   <script src="/js/portfolio/setting.js"></script>
   <script src="/js/animate.js"></script>
 
-  <!-- Template Custom JavaScript File -->
+  <!-- Template Custom JavaScript File 
   <script src="/js/custom.js"></script>
-
+-->
 </body>
 
 </html>

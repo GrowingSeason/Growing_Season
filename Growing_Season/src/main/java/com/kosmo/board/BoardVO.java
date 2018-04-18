@@ -26,6 +26,7 @@ public class BoardVO { //extends BDeclarationVO {
 	private int bdmseq;
 	private String bdreason;
 	private String bdregdate;
+	private ArrayList<BDeclarationVO> bDeclarationList;
 
 	
 	public int getBdmseq() {
@@ -46,16 +47,11 @@ public class BoardVO { //extends BDeclarationVO {
 	public void setBdregdate(String bdregdate) {
 		this.bdregdate = bdregdate;
 	}
-	private ArrayList<BDeclarationVO> declarationList;
-	
-	
-	
-	
-	public ArrayList<BDeclarationVO> getDeclarationList() {
-		return declarationList;
+	public ArrayList<BDeclarationVO> getbDeclarationList() {
+		return bDeclarationList;
 	}
-	public void setDeclarationList(ArrayList<BDeclarationVO> declarationList) {
-		this.declarationList = declarationList;
+	public void setbDeclarationList(ArrayList<BDeclarationVO> bDeclarationList) {
+		this.bDeclarationList = bDeclarationList;
 	}
 	public String getMgubun() {
 		return mgubun;

@@ -3,7 +3,7 @@ package com.kosmo.board;
 public class RDeclarationVO {
 	private int rseq;
 	private String rdreason;
-	private int rdregdate;
+	private String rdregdate;
 	private int rdmseq;
 	private String rdmid;
 	
@@ -25,10 +25,10 @@ public class RDeclarationVO {
 	public void setRdreason(String rdreason) {
 		this.rdreason = rdreason;
 	}
-	public int getRdregdate() {
+	public String getRdregdate() {
 		return rdregdate;
 	}
-	public void setRdregdate(int rdregdate) {
+	public void setRdregdate(String rdregdate) {
 		this.rdregdate = rdregdate;
 	}
 	public int getRdmseq() {
