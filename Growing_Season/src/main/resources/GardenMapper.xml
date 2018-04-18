@@ -15,7 +15,7 @@
 		select apseq, mseq, fgseq, aseq, year, pdivision, pcode, apname, apphone,
 		apemail, apbirth, apcancel, apdivision,awinner
 		from apply
-		where mseq=#{mseq} and apdivision != '농장'
+		where mseq=#{mseq} and apdivision != '농장' and apcancel !='Y'
 	</select>
 
 

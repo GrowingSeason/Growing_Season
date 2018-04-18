@@ -143,10 +143,10 @@ public class GardenController {
 	
 	@RequestMapping(value="/myGarden/user/cancelGarden.do")
 	public String applyCancel(HttpServletRequest request,@RequestParam("apseq") int apseq) {
-
 		
-		
-		return "redirect:applyGarden_apply_user_apply_main2";
+		int res = service.applyGardenCancel(apseq);
+		System.out.println(res + "건 취소됨. apseq = "+apseq);
+		return "redirect:/myApplyCondition/all/applyCondition_main.do";
 	}
 	
 	

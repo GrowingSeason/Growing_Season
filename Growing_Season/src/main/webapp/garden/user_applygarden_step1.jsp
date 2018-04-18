@@ -14,12 +14,13 @@ select{
     color: black;
     border: 1px solid gray;
     border-radius: 3px;
-    -webkit-appearance: none; /* 화살표 없애기 for chrome*/
-   -moz-appearance: none;    /* 화살표 없애기 for firefox*/
-   appearance: none;         /* 화살표 없애기 공통*/
+    background: url(/img/selectbox.png) 180px center no-repeat;
+    /*-webkit-appearance: none; 
+   -moz-appearance: none;     
+   appearance: none;*/          
 }
 select::-ms-expand {
-   display: none;            /* 화살표 없애기 for IE10, 11*/
+   /*display: none;             화살표 없애기 for IE10, 11*/
 }
 
 	label{
