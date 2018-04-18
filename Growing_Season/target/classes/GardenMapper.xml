@@ -15,7 +15,7 @@
 		select apseq, mseq, fgseq, aseq, year, pdivision, pcode, apname, apphone,
 		apemail, apbirth, apcancel, apdivision,awinner
 		from apply
-		where mseq=#{mseq} and apdivision != '농장'
+		where mseq=#{mseq} and apdivision != '농장' and apcancel !='Y'
 	</select>
 
 
@@ -24,25 +24,18 @@
 		document(dseq, apseq, mseq, dname, dregdate, docureturn,
 		dfilename,dfilesize,dfilepath)
 		values(document_seq.nextval,
-		#{apseq},#{mseq},#{dname},sysdate,'N',#{dfileName},#{dfileSize},#{dfilePath})
+		#{apseq},#{mseq},#{dfileName},sysdate,'N',#{dfileName},#{dfileSize},#{dfilePath})
 	</insert>
 
 
-	<select id="documentListByMseq" parameterType="Integer"
-		resultType="com.kosmo.garden.DocumentVO">
-
-		select dseq, apseq, mseq, dname, dregdate, docureturn, dreturncause,
-		dreturndate, dfilename as dfileName, dfilesize, dfilepath
-		from document where mseq = #{mseq}
-	</select>
 	
 
 	<insert id="applyGardenInsert" parameterType="com.kosmo.garden.ApplyGardenVO">
 		insert into
-		apply(apseq, mseq, year, awinner, apname, apphone, apemail,
+		apply(apseq,fgseq, mseq, year, awinner, apname, apphone, apemail,
 		apbirth,
 		apdate, apcancel, apdivision)
-		values(apply_seq.nextval,#{mseq},to_char(sysdate,'yyyy'),'N',#{apname},#{apphone},#{apemail},
+		values(apply_seq.nextval,#{fgseq},#{mseq},to_char(sysdate,'yyyy'),'N',#{apname},#{apphone},#{apemail},
 		to_date(#{apbirth},'yy/mm/dd'),sysdate,'N',#{apdivision})
 	</insert>
 	
@@ -89,6 +82,41 @@
 		fglongitude, fgdelete from farm_garden where fgseq = #{fgseq}
 
 	</select>
+	
+	<select id="getMemberInfo" resultType="com.kosmo.garden.MemberVO" parameterType="com.kosmo.garden.MemberVO">
+        select * from member
+        where mseq = #{mseq} and mwithdraw='N'
+    </select>
+    
+   	<select id="applyGardenCntByMseq" resultType="int" parameterType="int">
+		select count(*)
+		from apply
+		where mseq=#{mseq} and apdivision != '농장' and (apcancel='N' or apcancel='n') 
+    </select>
+    
+	<select id="documentListByMseq" parameterType="Integer"
+		resultType="com.kosmo.garden.DocumentVO">
 
+		select dseq, apseq, mseq, dname, dregdate, docureturn, dreturncause,
+		dreturndate, dfilename as dfileName, dfilesize, dfilepath
+		from document where mseq = #{mseq}
+	</select>
+	
+
+	<update id="documentReturnChange" parameterType="int">
+		update document set docureturn='NN'
+		where apseq=#{apseq} and docureturn = 'Y'
+    </update>
+
+	<select id="documentReturnCount" resultType="int" parameterType="int">
+		select count(*)
+		from document
+		where apseq=#{apseq} and docureturn = 'Y'
+    </select>
+
+	<update id="applyGardenCancel" parameterType="int">
+		update apply set apcancel='Y'
+		where apseq=#{apseq}
+    </update>
 
 </mapper>

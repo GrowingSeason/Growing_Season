@@ -3,12 +3,10 @@
 
 <div class="typo">
 	<div class="container">
-
 		<div class="alert alert-info" role="alert" align="center">
 			<strong><h3>[건의사항게시판]</h3></strong></br>
 			<h4>※농장관련 건의사항을 올려주세요※</h4>
 		</div>
-
 		<div class="bs-docs-example">
 			<table class="table">
 				<thead>
@@ -43,5 +41,5 @@
 				<a href="/boardproposalinsert.do">글쓰기</a>
 			</button>
 		</div>
-</div>
+	</div>
 </div>

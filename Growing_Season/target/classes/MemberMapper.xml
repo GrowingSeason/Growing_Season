@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosmo.mapper.MemberMapper">
+	
+	<!--  
+	
+	 <insert id="paymentFormInsert" parameterType="com.kosmo.payment.PaymentVO" 
+	 useGeneratedKeys="true" keyProperty="apseq">
+	 	insert into(apseq, ....) values(table_seq.nextval ..)
+	 </insert>
+	 
+
+	-->
+	
+	<select id="memIDCheck" parameterType="String" resultType="int">
+		select count(*) from member where mid=#{mid}
+	</select>
+	
+	<select id="loginCheck" resultType="com.kosmo.member.MemberVO" parameterType="com.kosmo.member.MemberVO">
+        select * from member
+        where mid=#{mid} and mpw=#{mpw} and mwithdraw='N'
+    </select>
+	
+	<select id="memberCount" resultType="Integer">
+		select count(*) cnt from member
+	</select>
+	
+	<select id="memberDetail" parameterType="int" resultType="com.kosmo.member.MemberVO">
+		select mseq, mid, mphone, mpw, mname, mbirth, memail, maddress, mgender, mmailreceive from member where mseq <![CDATA[=]]> #{mseq} order by mseq
+	</select>
+	
+	<select id="memberAdminList" parameterType="map" resultType="com.kosmo.member.MemberVO">
+		select rnum, mseq, mid, mphone, mpw, mname, mbirth, memail, maddress, mgender, mmailreceive, mauth, mauthtoken, mregdate
+		from
+		(
+		select rownum rnum,
+		 mseq, mid, mphone, mpw, mname, mbirth, memail, maddress, mgender, mmailreceive, mauth, mauthtoken, mregdate
+		from
+		(select
+		 mseq, mid, mphone, mpw, mname, mbirth, memail, maddress, mgender, mmailreceive, mauth, mauthtoken, mregdate
+         from MEMBER where mgubun != 'A' order by mseq desc) t)
+		where rnum <![CDATA[>=]]>
+		#{sseq} and rnum <![CDATA[<=]]>
+		#{eseq}
+	</select>
+	
+	<insert id="memberInsert" parameterType="int">
+		insert into member(mseq, mid, mphone, mpw, mname, mbirth, memail, maddress, mgender, mmailreceive, mauth, mauthtoken, mregdate)
+	values(MEMBER_SEQ.NEXTVAL, #{mid}, #{mphone}, #{mpw}, #{mname}, to_date(#{mbirth}, 'YYYY-MM-DD'), #{memail},
+ 	#{maddress}, #{mgender} , #{mmailreceive}, #{mauth}, #{mauthtoken}, sysdate)
+	</insert>
+	  
+	<insert id="paymentInsert" parameterType="com.kosmo.payment.PaymentVO">
+		insert into paymentlog (pseq,mseq,apseq,pregdate,pprice,ppermit)
+		values(payment_seq.nextval, #{mseq}, #{apseq}, sysdate, #{pprice}, #{ppermit})
+	</insert>
+	
+	<update id="pcodeUpdate" parameterType="com.kosmo.payment.PaymentVO">
+		update apply set pcode = '결제완료' where apseq=#{apseq}
+	</update>
+	
+	<update id="memberUpdate" parameterType="com.kosmo.member.MemberVO">
+		update member
+		set
+		mpw=#{mpw}
+		,mname=#{mname}
+		,mphone=#{mphone}
+		,maddress=#{maddress}
+		,memail=#{memail}
+		,mmailreceive=#{mmailreceive}
+		where mseq=#{mseq}
+	</update>
+	
+	<update id="memberDelete" parameterType="int">
+		update member
+		set
+		mwithdraw='Y'
+		where mseq=#{mseq}
+	</update>
+	
+	<update id="memberAdminDelete" parameterType="com.kosmo.member.MemberVO">
+		update member
+		set
+		mwithdraw=#{mwithdraw}
+		where mseq=#{mseq}
+	</update>
+
+</mapper>

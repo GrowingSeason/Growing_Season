@@ -11,15 +11,11 @@
 <body>
 	<div id="all"
 		style="width: 80%; margin-top: 100px; margin-bottom: 500px;">
-
 			<h1>결제페이지에요.</h1>
-			
-			
 			<form method="post" action="/applyGarden/user/applyGarden_payexecute.do">
 			<input type="hidden" name="pay" value="true"/>
 			<input type="submit" class="btn" id="pay_button" value="결제버튼"/>
 			</form>
-			
 	</div>
 
 

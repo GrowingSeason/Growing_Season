@@ -96,9 +96,12 @@
 	select fgcol, fgrow, fgtotalarea from farm_garden where fgseq = #{fgseq}
 </select>
 
-<insert id="completeApply">
+<insert id="completeApply" parameterType="com.kosmo.applyfarm.ApplyFarmVO">
 	insert into apply (apseq, mseq, fgseq, aseq, apdivision, year, pdivision, pcode, awinner, apname, apphone, apemail, apbirth, apdate, apcancel)
-    values(apply_seq.nextval, #{mseq},#{fgseq},#{aseq},#{apdivision},#{year},#{pdivision},#{pcode},'y',#{apname},#{apphone},#{apemail},#{apbirth}, sysdate,'n') 
+    values(apply_seq.nextval, #{mseq},#{fgseq},#{aseq},#{apdivision},#{year},#{pdivision},#{pcode},'y',#{apname},#{apphone},#{apemail},#{apbirth}, sysdate,'n')
+	<selectKey keyProperty="apseq" resultType="Integer" order="AFTER"> 
+		SELECT apply_seq.currval as apseq FROM dual;
+	</selectKey>
 </insert>
 
 <insert id="insertAreaNO">
@@ -151,6 +154,11 @@ where smsphone = #{phoneNumber}
 and auth_number = #{authNumber}
 and sms_regdate = (select max(sms_regdate) from farm_sms where smsphone= #{phoneNumber})
 </select>
+<update id="checkOvertimeSmsAuthValidate" parameterType="hashmap">
+	update farm_sms set auth_validate ='n' where smsphone=#{phoneNumber} and auth_number=#{authNumber} and trunc(((sysdate-SMS_REGDATE)*24*60),0) > 3
+</update>
+
+
 <!--
 -->
 </mapper>
