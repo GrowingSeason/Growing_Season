@@ -18,6 +18,12 @@
 	<result property="fgseq" column="fgseq" />
 </resultMap>
 
+<resultMap id="farmlistForWeather" type="java.util.HashMap">
+	<result property="fgname" column="fgname" />
+	<result property="fgseq" column="fgseq" />
+	<result property="fgaddress" column="fgaddress" />	
+</resultMap>
+
 <resultMap id="farmarea" type="java.util.HashMap">
 	<result property="fgcol" column="fgcol" />
 	<result property="fgrow" column="fgrow" />
@@ -92,6 +98,10 @@
 	select fgname, fgseq from farm_garden where fglocation = #{fglocation} and fgdivision ='농장' and fgdelete='n' group by fgname, fgseq
 </select>
 
+<select id="selectFarmList" resultMap="farmlistForWeather">
+	select fgname, fgseq, fgaddress from farm_garden where fgdivision ='농장' and fgdelete='n' group by fgname, fgseq, fgaddress
+</select>
+
 <select id="selectFarmArea" resultMap="farmarea">
 	select fgcol, fgrow, fgtotalarea from farm_garden where fgseq = #{fgseq}
 </select>
@@ -124,7 +134,7 @@
 	a.fgseq, a.aseq, fg.fglocation, fg.fgname, fg.fgmanager, fg.fgaddress, fg.fgphone, fg.fgfeature, fg.fgguide, fg.fgcol, fg.fgrow, fg.fgtotalarea, fg.fglatitude, fg.fglongitude
 	from apply a, farm_garden fg
 	where a.fgseq = fg.fgseq
-	and a.mseq=#{mseq} and a.year=#{year} and a.apcancel='n' and fg.fgdetaildiv='농장'
+	and a.mseq=#{mseq} and a.year=#{year} and a.apcancel='N' and fg.fgdetaildiv='농장'
 </select>
 <select id="selectFarmInfo" resultType="com.kosmo.applyfarm.FarmInfoVO">
 	select

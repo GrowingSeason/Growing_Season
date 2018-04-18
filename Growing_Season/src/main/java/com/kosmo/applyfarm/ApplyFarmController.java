@@ -137,7 +137,7 @@ public class ApplyFarmController {
 //		int mseq = Integer.parseInt(session.getAttribute("mseq").toString());
 		//int year = Integer.parseInt(thisYear);
 		
-		mav.addObject("MY_FARM_INFO", applyFarmServiceImpl.myApplyFarmInfo(3, thisYear));
+		mav.addObject("MY_FARM_INFO", applyFarmServiceImpl.myApplyFarmInfo(8, thisYear));
 		mav.setViewName("applyFarm_applyfarm_user_myfarm_checkfarm");
 		return mav;
 	}
@@ -184,6 +184,24 @@ public class ApplyFarmController {
 		return applyFarmServiceImpl.checkAuthNumber(authNumber, phoneNumber);
 	}
 	
+	@RequestMapping(value="/applyFarm/all/payment.do")
+	public ModelAndView paymentAll(ApplyFarmVO vo){
+		ModelAndView mav = new ModelAndView();
+
+		mav.setViewName("applyFarm_applyfarm_all_applyfarm_payment");
+
+		return mav;
+	}
+	
+	@RequestMapping(value="/applyFarm/user/payment.do")
+	public ModelAndView paymentUser(ApplyFarmVO vo){
+		ModelAndView mav = new ModelAndView();
+
+		mav.setViewName("applyFarm_applyfarm_user_applyfarm_payment");
+
+		return mav;
+	}
+	
 	//농장별 구획 셋팅하는 메서드...임시
 	@RequestMapping(value="/inserttemp.do")
 	public void insert(){
@@ -201,6 +219,15 @@ public class ApplyFarmController {
 	public ModelAndView viewTest(){
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("applyFarm_applyfarm_all_applyfarm_smsauth");
+		return mav;
+	}
+	
+	@RequestMapping(value="/wtest.do")
+	public ModelAndView viewWeather(){
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("FARM_INFO",applyFarmServiceImpl.selectFarmInfo(25));
+		mav.addObject("FARM_LIST", applyFarmServiceImpl.selectFarmList());
+		mav.setViewName("applyFarm_applyfarm_user_applyfarm_wethertest");
 		return mav;
 	}
 	

@@ -54,81 +54,98 @@
 	height: 100%;
 	vertical-align: middle;
 	user-select:none;
-}
+}	.shadow {
+	-webkit-box-shadow: 6px 10px 27px 7px rgba(194, 194, 194, 0.6);
+	-moz-box-shadow: 6px 10px 27px 7px rgba(194, 194, 194, 0.6);
+	box-shadow: 6px 10px 27px 7px rgba(194, 194, 194, 0.6);
+	padding:2%;
+	border: rgba(0, 0, 0, 0.2);
+	background-color:#ffffff;
+	}
+    .farmback {
+    background: url(/images/farmback.jpg)no-repeat center;
+    background-size: 100% 100%;
+  	
+     }
 </style>
-
-<div class="mail">
-
-
-	<div class="w3ls-heading">
-		<h2 class="h-two">농장신청현황</h2>
-		<p class="sub two">신청하신 농장의 정보와 구획을 확인하실 수 있습니다</p>
-	</div>
-
-	<div class="agileits_mail_grids">
-		<div class="col-md-5 agileits_mail_grid_left">
-			<div>
-
-				<form class="inputboxes" action="#" method="post">
-				<div class="alert alert-warning" role="alert">
-					<h2><strong>지역 : </strong> ${MY_FARM_INFO[0].fglocation}</h2>
-				</div>
-				<div class="alert alert-warning" role="alert">
-					<h2><strong>농장이름 : </strong> ${MY_FARM_INFO[0].fgname}</h2>
-				</div>
-				<div class="alert alert-warning" role="alert">
-					<h2><strong>주소 : </strong> ${MY_FARM_INFO[0].fgaddress}</h2>
-				</div>
-				<div class="alert alert-warning" role="alert">
-					<h2><strong>농장주 : </strong> ${MY_FARM_INFO[0].fgmanager}</h2>
-				</div>
-				<div class="alert alert-warning" role="alert">
-					<h2><strong>연락처 : </strong> ${MY_FARM_INFO[0].fgphone}</h2>
-				</div>
-			
-
-				</form>
+	 <section id="inner-headline">
+      <div class="container">
+        <div class="row">
+          <div class="span4">
+            <div class="inner-heading">
+              <h2>나의 농장정보</h2>
+            </div>
+          </div>
+          <div class="span8">            
+          </div>
+        </div>
+      </div>
+    </section>
+ <section id="content">
+    <div class="container">
+		<div class="row">
+			<div class="page-header">
+				<h2 class="h-two">농장신청현황<small> - 신청하신 농장의 정보와 구획을 확인하실 수 있습니다</small></h2>			
 			</div>
 		</div>
-		<div class="col-md-7 agileits_mail_grid_right">
-		
-			<div class="agile-map">
-				<div class="map" id="map"></div>
-			</div>
-			
-			<div class="left-agileits">
-				<ul>
-					<li><span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-						${MY_FARM_INFO[0].fgguide}</li>
-					<li><span class="glyphicon glyphicon-info-sign"	aria-hidden="true"></span>
-						${MY_FARM_INFO[0].fgfeature}</li>
-				</ul>
-			</div>
-		</div>
-	<div class="col-md-12" style="user-select:none">
-		<div id = "layer" style="overflow:auto;display:inline-block;width:90%;min-height:20%;max-height:500px;">
-		<div id = "layer" style="display:inline-block;width:90%">${year.thisyear}년 회원님께서 신청하신 구획은 ${MY_FARM_INFO[0].aseq}번 구획입니다</div>
-		
-				<table style="margin-left: auto; margin-right: auto;">
-					
-					<tbody class="farmsector" id ="farmsector" style="user-select:none;">
+        <div class="row">
+          <div class="span7">
+            <h4>신청하신 농장의 정보입니다</h4>
+
+
+			<div class="span6 farmback">
+            <div id = "farmarea" style="overflow:auto;display:inline-block;width:80%;margin:10%;min-height:20%;max-height:500px;">
+				<table style="margin-left: auto; margin-right: auto;background: rgba(0, 0, 0, 0.4);opacity:0.9">		
+					<tbody class="farmsector" id ="farmsector">
 						
 					</tbody>		
 				</table>
-			</div>
-			<span class="blank"></span>
-		</div>
-	</div>
-	<div class="w3agile-button">
-		<form class="cancelForm" id="cancelForm" action="/myFarm/user/cancelFarm.do" method="post">
-			<button class="btn btn-danger btn-lg" id="cancelBtn" type="button">신청취소</button>
-			<input type="hidden" name = "aseq" value="${MY_FARM_INFO[0].aseq}">
-			<input type="hidden" name = "fgseq" value="${MY_FARM_INFO[0].fgseq}">					
-		</form>
-		</div>
-	<div class="clearfix"></div>
-</div>
+				
+				</div>
+				</div>
+          </div>
+          <div class="span4">
+            <div class="clearfix"></div>
+            <aside class="right-sidebar">
 
+              <div class="widget">
+              	<div class="row">
+              	<div class="span4">
+             	<div id="map" style="width:auto;height:300px;"></div>
+             	</div>
+             	</div>
+              
+                <h5 class="widgetheading">농장정보<span></span></h5>
+
+                <ul class="contact-info">
+                  <li><label>지역 :</label>${MY_FARM_INFO[0].fglocation}</li>
+                  <li><label>농장이름 :</label>${MY_FARM_INFO[0].fgname}</li>
+                  <li><label>주소 :</label>${MY_FARM_INFO[0].fgaddress}</li>
+                  <li><label>농장주 :</label>${MY_FARM_INFO[0].fgmanager}</li>
+                  <li><label>연락처 :</label>${MY_FARM_INFO[0].fgphone}</li>
+                </ul>
+
+              </div>
+            </aside>
+          </div>
+        </div>
+		<form class="cancelForm" id="cancelForm" action="/myFarm/user/cancelFarm.do" method="post">
+        <div class="row">
+        	<div class="span12">
+				<div class="pricing-box-plain">
+					<div class="action">
+						<button class="btn-large btn-danger" type="button"> 신청취소 </button>
+						<input type="hidden" name = "aseq" value="${MY_FARM_INFO[0].aseq}">
+						<input type="hidden" name = "fgseq" value="${MY_FARM_INFO[0].fgseq}">	
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>				
+  	</div>
+  
+</section>
+  
 
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2df129d5c1a6d664029148b1657caaa3&libraries=services,clusterer,drawing"></script>

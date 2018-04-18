@@ -38,7 +38,7 @@ public class ApplyFarmServiceImpl implements ApplyFarmService {
 		return farmAreaInfo;
 	}
 	public ArrayList<FarmInfoVO> myApplyFarmInfo(int mseq, int year){
-		HashMap<String, Integer> map = new HashMap();
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("mseq", mseq);
 		map.put("year", year);
 		return applyFarmMapper.myApplyFarmInfo(map);
@@ -141,5 +141,9 @@ public class ApplyFarmServiceImpl implements ApplyFarmService {
 		
 		return returnMap;
 	
+	}
+	public ArrayList<HashMap<String, Object>> selectFarmList(){
+		return applyFarmMapper.selectFarmList();
+		
 	}
 }

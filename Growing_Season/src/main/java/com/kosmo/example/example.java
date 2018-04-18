@@ -17,10 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kosmo.applyfarm.ApplyFarmService;
+
 
 @Controller
 public class example {
 		
+	@Autowired
+	private ApplyFarmService applyFarmServiceImpl;
 		
 	@RequestMapping(value="/examplesidebar")
 	public ModelAndView viewTest(){
@@ -34,6 +38,8 @@ public class example {
 		mav.setViewName("example_example_exam_exam_withoutsidebar");
 		return mav;
 	}
+	
+
 	
 	
 }

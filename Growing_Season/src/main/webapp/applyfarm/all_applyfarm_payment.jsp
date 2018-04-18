@@ -31,7 +31,7 @@
 		<div class="row">
 			<div class="span4">
 				<div class="inner-heading">
-					<h2>SMS인증</h2>
+					<h2>결제</h2>
 				</div>
 			</div>
 			<div class="span8"></div>
@@ -41,25 +41,25 @@
 <section id="content">
 	<div class="container">
 		<div class="row">
-			<div class="span12 shadow">
+			<div class="span11 shadow">
 			 <form id="contactform" action="" method="post" role="form" class="contactForm">
 
 				<div class="row">					
-					<div class="span12">
+					<div class="span11">
 					<div class="post-image">
 						<div class="post-heading">
-							<h3>비회원 농장신청은 SMS인증 후 가능합니다!</h3>
+							<h3>결제페이지입니다. 결제수단을 선택해주세요</h3>
+						<img src="/images/payments.png" alt="" width="100%"/>
 						</div>
-						<img src="/images/sms.jpg" alt="" />
 					</div>
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="span12">
+					<div class="span11">
 						<div class="pricing-box-plain">
 							<div class="heading">
-								<h4>이름과 연락처를 입력해주세요</h4>
+								<h4>아래의 결제수단 중 1개를 선택해주세요</h4>
 							</div>
 							<div class="desc">
 								
@@ -67,37 +67,9 @@
 									<div class="row">
 										<label for="inputname" class="span2 control-label">이름</label>
 										<div class="span7">
-											<input type="text" class="form-control" id="inputname" placeholder="이름을 입력해주세요">
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="row">
-										<span><label for="inputphoneNumber" class="span2 control-label">휴대폰 번호</label></span>
-										<div class="span7">
-											<input type="text" class="form-control" id="inputphoneNumber"
-												placeholder="전화번호를 입력해 주세요" value=''>
-										</div>
-										<div class="span2">
-											<div class="form-group">
-												<button type="button" class="btn btn-default"
-													id="sendsmsauth">인증번호 발송</button>
-											</div>
-										</div>
-									</div>	
-								</div>
-
-								<div class="hidden form-group" id="hidden">
-									<div class="row">
-										<label for="authinput" class="span2 control-label">인증번호</label>
-										<div class="span7">
-											<input type="text" class="form-control" id="authinput"
-												placeholder="인증번호를 입력해주세요">
-										</div>
-										<div class="span2">
-											<div class="form-group">
-												<button type="button" class="btn btn-default" id="smsauth">인증</button>
-											</div>
+											<select class="form-control input-lg" id="farmlocation" name="farmlocation" onChange="getList()" required style="width:70%">
+												<option value=''>선택해주세요</option>
+											</select>
 										</div>
 									</div>
 								</div>
@@ -115,7 +87,7 @@
 					<input type="hidden" class="authseq" name="smsseq">
 					<input	type="hidden" class="form-control" id="name" name="name">
 					<input type="hidden" class="form-control" id="phoneNumber" name="phoneNumber">
-					<div class="span12">
+					<div class="span11">
 						<div class="pricing-box-plain">
 							<div class="action">
 						
@@ -136,27 +108,14 @@
 <script>
 	$("#sendsmsauth").click(function() {
 		alert("클릭");
-		var test = $("#inputname").val();
-		var pattern = /\s/g;
-		var phonePattern = /^\d{3}\d{3,4}\d{4}$/;
-		
+		var test = $("#name").val();
 		alert(test)
+
 		if ($("#inputname").val() == '') {
 			alert("이름을 입력해주세요");
-			return false;
-		}else if(test.match(pattern)){
-			alert("공백없이 입력해주세요");
-			return false;
-		}else if($("#inputphoneNumber").val()==''){
-			alert("전화번호를 입력해주세요");
-			return false;
-		}else if($("#inputphoneNumber").val().match(pattern)){
-			alert("공백없이 입력해주세요");
-			return false;
-		}else if(!($("#inputphoneNumber").val().match(phonePattern))){
-			alert("01xxxxxxxx 또는 010xxxxxxxx 양식에 맞게 입력해주세요");
-			return false;
+			return;
 		}
+
 		$.ajax({
 			url : "/applyFarm/all/smsauth.do",
 			dataType : "json",

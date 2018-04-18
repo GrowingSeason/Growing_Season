@@ -18,6 +18,7 @@ public interface ApplyFarmService {
 	public boolean cancelMyFarm(ApplyFarmVO vo);
 	public boolean sendSmsAuthNumber(String phoneNumber);
 	public HashMap<String, Object> checkAuthNumber(String authNumber, String phoneNumber);
+	public ArrayList<HashMap<String, Object>> selectFarmList();
 	
 
 }
