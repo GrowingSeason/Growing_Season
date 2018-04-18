@@ -29,7 +29,7 @@
   <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png" />
   <link rel="shortcut icon" href="/ico/favicon.png" />
   
-  <script src="/js/jquery.js"></script>
+  <script src="//code.jquery.com/jquery-latest.min.js"></script> 
 
   <!-- =======================================================
     Theme Name: Remember
@@ -65,9 +65,9 @@
   <script src="/js/portfolio/setting.js"></script>
   <script src="/js/animate.js"></script>
 
-  <!-- Template Custom JavaScript File -->
+  <!-- Template Custom JavaScript File 
   <script src="/js/custom.js"></script>
-
+-->
 </body>
 
 </html>

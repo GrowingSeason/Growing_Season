@@ -19,8 +19,17 @@ public class SnsFeedVO {
 	private String searchStr;
 	private int sseq;
 	private int eseq;
+	private String feimgname;
 	private ArrayList<SnsImgVO> iList;
 	 
+	
+	
+	public String getFeimgname() {
+		return feimgname;
+	}
+	public void setFeimgname(String feimgname) {
+		this.feimgname = feimgname;
+	}
 	public ArrayList<SnsImgVO> getiList() {
 		return iList;
 	}
