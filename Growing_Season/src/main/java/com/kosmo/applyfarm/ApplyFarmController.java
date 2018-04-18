@@ -222,4 +222,13 @@ public class ApplyFarmController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/wtest.do")
+	public ModelAndView viewWeather(){
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("FARM_INFO",applyFarmServiceImpl.selectFarmInfo(25));
+		mav.addObject("FARM_LIST", applyFarmServiceImpl.selectFarmList());
+		mav.setViewName("applyFarm_applyfarm_user_applyfarm_wethertest");
+		return mav;
+	}
+	
 }

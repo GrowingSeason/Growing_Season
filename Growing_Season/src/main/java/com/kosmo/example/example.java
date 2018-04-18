@@ -39,13 +39,7 @@ public class example {
 		return mav;
 	}
 	
-	@RequestMapping(value="/wtest.do")
-	public ModelAndView wwww(){
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("FARM_INFO",applyFarmServiceImpl.selectFarmInfo(25));
-		mav.setViewName("applyFarm_applyfarm_user_applyfarm_wethertest");
-		return mav;
-	}
+
 	
 	
 }

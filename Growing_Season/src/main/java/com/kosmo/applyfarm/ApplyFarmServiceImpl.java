@@ -142,4 +142,8 @@ public class ApplyFarmServiceImpl implements ApplyFarmService {
 		return returnMap;
 	
 	}
+	public ArrayList<HashMap<String, Object>> selectFarmList(){
+		return applyFarmMapper.selectFarmList();
+		
+	}
 }

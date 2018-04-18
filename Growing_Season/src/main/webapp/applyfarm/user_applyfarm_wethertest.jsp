@@ -27,6 +27,11 @@
 	background-color:#ffffff;
 }.border{	
 	text-align:center;
+}.farm{
+	cursor:pointer;
+}
+.myloc{
+	cursor:pointer;
 }
 
 </style>
@@ -35,7 +40,7 @@
         <div class="row">
           <div class="span4">
             <div class="inner-heading">
-              <h2>날씨</h2>
+              <h2>날씨정보</h2>
             </div>
           </div>
           <div class="span8">            
@@ -55,10 +60,10 @@
                   <div class="accordion-group">
                     <div class="accordion-heading">
                       <a class="accordion-toggle active" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-								<i class="icon-minus"></i> 내위치 </a>
+								<i class="icon-minus"></i>내위치 </a>
                     </div>
                     <div id="collapseOne" class="accordion-body collapse in">
-                      <div class="accordion-inner">내위치
+                      <div class="accordion-inner myloc">내위치
                       </div>
                     </div>
                   </div>
@@ -79,15 +84,14 @@
                   <div class="accordion-group">
                     <div class="accordion-heading">
                       <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-								<i class="icon-plus"></i> 농장 </a>
+								<i class="icon-plus"></i>농장 </a>
                     </div>
                     <div id="collapseThree" class="accordion-body collapse">
-                      <div class="accordion-inner">농장1
-                      </div>
-                      <div class="accordion-inner">농장2
-                      </div>
-                      <div class="accordion-inner">농장33
-                      </div>
+                      <c:forEach items="${FARM_LIST}" var="vo">
+	                      <div class="accordion-inner farm">${vo.fgname}<input type="hidden" id="fgaddress" value="${vo.fgaddress}">
+	                      </div>
+	                  </c:forEach>
+                    
                     </div>
                   </div>
                 </div>
@@ -102,7 +106,7 @@
 			<article>
 				<div class="post-image">
 					<div class="post-heading">
-						<h3>날씨정보</h3>
+						<h3 class="farmname">날씨 - 내위치</h3>
 					</div>
 						<!--  <img src="/images/sms.jpg" alt="" />-->
 				</div>
@@ -121,7 +125,7 @@
         </div>
 
         
-       </div>
+       </div>	
     </section>
     
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2df129d5c1a6d664029148b1657caaa3&libraries=services,clusterer,drawing"></script>
@@ -133,95 +137,105 @@
 <script type="text/javascript" src=/js/Nwagon_no_vml.js/></script>
 <script>
 
- $(window).load(function(){
-	 	
+var mylat;	
+var mylon;
+
+var drawWeather = function(lat, lon, div){
+	var appkey="46b61ee5117a80b49cf7a80f1647fe28"
+	var name=[]; 	
+ 	var values=[];
+ 	var count=0;
+ 	
+    	
+	$.ajax({
+    		url:"http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=metric&lang=kr&appid="+appkey,
+    		dataType:"json",
+    		type:"get",
+    		success:function(res){
+    			console.log(res);
+    			$.each(res.list, function(i,v){
+    				var unix = v.dt;
+    				var time = moment.unix(unix).format('M월DD일 H');
+    				
+    				var timeArray = time.split(' ');
+    				
+    				if(timeArray[1]=='12'){
+    					if(count<4){
+    						console.log(timeArray[1]);
+	    					var icon =v.weather[0].icon;
+	    					var condition = v.weather[0].description;
+	    					var value=[];
+		    				name.push(timeArray[0]+timeArray[1]+"시");
+	    					value.push(v.main.temp);
+	    					values.push(value);
+	    							    					
+	    					var weather = '<div class="span2 border">';
+	    					weather += '<div class="post-image">';
+	    					weather += '<div class="post-heading">';
+	    					weather += '<h4>'+timeArray[0]+'</h4></div>'
+	    					weather	+= "<img src='/images/"+icon+".png'></div>";
+	    					weather += '<div class="meta-post" style="background-color:#f7f7f7">';
+	    					weather += '<div class="span2">기온 : '+v.main.temp+'도</div>';
+	    					weather += '<div class="span2">날씨 : '+condition+'</div>';
+	    					weather += '</div></div>';
+	    					$(".weather").append(weather);
+			    	        //$(".pricing-content ul").append("<li><span>"+timeArray[0]+"의 "+timeArray[1]+"시 날씨입니다 기온 : "+v.main.temp+"도/ 날씨는 "+condition+"<img src='http://openweathermap.org/img/w/"+icon+".png'></span></li>");
+			    	        count++;
+    					}
+    				
+		    	        
+    				}else{
+    					
+    					var value=[];
+	    				name.push('');
+    					value.push(v.main.temp);
+    					values.push(value);
+    					
+    				}
+    			});
+    			
+    			var options = {
+    					'legend':{
+    						names:name
+    							},
+    					'dataset':{
+    						title:'Playing time per day', 
+    						values: values,
+    						colorset: ['#0000FF'],
+    						fields:["온도"]
+    					},
+    					'chartDiv' : div,
+    					'chartType' : 'line',
+    					'leftOffsetValue': 40,
+    					'bottomOffsetValue': 60,
+    					'chartSize' : {width:870, height:400},
+    					'minValue' : -20,
+    					'maxValue' : 40,
+    					'increment' : 10
+    				};
+
+    				Nwagon.chart(options);
+    		}
+    	});
+}
+
+
+$(window).load(function(){
+
 	 	var appkey="46b61ee5117a80b49cf7a80f1647fe28"
-		var geocoder = new daum.maps.services.Geocoder();
-	 	
-	 	var name=[];
-	 	
-	 	var values=[];
-		geocoder.addressSearch("${FARM_INFO.fgaddress}", function(result, status){
-			if (status === daum.maps.services.Status.OK) {
-				console.log(result[0].y);
-				console.log(result[0].x);
-		        var lat = result[0].y;
-		        var lon = result[0].x;
-		        var count = 0;
-		    	$.ajax({
-		    		url:"http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=metric&lang=kr&appid="+appkey,
-		    		dataType:"json",
-		    		type:"get",
-		    		success:function(res){
-		    			console.log(res);
-		    			$.each(res.list, function(i,v){
-		    				var unix = v.dt;
-		    				var time = moment.unix(unix).format('M월DD일 H');
-		    				
-		    				var timeArray = time.split(' ');
-		    				
-		    				if(timeArray[1]=='12'){
-		    					if(count<4){
-		    						console.log(timeArray[1]);
-			    					var icon =v.weather[0].icon;
-			    					var condition = v.weather[0].description;
-			    					var value=[];
-				    				name.push(timeArray[0]+timeArray[1]+"시");
-			    					value.push(v.main.temp);
-			    					values.push(value);
-			    							    					
-			    					var weather = '<div class="span2 border">';
-			    					weather += '<div class="post-image">';
-			    					weather += '<div class="post-heading">';
-			    					weather += '<h4>'+timeArray[0]+'</h4></div>'
-			    					weather	+= "<img src='/images/"+icon+".png'></div>";
-			    					weather += '<div class="meta-post" style="background-color:#f7f7f7">';
-			    					weather += '<div class="span2">기온 : '+v.main.temp+'도</div>';
-			    					weather += '<div class="span2">날씨 : '+condition+'</div>';
-			    					weather += '</div></div>';
-			    					$(".weather").append(weather);
-					    	        //$(".pricing-content ul").append("<li><span>"+timeArray[0]+"의 "+timeArray[1]+"시 날씨입니다 기온 : "+v.main.temp+"도/ 날씨는 "+condition+"<img src='http://openweathermap.org/img/w/"+icon+".png'></span></li>");
-					    	        count++;
-		    					}
-		    				
-				    	        
-		    				}else{
-		    					
-		    					var value=[];
-			    				name.push('');
-		    					value.push(v.main.temp);
-		    					values.push(value);
-		    					
-		    				}
-		    			});
-		    			
-		    			var options = {
-		    					'legend':{
-		    						names:name
-		    							},
-		    					'dataset':{
-		    						title:'Playing time per day', 
-		    						values: values,
-		    						colorset: ['#0000FF'],
-		    						fields:["온도"]
-		    					},
-		    					'chartDiv' : 'chart7',
-		    					'chartType' : 'line',
-		    					'leftOffsetValue': 40,
-		    					'bottomOffsetValue': 60,
-		    					'chartSize' : {width:870, height:400},
-		    					'minValue' : -20,
-		    					'maxValue' : 40,
-		    					'increment' : 10
-		    				};
-
-		    				Nwagon.chart(options);
-		    		}
-		    	});
-		   
-			}
-		});
-
+	
+	 	  if (navigator.geolocation) { // GPS를 지원하면
+	 		    navigator.geolocation.getCurrentPosition(function(position) {
+	 		      
+	 		    mylat=position.coords.latitude;
+	 		    mylon=position.coords.longitude;
+	 		    drawWeather(mylat, mylon, 'chart7');
+	 		 });
+	 	  }else{
+	 		 mylat='37.566535';
+	 		 mylon='126.97796919999996';
+	 		 drawWeather(mylat, mylon, 'chart7');
+	 	  }		
  });
 
  
@@ -229,5 +243,35 @@
  
  <script>
 
-	</script>	
+
+$(".farm").click(function(){
+	
+	console.log($(this).text());
+
+		var fgaddress = $(this).children("#fgaddress").val();
+		$(".farmname").html("날씨 - " + $(this).text());
+		var geocoder = new daum.maps.services.Geocoder();
+		geocoder.addressSearch(fgaddress, function(result, status){
+			if (status === daum.maps.services.Status.OK) {
+		        var lat = result[0].y;
+		        var lon = result[0].x;
+		       
+		        $(".weather").empty();
+		        $("#chart7").empty();
+		        drawWeather(lat,lon,'chart7');
+		}
+
+	});
+});
+$(".myloc").click(function(){
+	$(".farmname").html("날씨 - " + $(this).text());
+
+	$(".weather").empty();
+	$("#chart7").empty();
+	drawWeather(mylat, mylon, 'chart7');
+ 		
+ 	  
+});	 
+
+</script>	
  

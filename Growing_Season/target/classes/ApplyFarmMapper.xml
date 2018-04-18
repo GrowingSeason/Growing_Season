@@ -18,6 +18,12 @@
 	<result property="fgseq" column="fgseq" />
 </resultMap>
 
+<resultMap id="farmlistForWeather" type="java.util.HashMap">
+	<result property="fgname" column="fgname" />
+	<result property="fgseq" column="fgseq" />
+	<result property="fgaddress" column="fgaddress" />	
+</resultMap>
+
 <resultMap id="farmarea" type="java.util.HashMap">
 	<result property="fgcol" column="fgcol" />
 	<result property="fgrow" column="fgrow" />
@@ -90,6 +96,10 @@
 
 <select id="selectFarmName" resultMap="farmlist">
 	select fgname, fgseq from farm_garden where fglocation = #{fglocation} and fgdivision ='농장' and fgdelete='n' group by fgname, fgseq
+</select>
+
+<select id="selectFarmList" resultMap="farmlistForWeather">
+	select fgname, fgseq, fgaddress from farm_garden where fgdivision ='농장' and fgdelete='n' group by fgname, fgseq, fgaddress
 </select>
 
 <select id="selectFarmArea" resultMap="farmarea">
