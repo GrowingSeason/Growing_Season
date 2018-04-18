@@ -29,52 +29,40 @@
 		<put-attribute name="title" value="layout"/>
 		<put-attribute name="top" value = "/layout/top.jsp"/>
 		<put-attribute name="body" value = "/layout/body.jsp"/>
-		<put-attribute name="sidebar" value = "/layout/sidebar.jsp"/>
 		<put-attribute name="footer" value = "/layout/footer.jsp"/>
 	</definition>
-	
-	<definition name="layoutWithoutSidebar" template="/layout/layout_without_sidebar.jsp">
-		<put-attribute name="title" value="csstest"/>
-		<put-attribute name="top" value = "/layout/top.jsp"/>
-		<put-attribute name="body" value = "/layout/body.jsp"/>
-		<put-attribute name="footer" value = "/layout/footer.jsp"/>
-	</definition>
-	
-	<definition name="layoutWithoutSidebarAndFooter" template="/layout/layout_without_sidebar_and_footer.jsp">
-		<put-attribute name="title" value="csstest"/>
-		<put-attribute name="top" value = "/layout/top.jsp"/>
-		<put-attribute name="body" value = "/layout/body.jsp"/>
-		<put-attribute name="footer" value = "/layout/footer.jsp"/>
-	</definition>
+
 	<!-- layout 부모들 끝 -->
 	
 	<!-- Board layout tiles -->
+	<definition name="board_*_*_report_*" extends="layoutDefault">
+		
+	    <put-attribute name="body" value = "/{1}/{2}_report_{3}.jsp"/>
+   </definition>
+   
 	<definition name="board_*_*_*_*" extends="layoutDefault">
 		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
 		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
 	</definition>
+
 	
 	<!-- farm and garden apply layout tiles -->
 	<definition name="apply_*_*_*_*" extends="layoutDefault">
-		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
 		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
 	</definition>
 	
 	<!-- farm apply layout tiles -->
 	<definition name="applyFarm_*_*_*_*" extends="layoutDefault">
-		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
 		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
 	</definition>
 
 	<!-- garden apply layout tiles -->
 	<definition name="applyGarden_*_*_*_*" extends="layoutDefault">
-		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
 		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
 	</definition>
-	
+
 	<!-- member layout tiles -->
 	<definition name="member_*_*_*_*" extends="layoutDefault">
-		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
 		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
 	</definition>
 	
@@ -85,8 +73,8 @@
 	</definition>
 	
 	<!-- sns layout userpage tiles -->
-	<definition name="sns_*_user_*_*" extends="layoutWithoutSidebarAndFooter">
-		<put-attribute name="body" value = "/{1}/user_{2}_{3}.jsp"/>
+	<definition name="sns_*_*_*_*" extends="layoutDefault">
+		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
 	</definition>
 	
 	<!-- sns layout admin tiles -->
@@ -96,15 +84,18 @@
 	</definition>
 	
 	<!-- weather layout userpage tiles -->
-	<definition name="weather_*_*_*_*" extends="layoutWithoutSidebarAndFooter">
+	<definition name="weather_*_*_*_*" extends="layoutDefault">
 		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
 	</definition>
 	
 	<!-- shop layout userpage tiles -->
-	<definition name="shop_*_*_*_*" extends="layoutWithoutSidebarAndFooter">
+	<definition name="shop_*_*_*_*" extends="layoutDefault">
 		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
 		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
 	</definition>
 	
+	<definition name="example_*_*_*_*" extends="layoutDefault">
+	    <put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
+   </definition>
 	
 </tiles-definitions>

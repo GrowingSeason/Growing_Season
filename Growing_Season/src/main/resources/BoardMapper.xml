@@ -1,0 +1,348 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kosmo.mapper.BoardMapper">
+
+	<resultMap id="replyMap" type="com.kosmo.board.ReplyVO">
+		<result property="rseq" column="rseq" />
+		<result property="mid" column="mid" />
+		<collection property="rDeclarationList" columnPrefix="r_" 
+		 resultMap="rdeclarationMap" javaType="java.util.ArrayList" />
+	</resultMap>
+	
+	<resultMap id="rdeclarationMap" type="com.kosmo.board.RDeclarationVO">
+		<result property="rdreason" column="rdreason" />
+		<result property="rdregdate" column="rdregdate" />
+		<result property="rdmid" column="rdmid" />
+	</resultMap>
+	
+	<!-- 원본댓글 , 신고댓글리스트 합쳐진 리스트 형태 -->
+	<select id="replyAndDeclarationList" parameterType="com.kosmo.board.ReplyVO"
+		resultMap="replyMap">
+		select r.rseq, m.mid, rdmid as r_rdmid, d.rdreason as r_rdreason, d.rdregdate as r_rdregdate
+		from reply r
+		inner join member m on r.mseq = m.mseq
+		inner join (select d.rseq, d.rdreason, d.rdregdate, m.mid as rdmid from rdeclaration d inner join member m on d.rdmseq = m.mseq) d on r.rseq = d.rseq
+		order by r.rseq
+	</select>
+	
+	
+	
+	<resultMap id="boradMap" type="com.kosmo.board.BoardVO">
+		<result property="bseq" column="bseq" />
+		<result property="mid" column="mid" />
+		<result property="mseq" column="mseq" />
+		<result property="btitle" column="btitle" />
+		<collection property="bDeclarationList" columnPrefix="r_"
+			resultMap="bdeclarationMap" javaType="java.util.ArrayList" />
+	</resultMap>
+
+	<resultMap id="bdeclarationMap" type="com.kosmo.board.BDeclarationVO">
+		<result property="bdreason" column="bdreason" />
+		<result property="bdregdate" column="bdregdate" />
+		<result property="bdmid" column="bdmid" />
+	</resultMap>
+
+	<!-- 원본게시글 , 신고게시글리스트 합쳐진 리스트 형태 -->
+	<select id="boardAndDeclarationList" parameterType="com.kosmo.board.BoardVO"
+		resultMap="boradMap">
+		select b.bseq, m.mid, b.btitle, bdmid as r_bdmid, d.bdreason as r_bdreason, d.bdregdate as r_bdregdate
+		from board b
+		inner join member m on b.mseq = m.mseq
+		inner join (select d.bseq, d.bdreason, d.bdregdate, m.mid as bdmid from bdeclaration d inner join member m on d.bdmseq = m.mseq) d on b.bseq = d.bseq
+		order by b.bseq
+	</select>
+
+
+	<!-- mseq->mgubun -->
+	<select id="selectMgubun" parameterType="int"
+		resultType="com.kosmo.board.BoardVO">
+		select mgubun from member where mseq=#{mseq}
+	</select>
+
+	<!-- 게시글 리스트 -->
+
+	<!-- 공지게시판 게시글 리스트 -->
+	<select id="boardNoticeList" parameterType="map"
+		resultType="com.kosmo.board.BoardVO">
+	<![CDATA[
+	select rnum, bseq, btseq, btitle, bcon, mseq, bfilepath, bfilename, bfilesize, bregdate, bdelete, mid
+	from 
+	(select rownum as rnum, bseq,btseq, btitle, bcon, mseq, bfilepath, bfilename, bfilesize, bregdate, bdelete, mid 
+	from
+	(select b.bseq,b.btseq,b.btitle,b.bcon,b.mseq,b.bfilepath, b.bfilename, b.bfilesize, b.bregdate, b.bdelete, m.mid mid
+	from board b, member m where btseq=1 and bdelete ='N' and b.mseq=m.mseq(+) order by bseq)
+	)
+	where rnum >= #{sseq} and rnum <= #{eseq}
+	]]>
+	</select>
+
+	<!-- 자유게시판 게시글 리스트 -->
+	<select id="boardFreeList" resultType="com.kosmo.board.BoardVO">
+	<![CDATA[
+	select rnum, bseq, btseq, btitle, bcon, mseq, bfilepath, bfilename, bfilesize, bregdate, bdelete, mid
+	from 
+	(select rownum as rnum, bseq,btseq, btitle, bcon, mseq, bfilepath, bfilename, bfilesize, bregdate, bdelete, mid 
+	from
+	(select b.bseq,b.btseq,b.btitle,b.bcon,b.mseq,b.bfilepath, b.bfilename, b.bfilesize, b.bregdate, b.bdelete, m.mid mid
+	from board b, member m where btseq=2 and bdelete ='N' and b.mseq=m.mseq order by bseq)
+	)
+	where rnum >= #{sseq} and rnum <= #{eseq}
+	]]>
+	</select>
+
+	<!-- 건의사항 게시판 게시글 리스트 -->
+	<select id="boardProposalList" resultType="com.kosmo.board.BoardVO">
+	<![CDATA[
+	select rnum, bseq, btseq, btitle, bcon, mseq, bfilepath, bfilename, bfilesize, bregdate, bdelete, mid
+	from 
+	(select rownum as rnum, bseq,btseq, btitle, bcon, mseq, bfilepath, bfilename, bfilesize, bregdate, bdelete, mid 
+	from
+	(select b.bseq,b.btseq,b.btitle,b.bcon,b.mseq,b.bfilepath, b.bfilename, b.bfilesize, b.bregdate, b.bdelete, m.mid mid
+	from board b, member m where btseq=3 and bdelete ='N' and b.mseq=m.mseq order by bseq)
+	)
+	where rnum >= #{sseq} and rnum <= #{eseq}
+	]]>
+	</select>
+
+
+
+
+	<!-- 게시글 인서트 -->
+
+	<!-- 공지게시판 게시글 인서트 -->
+	<insert id="boardNoticeInsert" parameterType="com.kosmo.board.BoardVO">
+		insert into
+		board(bseq,mseq,btseq,btitle,bcon,bfilepath,bfilename,bfilesize,bregdate,bdelete)
+		values(board_seq.nextval,#{mseq},1,#{btitle},#{bcon},#{bfilepath},#{bfilename},#{bfilesize},sysdate,'N')
+	</insert>
+
+	<!-- 자유게시판 게시글 인서트 -->
+	<insert id="boardFreeInsert" parameterType="com.kosmo.board.BoardVO">
+		insert into
+		board(bseq,mseq,btseq,btitle,bcon,bfilepath,bfilename,bfilesize,bregdate,bdelete)
+		values(board_seq.nextval,#{mseq},2,#{btitle},#{bcon},#{bfilepath},#{bfilename},#{bfilesize},sysdate,'N')
+	</insert>
+
+	<!-- 건의사항게시판 게시글 인서트 -->
+	<insert id="boardProposalInsert" parameterType="com.kosmo.board.BoardVO">
+		insert into
+		board(bseq,mseq,btseq,btitle,bcon,bfilepath,bfilename,bfilesize,bregdate,bdelete)
+		values(board_seq.nextval,#{mseq},3,#{btitle},#{bcon},#{bfilepath},#{bfilename},#{bfilesize},sysdate,'N')
+	</insert>
+
+
+
+
+	<!-- 공지 게시글 디테일 -->
+	<select id="boardNoticeDetail" parameterType="int"
+		resultType="com.kosmo.board.BoardVO">
+		select bseq,btseq,btitle,bcon,mseq,bfilepath,bfilename,bfilesize,bregdate
+		from board b where b.bseq = #{bseq}
+	</select>
+
+	<!-- 자유 게시글 디테일 -->
+	<select id="boardFreeDetail" parameterType="int"
+		resultType="com.kosmo.board.BoardVO">
+		select
+		b.bseq,b.btseq,b.btitle,b.bcon,m.mseq,b.bfilepath,b.bfilename,b.bfilesize,b.bregdate,m.mid
+		from board b, member m where b.bseq = #{bseq} and m.mseq=b.mseq
+	</select>
+
+	<!-- 건의사항 게시글 디테일 -->
+	<select id="boardProposalDetail" parameterType="int"
+		resultType="com.kosmo.board.BoardVO">
+		select
+		b.bseq,b.btseq,b.btitle,b.bcon,m.mseq,b.bfilepath,b.bfilename,b.bfilesize,b.bregdate,m.mid
+		from board b, member m where b.bseq = #{bseq} and m.mseq=b.mseq
+	</select>
+
+
+
+	<!-- 공지 게시글 업데이트 -->
+	<update id="boardNoticeUpdate" parameterType="com.kosmo.board.BoardVO">
+		update board set btitle = #{btitle}, bcon = #{bcon}, bregdate=sysdate where
+		bseq = #{bseq}
+	</update>
+
+	<!-- 자유 게시글 업데이트 -->
+	<update id="boardFreeUpdate" parameterType="com.kosmo.board.BoardVO">
+		update board set btitle = #{btitle}, bcon = #{bcon}, bregdate=sysdate where
+		bseq = #{bseq}
+	</update>
+
+	<!-- 건의사항 게시글 업데이트 -->
+	<update id="boardProposalUpdate" parameterType="com.kosmo.board.BoardVO">
+		update board set btitle = #{btitle}, bcon = #{bcon}, bregdate=sysdate where
+		bseq = #{bseq}
+	</update>
+
+
+
+
+
+
+
+	<!-- 게시글 델리트 -->
+	<update id="boardDelete" parameterType="int">
+		update board set bdelete='Y' where bseq=#{bseq}
+	</update>
+
+
+
+
+
+
+	<!-- 게시글 신고 인서트 -->
+	<insert id="bDeclarationInsert" parameterType="com.kosmo.board.BDeclarationVO">
+		insert into BDeclaration(bseq,bdreason,bdregdate,bdmseq)
+		values(#{bseq},#{bdreason},sysdate,#{bdmseq})
+	</insert>
+
+
+	<!-- n번글 신고 게시글 리스트 -->
+	<select id="bDeclarationListByBseq" parameterType="int"
+		resultType="com.kosmo.board.BDeclarationVO">
+		select bseq,bdreason,bdregdate,bdmseq
+		from bdeclaration where bseq=#{bseq}
+	</select>
+	
+
+
+
+	<!-- 신고 게시글 리스트 -->
+	<select id="bDeclarationList" resultType="com.kosmo.board.BDeclarationVO">
+		select bseq,bdreason,bdregdate,bdmseq
+		from bdeclaration
+
+	</select>
+
+	<!-- 신고 게시글 델리트 -->
+	<delete id="bDeclarationDelete" parameterType="int">
+		delete from bdeclaration where bseq = #{bseq}
+	</delete>
+
+
+
+
+
+
+	<!-- 댓글 리스트 -->
+	<select id="replyList" parameterType="int" resultType="com.kosmo.board.ReplyVO">
+	<![CDATA[
+	select rnum, rseq, bseq, mseq, rcon, rregdate, rdelete, mid 
+	from
+	(select rownum as rnum, rseq, bseq, mseq, rcon, rregdate, rdelete, mid 
+	from 
+	(select r.rseq, r.bseq, r.mseq, r.rcon, r.rregdate, r.rdelete, m.mid mid from reply r, member m 
+	where bseq=#{bseq} and rdelete='N' and r.mseq=m.mseq order by rregdate)
+	)
+	where rnum >= #{sseq} and rnum <= #{eseq}
+	]]>
+	</select>
+
+	<!-- 댓글 인서트 -->
+	<insert id="replyInsert" parameterType="com.kosmo.board.ReplyVO">
+		insert into reply(rseq,bseq,mseq,rcon,rregdate,rdelete)
+		values(reply_seq.nextval,#{bseq},#{mseq},#{rcon},sysdate,'N')
+	</insert>
+	<!-- 자유 댓글 상세보기 -->
+	<select id="freereplyDetail" parameterType="int" resultType="com.kosmo.board.ReplyVO">
+		select m.mid mid,r.rseq,r.bseq,r.mseq,r.rcon,r.rregdate,r.rdelete from reply
+		r, member m where r.mseq=m.mseq and r.rseq=#{rseq}
+	</select>
+	<!-- 건의사항 댓글 상세보기 -->
+	<select id="proposalreplyDetail" parameterType="int" resultType="com.kosmo.board.ReplyVO">
+		select m.mid mid,r.rseq,r.bseq,r.mseq,r.rcon,r.rregdate,r.rdelete from reply
+		r, member m where r.mseq=m.mseq and r.rseq=#{rseq}
+	</select>
+	
+	
+	<!-- 댓글 업데이트 -->
+	<update id="replyUpdate" parameterType="com.kosmo.board.ReplyVO">
+		update reply set rcon = #{rcon}, rregdate = sysdate where rseq = #{rseq}
+	</update>
+
+	<!-- 댓글 델리트 -->
+	<update id="replyDelete" parameterType="int">
+		update reply set rdelete='Y' where rseq=#{rseq}
+	</update>
+
+
+
+
+
+	<!-- 댓글 신고 인서트 -->
+	<insert id="rDeclarationInsert" parameterType="com.kosmo.board.RDeclarationVO">
+		insert into Rdeclaration(rseq,rdreason,rdregdate,rdmseq)
+		values(#{rseq},#{rdreason},sysdate,#{rdmseq})
+	</insert>
+
+	<!-- 신고 댓글 리스트 -->
+	<select id="rDeclarationList" parameterType="map"
+		resultType="com.kosmo.board.RDeclarationVO">
+	<![CDATA[
+	select rnum, rseq, rdreason, rdregdate, rdmseq 
+	from 
+	(select rownum as rnum, rseq, rdreason, rdregdate, rdmseq 
+	from
+	(select rseq, rdreason, rdregdate, rdmseq from Rdeclaration order by rdregdate)
+	)
+	where rnum >= #{sseq} and rnum <= #{eseq}
+	]]>
+	</select>
+
+	<!-- 신고 댓글 델리트 -->
+	<delete id="rDeclarationDelete" parameterType="int">
+		delete from Rdeclaration where rseq = #{rseq}
+	</delete>
+
+
+
+
+
+	<!-- 게시판 파일 업로드 -->
+	<update id="boardUpdateForUpload" parameterType="com.kosmo.board.BoardVO">
+		update board set
+		btitle=#{btitle}
+		,bcon=#{bcon}
+		,bfilepath=#{bfilepath}
+		,bfilename=#{bfilename}
+		,bfilesize=#{bfilesize}
+		where bseq=#{bseq}
+	</update>
+
+
+
+
+
+	<!-- 공지 게시판 카운트 -->
+	<select id="boardNoticeCount" resultType="int">
+		select count(*) totalCount from board where btseq=1
+	</select>
+
+	<!-- 자유 게시판 카운트 -->
+	<select id="boardFreeCount" resultType="int">
+		select count(*) totalCount from board where btseq=2
+	</select>
+
+	<!-- 건의사항 게시판 카운트 -->
+	<select id="boardProposalCount" resultType="int">
+		select count(*) totalCount from board where btseq=3
+	</select>
+
+	<!-- 댓글 카운트 -->
+	<select id="replyCount" resultType="int">
+		select count(*) totalCount from reply
+	</select>
+
+	<!-- 신고 게시글 카운트 -->
+	<select id="bdeclarationCount" resultType="int">
+		select count(*) totalCount from bdeclaration
+	</select>
+
+	<!-- 신고 댓글 카운트 -->
+	<select id="rdeclarationCount" resultType="int">
+		select count(*) totalCount from rdeclaration
+	</select>
+
+
+</mapper>

@@ -12,11 +12,74 @@ public class ApplyFarmVO {
 	private String awinner;
 	private String apname;
 	private String apphone;
+	private String apaddr;
 	private String apemail;
 	private String apbirth;
 	private String apdate;
 	private String apcancel;
+	private String areservation;
+	private String apdivision;
+	private String mid;
+	private String apw;
+	private String apgender;
+	private String mmailreceive; 
+	private String mauth;
+	private String mauthtoken;
 	
+	public String getApaddr() {
+		return apaddr;
+	}
+	public void setApaddr(String apaddr) {
+		this.apaddr = apaddr;
+	}
+	public String getMid() {
+		return mid;
+	}
+	public void setMid(String mid) {
+		this.mid = mid;
+	}
+	public String getApw() {
+		return apw;
+	}
+	public void setApw(String apw) {
+		this.apw = apw;
+	}
+	public String getApgender() {
+		return apgender;
+	}
+	public void setApgender(String apgender) {
+		this.apgender = apgender;
+	}
+	public String getMmailreceive() {
+		return mmailreceive;
+	}
+	public void setMmailreceive(String mmailreceive) {
+		this.mmailreceive = mmailreceive;
+	}
+	public String getMauth() {
+		return mauth;
+	}
+	public void setMauth(String mauth) {
+		this.mauth = mauth;
+	}
+	public String getMauthtoken() {
+		return mauthtoken;
+	}
+	public void setMauthtoken(String mauthtoken) {
+		this.mauthtoken = mauthtoken;
+	}
+	public String getApdivision() {
+		return apdivision;
+	}
+	public void setApdivision(String apdivision) {
+		this.apdivision = apdivision;
+	}
+	public String getAreservation() {
+		return areservation;
+	}
+	public void setAreservation(String areservation) {
+		this.areservation = areservation;
+	}
 	public String getApphone() {
 		return apphone;
 	}
