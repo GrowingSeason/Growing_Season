@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +43,6 @@ public class SnsController {
 	public ModelAndView snsmain() {
 		ModelAndView mav = new ModelAndView();
 		ArrayList<SnsImgVO> list=service.snsImgList();
-		
-		System.out.println(list.get(1).getFeimgpath()+"파일경로");
 		mav.addObject("SNS_IMG_LIST", list);
 		mav.setViewName("sns_sns_all_sns_main");
 		return mav;
@@ -61,7 +60,7 @@ public class SnsController {
 			,@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage
 			) {
 		ModelAndView mav = new ModelAndView();
-		
+		System.out.println("컨트롤러 디테일");
 		
 		//BoardDAO impl = new BoardDAO();
 		int totalCount = service.snscommentCnt();
@@ -84,10 +83,11 @@ public class SnsController {
 		mav.addObject("SNS_DETAIL", map.get("fDetail"));
 		mav.addObject("SNS_FOLLOWER_CNT", map.get("feCnt"));
 		mav.addObject("SNS_FOLLOWING_CNT", map.get("fiCnt"));
+		mav.addObject("SNS_LIKE_CNT", map.get("snsLike"));
 		mav.addObject("SNS_COMMENT_PAGING", html);
 		
-		mav.setViewName("sns/cardtest");
-
+		mav.setViewName("sns_sns_all_sns_detail");
+		System.out.println("디테일 페이지 모달");
 		return mav;
 	}
 
@@ -104,6 +104,9 @@ public class SnsController {
 		System.out.println(vo.getFerange()+"넘어온 내용");
 		MultipartFile ufile=ivo.getUfile();
 		
+		if(vo.getFecon()==null){
+			return "sns_sns_user_sns_insert";
+		}
 		if(ufile != null) {
 			String fullPath = upload_file_dir+"\\"+ufile.getOriginalFilename();
 			File newFile = new File(fullPath); //파일생성
@@ -183,35 +186,38 @@ public class SnsController {
 	
 	/**
 	 * 팔로워 등록
+	 * 글번호 : feseq , 글쓴이번호:mseq
 	 * @param vo
 	 * @return String(redirestURL)
 	 */
 	@RequestMapping(value="/snsFollowersInsert.do")
-	public String snsFollowersInsert(SnsFeedVO vo) {
+	@ResponseBody
+	public Map<String, Object> snsFollowersInsert(@RequestBody SnsFeedVO vo, HttpSession session) {
+		//SESSION TODO
+		int mseq = 0;
+		if(session.getAttribute("MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("MSEQ").toString());
+		}
+		mseq = 6;
+		
+		System.out.println(vo.getFeseq()+"Ajax넘어온 feseq");
+		System.out.println(vo.getFmseq()+"Ajax넘어온 fmseq");
+		vo.setMseq(mseq);
+		
 		int res=service.snsFollowersInsertService(vo);
 		System.out.println("check, werDelete, wer/wingInsert" + res); 
+		String follow="in";
+		if(res>1){
+			follow="del";
+		}
 		
-		return "redirect:/snsdetail.do"+vo.getFeseq();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("SNS_FOLLOW_IN",follow);
+		
+		return map;
 	}
 	
 	
-	////	팔로잉 등록
-	//	@RequestMapping(value="/snsFollowingInsert.do")
-	//	public ModelAndView snsFollowingInsert(SnsFeedVO vo) {
-	//
-	////		팔로잉 중복체크
-	//		int check=service.snsFollowingCheck(vo.getFeseq(),vo.getMseq());
-	//		if(vo.getMseq()==check){
-	//			service.snsFollowingdelete(vo.getFimseq(),check);
-	//		}
-	//		if(check==0){
-	//			service.snsFollowingInsert(vo);
-	//		}
-	//		ModelAndView mav = new ModelAndView();
-	//		mav.setViewName("sns_sns_user_sns_followinginsert");
-	//		return mav;
-	//	}
-
 	
 	
 	/**
@@ -220,10 +226,30 @@ public class SnsController {
 	 * @return String(redirestURL)
 	 */
 	@RequestMapping(value="/snsLikeInsert.do")
-	public String snsLikeInsert(SnsFeedVO vo) {
+	@ResponseBody
+	public Map<String, Object> snsLikeInsert(@RequestBody SnsFeedVO vo, HttpSession session) {
+		
+		//SESSION TODO
+		int mseq = 0;
+		if(session.getAttribute("MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("MSEQ").toString());
+		}
+		mseq = 6;
+		vo.setMseq(mseq);		
+				
 		int res=0;
+		System.out.println(vo.getFeseq()+"Ajax넘어온 feseq");
 		res=service.snsLikeInsert(vo);
-		return "redirect:/snsdetail.do"+vo.getFeseq();
+		String like="in";
+		if(res>1){
+			like="del";
+		}
+		System.out.println(like+"종아요 누른 횟수");
+		int likecnt=service.snsLike(vo.getFeseq());
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("SNS_LIKE_IN",like);
+		map.put("SNS_LIKE_CNT",likecnt);
+		return map;
 	}
 
 	
@@ -235,9 +261,7 @@ public class SnsController {
 	@RequestMapping(value="/snscommentInsert.do")
 	public String snscommentInsert(SnsCommentVO vo) {
 		service.snscommentInsert(vo);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("sns_sns_user_sns_followinginsert");
-		return "redirect:/snsdetail.do"+vo.getFeseq();
+		return "redirect:/snsdetail.do?feseq="+vo.getFeseq();
 	}
 	
 	
@@ -424,11 +448,4 @@ public class SnsController {
 		return map;
 	}
 	
-	@RequestMapping(value = "/snssample.do")
-	public String snssample(){
-		
-		return "sns_sns_user_sns_draganddroptest";
-	}
-	
-
 }

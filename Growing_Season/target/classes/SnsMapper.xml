@@ -14,13 +14,57 @@ from snsfeed
 where feseq=#{feseq}
 </select>
 
+
+<!-- 난 니 팬이야 -->
 <select id="snsFollowersList" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
-select m.mid, m.mname, f.femseq from member m,followers f where m.mseq=f.femseq and f.mseq= #{mseq}
+select m.mid as fmid  from member m, follow f where m.mseq=f.fmseq and f.mseq= #{mseq}
 </select>
 
+<!-- 누가 내 팬이냐 -->
 <select id="snsFollowingList" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
-select m.mid, m.mname, f.fimseq from member m,following f where m.mseq=f.mseq and f.fimseq= #{mseq}
+select m.mid as fmid  from member m, follow f where m.mseq=f.mseq and f.fmseq= #{mseq}
 </select>
+
+<!-- 난 더이상 니 팬 안할래 -->
+<delete id="snsFollowerdelete" parameterType="com.kosmo.sns.SnsFeedVO">
+delete from follow where fmseq=#{fmseq} and mseq=#{mseq}
+</delete>
+
+<!-- 내가 글쓴주인장 팬인지 아닌지 -->
+<select id="snsFollowerCheck" parameterType="com.kosmo.sns.SnsFeedVO" resultType="int">
+select count(1) from follow where fmseq = (select mseq from snsfeed where feseq=#{feseq}) and mseq=#{mseq}
+</select>
+
+<!-- 난 니 팬이야  카운트 -->
+<select id="snsFollwersCnt" parameterType="int" resultType="int">
+select count(*) from follow where mseq=#{mseq}
+</select>
+
+<!-- 누가 내 팬이냐  카운트-->
+<select id="snsFollwingCnt" parameterType="int" resultType="int">
+select count(*) from follow where fmseq=#{mseq}
+</select>
+
+
+<insert id="snsFollowersInsert" parameterType="com.kosmo.sns.SnsFeedVO">
+<!-- mseq: 내번호    fmseq:글주인번호  -->
+insert into follow(mseq,fmseq)
+values (${mseq}, ${fmseq})
+</insert>
+
+<delete id="snsFollowersdelete" parameterType="com.kosmo.sns.SnsFeedVO">
+<!-- mseq: 내번호    fmseq:글주인번호  -->
+delete from follow where mseq=#{mseq} and fmseq=#{fmseq} 
+</delete>
+
+<select id="snsFollowerspage" parameterType="com.kosmo.sns.SnsFeedVO" resultType="com.kosmo.sns.SnsFeedVO">
+select f.feseq, f.mseq, f.fecon, f.feregdate,f.ferange,f.fedelete,i.snsimgname 
+from snsfeed f, snsimage i where f.mseq=i.mseq and fedelete='N' and mseq=#{mseq} and ferange='all'
+</select>
+
+
+
+
 
 <select id="snsCommentList" parameterType="int" resultType="com.kosmo.sns.SnsCommentVO">
 <![CDATA[ select rnum,scseq,feseq,sccon,mseq, scdelete, scregdate from 
@@ -29,7 +73,7 @@ select m.mid, m.mname, f.fimseq from member m,following f where m.mseq=f.mseq an
  where rnum >= #{sseq} and rnum <= #{eseq} ]]>
 </select>
 
-<select id="snsLike" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+<select id="snsLike" parameterType="int" resultType="int">
 select count(*) from snslike where feseq=#{feseq}
 </select>
 
@@ -51,15 +95,7 @@ insert into snscomment (scseq,feseq,sccon,mseq,scregdate,scdelete)
 values (snscomment_seq.nextval,#{feseq},#{sccon},#{mseq},sysdate,'N')
 </insert>
 
-<insert id="snsFollowersInsert" parameterType="com.kosmo.sns.SnsFeedVO">
-insert into followers (mseq,femseq)
-values (#{mseq},#{femeq})
-</insert>
 
-<insert id="snsFollowingInsert" parameterType="com.kosmo.sns.SnsFeedVO">
-insert into following (mseq,fimseq)
-values (#{femseq},#{meq})
-</insert>
 
 <insert id="snsHashtagInsert" parameterType="com.kosmo.sns.SnsFeedVO">
 insert into hashtag (htseq,feseq,htcon)
@@ -125,22 +161,16 @@ select h.htseq, h.feseq, h.htcon, i.feimgname feimgname from hashtag h,snsimage 
 </select>
 
 <select id="snsMypage" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
-select feseq, mseq, fecon, feregdate,ferange,fedelete from snsfeed where fedelete='N' and mseq=#{mseq}
+select feseq, mseq, fecon, feregdate,ferange,fedelete,i.snsimgname 
+from snsfeed f, snsimage i where f.mseq=i.mseq and fedelete='N' and mseq=#{mseq}
 </select>
 
-<select id="snsFollowerspage" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
-select feseq, mseq, fecon, feregdate,ferange,fedelete from snsfeed where fedelete='N' and mseq=#{mseq} and ferange='all'
-</select>
 
 <select id="snsallpage" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
-select feseq, mseq, fecon, feregdate,ferange,fedelete from snsfeed where fedelete='N' and mseq=#{mseq} and ferange !='secret'
+select feseq, mseq, fecon, feregdate,ferange,fedelete,i.snsimgname 
+from snsfeed f, snsimage i where f.mseq=i.mseq and fedelete='N' and mseq=#{mseq} and ferange !='secret'
 </select>
 
-<select id="snsFollowerCheck" parameterType="int" resultType="int">
-select mseq from
-(select m.mid, m.mname, f.femseq mseq from member m,followers f where m.mseq=f.femseq and f.mseq=
-(select mseq from snsfeed where feseq=#{feseq})) where mseq=#{mseq};
-</select>
 
 <select id="fdeclarationCnt" resultType="Integer"> 
 select count(*) fdcnt from fdeclaration 
@@ -154,30 +184,16 @@ select count(*) cdcnt from cdeclaration
 select count(*) hscnt from hashtag 
 </select>
 
-<delete id="snsFollowersdelete" parameterType="int">
-delete from followers where femseq=#{femseq} and mseq=#{mseq}
-</delete>
 
-<delete id="snsFollowingdelete" parameterType="int">
-delete from followers where fimseq=#{fimseq} and mseq=#{mseq}
-</delete>
-
-<select id="snsFollowingCheck" parameterType="int" resultType="int">
-select mseq from
-(select m.mseq,m.mid, m.mname, f.fimseq from member m,following f 
-where m.mseq=f.mseq and f.fimseq=
-(select mseq from snsfeed where feseq=#{feseq})) where mseq=#{mseq}
-</select>
-
-<select id="snsLikeCheck" parameterType="int" resultType="int">
+<select id="snsLikeCheck" parameterType="com.kosmo.sns.SnsFeedVO" resultType="int">
 select mseq from snslike where feseq=#{feseq} and mseq=#{mseq}
 </select>
 
 <insert id="snsLikeInsert" parameterType="com.kosmo.sns.SnsFeedVO">
-insert into snslike (feseq,mseq) values(#{feseq},#{mseq});
+insert into snslike (feseq,mseq) values(${feseq}, ${mseq})
 </insert>
 
-<delete id="snsLikedelete" parameterType="int">
+<delete id="snsLikedelete" parameterType="com.kosmo.sns.SnsFeedVO">
 delete from snslike where mseq=#{mseq} and feseq=#{feseq}
 </delete>
 
@@ -210,12 +226,6 @@ delete from snsimage where mseq=#{mseq}
 select feseq,feimgname,feimgpath,feimgsize from snsimage where feseq=#{feseq}
 </select>
 
-<select id="snsFollwersCnt" parameterType="int" resultType="int">
-select count(*) from followers where mseq=#{mseq}
-</select>
 
-<select id="snsFollwingCnt" parameterType="int" resultType="int">
-select count(*) from following where fimseq=#{fimseq}
-</select>
 
 </mapper>

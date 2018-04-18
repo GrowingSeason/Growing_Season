@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +18,6 @@ public class SnsServiceImpl implements SnsService{
 	private SnsMapper snsdao;
 	
 
-	
 	@Override
 	public ArrayList<SnsFeedVO> snsFeedList() {
 		return snsdao.snsFeedList();
@@ -28,20 +28,24 @@ public class SnsServiceImpl implements SnsService{
 		SnsFeedVO fvo=snsdao.snsFeedDetail(feseq);
 		SnsFeedVO hList=snsdao.snsHashtagList(feseq);
 		SnsImgVO iList=snsdao.snsImgdetail(feseq);
+		int snslike=snsdao.snsLike(feseq);
 		ArrayList<SnsCommentVO> clist=snsdao.snsCommentList(feseq, sseq, eseq);
-		ArrayList<SnsFeedVO> felist=snsdao.snsFollowersList(fvo.getMseq());
-		ArrayList<SnsFeedVO> filist=snsdao.snsFollowingList(fvo.getMseq());
-		int fecnt=snsdao.snsFollwersCnt(fvo.getMseq());
-		int ficnt=snsdao.snsFollwingCnt(fvo.getMseq());
+//		ArrayList<SnsFeedVO> felist=snsdao.snsFollowersList(fvo.getMseq());
+//		ArrayList<SnsFeedVO> filist=snsdao.snsFollowingList(fvo.getMseq());
+		
+		
+		int fecnt=snsdao.snsFollwersCnt(fvo.getMseq()); //글쓴이
+		int ficnt=snsdao.snsFollwingCnt(fvo.getMseq());	//글쓴이
 		Map<String , Object> map = new HashMap<String , Object>();
 		map.put("cList", clist);
 		map.put("fDetail", fvo);
-		map.put("feList", felist);
-		map.put("fiList", filist);
+//		map.put("feList", felist);
+//		map.put("fiList", filist);
 		map.put("hList", hList);
 		map.put("iList", iList);
 		map.put("feCnt", fecnt);
 		map.put("fiCnt", ficnt);
+		map.put("snsLike", snslike);
 		
 		return map;
 	}
@@ -124,23 +128,28 @@ public class SnsServiceImpl implements SnsService{
 	@Override
 	public int snsFollowersInsertService(SnsFeedVO vo) {
 		int res = 0;
+		System.out.println(vo.getFeseq()+"컨트롤러에서 넘어온값");
+		System.out.println(vo.getFmseq()+"컨트롤러에서 넘어온값");
+		
 		//팔로워 중복체크
-		int checkedMseq =snsdao.snsFollowerCheck(vo.getFeseq(), vo.getMseq());
-		if(vo.getMseq() == checkedMseq){
-			res = snsdao.snsFollowersdelete(vo.getFemseq(), checkedMseq);
+		int checkedMseq=0;
+			checkedMseq=snsdao.snsFollowerCheck(vo.getFeseq(), vo.getMseq());
+			System.out.println(checkedMseq+"팔로우 확인된 mseq");
+		
+		//신규 팔로우 처리	
+		if(checkedMseq <= 0){
+			res = snsdao.snsFollowersInsert(vo); //내번호 mseq 글쓴이번호 fmseq     
+			System.out.println(res+"팔로우 결과 값");
+		//기존 팔로우인 경우 : 취소 처리
+		}else if(checkedMseq>=1){
+			System.out.println("delete");
+			res = snsdao.snsFollowersdelete(vo);
+			res++;
 		}
-		if(checkedMseq<=0){
-			res = snsdao.snsFollowersInsert(vo);
-			res = snsdao.snsFollowingInsert(vo);
-		}
+		
 		return res;
 	}
 
-	@Override
-	public int snsFollowingInsert(SnsFeedVO vo) {
-		
-		return snsdao.snsFollowingInsert(vo);
-	}
 
 	@Override
 	public int snsHashtagInsert(SnsFeedVO vo) {
@@ -227,6 +236,9 @@ public class SnsServiceImpl implements SnsService{
 	public ArrayList<SnsFeedVO> snsFollowerspageService(int feseq, int mseq) {
 //		팔로워인지 체크
 		int fmseq=snsdao.snsFollowerCheck(feseq, mseq);
+		if(fmseq!=mseq){
+			return snsdao.snsallpage(fmseq);
+		}
 		return snsdao.snsFollowerspage(fmseq);
 	}
 
@@ -282,47 +294,48 @@ public class SnsServiceImpl implements SnsService{
 	}
 
 	@Override
-	public int snsFollowersdelete(int femseq,int mseq) {
-		snsdao.snsFollowingCheck(mseq, femseq);
-		return snsdao.snsFollowersdelete(femseq,mseq);
+	public int snsFollowersdelete(SnsFeedVO vo) {
+		return snsdao.snsFollowersdelete(vo);
 	}
 
-	@Override
-	public int snsFollowingdelete(int fimseq,int mseq) {
-		
-		return snsdao.snsFollowingdelete(fimseq, mseq);
-	}
+
 
 	@Override
-	public int snsFollowingCheck(int feseq, int mseq) {
+	public int snsLikeCheck(SnsFeedVO vo) {
 		
-		return snsdao.snsFollowingCheck(feseq, mseq);
-	}
-
-	@Override
-	public int snsLikeCheck(int feseq, int mseq) {
-		
-		return snsdao.snsLikeCheck(feseq, mseq);
+		return snsdao.snsLikeCheck(vo);
 	}
 
 	@Override
 	public int snsLikeInsert(SnsFeedVO vo) {
+		System.out.println(vo.getFeseq()+"Impl에 넘어온 feseq");
+		System.out.println(vo.getMseq()+"Impl에 넘어온 mseq");
 		int res=0;
 //		좋아요 중복체크
-		int check=snsdao.snsLikeCheck(vo.getFeseq(), vo.getMseq());
+		
+		
+		int check=0;
+		
+		try{
+			check=snsdao.snsLikeCheck(vo);
+		}catch(BindingException e){
+		
+		}
+		
 		if(vo.getMseq()==check){
-			res=snsdao.snsLikedelete(vo.getFeseq(),check);
+			res=snsdao.snsLikedelete(vo);
+			res++;
 		}
 		if(check==0){
-			res=snsdao.snsLikedelete(vo.getFeseq(), vo.getMseq());
+			res=snsdao.snsLikeInsert(vo);
 		}
 		return res;
 	}
 
 	@Override
-	public int snsLikedelete(int feseq, int mseq) {
+	public int snsLikedelete(SnsFeedVO vo) {
 		
-		return snsdao.snsLikedelete(feseq, mseq);
+		return snsdao.snsLikedelete(vo);
 	}
 
 	@Override
@@ -374,11 +387,16 @@ public class SnsServiceImpl implements SnsService{
 	}
 
 	@Override
-	public int snsFollwingCnt(int fimseq) {
+	public int snsFollwingCnt(int mseq) {
 		// TODO Auto-generated method stub
-		return snsdao.snsFollwingCnt(fimseq);
+		return snsdao.snsFollwingCnt(mseq);
 	}
 
-	
+
+
+
+
+
+
 	
 }

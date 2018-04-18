@@ -54,14 +54,14 @@ button:hover:before,button:hover:after{
 			</div>
 
 			<div class="row" align="right">
-			<div class='col-md-4' id="snstext" style='float: left; display:none;'>
+			<div class='span4' id="snstext" style='float: left; display:none;'>
 				<select class='form-control' id='division' name='ferange' style='width: 150px'>
 					<option value="all">모두공개</option>
 					<option value="friend">팔로우공개</option>
 					<option value="secret">비공개</option>
 				</select>
 			</div>
-			<div class='col-md-4' id="snstextarea" style='float: left; display:none;'>
+			<div class='span4' id="snstextarea" style='float: left; display:none;'>
 				<textarea name="fecon" style="margin:0px; width:400px; height:225px;">
 				</textarea>
 			</div>

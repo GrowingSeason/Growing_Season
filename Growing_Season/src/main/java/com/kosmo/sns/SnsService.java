@@ -39,9 +39,6 @@ public interface SnsService {
 //	팔로워 등록
 	public int snsFollowersInsertService(SnsFeedVO vo);
 	
-//	팔로잉 등록
-	public int snsFollowingInsert(SnsFeedVO vo);
-	
 //	해시태그 등록
 	public int snsHashtagInsert(SnsFeedVO vo);
 	
@@ -109,30 +106,17 @@ public interface SnsService {
 	public int snscommentCnt();
 	
 //	팔로워가 등록되어 있으면 삭제
-	public int snsFollowersdelete(int femseq,int mseq);
+	public int snsFollowersdelete(SnsFeedVO vo);
 	
-//	팔로잉이 등록되어 있으면 삭제
-	public int snsFollowingdelete(int fimseq,int mseq);
-	
-	public int snsFollowingCheck(
-			int feseq,
-			int mseq
-			);
 	
 //	좋아요 중복 체크
-	public int snsLikeCheck(
-			@Param("feseq") int feseq,
-			@Param("mseq") int mseq
-			);
+	public int snsLikeCheck(SnsFeedVO vo);
 	
 //	좋아요 등록
 	public int snsLikeInsert(SnsFeedVO vo);
 	
 //	좋아요 되어 있으면 삭제
-	public int snsLikedelete(
-			int feseq,
-			int mseq
-			);
+	public int snsLikedelete(SnsFeedVO vo);
 	
 //	댓글 수정
 	public int snsImgupdate(SnsImgVO vo);
@@ -156,6 +140,6 @@ public interface SnsService {
 	public int snsFollwersCnt(@Param("mseq")int mseq);
 	
 //	팔로잉 수
-	public int snsFollwingCnt(@Param("fimseq")int fimseq);
+	public int snsFollwingCnt(@Param("mseq")int mseq);
 	
 }
