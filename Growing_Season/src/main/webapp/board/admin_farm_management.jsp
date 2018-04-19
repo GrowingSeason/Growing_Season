@@ -198,7 +198,7 @@
 			<div class="fusers" style="display:none">
 				 <div style="width:650px; height:400px; padding:20px; padding-left:40px; padding-right:10px; overflow:auto;"> <!-- 회원리스트 테이블 부분 -->
 				 		<form class="qwer" action="/assigncancel.do" method="post">
-				 	<table class="table table-bordered" style="width:90%; height:450px; ">
+				 	<table class="table table-bordered" style="width:90%; height:450px; font-color:black;">
 				 		<thead>
 					 		<tr>
 					 			<th width="20%">회원번호</th>

@@ -33,6 +33,7 @@
 	<mvc:resources mapping="/img/**" location="/img/" />
 	<mvc:resources mapping="/color/**" location="/color/" />
 	<mvc:resources mapping="/contactform/**" location="/contactform/" />
+	<mvc:resources mapping="/uploads/**" location="/uploads/" />
 
 
 
