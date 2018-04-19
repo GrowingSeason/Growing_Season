@@ -73,11 +73,7 @@ border:none;
                       <a href="#">신청현황</a>
                     </li>
                     <li class="dropdown">
-                      <a href="#">SNS <i class="icon-angle-down"></i></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="">여기는</a></li>
-                        <li><a href="">모르겠는걸</a></li>
-                      </ul>
+                      <a href="/snsmain.do">SNS<i class="icon-angle-down"></i></a>
                     </li>
                     <li class="dropdown">
                       <a href="#">게시판 <i class="icon-angle-down"></i></a>
