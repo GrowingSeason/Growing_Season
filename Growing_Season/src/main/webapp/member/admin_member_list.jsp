@@ -54,7 +54,6 @@ p {
 <body>
 총 회원수 : ${LVL_COUNT} 명 <br>
 
-
 <table class="page-wrap">
 	<thead>
 		<tr>
@@ -80,7 +79,7 @@ p {
 			<td>${vo.mgender}</td>
 			<td>${vo.mphone}</td>
 			<td>${vo.memail}</td>
-			<td><a href="/member/user/memberDelete.do?mseq=${vo.mseq}">삭제</a></td>
+			<td><a href="/member/user/memberDelete.do?mseq=${vo.mseq} &currentPage=${LVL_CURRENTPAGE}">삭제</a></td>
 		</tr>
 	</c:forEach>
 	</tbody>

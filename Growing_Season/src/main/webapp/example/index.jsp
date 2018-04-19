@@ -100,16 +100,16 @@ border:none;
                       <a href="/boardnoticelist.do">공지사항</a>
                     </li>
                     <li>
-                      <a href="#">신청하기</a>
+                      <a href="/apply/all/apply_main.do">신청하기</a>
                     </li>
                     <li>
-                      <a href="#">신청현황</a>
+                      <a href="/myApplyCondition/all/applyCondition_main.do">신청현황</a>
                     </li>
-                    <li class="dropdown">
+                    <li>
                       <a href="/snsmain.do">SNS<i class="icon-angle-down"></i></a>
                     </li>
                     <li class="dropdown">
-                      <a href="#">게시판 <i class="icon-angle-down"></i></a>
+                      <a href="/boardfreelist.do">게시판 <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
                         <li><a href="/boardfreelist.do">자유게시판</a></li>
                         <li><a href="/boardproposallist.do">팁게시판</a></li>
@@ -119,9 +119,9 @@ border:none;
                     <li class="dropdown">
                       <a href="#">기타기능<i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
-                        <li><a href="/crolling.do">농장위치확인</a></li>
+                        <li><a href="/location/all/farmLocation.do">농장위치확인</a></li>
                         <li><a href="/weather/all/weatherInfo.do">날씨정보</a></li>
-                        <li><a href="">쇼핑몰</a></li>
+                        <li><a href="/crolling.do">쇼핑몰</a></li>
                       </ul>
                     </li>
                   </ul>

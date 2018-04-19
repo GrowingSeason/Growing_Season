@@ -137,7 +137,7 @@ border:none;
                   <li class="item-thumbs span6 design" data-id="id-0" data-type="web">
                     <div class="item">
                       <figure>
-                        <div><a href=""><img src="/img/fafa.png" alt=""></a></div>
+                        <div><a href="/applyFarm/all/applyFarm.do"><img src="/img/fafa.png" alt=""></a></div>
                         <figcaption>
                           <h3>친환경농장 신청하기</h3>
                         </figcaption>
