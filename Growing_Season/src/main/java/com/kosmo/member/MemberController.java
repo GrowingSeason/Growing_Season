@@ -169,30 +169,27 @@ public class MemberController { //extends MultiActionController {
 
 	//로그인 할때 id 와 pw를 비교하여 로그인시킨후 보내는 페이지를 지정함. 
 	@RequestMapping(value = "/member/user/loginCheck.do")
-	public ModelAndView loginCheck(@RequestParam("mid") String mid
+	public String loginCheck(@RequestParam("mid") String mid
 			,@RequestParam("mpw") String mpw
 			,HttpServletRequest request){
 
 		MemberVO vo = new MemberVO();
 		vo = service.loginCheck(mid, mpw);
-		ModelAndView mav = new ModelAndView();
+		
 		if(vo != null){
-
-			System.out.println("나는 로그인했다.");
+			
 			HttpSession session = request.getSession();
 			session.setAttribute("LVL_SESS_MSEQ", vo.getMseq());
 			session.setAttribute("LVL_SESS_GUBUN", vo.getMgubun());
 			session.setAttribute("LVL_SESS_MNAME", vo.getMname());
-
-			mav.addObject("LVL_VO", vo);
-			mav.setViewName("member_member_admin_member_list");
-
-			return mav;
-		}else{
+			session.setAttribute("LVL_SESS_MVO", vo);
 			
+
+			return "redirect:/index.do";
+		}else{
 			System.out.println("로그인 못해따");
-			mav.setViewName("member_member_user_member_input");
-			return mav;
+			
+			return "redirect:/index.do";
 		}
 	}
 

@@ -105,11 +105,22 @@
 
 <select id="applyList" resultMap="MemberMap" parameterType="com.kosmo.farmadmin.MemberVO">
 <![CDATA[
-select ad.rnum, ad.apdivision ,ad.mseq, ad.apname, ad.apbirth, m.mgender, m.maddress, ad.apphone, ad.apemail, ad.dfilename, ad.apseq, ad.docureturn
-from member m right outer join (select rownum rnum,a.apseq ,a.mseq, a.apdivision, a.apname, a.apbirth, a.apphone, a.apemail, d.dfilename, d.docureturn
-from apply a left outer join (select apseq, docureturn, dfilename from document where docureturn != 'Y') d on a.apseq = d.apseq) ad on m.mseq=ad.mseq
-where ad.apdivision != '농장' and ad.rnum >=#{sseq} and ad.rnum <=#{eseq}
-order by m.mseq
+select t.*
+from 
+(
+    select rownum rnum, ad.apdivision ,ad.mseq, ad.apname, ad.apbirth, m.mgender, m.maddress, ad.apphone, ad.apemail, ad.dfilename, ad.apseq, ad.docureturn
+    from member m 
+        right outer join 
+        (select a.apseq, a.mseq, a.apdivision, a.apname, a.apbirth, a.apphone, a.apemail, d.dfilename, d.docureturn
+        from apply a 
+            left outer join (select apseq, docureturn, dfilename from document where docureturn != 'Y') d 
+            on a.apseq = d.apseq
+        ) ad 
+        on m.mseq=ad.mseq
+    where ad.apdivision != '농장'
+    order by rnum
+) t 
+where t.rnum >=#{sseq} and t.rnum <=#{eseq}
 ]]>
 </select>
 
@@ -154,7 +165,7 @@ select rnum, apdivision, apseq, mseq , apname, apphone, apemail, apdate, awinner
 (select rownum rnum, apdivision, apseq, mseq , apname, apphone, apemail, apdate, awinner, apcancel 
 from apply 
 where awinner='W' order by apdivision)
-where rnum >=#{sseq} and rnum <=#{eseq}
+where rnum >=#{sseq} and rnum <=#{eseq} 
 ]]>
 </select>
 
@@ -192,7 +203,7 @@ where fg.fgseq=#{fgseq}
 <select id="winnerList" resultMap="LocNameApplyMap">
 select *
 from apply a left outer join farm_garden fg on a.fgseq = fg.fgseq
-where fg.fgseq=#{fgseq} and a.awinner='Y'
+where fg.fgseq=#{fgseq} and a.awinner='Y' and a.apcancel='N'
 </select>
 
 <insert id="farmInsert" parameterType="com.kosmo.farmadmin.FarmGardenVO" >

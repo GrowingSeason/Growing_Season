@@ -64,7 +64,6 @@ border:none;
               </ul>
             </div>
             <div class="span6">
-
               <ul class="social-network">
                 <li><a href="#" data-placement="bottom" title="Facebook"><i class="icon-circled icon-bglight icon-facebook"></i></a></li>
                 <li><a href="#" data-placement="bottom" title="Twitter"><i class="icon-circled icon-bglight icon-twitter"></i></a></li>
@@ -72,7 +71,6 @@ border:none;
                 <li><a href="#" data-placement="bottom" title="Pinterest"><i class="icon-circled icon-pinterest  icon-bglight"></i></a></li>
                 <li><a href="#" data-placement="bottom" title="Google +"><i class="icon-circled icon-google-plus icon-bglight"></i></a></li>
               </ul>
-
             </div>
           </div>
         </div>
@@ -83,7 +81,7 @@ border:none;
         <div class="row nomargin">
           <div class="span4">
             <div class="logo">
-              <h1><a href="index.html"><i class="icon-tint"></i> Growing Season</a></h1>
+              <h1><a href="index.jsp"><i class="icon-tint"></i> Growing Season</a></h1>
             </div>
           </div>
           <div class="span8">
@@ -100,12 +98,8 @@ border:none;
                     <li>
                       <a href="#">신청현황</a>
                     </li>
-                    <li class="dropdown">
-                      <a href="#">SNS <i class="icon-angle-down"></i></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="">여기는</a></li>
-                        <li><a href="">모르겠는걸</a></li>
-                      </ul>
+                    <li>
+                      <a href="#">SNS</a>
                     </li>
                     <li class="dropdown">
                       <a href="#">게시판 <i class="icon-angle-down"></i></a>

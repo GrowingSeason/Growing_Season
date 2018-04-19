@@ -106,13 +106,12 @@ border:none;
                       <a href="/myApplyCondition/all/applyCondition_main.do">신청현황</a>
                     </li>
                     <li>
-                      <a href="/snsmain.do">SNS<i class="icon-angle-down"></i></a>
+                      <a href="/snsmain.do">SNS</a>
                     </li>
                     <li class="dropdown">
                       <a href="/boardfreelist.do">게시판 <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
                         <li><a href="/boardfreelist.do">자유게시판</a></li>
-                        <li><a href="/boardproposallist.do">팁게시판</a></li>
                         <li><a href="/boardproposallist.do">건의사항</a></li>
                       </ul>
                     </li>
@@ -156,15 +155,16 @@ border:none;
               <div class="span3">
                 <div class="box aligncenter">
                   <div class="icon">
-                    <span class="badge badge-info badge-circled">1</span>
-                    <i class="ico icon-dropbox icon-5x"></i>
+                    
+                    <i class="ico icon-leaf icon-5x" style="color: green;"></i>
                   </div>
                   <div class="text">
-                    <h4><strong>Out of the box</strong></h4>
+                    <h4><strong>농장신청</strong></h4>
                     <p>
-                      Lorem ipsum dolor sit amet, has ei ipsum scaevola deseruisse am anumat lib persum sea facilisis.
+                      	서울시와 함께하는 친환경농장<br>
+                      	어르신,다둥이,다문화가정을 위한<br>서울시 도시텃밭                      	
                     </p>
-                    <a href="#">Learn More</a>
+                    <a href="/apply/all/apply_main.do"><span class="badge badge-info badge-circled" style="font-size: 15px; background-color: green;">More>></span></a>
                   </div>
                 </div>
               </div>
@@ -172,45 +172,43 @@ border:none;
               <div class="span3">
                 <div class="box aligncenter">
                   <div class="icon">
-                    <span class="badge badge-success badge-circled">2</span>
-                    <i class="ico icon-bitbucket icon-5x"></i>
+                    
+                    <i class="ico icon-list-alt icon-5x" style="color: black;"></i>
                   </div>
                   <div class="text">
-                    <h4><strong>New taste</strong></h4>
+                    <h4><strong>신청현황</strong></h4>
                     <p>
-                      Lorem ipsum dolor sit amet, has ei ipsum scaevola deseruisse am sea facilisis.
+                      	농장,텃밭 신청현황을<br>확인해보세요.<br><br>  	
                     </p>
-                    <a href="#">Learn More</a>
+                    <a href="/apply/all/apply_main.do"><span class="badge badge-info badge-circled" style="font-size: 15px; background-color: black;">More >></span></a>
                   </div>
                 </div>
               </div>
               <div class="span3">
                 <div class="box aligncenter">
                   <div class="icon">
-                    <span class="badge badge-warning badge-circled">3</span>
-                    <i class="ico icon-rocket icon-5x"></i>
+                    <i class="ico icon-camera-retro icon-5x" style="color: black;"></i>
                   </div>
                   <div class="text">
-                    <h4><strong>Faster load</strong></h4>
+                    <h4><strong>SNS</strong></h4>
                     <p>
-                      Lorem ipsum dolor sit amet, has ei ipsum scaevola deseruisse am sea facilisis.
+                      It's our Growing Season!<br><br><br>
                     </p>
-                    <a href="#">Learn More</a>
+                    <a href="/snsmain.do"><span class="badge badge-info badge-circled" style="font-size: 15px; background-color: black;">More >></span></a>
                   </div>
                 </div>
               </div>
               <div class="span3">
                 <div class="box aligncenter">
                   <div class="icon">
-                    <span class="badge badge-important badge-circled">4</span>
-                    <i class="ico icon-cut icon-5x"></i>
+                    <i class="ico icon-shopping-cart icon-5x" style="color: black;"></i>
                   </div>
                   <div class="text">
-                    <h4><strong>Cut your times</strong></h4>
+                    <h4><strong>쇼핑몰</strong></h4>
                     <p>
-                      Lorem ipsum dolor sit amet, has ei ipsum scaevola deseruisse am sea facilisis.
+                      	각종 물품을 구매할 수 있습니다<br><br><br>
                     </p>
-                    <a href="#">Learn More</a>
+                    <a href="#"><span class="badge badge-info badge-circled" style="font-size: 15px; background-color: black;">More >></span></a>
                   </div>
                 </div>
               </div>
@@ -218,123 +216,12 @@ border:none;
           </div>
         </div>
 
-
-        <div class="row">
-          <div class="span12">
-            <div class="cta-box">
-              <div class="row">
-                <div class="span8">
-                  <div class="cta-text">
-                    <h2>Special price in very <span>limited</span> times</h2>
-                  </div>
-                </div>
-                <div class="span4">
-                  <div class="cta-btn">
-                    <a href="#" class="btn btn-color">Call Action <i class="icon-caret-right"></i></a>
-                  </div>
-                </div>
-
-              </div>
-
-
-            </div>
-          </div>
-        </div>
 
       </div>
     </section>
-
-    <section id="offer">
-      <div class="container">
-        <div class="row">
-          <div class="span12">
-            <div class="row">
-              <div class="span12">
-                <div class="aligncenter">
-                  <h3>Our features and pricing</h3>
-                  <blockquote>
-                    Lorem ipsum dolor sit amet, labores dolorum scriptorem eum an, te quodsi sanctus neglegentur eam, et lorem persecuti conclusionemque mei.
-                  </blockquote>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-
-              <div class="span3">
-                <h5>Choose package and start grow</h5>
-                <p>
-                  Per an putent audiam adolescens, mel ceteros fierent democritum te. No ubique malorum euismod usu.
-                </p>
-                <p>
-                  Movet facilis democritum ea quo. Est ei illum consulatu accommodare, nam dicta expetenda suavitate ad.
-                </p>
-              </div>
-
-              <div class="span3">
-                <div class="pricing-box-plain">
-                  <div class="heading">
-                    <h4>Standard</h4>
-                    <span>$9 / Month</span>
-                  </div>
-                  <div class="desc">
-                    <ul>
-                      <li>For 1 Application</li>
-                      <li>Free one year support</li>
-                      <li>Unlimited disk spaces</li>
-                    </ul>
-                  </div>
-                  <div class="action">
-                    <a href="#" class="btn btn-inverse">Sign Up</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="span3">
-                <div class="pricing-box-plain">
-                  <div class="heading">
-                    <h4>Medium</h4>
-                    <span>$29 / Month</span>
-                  </div>
-                  <div class="desc">
-                    <ul>
-                      <li>For 10 Applications</li>
-                      <li>Free life time support</li>
-                      <li>Unlimited disk spaces</li>
-                    </ul>
-                  </div>
-                  <div class="action">
-                    <a href="#" class="btn btn-inverse">Sign Up</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="span3">
-                <div class="pricing-box-plain">
-                  <div class="heading">
-                    <h4>Elite</h4>
-                    <span>$59 / Month</span>
-                  </div>
-                  <div class="desc">
-                    <ul>
-                      <li>For unlimited appliacations</li>
-                      <li>Free life time support</li>
-                      <li>Unlimited disk spaces</li>
-                    </ul>
-                  </div>
-                  <div class="action">
-                    <a href="#" class="btn btn-color">Sign Up</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    </section>
-
+    
+    
+ <!-- 
     <section id="works">
       <div class="container">
         <div class="row">
@@ -406,19 +293,19 @@ border:none;
         </div>
       </div>
     </section>
-
+-->
     <footer>
       <div class="container">
         <div class="row">
           <div class="span4">
             <div class="widget">
               <div class="footer_logo">
-                <h3><a href="index.html"><i class="icon-tint"></i> Remember</a></h3>
+                <h3><a href="index.html"><i class="icon-tint"></i> Growing Season</a></h3>
               </div>
               <address>
-							  <strong>Remember company Inc.</strong><br>
-  							Somestreet KW 101, Park Village W.01<br>
-  							Jakarta 13426 Indonesia
+							  <strong>KOSMO Dev34</strong><br>
+  							Gasan-<br>
+  							Digital Complex-
   						</address>
               <p>
                 <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891 <br>
@@ -444,7 +331,7 @@ border:none;
             <div class="widget">
               <h5 class="widgetheading">From flickr</h5>
               <div class="flickr_badge">
-                <script type="text/javascript" src="http://www.flickr.com/badge_code_v2.gne?count=8&amp;display=random&amp;size=s&amp;layout=x&amp;source=user&amp;user=34178660@N03"></script>
+                <script type="text/javascript" src="http://www.flickr.com/badge_code_v2.gne?count=8&amp;display=random&amp;size=s&amp;lay	=x&amp;source=user&amp;user=34178660@N03"></script>
               </div>
               <div class="clear"></div>
             </div>
@@ -528,6 +415,8 @@ border:none;
 		$("#login").submit();
 		}
 </script>
+
+ 
 
 </body>
 
