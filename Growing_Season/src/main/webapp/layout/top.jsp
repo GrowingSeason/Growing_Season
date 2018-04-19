@@ -73,7 +73,7 @@ border:none;
                       <a href="/myApplyCondition/all/applyCondition_main.do">신청현황</a>
                     </li>
                     <li>
-                      <a href="/snsmain.do">SNS<i class="icon-angle-down"></i></a>
+                      <a href="/snsmain.do">SNS</a>
                     </li>
                     <li class="dropdown">
                       <a href="/boardfreelist.do">게시판 <i class="icon-angle-down"></i></a>

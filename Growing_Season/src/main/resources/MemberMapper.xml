@@ -36,7 +36,7 @@
     </select>
 	
 	<select id="memberCount" resultType="Integer">
-		select count(*) cnt from member
+		select count(*) from member where mwithdraw <![CDATA[=]]> 'N' 
 	</select>
 	
 	<select id="memberDetail" parameterType="int" resultType="com.kosmo.member.MemberVO">
@@ -52,7 +52,7 @@
 		from
 		(select
 		 mseq, mid, mphone, mpw, mname, mbirth, memail, maddress, mgender, mmailreceive, mauth, mauthtoken, mregdate
-         from MEMBER where mgubun != 'A' order by mseq desc) t)
+         from MEMBER where mgubun != 'A' and mwithdraw != 'Y' order by mseq desc) t)
 		where rnum <![CDATA[>=]]>
 		#{sseq} and rnum <![CDATA[<=]]>
 		#{eseq}

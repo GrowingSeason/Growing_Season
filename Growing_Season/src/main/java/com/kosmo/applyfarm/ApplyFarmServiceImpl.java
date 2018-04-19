@@ -45,8 +45,12 @@ public class ApplyFarmServiceImpl implements ApplyFarmService {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("mseq", mseq);
 		map.put("year", year);
+		
 		return applyFarmMapper.myApplyFarmInfo(map);
 		
+	}
+	public HashMap<String, Object> checkHaveFarm(int mseq, int year){
+		return applyFarmMapper.checkMyFarm(mseq, year);
 	}
 	public void inserttemp(AreaYearVO vo){
 		applyFarmMapper.insertAreaNO(vo);

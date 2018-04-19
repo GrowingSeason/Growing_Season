@@ -23,6 +23,7 @@ public interface ApplyFarmService {
 	public ArrayList<HashMap<String, Object>> selectFarmList();
 	public void ApplyCompletForMenber(ApplyFarmVO vo, PaymentVO pvo);
 	public void ApplyCompletForNonJoin(ApplyFarmVO vo, PaymentVO pvo);
+	public HashMap<String, Object> checkHaveFarm(int mseq, int year);
 	
 
 }

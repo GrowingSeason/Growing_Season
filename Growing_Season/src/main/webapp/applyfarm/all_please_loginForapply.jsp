@@ -50,7 +50,7 @@ select::-ms-expand {
         <div class="row">
           <div class="span4">
             <div class="inner-heading">
-              <h2>로그인 필요</h2>
+              <h2>농장신청</h2>
             </div>
           </div>
           <div class="span8">            
@@ -100,7 +100,7 @@ select::-ms-expand {
               		<h6><br></h6>
               		<h4 align="center">비회원 인증</h4>
 		              	<div class="action" align="center" style="height:245px; margin-top: 100px;">	
-								<button class="btn-large btn-danger" id="select" type="submit" style="width: 150px; height:70px; font-size: 30px;">인증</button>
+								<a href="/applyFarm/all/smsauthGo.do" class="btn-large btn-danger" id="select" type="submit" style="width: 150px; height:70px; font-size: 30px;">인증</a>
 							</div>
 		              </div>
 		          </div>

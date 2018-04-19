@@ -149,8 +149,7 @@ public class MemberController { //extends MultiActionController {
 		int res = service.memberDelete(vo.getMseq());
 		System.out.println(res + "건 삭제");
 		if(res > 0) {
-			return "redirect:/member/admin/memberList.do";
-
+			return "redirect:/member/admin/memberList.do?currentPage="+vo.getCurrentPage();
 		}else {
 			return "redirect:/member/user/memberDetail.do?mseq="+vo.getMseq();
 		}

@@ -77,6 +77,8 @@
                   <input type="text" name="apbirth" placeholder="생일을 입력해주세요" value='${MEMBER_DETAIL.mbirth}' required>
                   <div class="validation"></div>
                 </div>
+                	<input type='hidden' class='fgseq-infrom' name = "fgseq" value='${APPLY_FARM_VO.fgseq}'>
+					<input type='hidden' class='selectarea-infrom' name = "areaseq" value='${APPLY_FARM_VO.areaseq}'>
               </div>
             </form>
           </div>
