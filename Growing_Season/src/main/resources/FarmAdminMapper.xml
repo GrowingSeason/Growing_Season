@@ -55,7 +55,7 @@
 		</association>
 </resultMap>
 
-<resultMap id="AreaMap" type="com.kosmo.farmadmin.ApplyVO" >
+<resultMap id="LocNameApplyMap" type="com.kosmo.farmadmin.ApplyVO" >
 		<id property="apseq" column="apseq" /> 
 		<result property="mseq" column="mseq" />
 		<result property="fgseq" column="fgseq" />
@@ -82,8 +82,8 @@
 </resultMap>
 
 
-<!-- <resultMap id="FarmGardenMap" type="com.kosmo.farmadmin.FarmGardenVO" >
-		<result property="fgseq" column="fgseq" />
+<resultMap id="LocNameAreaCountMap" type="com.kosmo.farmadmin.FarmGardenVO" >
+		<id property="fgseq" column="fgseq" />
 		<result property="fgdivision" column="fgdivision" />
 		<result property="fgdetaildiv" column="fgdetaildiv" />
 		<result property="fglocation" column="fglocation" />
@@ -91,15 +91,36 @@
 		<result property="fgmanager" column="fgmanager" />
 		<result property="fgaddress" column="fgaddress" />
 		<result property="fgphone" column="fgphone" />
+</resultMap>
+
+<!-- <resultMap id="ReturnMap" type="com.kosmo.farmadmin.DocumentVO">
+		<id property="dseq" column="dseq" />
+		<result property="fgdivision" column="fgdivision" />
+		<result property="fgdetaildiv" column="fgdetaildiv" />
+		<result property="fglocation" column="fglocation" />
+		<result property="fgname" column="fgname" />
+		<result property="fgmanager" column="fgmanager" />
+	
 </resultMap> -->
 
 <select id="applyList" resultMap="MemberMap" parameterType="com.kosmo.farmadmin.MemberVO">
 <![CDATA[
-select ad.rnum, ad.apdivision ,ad.mseq, ad.apname, ad.apbirth, m.mgender, m.maddress, ad.apphone, ad.apemail, ad.dfilename, ad.apseq
-from member m right outer join (select rownum rnum,a.apseq ,a.mseq, a.apdivision, a.apname, a.apbirth, a.apphone, a.apemail, d.dfilename
-from apply a left outer join document d on a.apseq = d.apseq) ad on m.mseq=ad.mseq
-where ad.apdivision != '농장' and ad.rnum >=#{sseq} and ad.rnum <=#{eseq}
-order by m.mseq
+select t.*
+from 
+(
+    select rownum rnum, ad.apdivision ,ad.mseq, ad.apname, ad.apbirth, m.mgender, m.maddress, ad.apphone, ad.apemail, ad.dfilename, ad.apseq, ad.docureturn
+    from member m 
+        right outer join 
+        (select a.apseq, a.mseq, a.apdivision, a.apname, a.apbirth, a.apphone, a.apemail, d.dfilename, d.docureturn
+        from apply a 
+            left outer join (select apseq, docureturn, dfilename from document where docureturn != 'Y') d 
+            on a.apseq = d.apseq
+        ) ad 
+        on m.mseq=ad.mseq
+    where ad.apdivision != '농장'
+    order by rnum
+) t 
+where t.rnum >=#{sseq} and t.rnum <=#{eseq}
 ]]>
 </select>
 
@@ -136,50 +157,22 @@ select * from farm_garden
 where fgseq = #{fgseq}
 </select>
 
-<select id="silverDivCount" resultType="int">
-select sum(fgtotalarea) from farm_garden
-where fgdivision = '텃밭' and fgdetaildiv = '실버'
-</select>
 
-<select id="silverApplyCount" resultType="com.kosmo.farmadmin.ApplyVO" parameterType="com.kosmo.farmadmin.ApplyVO">
-select apseq from apply
-where apdivision='실버'
-</select>
-
-<select id="manyBabyDivCount" resultType="int">
-select sum(fgtotalarea) from farm_garden
-where fgdivision = '텃밭' and fgdetaildiv = '다둥이'
-</select>
-
-<select id="manyBabyApplyCount" resultType="com.kosmo.farmadmin.ApplyVO" parameterType="com.kosmo.farmadmin.ApplyVO">
-select apseq from apply
-where apdivision='다둥이'
-</select>
-
-<select id="manyCultureDivCount" resultType="int">
-select sum(fgtotalarea) from farm_garden
-where fgdivision = '텃밭' and fgdetaildiv = '다문화'
-</select>
-
-<select id="manyCultureApplyCount" resultType="com.kosmo.farmadmin.ApplyVO" parameterType="com.kosmo.farmadmin.ApplyVO">
-select apseq from apply
-where apdivision='다문화'
-</select>
 
 <select id="lottoList" resultType="com.kosmo.farmadmin.ApplyVO" parameterType="com.kosmo.farmadmin.ApplyVO">
 <![CDATA[
 select rnum, apdivision, apseq, mseq , apname, apphone, apemail, apdate, awinner, apcancel from
 (select rownum rnum, apdivision, apseq, mseq , apname, apphone, apemail, apdate, awinner, apcancel 
 from apply 
-where awinner='Y' order by apdivision)
-where rnum >=#{sseq} and rnum <=#{eseq}
+where awinner='W' order by apdivision)
+where rnum >=#{sseq} and rnum <=#{eseq} 
 ]]>
 </select>
 
 <select id="lottoListCount" resultType="int">
 select count(1) from (select apdivision, apseq, mseq , apname, apphone, apemail, apdate, awinner, apcancel 
 from apply 
-where awinner='Y'
+where awinner='W'
 order by apdivision)
 </select>
 
@@ -187,13 +180,30 @@ order by apdivision)
 select *
 from member m left outer join (select *
 from apply a right outer join farm_garden fg on a.fgseq = fg.fgseq) afg on m.mseq = afg.mseq
-where afg.fglocation = #{fgvo.fglocation} and afg.fgname = #{fgvo.fgname}
+where afg.fglocation = #{fgvo.fglocation} and afg.fgname = #{fgvo.fgname} and afg.apcancel='N'
 </select>
 
-<select id="areaList" resultMap="AreaMap" parameterType="com.kosmo.farmadmin.ApplyVO">
+<select id="areaList" resultType="com.kosmo.farmadmin.FarmGardenVO" parameterType="com.kosmo.farmadmin.FarmGardenVO">
+select * from farm_garden
+where fgseq=#{fgseq}
+</select>
+
+<select id="locnameApply" resultMap="LocNameApplyMap" parameterType="com.kosmo.farmadmin.ApplyVO">
 select *
 from apply a left outer join farm_garden fg on a.fgseq = fg.fgseq
+where fg.fgseq=#{fgvo.fgseq}
+</select>
+
+<select id="locnameAreaCount" resultMap="LocNameAreaCountMap">
+select ar.aseq, fg.fgname, fg.fglocation 
+from farm_garden fg right outer join area ar on fg.fgseq = ar.fgseq
 where fg.fgseq=#{fgseq}
+</select>
+
+<select id="winnerList" resultMap="LocNameApplyMap">
+select *
+from apply a left outer join farm_garden fg on a.fgseq = fg.fgseq
+where fg.fgseq=#{fgseq} and a.awinner='Y' and a.apcancel='N'
 </select>
 
 <insert id="farmInsert" parameterType="com.kosmo.farmadmin.FarmGardenVO" >
@@ -209,16 +219,18 @@ delete from farm_garden where fgseq=#{fgseq}
 update farm_garden set fglocation=#{fglocation}, fgname=#{fgname}, fgaddress=#{fgaddress}, fgphone=#{fgphone}, fgmanager=#{fgmanager} where fgseq=#{fgseq}
 </update>
 
-<update id="silverLotto" parameterType="com.kosmo.farmadmin.ApplyVO">
-update apply set awinner='Y' where apseq=#{apseq}
+<update id="lottoUpdate" parameterType="com.kosmo.farmadmin.ApplyVO">
+update apply set awinner='W', aseq=#{aseq} where apseq=#{apseq}
 </update>
 
-<update id="manyBabyLotto" parameterType="com.kosmo.farmadmin.ApplyVO">
-update apply set awinner='Y' where apseq=#{apseq}
+<update id="returnUpdate" parameterType="com.kosmo.farmadmin.DocumentVO">
+update document
+set docureturn='Y' , dreturncause=#{dreturncause}, dregdate=sysdate where apseq = (select apseq 
+from apply where apseq = #{apseq})
 </update>
 
-<update id="manyCultureLotto" parameterType="com.kosmo.farmadmin.ApplyVO">
-update apply set awinner='Y' where apseq=#{apseq}
+<update id="assignUpdate" parameterType="int">
+update apply set apcancel='Y' where mseq=#{mseq}
 </update>
 
 </mapper>

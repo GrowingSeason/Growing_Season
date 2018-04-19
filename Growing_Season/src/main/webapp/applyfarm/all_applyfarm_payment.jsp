@@ -67,8 +67,12 @@
 									<div class="row">
 										<label for="inputname" class="span2 control-label">이름</label>
 										<div class="span7">
-											<select class="form-control input-lg" id="farmlocation" name="farmlocation" onChange="getList()" required style="width:70%">
+											<select class="form-control input-lg" id="payselect" name="payselect" onChange="payList()" required style="width:70%">
 												<option value=''>선택해주세요</option>
+												<option value=''>카드결제</option>
+												<option value='kakao'>카카오페이</option>
+												<option value=''>페이코</option>
+												<option value=''>무통장입금</option>
 											</select>
 										</div>
 									</div>
@@ -82,86 +86,82 @@
 					<div class="clearfix"></div>
 
 				</form>
-				<div class="row">
-				<form class="inputform" method="post" action="/applyFarm/all/selectFarmArea.do">
-					<input type="hidden" class="authseq" name="smsseq">
-					<input	type="hidden" class="form-control" id="name" name="name">
-					<input type="hidden" class="form-control" id="phoneNumber" name="phoneNumber">
+				
+				<div class="row paybtn" style="display:none">
 					<div class="span11">
 						<div class="pricing-box-plain">
 							<div class="action">
 						
-							<button class="btn-large btn-info" type="submit">인증</button>
-							<button class="btn-large btn-danger" type="button">취소</button>
+							<button class="btn-large btn-info paymentbtn" id="" type="button">결제</button>
+							<button onClick="location.href='/index.do'" class="btn-large btn-danger" type="button">취소</button>
 							</div>
 						</div>
 					</div>
-				</form>
+				
 				</div>
+				
 			</div>
 		</div>
 	</div>
 </section>
 
 
-
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script>
-	$("#sendsmsauth").click(function() {
-		alert("클릭");
-		var test = $("#name").val();
-		alert(test)
+function payList(){
+	
+	if($("#payselect option:selected").val()=='kakao'){
+		$(".paybtn").show(); 
+		$(".paymentbtn").attr('id', 'payment');		
+		console.log($(".paymentbtn").attr('id'));
+	}
+}
+</script>
 
-		if ($("#inputname").val() == '') {
-			alert("이름을 입력해주세요");
-			return;
-		}
+<script type='text/javascript'>
+//카카오페이 결제 스크립트
+//kakao 스크립트 코드입력
 
-		$.ajax({
-			url : "/applyFarm/all/smsauth.do",
-			dataType : "json",
-			data : {
-				"phoneNumber" : $("#inputphoneNumber").val()
-			},
-			type : "post",
-			success : function(result) {
-				if (result.authvalidate == 'y') {
-					console(result.smsseq);
-					$(".authseq").attr('value', result.smsseq);
-					console($(".authseq").val());
+$(".paymentbtn").click(function(){
+	console.log('클릭되나');
+	Kakao.init("30062fa3725e52ec70fe45415dcbe2ea");
+	Kakao.Auth.login({
+		/* container : "#payment", */ 
+		success : function(authObj) {
+			console.log("들어왔다.");
+			console.log(JSON.stringify(authObj));
+			var access_token = "";
+			$.map(authObj, function(v, i) {
+				if (i == "access_token") {
+					access_token = v;
+					console.log(access_token);
 				}
-			}
-		});
-
-		$(".contactForm #hidden").attr("class", "view form-group");
-
-	});
-
-	$("#smsauth").click(
-			function() {
-				alert("클릭");
-				var authNumber = $("#authinput").val();
-				var phoneNumber = $("#inputphoneNumber").val();
-				alert(authNumber);
-
-				$.ajax({
-							url : "/applyFarm/all/checkAuthNumber.do",
-							dataType : "json",
-							data : {
-								"authNumber" : authNumber,
-								"phoneNumber" : phoneNumber
-							},
-							type : "post",
-							success : function(result) {
-								if (result.authvalidate == 'y') {
-									console.log(result.smsseq);
-									$(".authseq").attr('value', result.smsseq);
-									$("#name").attr('value',$("#inputname").val());
-									$("#phoneNumber").attr('value',$("#inputphoneNumber").val());
-									console.log($(".authseq").val());
-									$(".contactForm :input").attr("disabled", true);
-
-								}
-							}
-						});
 			});
+			var obj = new Object();
+			obj.access_token = access_token;
+
+			$.ajax({
+				url : "/kakaoForFarmNonJoinMember.do",
+				headers : {
+					'Content-Type' : 'application/json',
+				},
+				method : "post",
+				data : JSON.stringify(obj),
+				success : function(resMap) {
+					$.each(JSON.parse(resMap), function(i, v) {
+						if (i == "next_redirect_pc_url") {
+							console.log("++++++++++" + v);
+							window.location.href = v;
+						}
+					});
+				}
+			});
+		},
+		fail : function(err) {
+			console.log(JSON.stringify(err));
+			alert("실패");
+		}
+	});
+});
+
 </script>

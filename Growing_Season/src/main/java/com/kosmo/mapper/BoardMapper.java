@@ -42,6 +42,8 @@ public interface BoardMapper {
 	
 	public ArrayList<BoardVO> boardAndDeclarationList(BoardVO vo);
 	
+	public ArrayList<ReplyVO> replyAndDeclarationList(ReplyVO vo);
+	
 	public int boardDelete(int bseq);
 	
 	public int bDeclarationInsert(BDeclarationVO vo);
@@ -78,9 +80,6 @@ public interface BoardMapper {
 	
 	public int boardProposalCount();
 	
-
-	
-	
 	public int replyCount();
 	
 	public int bdeclarationCount();
@@ -88,5 +87,7 @@ public interface BoardMapper {
 	public int rdeclarationCount();
 	
 	public Map<String,Object> bDdetailList();
+	
+	public Map<String,Object> rDdetailList();
 	
 }

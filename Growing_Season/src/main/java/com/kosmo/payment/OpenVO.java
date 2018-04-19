@@ -10,7 +10,6 @@ public class OpenVO {
 	private HashMap<String, Object> map;
 	private String access_token;
 	
-	
 	public String getAccess_token() {
 		return access_token;
 	}

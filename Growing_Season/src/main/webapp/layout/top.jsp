@@ -10,6 +10,8 @@ border:none;
 	font-weight:1000;
 	font-size: 17px; /*세부메뉴 글자크기*/
 	color: black;
+}header ul.nav li a i {
+	color:red;
 }
 
 </style>
@@ -20,7 +22,7 @@ border:none;
           <div class="row">
             <div class="span6">
               <ul class="topmenu">
-                <li><a href="#">Home</a> &#47;</li>
+                <li><a href="/index.do">Home</a> &#47;</li>
                 <li><a href="#">Terms</a> &#47;</li>
                 <li><a href="#">Privacy policy</a></li>
               </ul>
@@ -29,11 +31,12 @@ border:none;
 
               <ul class="social-network">
               <c:choose>
-              <c:when test="">
-                <li><a href="#" class="btn btn-inverse" data-placement="bottom" title="로그인 해주세요">login</a></li>
+             <c:when test="${LVL_SESS_GUBUN == ''}">
+                <li><a href="#myModal" class="btn btn-inverse" data-placement="bottom" data-toggle="modal" title="로그인 해주세요">login</a></li>
+                <li><a href="/member/user/memberInput.do" class="btn btn-inverse" data-placement="bottom" title="휘원가입">join</a></li>
               </c:when>
               <c:otherwise>
-              	<li><a href="#" class="btn btn-inverse" data-placement="bottom" title="로그아웃">logout</a></li>
+              	<li><a href="/logout.do" class="btn btn-inverse" data-placement="bottom" title="로그아웃">logout</a></li>
               </c:otherwise>
               </c:choose>
                 <li><a href="#" data-placement="bottom" title="Facebook"><i class="icon-circled icon-bglight icon-facebook"></i></a></li>
@@ -52,7 +55,7 @@ border:none;
         <div class="row nomargin">
           <div class="span4">
             <div class="logo">
-              <h1><a href="index.html"><i class="icon-tint"></i> Growing Season</a></h1>
+              <h1><a href="/index.do"><i class="icon-tint"></i> Growing Season</a></h1>
             </div>
           </div>
           <div class="span8">
@@ -61,35 +64,30 @@ border:none;
                 <nav>
                   <ul class="nav topnav">
                     <li>
-                      <a href="#">공지사항</a>
+                      <a href="/boardnoticelist.do">공지사항</a>
                     </li>
                     <li>
-                      <a href="#">신청하기</a>
+                      <a href="/apply/all/apply_main.do">신청하기</a>
                     </li>
                     <li>
-                      <a href="#">신청현황</a>
+                      <a href="/myApplyCondition/all/applyCondition_main.do">신청현황</a>
+                    </li>
+                    <li>
+                      <a href="/snsmain.do">SNS</a>
                     </li>
                     <li class="dropdown">
-                      <a href="#">SNS <i class="icon-angle-down"></i></a>
+                      <a href="/boardfreelist.do">게시판 <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
-                        <li><a href="">여기는</a></li>
-                        <li><a href="">모르겠는걸</a></li>
-                      </ul>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#">게시판 <i class="icon-angle-down"></i></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="">자유게시판</a></li>
-                        <li><a href="">팁게시판</a></li>
-                        <li><a href="">건의사항</a></li>
+                        <li><a href="/boardfreelist.do">자유게시판</a></li>
+                        <li><a href="/boardproposallist.do">건의사항</a></li>
                       </ul>
                     </li>
                     <li class="dropdown">
                       <a href="#">기타기능<i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
-                        <li><a href="">농장위치확인</a></li>
-                        <li><a href="">날씨정보</a></li>
-                        <li><a href="">쇼핑몰</a></li>
+                        <li><a href="/location/all/farmLocation.do">농장위치확인</a></li>
+                        <li><a href="/weather/all/weatherInfo.do">날씨정보</a></li>
+                        <li><a href="/crolling.do">쇼핑몰</a></li>
                       </ul>
                     </li>
                   </ul>

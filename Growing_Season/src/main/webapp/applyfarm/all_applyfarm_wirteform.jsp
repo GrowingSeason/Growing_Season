@@ -80,7 +80,7 @@
                 </div>
                 <div class="span6 margintop10 field form-group">
                   <label for="addr">주소</label>	
-                  <input type="text" name="addr" placeholder="주소를 입력해주세요" required>
+                  <input type="text" name="apaddr" placeholder="주소를 입력해주세요" required>
                   <div class="validation"></div>
                 </div>
                 <div class="span6 margintop10 field form-group">
@@ -95,7 +95,7 @@
                 </div>
                 <div class="span6 margintop10 field form-group">
                   <label for="pw">패스워드</label>	
-                  <input type="password" id="pw" name="pw" placeholder="패스워드를 입력해주세요" required>
+                  <input type="password" id="pw" name="apw" placeholder="패스워드를 입력해주세요" required>
                   <div class="validation"></div>
                 </div>
                 <div class="span6 margintop10 field form-group">
@@ -104,6 +104,8 @@
                   <div class="alert alert-error" id="passwordCheckMessage" style="display:none"></div>
                   <div class="validation"></div>
                 </div>
+                	<input type='hidden' class='fgseq-infrom' name = "fgseq" value='${APPLY_FARM_VO.fgseq}'>
+					<input type='hidden' class='selectarea-infrom' name = "aseq" value='${APPLY_FARM_VO.aseq}'>
               </div>
             </form>
           </div>
@@ -137,7 +139,7 @@
 				<div class="pricing-box-plain">
 					<div class="action">
 						<button class="btn-large btn-info" id="select" type="button"> 완료 </button>
-						<button class="btn-large btn-danger" type="button"> 취소 </button>
+						<button onClick="location.href='/index.do'" class="btn-large btn-danger" type="button">취소</button>
 					</div>
 				</div>
 			</div>

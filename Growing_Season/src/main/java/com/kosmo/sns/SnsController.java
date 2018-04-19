@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class SnsController {
 	
 	private int upload_file_max_size=100000000;
 	private String upload_file_format="UTF-8";
-	private String upload_file_dir="C:\\Users\\정규반\\gitGrowing_Season\\Growing_Season\\src\\main\\webapp\\uploads";
+	private String upload_file_dir="C:\\34DEV\\Growing_Season_git\\Growing_Season\\src\\main\\webapp\\uploads";
 
 	/**
 	 * sns 메인페이지
@@ -42,7 +43,7 @@ public class SnsController {
 	public ModelAndView snsmain() {
 		ModelAndView mav = new ModelAndView();
 		ArrayList<SnsFeedVO> list=service.snsFeedList();
-		mav.addObject("SNS_FEED_LIST", list);
+		mav.addObject("SNS_IMG_LIST", list);
 		mav.setViewName("sns_sns_all_sns_main");
 		return mav;
 	}
@@ -59,8 +60,8 @@ public class SnsController {
 			,@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage
 			) {
 		ModelAndView mav = new ModelAndView();
-		
-		
+		System.out.println("컨트롤러 디테일");
+				
 		//BoardDAO impl = new BoardDAO();
 		int totalCount = service.snscommentCnt();
 		//------------페이징
@@ -80,9 +81,13 @@ public class SnsController {
 		mav.addObject("SNS_FOLLOWING_LIST", map.get("fiList"));
 		mav.addObject("SNS_COMMENT_LIST", map.get("cList"));
 		mav.addObject("SNS_DETAIL", map.get("fDetail"));
+		mav.addObject("SNS_FOLLOWER_CNT", map.get("feCnt"));
+		mav.addObject("SNS_FOLLOWING_CNT", map.get("fiCnt"));
+		mav.addObject("SNS_LIKE_CNT", map.get("snsLike"));
 		mav.addObject("SNS_COMMENT_PAGING", html);
-		mav.setViewName("sns_sns_user_sns_detail");
-
+		
+		mav.setViewName("sns_sns_all_sns_detail");
+		System.out.println("디테일 페이지 모달");
 		return mav;
 	}
 
@@ -93,8 +98,23 @@ public class SnsController {
 	 * @return String(redirectURL)
 	 */
 	@RequestMapping(value="/snsFeedInsert.do")
-	public String snsFeedInsert(SnsFeedVO vo,SnsImgVO ivo) {
+	public String snsFeedInsert(SnsFeedVO vo,SnsImgVO ivo,HttpSession session) {
+		System.out.println("값이 넘어 와쓰요!!!!!");
+		System.out.println(vo.getFecon()+"넘어온 내용");
+		System.out.println(vo.getFerange()+"넘어온 내용");
+		
+		int mseq=0;
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
+		}
+//		mseq = 7;
+		vo.setMseq(mseq);
+		
 		MultipartFile ufile=ivo.getUfile();
+		
+		if(vo.getFecon()==null){
+			return "sns_sns_user_sns_insert";
+		}
 		if(ufile != null) {
 			String fullPath = upload_file_dir+"\\"+ufile.getOriginalFilename();
 			File newFile = new File(fullPath); //파일생성
@@ -103,8 +123,6 @@ public class SnsController {
 				ivo.setFeimgsize(ufile.getSize());
 				ivo.setFeimgpath(upload_file_dir);
 				ivo.setFeimgname(ufile.getOriginalFilename());
-				int res = service.snsInsertService(vo, ivo);
-				System.out.println(res + "sns,이미지,hash 등록 테스트!!");
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -112,8 +130,10 @@ public class SnsController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			int res = service.snsInsertService(vo, ivo);
+			System.out.println(res + "sns,이미지,hash 등록 테스트!!");
 		}		
-		return "redirect:/snsmain.do";
+		return "redirect:/snsMypage.do?mseq="+vo.getMseq();
 	}
 	
 	
@@ -123,10 +143,19 @@ public class SnsController {
 	 * @return mav
 	 */
 	@RequestMapping(value="/snsMypage.do")
-	public ModelAndView snsMypage(@RequestParam ("mseq") int mseq) {
-		ArrayList<SnsFeedVO> list=service.snsMypage(mseq);
+	public ModelAndView snsMypage(HttpSession session) {
+		int mseq=0;
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
+		}
+//		mseq = 7;
+		Map<String , Object> list=service.snsMypageSErvice(mseq);
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("SNS_MYPAGE_LIST",list);
+		mav.addObject("SNS_MYPAGE_LIST",list.get("fList"));
+		mav.addObject("SNS_FOLLOWER_LIST",list.get("feList"));
+		mav.addObject("SNS_FOLLOWING_LIST",list.get("fiList"));
+		mav.addObject("SNS_FOLLOWER_CNT",list.get("fecnt"));
+		mav.addObject("SNS_FOLLOWING_CNT",list.get("ficnt"));
 		mav.setViewName("sns_sns_user_sns_mypage");
 		return mav;
 	}
@@ -139,13 +168,32 @@ public class SnsController {
 	 */
 	@RequestMapping(value="/snsFollowerspage.do")
 	public ModelAndView snsFollowerspage(
-			@RequestParam ("mseq") int mseq,
-			@RequestParam ("feseq") int feseq
+			HttpSession session,
+			@RequestParam ("feseq") int feseq,
+			@RequestParam ("fmseq") int fmseq
 			) {
-	ArrayList<SnsFeedVO> list=service.snsFollowerspageService(feseq, mseq);
-  	ModelAndView mav = new ModelAndView();
-		mav.addObject("SNS_FOLLOWERS_PAGE",list);
-		mav.setViewName("sns_sns_user_sns_followerspage");
+		
+		int mseq=0;
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
+		}
+		
+//		mseq = 7;
+		Map<String , Object> list=service.snsFollowerspageService(feseq, mseq, fmseq);
+		ArrayList<SnsFeedVO> alist=(ArrayList<SnsFeedVO>)list.get("allList");
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("SNS_FOLLOW_LIST",list.get("fList"));
+		mav.addObject("SNS_ALL_LIST",list.get("allList"));
+		mav.addObject("SNS_FOLLOWER_LIST",list.get("feList"));
+		mav.addObject("SNS_FOLLOWING_LIST",list.get("fiList"));
+		mav.addObject("SNS_FOLLOWER_CNT",list.get("fecnt"));
+		mav.addObject("SNS_FOLLOWING_CNT",list.get("ficnt"));
+		System.out.println(alist.size());
+		if(alist.size()<=0){
+			mav.setViewName("sns_sns_user_sns_followerspage");
+		} else if (alist.size()>=1){
+			mav.setViewName("sns_sns_user_sns_allpage");
+		}
 
 		return mav;
 	}
@@ -174,35 +222,38 @@ public class SnsController {
 	
 	/**
 	 * 팔로워 등록
+	 * 글번호 : feseq , 글쓴이번호:mseq
 	 * @param vo
 	 * @return String(redirestURL)
 	 */
 	@RequestMapping(value="/snsFollowersInsert.do")
-	public String snsFollowersInsert(SnsFeedVO vo) {
+	@ResponseBody
+	public Map<String, Object> snsFollowersInsert(@RequestBody SnsFeedVO vo, HttpSession session) {
+		//SESSION TODO
+		int mseq = 0;
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
+		}
+//		mseq = 6;
+		
+		System.out.println(vo.getFeseq()+"Ajax넘어온 feseq");
+		System.out.println(vo.getFmseq()+"Ajax넘어온 fmseq");
+		vo.setMseq(mseq);
+		
 		int res=service.snsFollowersInsertService(vo);
 		System.out.println("check, werDelete, wer/wingInsert" + res); 
+		String follow="in";
+		if(res>1){
+			follow="del";
+		}
 		
-		return "redirect:/snsdetail.do"+vo.getFeseq();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("SNS_FOLLOW_IN",follow);
+		
+		return map;
 	}
 	
 	
-	////	팔로잉 등록
-	//	@RequestMapping(value="/snsFollowingInsert.do")
-	//	public ModelAndView snsFollowingInsert(SnsFeedVO vo) {
-	//
-	////		팔로잉 중복체크
-	//		int check=service.snsFollowingCheck(vo.getFeseq(),vo.getMseq());
-	//		if(vo.getMseq()==check){
-	//			service.snsFollowingdelete(vo.getFimseq(),check);
-	//		}
-	//		if(check==0){
-	//			service.snsFollowingInsert(vo);
-	//		}
-	//		ModelAndView mav = new ModelAndView();
-	//		mav.setViewName("sns_sns_user_sns_followinginsert");
-	//		return mav;
-	//	}
-
 	
 	
 	/**
@@ -211,10 +262,30 @@ public class SnsController {
 	 * @return String(redirestURL)
 	 */
 	@RequestMapping(value="/snsLikeInsert.do")
-	public String snsLikeInsert(SnsFeedVO vo) {
+	@ResponseBody
+	public Map<String, Object> snsLikeInsert(@RequestBody SnsFeedVO vo, HttpSession session) {
+		
+		//SESSION TODO
+		int mseq = 0;
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
+		}
+//		mseq = 6;
+		vo.setMseq(mseq);		
+				
 		int res=0;
+		System.out.println(vo.getFeseq()+"Ajax넘어온 feseq");
 		res=service.snsLikeInsert(vo);
-		return "redirect:/snsdetail.do"+vo.getFeseq();
+		String like="in";
+		if(res>1){
+			like="del";
+		}
+		System.out.println(like+"종아요 누른 횟수");
+		int likecnt=service.snsLike(vo.getFeseq());
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("SNS_LIKE_IN",like);
+		map.put("SNS_LIKE_CNT",likecnt);
+		return map;
 	}
 
 	
@@ -224,11 +295,15 @@ public class SnsController {
 	 * @return String(redirestURL)
 	 */
 	@RequestMapping(value="/snscommentInsert.do")
-	public String snscommentInsert(SnsCommentVO vo) {
+	public String snscommentInsert(SnsCommentVO vo,HttpSession session) {
+		int mseq = 0;
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
+		}
+//		mseq = 6;
+		vo.setMseq(mseq);
 		service.snscommentInsert(vo);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("sns_sns_user_sns_followinginsert");
-		return "redirect:/snsdetail.do"+vo.getFeseq();
+		return "redirect:/snsdetail.do?feseq="+vo.getFeseq();
 	}
 	
 	
@@ -238,12 +313,19 @@ public class SnsController {
 	 * @return mav
 	 */
 	@RequestMapping(value = "/snsDeclarationList.do")
-	public ModelAndView snsfDeclarationList(
-			@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage
+	public ModelAndView snsDeclarationList(
+			@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage,HttpSession session
 	         )
 	{
 		
+		ModelAndView mav = new ModelAndView();
 		int totalCount = service.fdeclarationCnt();
+		
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			mav.setViewName("error_layout_all_error_page");
+			return mav;
+		}
+		
 		//------------페이징
 		PagingUtil pu
 		= new PagingUtil("/snsDeclarationList.do?"
@@ -256,44 +338,14 @@ public class SnsController {
 
 		Map<String , Object> list = service.snsDeclarationList(pu.getStartSeq(), pu.getEndSeq());
 
-		ModelAndView mav = new ModelAndView();
+		
 		mav.addObject("SNS_FD_LIST", list.get("fdList"));
 		mav.addObject("SNS_CD_LIST", list.get("cdList"));
 		mav.addObject("SNS_FD_PAGING", html);
-		mav.setViewName("sns_sns_admin_sns_declarationlist");
+		mav.setViewName("sns_sns_admin_sns_declaration");
 		return mav;
 	}
 	
-	
-//	/**
-//	 * 댓글 신고글
-//	 * @param currentPage
-//	 * @return mav
-//	 */
-//	@RequestMapping(value = "/snscDeclarationList.do")
-//	public ModelAndView snscDeclarationList(@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage
-//	         )
-//	{
-//		int totalCount = service.cdeclarationCnt();
-////------------페이징
-//		PagingUtil pu
-//		= new PagingUtil("/snscDeclarationList.do?"
-//				, currentPage
-//				, totalCount  //------------
-//				, 5	//선택한 2번 블럭에 나타날 게시물 갯수
-//				, 5 // 1 2 [다음]
-//				);
-//		String  html = pu.getPagingHtml();
-//
-//		ArrayList<DeclarationVO> list = service.snscDeclarationList(pu.getStartSeq(), pu.getEndSeq());
-//
-//		ModelAndView mav = new ModelAndView();
-//		mav.addObject("SNS_CD_LIST", list);
-//		mav.addObject("SNS_CD_PAGING", html);
-//		mav.setViewName("sns_sns_admin_sns_snscdlist");
-//		return mav;
-//	}
-
 
 	/**
 	 * 피드글 신고
@@ -301,7 +353,14 @@ public class SnsController {
 	 * @return String(redirestURL)
 	 */
 	@RequestMapping(value="/snsfdeclarationInsert.do")
-	public String snsfdeclarationInsert(DeclarationVO vo) {
+	public String snsfdeclarationInsert(DeclarationVO vo,HttpSession session) {
+		int mseq = 0;
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
+		}
+		System.out.println(vo.getFdcon()+"feed신고내용");
+//		mseq = 6;
+		vo.setFdmseq(mseq);
 		service.snsfdeclarationInsert(vo);
 		return "redirect:/snsdetail.do?feseq="+vo.getFeseq();
 	}
@@ -312,8 +371,17 @@ public class SnsController {
 	 * @return String(redirestURL)
 	 */
 	@RequestMapping(value="/snscdeclarationInsert.do")
-	public String snscdeclarationInsert(DeclarationVO vo) {
+	public String snscdeclarationInsert(DeclarationVO vo,HttpSession session) {
+		//SESSION TODO
+		int mseq = 0;
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
+		}
+		System.out.println(vo.getCdcon()+"feseq신고내용");
+//		mseq = 6;
+		vo.setCdmseq(mseq);
 		service.snscdeclarationInsert(vo);
+		System.out.println(vo.getFeseq()+"신고 후 feseq");
 		return "redirect:/snsdetail.do?feseq="+vo.getFeseq();
 	}
 
@@ -323,8 +391,11 @@ public class SnsController {
 	 * @return String(redirestURL)
 	 */
 	@RequestMapping(value="/fdeclarationdelete.do")
-	public String fdeclarationdelete(@RequestParam ("feseq") int feseq) {
-		service.fdeclarationdelete(feseq);
+	public String fdeclarationdelete(
+			@RequestParam ("feseq") int feseq,
+			@RequestParam ("fdmseq") int fdmseq
+			) {
+		service.fdeclarationdelete(feseq,fdmseq);
 		return "redirect:/snsDeclarationList.do";
 	}
 
@@ -334,8 +405,13 @@ public class SnsController {
 	 * @return String(redirectURL)
 	 */
 	@RequestMapping(value="/cdeclarationdelete.do")
-	public String cdeclarationdelete(@RequestParam ("feseq") int feseq) {
-		service.cdeclarationdelete(feseq);
+	public String cdeclarationdelete(
+			@RequestParam ("cdmseq") int cdmseq,
+			@RequestParam ("scseq") int scseq
+			) {
+		System.out.println(scseq+"댓글번호");
+		System.out.println(cdmseq+"댓글신고자 회원번호");
+		service.cdeclarationdelete(scseq, cdmseq);
 		return "redirect:/snsDeclarationList.do";
 	}
 
@@ -372,28 +448,27 @@ public class SnsController {
 	 */
 	@RequestMapping(value = "/snsCommentupdate.do")
 	public String snsCommentupdate(SnsCommentVO vo){
+		System.out.println(vo.getSccon()+"댓글 수정 내용");
 		service.snsCommentupdate(vo);
+		System.out.println(vo.getSccon()+"댓글 수정 내용");
 		return "redirect:/snsdetail.do?feseq="+vo.getFeseq();
 	}
 	
 //	내가 작성한 feed글 삭제여부 변경
 	@RequestMapping(value = "/snsFeedDelete.do")
 	public String snsFeedDelete(
-			@RequestParam("feseq") int feseq,
-			@RequestParam("mseq") int mseq			
+			@RequestParam("feseq") int feseq
 			){
+		System.out.println(feseq+"피드삭제할 feseq");
 		service.snsFeedDelete(feseq);
-		return "redirect:/snsMypage.do?mseq="+mseq;
+		return "redirect:/snsmain.do";
 	}
 	
 //	내가 작성한 feed글 삭제여부 변경
 	@RequestMapping(value = "/snsCommentDelete.do")
-	public String snsCommentDelete(
-			@RequestParam("feseq") int feseq,
-			@RequestParam("mseq") int mseq			
-			){
-		service.snsCommentDelete(feseq);
-		return "redirect:/snsMypage.do?mseq="+mseq;
+	public String snsCommentDelete(SnsCommentVO vo){
+		service.snsCommentDelete(vo);
+		return "redirect:/snsdetail.do?feseq="+vo.getFeseq();
 	}
 
 	//	해시태그 검색
@@ -409,16 +484,10 @@ public class SnsController {
 		if (list == null) {
 			//throw new NotFoundException("selectBoardList null");
 		}
+		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("SNS_HASHTAGSERCH_LIST", list);
+		map.put("SNS_HASHTAGSERCH_LIST",list);
 		return map;
 	}
 	
-	@RequestMapping(value = "/snssample.do")
-	public String snssample(){
-		
-		return "sns_sns_admin_sns_sample";
-	}
-	
-
 }

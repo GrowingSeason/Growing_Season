@@ -139,7 +139,7 @@
 			</div>
 		</div>
 		</div>
-				<form id="areaform" action="/applyFarm/all/writeForm.do" method="post">
+				<form id="areaform" action="/applyFarm/user/writeForm.do" method="post">
 		<div class="row">
 			<div class="span12">
 				<div class="pricing-box-plain">
@@ -149,7 +149,7 @@
 
 						
 							<button class="btn-large btn-info" id="select" type="submit"> 완료 </button>
-							<button class="btn-large btn-danger" type="button"> 취소 </button>
+							<button onClick="location.href='/index.do'" class="btn-large btn-danger" type="button">취소</button>
 						
 					</div>
 				</div>
@@ -282,6 +282,7 @@ $(".farmsector").on( "click" , "div", function() {
     	var test2 = $(".fgseq-infrom").attr('value');
     	alert(test);
     	alert(test2);
+    	$("#selectNum").html("["+number+"]");
     }else if($(this).attr('class')=='selectbox'){
     	$(this).attr('class','box')
     	$(".selectarea-infrom").attr('value', '');

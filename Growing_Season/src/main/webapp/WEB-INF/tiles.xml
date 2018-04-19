@@ -35,15 +35,25 @@
 	<!-- layout 부모들 끝 -->
 	
 	<!-- Board layout tiles -->
+	
+	
+	<definition name="*_*_admin_*_*" extends="layoutDefault">
+		<put-attribute name="top" value = "/layout/admintop.jsp"/>
+		<put-attribute name="body" value = "/{2}/admin_{3}_{4}.jsp"/>
+	</definition>
+	
 	<definition name="board_*_*_report_*" extends="layoutDefault">
+		
 	    <put-attribute name="body" value = "/{1}/{2}_report_{3}.jsp"/>
    </definition>
    
 	<definition name="board_*_*_*_*" extends="layoutDefault">
+		<put-attribute name="sidebar" value = "/{1}/{2}_{3}_sidebar.jsp"/>
 		<put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
 	</definition>
 	
 	
+
 	
 	<!-- farm and garden apply layout tiles -->
 	<definition name="apply_*_*_*_*" extends="layoutDefault">
@@ -94,6 +104,10 @@
 	</definition>
 	
 	<definition name="example_*_*_*_*" extends="layoutDefault">
+	    <put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
+   </definition>
+   
+   <definition name="error_*_*_*_*" extends="layoutDefault">
 	    <put-attribute name="body" value = "/{1}/{2}_{3}_{4}.jsp"/>
    </definition>
 	

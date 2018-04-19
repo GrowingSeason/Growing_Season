@@ -39,9 +39,6 @@ public interface SnsService {
 //	팔로워 등록
 	public int snsFollowersInsertService(SnsFeedVO vo);
 	
-//	팔로잉 등록
-	public int snsFollowingInsert(SnsFeedVO vo);
-	
 //	해시태그 등록
 	public int snsHashtagInsert(SnsFeedVO vo);
 	
@@ -61,16 +58,16 @@ public interface SnsService {
 	public int snsFeedupdate(SnsFeedVO vo,SnsImgVO ivo);
 	
 //	신고댓글삭제
-	public int cdeclarationdelete(int feseq);
+	public int cdeclarationdelete(int scseq,int cdmseq);
 	
 //	신고피드삭제
-	public int fdeclarationdelete(int feseq);
+	public int fdeclarationdelete(int feseq,int fdmseq);
 	
 //	신고피드 fedelete값 변경
 	public int snsFeedDelete(int feseq);
 	
 //	신고댓글 fedelete값 변경
-	public int snsCommentDelete(int feseq);
+	public int snsCommentDelete(SnsCommentVO vo);
 	
 //	신고피드 리스트
 	public Map<String , Object> snsDeclarationList(int sseq,int eseq);
@@ -84,8 +81,11 @@ public interface SnsService {
 //	sns Mypage
 	public ArrayList<SnsFeedVO> snsMypage(int mseq);
 	
+//	sns Mypage
+	public Map<String , Object> snsMypageSErvice(int mseq);
+	
 //	팔로워가 볼수있는 페이지
-	public ArrayList<SnsFeedVO> snsFollowerspageService(int feseq, int mseq);
+	public Map<String , Object> snsFollowerspageService(int feseq, int mseq, int fmseq);
 	
 //	회원이 다 볼수 있는 페이지
 	public ArrayList<SnsFeedVO> snsallpage(int feseq, int mseq);
@@ -109,30 +109,17 @@ public interface SnsService {
 	public int snscommentCnt();
 	
 //	팔로워가 등록되어 있으면 삭제
-	public int snsFollowersdelete(int femseq,int mseq);
+	public int snsFollowersdelete(SnsFeedVO vo);
 	
-//	팔로잉이 등록되어 있으면 삭제
-	public int snsFollowingdelete(int fimseq,int mseq);
-	
-	public int snsFollowingCheck(
-			int feseq,
-			int mseq
-			);
 	
 //	좋아요 중복 체크
-	public int snsLikeCheck(
-			@Param("feseq") int feseq,
-			@Param("mseq") int mseq
-			);
+	public int snsLikeCheck(SnsFeedVO vo);
 	
 //	좋아요 등록
 	public int snsLikeInsert(SnsFeedVO vo);
 	
 //	좋아요 되어 있으면 삭제
-	public int snsLikedelete(
-			int feseq,
-			int mseq
-			);
+	public int snsLikedelete(SnsFeedVO vo);
 	
 //	댓글 수정
 	public int snsImgupdate(SnsImgVO vo);
@@ -151,5 +138,17 @@ public interface SnsService {
 	
 //	신고피드 fedelete값 변경
 	public int snsImgdelete(@Param("feseq") int feseq);
+	
+//	팔로워 수
+	public int snsFollwersCnt(@Param("mseq")int mseq);
+	
+//	팔로잉 수
+	public int snsFollwingCnt(@Param("mseq")int mseq);
+	
+	public int cdeclarationdeleteservice(
+			@Param("feseq") int feseq,
+			@Param("scseq") int scseq);
+	
+	public ArrayList<DeclarationVO>	snsfDeclarationList(int sseq,int eseq);
 	
 }
