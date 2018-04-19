@@ -209,6 +209,7 @@ public class ApplyFarmController {
 	@RequestMapping(value="/applyFarm/all/payment.do")
 	public ModelAndView paymentAll(ApplyFarmVO vo, HttpSession session){
 		ModelAndView mav = new ModelAndView();
+		vo.setYear(thisYear);
 		session.setAttribute("FARM_APPLY_VO", vo);
 		mav.setViewName("applyFarm_applyfarm_all_applyfarm_payment");
 
@@ -220,6 +221,7 @@ public class ApplyFarmController {
 		ModelAndView mav = new ModelAndView();
 		int mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
 		vo.setMseq(mseq);
+		vo.setYear(thisYear);
 		System.out.println(vo.getApname());
 		session.setAttribute("FARM_APPLY_VO", vo);
 		mav.setViewName("applyFarm_applyfarm_user_applyfarm_payment");

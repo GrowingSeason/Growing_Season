@@ -187,6 +187,9 @@ public class BoardController {
 	public String boardnoticeinsert(BoardVO vo, HttpSession session
 			) throws IllegalStateException, IOException {
 		
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			return "error_layout_all_error_page";
+		}
 		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
 		
 		//int mseq=5;
@@ -391,11 +394,17 @@ public class BoardController {
 
 	//공지 게시판 수정(예전edit.spring)
 	@RequestMapping(value="/boardnoticeupdatepage.do", method = RequestMethod.GET)
-	public ModelAndView boardnoticeupdatepage(BoardVO vo) {
-		vo=service.boardNoticeDetail(vo.getBseq());
+	public ModelAndView boardnoticeupdatepage(BoardVO vo, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			mav.setViewName("error_layout_all_error_page");
+			return mav;
+		}
+		vo=service.boardNoticeDetail(vo.getBseq());
 		mav.addObject("NOTICE_UPDATE_PAGE", vo);
 		mav.setViewName("board_board_admin_board_noticeupdate");
+		
 		return mav;
 	}	
 
@@ -641,10 +650,16 @@ public class BoardController {
 
 	//게시글 신고 리스트
 	@RequestMapping(value="/bdeclarationlist.do")
-	public ModelAndView bdeclarationlist(HttpServletRequest request, HttpServletResponse response) {
-	
-		ArrayList<BoardVO> list = service.bDdetailList();
+	public ModelAndView bdeclarationlist(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		
 		ModelAndView mav = new ModelAndView();
+	
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			mav.setViewName("error_layout_all_error_page");
+			return mav;
+		}
+		
+		ArrayList<BoardVO> list = service.bDdetailList();
 		mav.addObject("BDLIST", list);
 		mav.setViewName("board_board_admin_report_boardlist");     
 
@@ -653,10 +668,15 @@ public class BoardController {
 
 	//댓글 신고 리스트
 	@RequestMapping(value="/rdeclarationlist.do")
-	public ModelAndView rdeclarationlist(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView rdeclarationlist(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView();
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			mav.setViewName("error_layout_all_error_page");
+			return mav;
+		}
 		
 		ArrayList<ReplyVO> list = service.rDdetailList();
-		ModelAndView mav = new ModelAndView();
 		mav.addObject("RDLIST", list);
 		mav.setViewName("board_board_admin_report_replylist");     
 

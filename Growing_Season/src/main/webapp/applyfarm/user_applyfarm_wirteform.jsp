@@ -78,7 +78,7 @@
                   <div class="validation"></div>
                 </div>
                 	<input type='hidden' class='fgseq-infrom' name = "fgseq" value='${APPLY_FARM_VO.fgseq}'>
-					<input type='hidden' class='selectarea-infrom' name = "areaseq" value='${APPLY_FARM_VO.areaseq}'>
+					<input type='hidden' class='selectarea-infrom' name = "aseq" value='${APPLY_FARM_VO.aseq}'>
               </div>
             </form>
           </div>
@@ -112,7 +112,7 @@
 				<div class="pricing-box-plain">
 					<div class="action">
 						<button class="btn-large btn-info" id="select" type="button"> 완료 </button>
-						<button class="btn-large btn-danger" type="button"> 취소 </button>
+						<button onClick="location.href='/index.do'" class="btn-large btn-danger" type="button">취소</button>
 					</div>
 				</div>
 			</div>

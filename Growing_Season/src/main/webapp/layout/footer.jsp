@@ -7,7 +7,7 @@
           <div class="span4">
             <div class="widget">
               <div class="footer_logo">
-                <h3><a href="index.html"><i class="icon-tint"></i> Remember</a></h3>
+                <h3><a href="index.html"><i class="icon-tint"></i> Growing Season</a></h3>
               </div>
               <address>
 							  <strong>Remember company Inc.</strong><br>

@@ -79,7 +79,6 @@ border:none;
                       <a href="/boardfreelist.do">게시판 <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
                         <li><a href="/boardfreelist.do">자유게시판</a></li>
-                        <li><a href="/boardproposallist.do">팁게시판</a></li>
                         <li><a href="/boardproposallist.do">건의사항</a></li>
                       </ul>
                     </li>

@@ -31,8 +31,12 @@ import com.kosmo.common.ThumbnailUtil;
 
 public class GardenController {
 
-
-	String upload_file_dir="C:\\34DEV\\Growing_Season_git\\Growing_Season\\src\\main\\webapp\\uploads";
+	//지현이형자리
+	//String upload_file_dir="C:\\34DEV\\Growing_Season_git\\Growing_Season\\src\\main\\webapp\\uploads";
+	
+	//때요비자리
+	String upload_file_dir="C:\\GrowingSeason\\Growing_Season\\Growing_Season\\src\\main\\webapp\\uploads";
+	
 	String savedPath = "\\thumbnail";
 	@Autowired
 	GardenService service;

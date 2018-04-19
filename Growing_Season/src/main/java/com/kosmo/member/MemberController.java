@@ -37,13 +37,19 @@ public class MemberController { //extends MultiActionController {
 
 	//관리자는 회원의 리스트를 보기 위해 지나가는 컨트롤러
 	@RequestMapping(value = "/member/admin/memberList.do", method = RequestMethod.GET)
-	public ModelAndView list(MemberVO vo,@RequestParam (value="currentPage", required=false, defaultValue="1" )int currentPage)
+	public ModelAndView list(MemberVO vo,@RequestParam (value="currentPage", required=false, defaultValue="1" )int currentPage, HttpSession session)
 	{
 
 //		if(request.getParameter("currentPage") != null) {
 //			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 //		}
 
+		ModelAndView mav = new ModelAndView();
+		
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			mav.setViewName("error_layout_all_error_page");
+			
+		}
 		//BoardDAO impl = new BoardDAO();
 		int totalCount = service.memberCount();
 
@@ -62,7 +68,7 @@ public class MemberController { //extends MultiActionController {
 		//		vo.setEseq(pu.getEndSeq());
 		List<MemberVO> list = service.memberAdminList(pu.getStartSeq(), pu.getEndSeq());
 
-		ModelAndView mav = new ModelAndView();
+	
 
 		mav.addObject("LVL_COUNT", totalCount);
 		mav.addObject("LVL_LIST", list);
@@ -104,12 +110,13 @@ public class MemberController { //extends MultiActionController {
 	@RequestMapping(value = "/member/user/memberDetail.do", method = RequestMethod.GET)
 	public ModelAndView memberDetail(MemberVO vo)
 	{
+		ModelAndView mav = new ModelAndView();
 		String temp = vo.getCurrentPage();
 
 		vo = service.memberDetail(vo.getMseq());
 		vo.setCurrentPage(temp);
 
-		ModelAndView mav = new ModelAndView();
+		
 		mav.addObject("LVL_VO", vo);
 		mav.setViewName("member_member_user_member_detail");
 
@@ -169,30 +176,30 @@ public class MemberController { //extends MultiActionController {
 
 	//로그인 할때 id 와 pw를 비교하여 로그인시킨후 보내는 페이지를 지정함. 
 	@RequestMapping(value = "/member/user/loginCheck.do")
-	public ModelAndView loginCheck(@RequestParam("mid") String mid
+	public String loginCheck(@RequestParam("mid") String mid
 			,@RequestParam("mpw") String mpw
 			,HttpServletRequest request){
 
 		MemberVO vo = new MemberVO();
 		vo = service.loginCheck(mid, mpw);
-		ModelAndView mav = new ModelAndView();
+		
 		if(vo != null){
-
-			System.out.println("나는 로그인했다.");
+			
 			HttpSession session = request.getSession();
 			session.setAttribute("LVL_SESS_MSEQ", vo.getMseq());
 			session.setAttribute("LVL_SESS_GUBUN", vo.getMgubun());
 			session.setAttribute("LVL_SESS_MNAME", vo.getMname());
-
-			mav.addObject("LVL_VO", vo);
-			mav.setViewName("member_member_admin_member_list");
-
-			return mav;
-		}else{
+			session.setAttribute("LVL_SESS_MVO", vo);
 			
+			if(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A")){
+				return "index_example_admin_index_index";
+			}else{
+				return "redirect:/index.do";
+			}
+		}else{
 			System.out.println("로그인 못해따");
-			mav.setViewName("member_member_user_member_input");
-			return mav;
+			
+			return "redirect:/index.do";
 		}
 	}
 
@@ -253,6 +260,9 @@ public class MemberController { //extends MultiActionController {
 		mav.setViewName("/example/index");
 		if(session.getAttribute("LVL_SESS_GUBUN")==null){
 		session.setAttribute("LVL_SESS_GUBUN","");
+		}else if((session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			mav.setViewName("example_example_admin_index_index");
+			return mav;
 		}
 
 		return mav;
@@ -276,7 +286,7 @@ public class MemberController { //extends MultiActionController {
 		System.out.println(vo.getApname());
 		System.out.println(pvo.getPprice());
 		applyFarmServiceImpl.ApplyCompletForMenber(vo, pvo);
-		return "redirect:/index.do";
+		return "member_member_all_payment_success";
 			
 	}
 	@RequestMapping(value = "/member/user/paymentForFarmNonJoinMember.do")
@@ -286,7 +296,7 @@ public class MemberController { //extends MultiActionController {
 		System.out.println(vo.getApname());
 		System.out.println(pvo.getPprice());
 		applyFarmServiceImpl.ApplyCompletForNonJoin(vo, pvo);
-		return "redirect:/index.do";
+		return "member_member_all_payment_success";
 			
 	}
 	

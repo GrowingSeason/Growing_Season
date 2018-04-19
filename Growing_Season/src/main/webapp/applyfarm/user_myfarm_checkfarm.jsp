@@ -134,7 +134,7 @@
         	<div class="span12">
 				<div class="pricing-box-plain">
 					<div class="action">
-						<button class="btn-large btn-danger" type="button"> 신청취소 </button>
+						<button class="btn-large btn-danger" type="button">신청취소 </button>
 						<input type="hidden" name = "aseq" value="${MY_FARM_INFO[0].aseq}">
 						<input type="hidden" name = "fgseq" value="${MY_FARM_INFO[0].fgseq}">	
 					</div>
