@@ -334,14 +334,15 @@ public class GardenController {
 		}else{
 		docuReturn="Y" ;	
 		}
-		
+
 		String dreturnCause="";
 		for(int i=0;i<docList.size();i++){
-			if(!docList.get(i).getDreturnCause().equals(null)||!docList.get(i).getDreturnCause().equals("")){
+			if(docList.get(i).getDreturnCause()!=null){
 				dreturnCause=docList.get(i).getDreturnCause();
 				break;
 			}
 		}
+		
 		mav.addObject("LVL_DRETURNCAUSE",dreturnCause);
 		mav.addObject("LVL_DOCURETURN",docuReturn);
 		

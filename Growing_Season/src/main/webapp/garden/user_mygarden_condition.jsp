@@ -89,6 +89,8 @@
 	    				<h1>아직 추첨이 진행되지 않았습니다.</h1>
 	    				<c:if test="${LVL_DOCURETURN=='Y'}">
 	    					반려된 서류가 있습니다. 서류를 다시 제출해주시기 바랍니다.<br>
+	    					사유는,
+	    					[${LVL_LVL_DRETURNCAUSE}] 입니다.
 	    					<a href="/applyGarden/user/applyGarden_step2.do" class="my_button">다시 제출하기</a>
 	    				</c:if>	    					    				
   					</c:if>
