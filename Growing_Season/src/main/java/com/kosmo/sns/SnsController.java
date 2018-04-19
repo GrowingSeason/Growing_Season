@@ -33,7 +33,7 @@ public class SnsController {
 	
 	private int upload_file_max_size=100000000;
 	private String upload_file_format="UTF-8";
-	private String upload_file_dir="C:\\Users\\정규반\\git\\Growing_Season\\Growing_Season\\src\\main\\webapp\\uploads";
+	private String upload_file_dir="C:\\34DEV\\Growing_Season_git\\Growing_Season\\src\\main\\webapp\\uploads";
 
 	/**
 	 * sns 메인페이지
@@ -104,8 +104,8 @@ public class SnsController {
 		System.out.println(vo.getFerange()+"넘어온 내용");
 		
 		int mseq=0;
-		if(session.getAttribute("MSEQ") != null) {
-			mseq = Integer.parseInt(session.getAttribute("MSEQ").toString());
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
 		}
 //		mseq = 7;
 		vo.setMseq(mseq);
@@ -145,8 +145,8 @@ public class SnsController {
 	@RequestMapping(value="/snsMypage.do")
 	public ModelAndView snsMypage(HttpSession session) {
 		int mseq=0;
-		if(session.getAttribute("MSEQ") != null) {
-			mseq = Integer.parseInt(session.getAttribute("MSEQ").toString());
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
 		}
 //		mseq = 7;
 		Map<String , Object> list=service.snsMypageSErvice(mseq);
@@ -174,8 +174,8 @@ public class SnsController {
 			) {
 		
 		int mseq=0;
-		if(session.getAttribute("MSEQ") != null) {
-			mseq = Integer.parseInt(session.getAttribute("MSEQ").toString());
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
 		}
 		
 //		mseq = 7;
@@ -231,8 +231,8 @@ public class SnsController {
 	public Map<String, Object> snsFollowersInsert(@RequestBody SnsFeedVO vo, HttpSession session) {
 		//SESSION TODO
 		int mseq = 0;
-		if(session.getAttribute("MSEQ") != null) {
-			mseq = Integer.parseInt(session.getAttribute("MSEQ").toString());
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
 		}
 //		mseq = 6;
 		
@@ -267,8 +267,8 @@ public class SnsController {
 		
 		//SESSION TODO
 		int mseq = 0;
-		if(session.getAttribute("MSEQ") != null) {
-			mseq = Integer.parseInt(session.getAttribute("MSEQ").toString());
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
 		}
 //		mseq = 6;
 		vo.setMseq(mseq);		
@@ -295,7 +295,13 @@ public class SnsController {
 	 * @return String(redirestURL)
 	 */
 	@RequestMapping(value="/snscommentInsert.do")
-	public String snscommentInsert(SnsCommentVO vo) {
+	public String snscommentInsert(SnsCommentVO vo,HttpSession session) {
+		int mseq = 0;
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
+		}
+//		mseq = 6;
+		vo.setMseq(mseq);
 		service.snscommentInsert(vo);
 		return "redirect:/snsdetail.do?feseq="+vo.getFeseq();
 	}
@@ -343,8 +349,8 @@ public class SnsController {
 	@RequestMapping(value="/snsfdeclarationInsert.do")
 	public String snsfdeclarationInsert(DeclarationVO vo,HttpSession session) {
 		int mseq = 0;
-		if(session.getAttribute("MSEQ") != null) {
-			mseq = Integer.parseInt(session.getAttribute("MSEQ").toString());
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
 		}
 		System.out.println(vo.getFdcon()+"feed신고내용");
 //		mseq = 6;
@@ -362,8 +368,8 @@ public class SnsController {
 	public String snscdeclarationInsert(DeclarationVO vo,HttpSession session) {
 		//SESSION TODO
 		int mseq = 0;
-		if(session.getAttribute("MSEQ") != null) {
-			mseq = Integer.parseInt(session.getAttribute("MSEQ").toString());
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
 		}
 		System.out.println(vo.getCdcon()+"feseq신고내용");
 //		mseq = 6;

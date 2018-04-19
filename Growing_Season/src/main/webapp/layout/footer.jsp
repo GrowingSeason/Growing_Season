@@ -70,5 +70,39 @@
         </div>
       </div>
     </footer>
-  </div>
+  
   <a href="#" class="scrollup"><i class="icon-angle-up icon-rounded icon-bglight icon-2x"></i></a>
+  
+      <div id="myModal" class="modal fade" style="margin-top: 13%;">
+	<div class="modal-dialog modal-login">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">로그인</h4>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+			</div>
+			<div class="modal-body">
+				<form id="login" action="/member/user/loginCheck.do" method="post">
+					<div class="form-group">
+						<input style="width: 100%" type="text" name="mid" id="mid" class="form-control" placeholder="id"
+							required="required">
+					</div>
+					<div class="form-group">
+						<input style="width: 100%" type="password" name="mpw" id="mpw" class="form-control"
+							placeholder="Password" required="required">
+					</div>
+					<div class="form-group">
+						<input type="button" class="btn btn-primary btn-block btn-lg"
+							value="로 그 인" onClick="goLoginPage()" >
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+    <script>
+	function goLoginPage() {
+		/* location.href="/loginCheck.do"; */
+		$("#login").submit();
+		}
+</script>

@@ -40,6 +40,10 @@
 	<result property="authvalidate" column="auth_validate" />
 </resultMap>
 
+<resultMap id="myFarmCheckCount" type="java.util.HashMap">
+	<result property="count" column="count" />
+</resultMap>
+
   <!--
 	<resultMap id="BoardReplyForMap" type="com.board.board.BoardVO">
 		
@@ -86,8 +90,8 @@
 	</resultMap>
  매퍼파일안의 id는 해당 xml파일 안에서만 겹치지 않으면 됨 -->
 
-<select id="checkMyFarm" resultType="int">
-	select count(1) as count from apply where mseq=#{mseq} and year=#{year} and apcancel='n'
+<select id="checkMyFarm" resultMap="myFarmCheckCount">
+	select count(1) as count from apply where mseq=#{mseq} and year=#{year} and apcancel='N'
 </select>
 
 <select id="selectFarmLocation" resultType="String">

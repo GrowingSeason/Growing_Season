@@ -149,8 +149,7 @@ public class MemberController { //extends MultiActionController {
 		int res = service.memberDelete(vo.getMseq());
 		System.out.println(res + "건 삭제");
 		if(res > 0) {
-			return "redirect:/member/admin/memberList.do";
-
+			return "redirect:/member/admin/memberList.do?currentPage="+vo.getCurrentPage();
 		}else {
 			return "redirect:/member/user/memberDetail.do?mseq="+vo.getMseq();
 		}
@@ -215,14 +214,14 @@ public class MemberController { //extends MultiActionController {
 	//	*/
 
 	@RequestMapping(value = "/member/user/paymentForGarden.do", method = RequestMethod.GET)
-	public ModelAndView paymentForGarden(PaymentVO pvo, HttpSession session){
+	public String paymentForGarden(PaymentVO pvo, HttpSession session){
 		//pvo.getPrice()금액이 결제 되었습니다. 라는 문구를 가진 jsp로 단순 이동...
-		int mseq = 112;
-		//int mseq1 = (Integer) session.getAttribute("LVL_SESS_MSEQ");
+		
+		int mseq = (Integer) session.getAttribute("LVL_SESS_MSEQ");
 		//int apseq = 42;
-		String year = "2018";
+		String year = "1";
 
-		String pprice = "10";
+		String pprice = "10000";
 
 		pvo.setMseq(mseq);
 		//pvo.setApseq(apseq);
@@ -234,10 +233,10 @@ public class MemberController { //extends MultiActionController {
 
 		System.out.println(res +"건 insert 및 pcode update완료ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("member_member_user_payment_success");
+		
+		return "redirect:/myApplyCondition/all/applyCondition_main.do";
 
-		return mav;
+		
 	}
 
 	@RequestMapping(value = "/member/user/UserRegisterCheck.do", method = RequestMethod.POST)

@@ -137,7 +137,7 @@ border:none;
                   <li class="item-thumbs span6 design" data-id="id-0" data-type="web">
                     <div class="item">
                       <figure>
-                        <div><a href=""><img src="/img/farmfarm.jpg" alt=""></a></div>
+                        <div><a href="/myFarm/all/goCheckFarm.do"><img src="/img/fafa.png" alt=""></a></div>
                         <figcaption>
                           <h3>친환경농장 신청현황</h3>
                         </figcaption>
@@ -150,7 +150,7 @@ border:none;
                   <li class="item-thumbs span6 design" data-id="id-1" data-type="icon">
                     <div class="item">
                       <figure>
-                        <div><a href="/myGarden/user/mygarden_condition.do"><img src="/img/gardengarden2.jpg" alt=""></a></div>
+                        <div><a href="/myGarden/user/mygarden_condition.do"><img src="/img/gaga.png" alt=""></a></div>
                         <figcaption>
                           <h3>서울시텃밭 신청현황</h3>
                           <h6 align="center" style="color: white; font-size: 15px;">어르신, 다둥이가족, 다문화가족</h6>

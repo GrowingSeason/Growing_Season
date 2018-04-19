@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.net.URLEncoder"%> 
 
-<meta charset='UTF-8'>
+
+
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" type="image/x-icon" href="//static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
 <link rel="mask-icon" type="" href="//static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
@@ -145,7 +145,7 @@
 .container {
   max-width: 800px;
   min-width: 640px;
-  margin: 0 auto;
+  margin: 0 auto;		
 }
 .container:before,
 .container:after {
@@ -355,7 +355,7 @@
 <section id="content">
 	<div class="container">
 		<!-- Post-->
-		<div class="post-module span8">
+		<div class="post-module span8" style="overflow:auto">
 			<!-- Thumbnail-->
 			<div class="thumbnail" style="height: 300px;" align="right">
 				<button id="follower" class="btn btn-primary">
@@ -380,7 +380,7 @@
 				<button class='icon-fighter-jet animated infinite pulse btn-color'
 					onClick='location.href="/snsFollowerspage.do?feseq=${SNS_DETAIL.feseq}&fmseq=${SNS_DETAIL.mseq}"'>놀러가기</button>
 				<c:choose>
-					<c:when test="${MSEQ == SNS_DETAIL.mseq}">
+					<c:when test="${LVL_SESS_MSEQ == SNS_DETAIL.mseq}">
 						<a href="#testModal" class="btn btn-color pull-right"
 							data-toggle="modal">수정</a>
 						<button class='btn btn-danger pull-right'
@@ -388,7 +388,7 @@
 					</c:when>
 				</c:choose>
 				<c:choose>
-					<c:when test="${MSEQ != SNS_DETAIL.mseq}">
+					<c:when test="${LVL_SESS_MSEQ != SNS_DETAIL.mseq}">
 						<button id="fdreasen" class="btn btn-warning pull-right">신고</button>
 					</c:when>
 				</c:choose>
@@ -408,19 +408,23 @@
 					<!-- SNS : 글쓴이번호 (하단 폼안에 넣지 말것~!) -->
 					<input id="fmseq" type="hidden" name="fmseq"
 						value="${SNS_DETAIL.mseq}">
+						<input id="feseq" type="hidden" name="feseq"
+						value="${SNS_DETAIL.feseq}">
 
 					<!-- 커맨트 작성 -->
+					<form action="/snscommentInsert.do" class="commentInsert">
+					<input type="hidden" name="feseq" value="${SNS_DETAIL.feseq}">
 					<c:choose>
-						<c:when test="${MSEQ > 0}">
+						<c:when test="${LVL_SESS_MSEQ > 0}">
 							<label for="ex_input">댓글</label>
 							<input type="text"
 								style="display: inline; height: 10px; width: 400px; margin: 25px 20px 75px;"
 								placeholder="댓글을 작성 해주세요" name="sccon" value="">
-							<input type="button" value="입력" onClick="goPage()">
+							<input type="button" value="입력" onClick="goInsert()">
 						</c:when>
 					</c:choose>
 					<c:choose>
-						<c:when test="${MSEQ <= 0}">
+						<c:when test="${LVL_SESS_MSEQ <= 0}">
 							<label for="ex_input">댓글</label>
 							<input type="text"
 								style="display: inline; height: 10px; width: 400px; margin: 25px 20px 75px;"
@@ -428,15 +432,16 @@
 							<input type="button" value="입력">
 						</c:when>
 					</c:choose>
+					</form>
 
-					<div class="span6" align="center">
+					<div class="span6" align="center" style="overflow:auto">
 						<table class="table">
 							<c:forEach var="vo" items="${SNS_COMMENT_LIST}">
 								<tr>
 									<td>${vo.sccon}</td>
 									<td>${vo.scregdate}</td>
 									<c:choose>
-										<c:when test="${5 == vo.mseq}">
+										<c:when test="${LVL_SESS_MSEQ == vo.mseq}">
 											<td style="cursor: pointer;">
 											<button id="update" class="btn btn-warning">수정</button>
 											<td style="cursor: pointer;">
@@ -445,7 +450,7 @@
 										</c:when>
 									</c:choose>
 									<td><c:choose>
-											<c:when test="${MSEQ != vo.mseq}">
+											<c:when test="${LVL_SESS_MSEQ != vo.mseq}">
 												<button id="cdreasen" class="btn btn-warning">신고</button>
 											</c:when>
 										</c:choose></td>
@@ -480,16 +485,17 @@
 							<ul class="pagination">${SNS_COMMENT_PAGING}</ul>
 						</div>
 						<div align="center">
-						<button class="btn btn-color" value="글쓰기" style="width:200px;">
-                        <a href="/snsmain.do"><font color="white">SNSmain으로</font></a>
-                     </button>
+						<div>
+						
+                        <a href="/snsmain.do" class="btn btn-color"><font color="white">SNSmain으로</font></a>
+                        </div>
 						</div>
 					</div>
 
 				</div>
 			</div>
 		</div>
-	</div>
+		</div>
 	<div class="modal" id="testModal">
 		<div class="modal-dialog modal-login" style="width:100%">
 			<div class="modal-content">
@@ -527,11 +533,16 @@
 			</div>
 		</div>
 	</div>
-	
+
+
 	
 </section>
+<script src='//static.codepen.io/assets/editor/live/console_runner-ce3034e6bde3912cc25f83cccb7caa2b0f976196f2f2d52303a462c826d54a73.js'></script>
+<script src='//static.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='//static.codepen.io/assets/editor/live/css_live_reload_init-890dc39bb89183d4642d58b1ae5376a0193342f9aed88ea04330dc14c8d52f55.js'></script>	
 <!-- <script src='//codepen.io/andytran/pen/vLmRVp.js'></script> -->
-<script >
+<script type="text/javascript">
 	$(window).load(function() {
 		$('.post-module').hover(function() {
 			$(this).find('.description').stop().animate({
@@ -553,10 +564,10 @@
 		$("#btnupdate").show();
 	});
 
-	//# sourceURL=pen.js
+	
 </script>
 <script type="text/javascript">
-function goPage() {
+function goInsert() {
 	$(".commentInsert").submit();
 }
 function dreason() {
@@ -574,8 +585,3 @@ function btnupdate() {
 
 </script>
 
-<script src='//static.codepen.io/assets/editor/live/console_runner-ce3034e6bde3912cc25f83cccb7caa2b0f976196f2f2d52303a462c826d54a73.js'></script>
-<script src='//static.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
-<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script src='//static.codepen.io/assets/editor/live/css_live_reload_init-890dc39bb89183d4642d58b1ae5376a0193342f9aed88ea04330dc14c8d52f55.js'></script>
-</html>

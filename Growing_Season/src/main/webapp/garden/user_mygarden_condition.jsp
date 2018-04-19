@@ -127,12 +127,8 @@
 				<h4 align="center">
 					*서울시텃밭 대상자에 선정되셨습니다.<br> 기간 내에 결제를 진행해주시기 바랍니다.<br><br>
 					<div align="center">
+						<button class="btn-large btn-info" id="payment">결제하기</button>
 						
-						<br><br><br><br><br><br><br><br>
-						<!-- <a id="kakao-login-btn">a</a>
-						<a href="http://alpha-developers.kakao.com/logout"></a> -->
-	<!-- 					<input type="button" class="" onclick="'/kakao4.do'"> -->
-						<button class="" id="kakaopay" type="button">카카오로 결제해라!!!</button>
 					</div>
 				</h4>
 			</c:if>
@@ -215,13 +211,15 @@
 
 
 <script type='text/javascript'>
-		//카카오페이 결제 스크립트
-		//kakao 스크립트 코드입력
-	$("#kakaopay").click(function(){
-		Kakao.init("d0f737f6979d3541fe696ca5b369fa91");
-		Kakao.Auth.createLoginButton({
-			container : "#kakao-login-btn",
+	//카카오페이 결제 스크립트
+	//kakao 스크립트 코드입력
+$(function(){
+	$("#payment").click(function(){
+		Kakao.init("30062fa3725e52ec70fe45415dcbe2ea");
+		Kakao.Auth.login({
+			/* container : "#payment", */ 
 			success : function(authObj) {
+				console.log("들어왔다.");
 				console.log(JSON.stringify(authObj));
 				var access_token = "";
 				$.map(authObj, function(v, i) {
@@ -246,19 +244,18 @@
 								console.log("++++++++++" + v);
 								window.location.href = v;
 							}
-							
 						});
 					}
 				});
 			},
 			fail : function(err) {
 				console.log(JSON.stringify(err));
+				alert("실패");
 			}
-		})
-
+		});
 	});
-		
-			</script>
+});	
+</script>
 
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2df129d5c1a6d664029148b1657caaa3&libraries=services,clusterer,drawing"></script>
