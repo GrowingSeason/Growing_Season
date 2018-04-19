@@ -93,7 +93,7 @@
 							<div class="action">
 						
 							<button class="btn-large btn-info paymentbtn" id="" type="button">결제</button>
-							<button class="btn-large btn-danger" type="button">취소</button>
+							<button onClick="location.href='/index.do'" class="btn-large btn-danger" type="button">취소</button>
 							</div>
 						</div>
 					</div>

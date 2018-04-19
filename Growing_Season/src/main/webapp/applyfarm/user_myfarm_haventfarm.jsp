@@ -37,10 +37,9 @@
 	<div style="width:90%;margin-left:auto; margin-right:auto;">
 	<img src="/images/farm.jpg" class="img-fluid">
 	</div>
+	<button onClick="location.href='/index.do'" class="btn-large btn-danger" type="button">확인</button>
 </div>
 </div>
 </div>
-<div>하하</div>
-<div>하하</div>
 </div>
 </section>

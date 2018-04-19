@@ -67,16 +67,16 @@ border:none;
                 <nav >
                   <ul class="nav topnav">
                     <li>
-                      <a href=""  style="color: white;">회원</a>
+                      <a href="/member/admin/memberList.do"  style="color: white;">회원</a>
                     </li>
                     <li>
-                      <a href="" style="color: white;">농장과텃밭</a>
+                      <a href="/manager.do" style="color: white;">농장과텃밭</a>
                     </li>
                     <li>
-                      <a href="" style="color: white;">신청서</a>
+                      <a href="/alist.do" style="color: white;">신청서</a>
                     </li>
                     <li>
-                      <a href="" style="color: white;">공지</a>
+                      <a href="/boardnoticelist.do" style="color: white;">공지</a>
                     </li>
                     <li class="dropdown">
                       <a href="#" style="color: white;">게시판 <i class="icon-angle-down"></i></a>
@@ -86,7 +86,7 @@ border:none;
                       </ul>
                     </li>
                     <li class="dropdown">
-                      <a href="#" style="color: white;">SNS<i class="icon-angle-down"></i></a>
+                      <a href="/snsadmin.do" style="color: white;">SNS<i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
                         <li><a href="">신고글 관리</a></li>
                         <li><a href="">신고댓글 관리</a></li>
@@ -101,36 +101,3 @@ border:none;
         </div>
       </div>
     </header>
-    <div id="myModal" class="modal fade" style="margin-top: 13%;">
-	<div class="modal-dialog modal-login">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">로그인</h4>
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">×</button>
-			</div>
-			<div class="modal-body">
-				<form id="login" action="/member/user/loginCheck.do" method="post">
-					<div class="form-group">
-						<input style="width: 100%" type="text" name="mid" id="mid" class="form-control" placeholder="id"
-							required="required">
-					</div>
-					<div class="form-group">
-						<input style="width: 100%" type="password" name="mpw" id="mpw" class="form-control"
-							placeholder="Password" required="required">
-					</div>
-					<div class="form-group">
-						<input type="button" class="btn btn-primary btn-block btn-lg"
-							value="로 그 인" onClick="goPage()" >
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-    <script>
-	function goPage() {
-		/* location.href="/loginCheck.do"; */
-		$("#login").submit();
-		}
-</script>

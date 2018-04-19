@@ -314,11 +314,17 @@ public class SnsController {
 	 */
 	@RequestMapping(value = "/snsDeclarationList.do")
 	public ModelAndView snsDeclarationList(
-			@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage
+			@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage,HttpSession session
 	         )
 	{
 		
+		ModelAndView mav = new ModelAndView();
 		int totalCount = service.fdeclarationCnt();
+		
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			mav.setViewName("error_layout_all_error_page");
+			return mav;
+		}
 		
 		//------------페이징
 		PagingUtil pu
@@ -332,7 +338,7 @@ public class SnsController {
 
 		Map<String , Object> list = service.snsDeclarationList(pu.getStartSeq(), pu.getEndSeq());
 
-		ModelAndView mav = new ModelAndView();
+		
 		mav.addObject("SNS_FD_LIST", list.get("fdList"));
 		mav.addObject("SNS_CD_LIST", list.get("cdList"));
 		mav.addObject("SNS_FD_PAGING", html);

@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +43,13 @@ public class AdminController {
 	private FarmAdminService imp;
 	
 	@RequestMapping(value="/snsadmin.do")
-	public ModelAndView snsListAdmin(HttpServletRequest request, HttpServletResponse response) {
-
+	public ModelAndView snsListAdmin(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		
 		ModelAndView mav = new ModelAndView();
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			mav.setViewName("error_layout_all_error_page");
+			return mav;
+		}
 		
 		mav.setViewName("sns_sns_admin_sns_sample");
 
@@ -52,7 +57,13 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/alist.do")
-	public ModelAndView commontest(FarmGardenVO fgvo, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView commontest(FarmGardenVO fgvo, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView();
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			mav.setViewName("error_layout_all_error_page");
+			return mav;
+		}
 		int currentPage = 1;
 		
 		MemberVO mvo = new MemberVO();
@@ -64,7 +75,7 @@ public class AdminController {
 		PagingUtil pu = new PagingUtil("/alist.do", currentPage, totalcount, 8 , 5);
 		String html = pu.getPagingHtml();
 		
-		ModelAndView mav = new ModelAndView();
+		
 		
 		mvo.setSseq(pu.getStartSeq());
 		mvo.setEseq(pu.getEndSeq());
@@ -88,9 +99,15 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/manager.do")
-	public ModelAndView manager(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView manager(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		
 		ModelAndView mav = new ModelAndView();
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			mav.setViewName("error_layout_all_error_page");
+			return mav;
+		}
+		
+		
 		FarmGardenVO fgvo = new FarmGardenVO();
 		
 		ArrayList<FarmGardenVO> floclist = imp.farmlocationList(fgvo);
@@ -168,15 +185,24 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/create.do")
-	public ModelAndView farmCreate(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView farmCreate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		
 		ModelAndView mav = new ModelAndView();
+		
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			mav.setViewName("error_layout_all_error_page");
+			return mav;
+		}
 		mav.setViewName("board_board_admin_farm_create");
 		return mav;
 	}
 	
 	@RequestMapping(value="/farminsert.do")
-	public String farmInsert(FarmGardenVO fgvo) {
+	public String farmInsert(FarmGardenVO fgvo, HttpSession session) {
+		
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			return "error_layout_all_error_page";
+		}
 		
 		int res = 0;
 		res = imp.farmInsert(fgvo);
@@ -184,24 +210,36 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/farmupdate.do")
-	public String farmUpdate(FarmGardenVO fgvo) {
+	public String farmUpdate(FarmGardenVO fgvo, HttpSession session) {
 		
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			return "error_layout_all_error_page";
+		}
 		int res = 0;
 		res = imp.farmUpdate(fgvo);
 		return "redirect: /manager.do";
 	}
 	
 	@RequestMapping(value="/farmdelete.do")
-	public String farmDelete(FarmGardenVO fgvo) {
+	public String farmDelete(FarmGardenVO fgvo, HttpSession session) {
 		
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			return "error_layout_all_error_page";
+		}
 		int res = 0;
 		res = imp.farmDelete(fgvo);
 		return "redirect: /manager.do";
 	}
 	
 	@RequestMapping(value="/lottolist.do")
-	public ModelAndView lottoList(FarmGardenVO fgvo , ApplyVO avo, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView lottoList(FarmGardenVO fgvo , ApplyVO avo, HttpServletRequest request, HttpServletResponse response,HttpSession session) {
 		
+		ModelAndView mav = new ModelAndView();
+		
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			mav.setViewName("error_layout_all_error_page");
+			return mav;
+		}
 		//리스트 뿌려
 		int currentPage = 1;
 		
@@ -213,7 +251,7 @@ public class AdminController {
 		PagingUtil pu = new PagingUtil("/lottolist.do", currentPage, totalcount, 8 , 5);
 		String html = pu.getPagingHtml();
 		
-		ModelAndView mav = new ModelAndView();
+		
 		
 		avo.setSseq(pu.getStartSeq());
 		avo.setEseq(pu.getEndSeq());
@@ -233,8 +271,11 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/lotto.do")
-	public String lotto(FarmGardenVO fgvo , ApplyVO avo, HttpServletRequest request, HttpServletResponse response) {
+	public String lotto(FarmGardenVO fgvo , ApplyVO avo, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			return "error_layout_all_error_page";
+		}
 		int res = 0;
 		ArrayList<FarmGardenVO> areaList = imp.locnameAreaCount(fgvo);
 		avo.setFgvo(fgvo);
@@ -267,8 +308,12 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/returnUpdate.do")
-	public String returnUpdate(DocumentVO dvo, ApplyVO avo) {
+	public String returnUpdate(DocumentVO dvo, ApplyVO avo, HttpSession session) {
 		
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			return "error_layout_all_error_page";
+		}
+
 		dvo.setAvo(avo);
 		int res = 0;
 		res = imp.returnUpdate(dvo);
@@ -276,7 +321,11 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/assigncancel.do")
-	public String assignCancel(int[] arr) {
+	public String assignCancel(int[] arr, HttpSession session) {
+		
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			return "error_layout_all_error_page";
+		}
 		int res = 0;
 		for(int i =0; i<arr.length; i++) {
 			System.out.println(arr[i]);
@@ -287,9 +336,14 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/snsuser.do")
-	public ModelAndView commonsnstest(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView commonsnstest(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
 		ModelAndView mav = new ModelAndView();
+		
+		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
+			mav.setViewName("error_layout_all_error_page");
+			return mav;
+		}
 
 		mav.setViewName("sns_sns_user_sns_sample");
 
