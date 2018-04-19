@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosmo.mapper.FarmAdminMapper">
+
+<resultMap id="MemberMap" type="com.kosmo.farmadmin.MemberVO" >
+		<id property="mseq" column="mseq" />
+		<result property="mid" column="mid" />
+		<result property="mphone" column="mphone" />
+		<result property="mpw" column="mpw" />
+		<result property="mname" column="mname" />
+		<result property="mbirth" column="mbirth" />
+		<result property="memail" column="memail" />
+		<result property="maddress" column="maddress" />
+		<result property="mgender" column="mgender" />
+		<association property="avo"  javaType="com.kosmo.farmadmin.ApplyVO">
+			<id property="apseq" column="apseq" /> 
+			<result property="apname" column="apname" />
+			<result property="apphone" column="apphone" />
+			<result property="apemail" column="apemail" />
+			<result property="apbirth" column="apbirth" />
+			<result property="apdivision" column="apdivision" />
+		</association>
+		<collection property="dvoList" javaType = "java.util.ArrayList" ofType="com.kosmo.farmadmin.DocumentVO">
+			<id property="dseq" column="dseq" />
+			<result property="dfilename" column="dfilename" />
+		</collection>
+</resultMap>
+
+<resultMap id="UsingMap" type="com.kosmo.farmadmin.MemberVO" >
+		<result property="mseq" column="mseq" />
+		<result property="mid" column="mid" />
+		<result property="mphone" column="mphone" />
+		<result property="mpw" column="mpw" />
+		<result property="mname" column="mname" />
+		<result property="mbirth" column="mbirth" />
+		<result property="memail" column="memail" />
+		<result property="maddress" column="maddress" />
+		<result property="mgender" column="mgender" />
+		<association property="avo"  javaType="com.kosmo.farmadmin.ApplyVO">
+			<id property="apseq" column="apseq" /> 
+			<result property="apname" column="apname" />
+			<result property="apphone" column="apphone" />
+			<result property="apemail" column="apemail" />
+			<result property="apbirth" column="apbirth" />
+			<result property="apdivision" column="apdivision" />
+		</association>
+		<association property="fgvo" javaType = "com.kosmo.farmadmin.FarmGardenVO" >
+			<id property="fgseq" column="fgseq" />
+			<result property="fglocation" column="fglocation" />
+			<result property="fgname" column="fgname" />
+			<result property="fgtotalarea" column="fgtotalarea" />
+			<result property="fgdivision" column="fgdivision" />
+			<result property="fgdetaildiv" column="fgdetaildiv" />
+		</association>
+</resultMap>
+
+<resultMap id="LocNameApplyMap" type="com.kosmo.farmadmin.ApplyVO" >
+		<id property="apseq" column="apseq" /> 
+		<result property="mseq" column="mseq" />
+		<result property="fgseq" column="fgseq" />
+		<result property="aseq" column="aseq" />
+		<result property="year" column="year" />
+		<result property="pdivision" column="pdivision" />
+		<result property="pcode" column="pcode" />
+		<result property="awinner" column="awinner" />
+		<result property="apname" column="apname" />
+		<result property="apphone" column="apphone" />
+		<result property="apemail" column="apemail" />
+		<result property="apbirth" column="apbirth" />
+		<result property="apdate" column="apdate" />
+		<result property="apcancel" column="apcancel" />
+		<result property="apdivision" column="apdivision" />
+		<association property="fgvo" javaType = "com.kosmo.farmadmin.FarmGardenVO" >
+			<id property="fgseq" column="fgseq" />
+			<result property="fgdivision" column="fgdivision" />
+			<result property="fgdetaildiv" column="fgdetaildiv" />
+			<result property="fglocation" column="fglocation" />
+			<result property="fgname" column="fgname" />
+			<result property="fgtotalarea" column="fgtotalarea" />
+		</association>
+</resultMap>
+
+
+<resultMap id="LocNameAreaCountMap" type="com.kosmo.farmadmin.FarmGardenVO" >
+		<id property="fgseq" column="fgseq" />
+		<result property="fgdivision" column="fgdivision" />
+		<result property="fgdetaildiv" column="fgdetaildiv" />
+		<result property="fglocation" column="fglocation" />
+		<result property="fgname" column="fgname" />
+		<result property="fgmanager" column="fgmanager" />
+		<result property="fgaddress" column="fgaddress" />
+		<result property="fgphone" column="fgphone" />
+</resultMap>
+
+<!-- <resultMap id="ReturnMap" type="com.kosmo.farmadmin.DocumentVO">
+		<id property="dseq" column="dseq" />
+		<result property="fgdivision" column="fgdivision" />
+		<result property="fgdetaildiv" column="fgdetaildiv" />
+		<result property="fglocation" column="fglocation" />
+		<result property="fgname" column="fgname" />
+		<result property="fgmanager" column="fgmanager" />
+	
+</resultMap> -->
+
+<select id="applyList" resultMap="MemberMap" parameterType="com.kosmo.farmadmin.MemberVO">
+<![CDATA[
+select t.*
+from 
+(
+    select rownum rnum, ad.apdivision ,ad.mseq, ad.apname, ad.apbirth, m.mgender, m.maddress, ad.apphone, ad.apemail, ad.dfilename, ad.apseq, ad.docureturn
+    from member m 
+        right outer join 
+        (select a.apseq, a.mseq, a.apdivision, a.apname, a.apbirth, a.apphone, a.apemail, d.dfilename, d.docureturn
+        from apply a 
+            left outer join (select apseq, docureturn, dfilename from document where docureturn != 'Y') d 
+            on a.apseq = d.apseq
+        ) ad 
+        on m.mseq=ad.mseq
+    where ad.apdivision != '농장'
+    order by rnum
+) t 
+where t.rnum >=#{sseq} and t.rnum <=#{eseq}
+]]>
+</select>
+
+<select id="applyListCount" resultType="int">
+select count(*) as totalcount 
+from member m 
+left outer join (select mseq, apdivision from apply) a on m.mseq =a.mseq
+where a.apdivision != '농장' 
+</select>
+
+<select id="farmlocationList" resultType="com.kosmo.farmadmin.FarmGardenVO" parameterType="com.kosmo.farmadmin.FarmGardenVO">
+select fglocation from farm_garden
+group by fglocation
+order by fglocation
+</select>
+
+<select id="farmnameList" resultType="com.kosmo.farmadmin.FarmGardenVO" parameterType="com.kosmo.farmadmin.FarmGardenVO">
+select fgname from farm_garden
+order by fgname
+</select>
+
+<select id="fList" resultType="com.kosmo.farmadmin.FarmGardenVO" parameterType="com.kosmo.farmadmin.FarmGardenVO">
+select * from farm_garden
+order by fgseq
+</select>
+
+<select id="searchlocList" resultType="com.kosmo.farmadmin.FarmGardenVO">
+select fgseq, fgname, fglocation from farm_garden
+where fglocation = #{fglocation}
+</select>
+
+<select id="searchfarmList" resultType="com.kosmo.farmadmin.FarmGardenVO">
+select * from farm_garden
+where fgseq = #{fgseq}
+</select>
+
+
+
+<select id="lottoList" resultType="com.kosmo.farmadmin.ApplyVO" parameterType="com.kosmo.farmadmin.ApplyVO">
+<![CDATA[
+select rnum, apdivision, apseq, mseq , apname, apphone, apemail, apdate, awinner, apcancel from
+(select rownum rnum, apdivision, apseq, mseq , apname, apphone, apemail, apdate, awinner, apcancel 
+from apply 
+where awinner='W' order by apdivision)
+where rnum >=#{sseq} and rnum <=#{eseq} 
+]]>
+</select>
+
+<select id="lottoListCount" resultType="int">
+select count(1) from (select apdivision, apseq, mseq , apname, apphone, apemail, apdate, awinner, apcancel 
+from apply 
+where awinner='W'
+order by apdivision)
+</select>
+
+<select id="usingList" resultMap="UsingMap" parameterType="com.kosmo.farmadmin.MemberVO">
+select *
+from member m left outer join (select *
+from apply a right outer join farm_garden fg on a.fgseq = fg.fgseq) afg on m.mseq = afg.mseq
+where afg.fglocation = #{fgvo.fglocation} and afg.fgname = #{fgvo.fgname} and afg.apcancel='N'
+</select>
+
+<select id="areaList" resultType="com.kosmo.farmadmin.FarmGardenVO" parameterType="com.kosmo.farmadmin.FarmGardenVO">
+select * from farm_garden
+where fgseq=#{fgseq}
+</select>
+
+<select id="locnameApply" resultMap="LocNameApplyMap" parameterType="com.kosmo.farmadmin.ApplyVO">
+select *
+from apply a left outer join farm_garden fg on a.fgseq = fg.fgseq
+where fg.fgseq=#{fgvo.fgseq}
+</select>
+
+<select id="locnameAreaCount" resultMap="LocNameAreaCountMap">
+select ar.aseq, fg.fgname, fg.fglocation 
+from farm_garden fg right outer join area ar on fg.fgseq = ar.fgseq
+where fg.fgseq=#{fgseq}
+</select>
+
+<select id="winnerList" resultMap="LocNameApplyMap">
+select *
+from apply a left outer join farm_garden fg on a.fgseq = fg.fgseq
+where fg.fgseq=#{fgseq} and a.awinner='Y' and a.apcancel='N'
+</select>
+
+<insert id="farmInsert" parameterType="com.kosmo.farmadmin.FarmGardenVO" >
+insert into farm_garden
+values(farmgarden_seq.nextval, #{fgdivision}, #{fgdetaildiv}, #{fglocation}, #{fgname}, #{fgmanager}, #{fgaddress}, #{fgphone}, #{fgfeature}, #{fgguide}, #{fgcol}, #{fgrow}, #{fgtotalarea},'','','n')
+</insert>
+
+<delete id="farmDelete" parameterType="com.kosmo.farmadmin.FarmGardenVO">
+delete from farm_garden where fgseq=#{fgseq}
+</delete>
+
+<update id="farmUpdate" parameterType="com.kosmo.farmadmin.FarmGardenVO">
+update farm_garden set fglocation=#{fglocation}, fgname=#{fgname}, fgaddress=#{fgaddress}, fgphone=#{fgphone}, fgmanager=#{fgmanager} where fgseq=#{fgseq}
+</update>
+
+<update id="lottoUpdate" parameterType="com.kosmo.farmadmin.ApplyVO">
+update apply set awinner='W', aseq=#{aseq} where apseq=#{apseq}
+</update>
+
+<update id="returnUpdate" parameterType="com.kosmo.farmadmin.DocumentVO">
+update document
+set docureturn='Y' , dreturncause=#{dreturncause}, dregdate=sysdate where apseq = (select apseq 
+from apply where apseq = #{apseq})
+</update>
+
+<update id="assignUpdate" parameterType="int">
+update apply set apcancel='Y' where mseq=#{mseq}
+</update>
+
+</mapper>

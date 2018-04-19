@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosmo.mapper.SnsMapper">
+
+<select id="snsFeedList" resultType="com.kosmo.sns.SnsFeedVO">
+select f.feseq, f.mseq, f.fecon, f.feregdate,f.ferange,f.fedelete,i.feimgname 
+from snsfeed f, snsimage i where f.feseq=i.feseq and ferange='all' and fedelete='N'
+</select>
+
+<select id="snsFeedDetail" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+select feseq,mseq,fecon,feregdate,ferange,fedelete
+from snsfeed 
+where feseq=#{feseq}
+</select>
+
+
+<!-- 난 니 팬이야 -->
+<select id="snsFollowersList" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+select m.mid as fmid  from member m, follow f where m.mseq=f.fmseq and f.mseq= ${mseq}
+</select>
+
+<!-- 누가 내 팬이냐 -->
+<select id="snsFollowingList" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+select m.mid as fmid  from member m, follow f where m.mseq=f.mseq and f.fmseq= ${mseq}
+</select>
+
+<!-- 난 더이상 니 팬 안할래 -->
+<delete id="snsFollowerdelete" parameterType="com.kosmo.sns.SnsFeedVO">
+delete from follow where fmseq=#{fmseq} and mseq=#{mseq}
+</delete>
+
+<!-- 내가 글쓴주인장 팬인지 아닌지 -->
+<select id="snsFollowerCheck" parameterType="com.kosmo.sns.SnsFeedVO" resultType="int">
+select count(1) from follow where fmseq = (select mseq from snsfeed where feseq=#{feseq}) and mseq=#{mseq}
+</select>
+
+<!-- 난 니 팬이야  카운트 -->
+<select id="snsFollwersCnt" parameterType="int" resultType="int">
+select count(*) from follow where mseq=#{mseq}
+</select>
+
+<!-- 누가 내 팬이냐  카운트-->
+<select id="snsFollwingCnt" parameterType="int" resultType="int">
+select count(*) from follow where fmseq=#{mseq}
+</select>
+
+
+<insert id="snsFollowersInsert" parameterType="com.kosmo.sns.SnsFeedVO">
+<!-- mseq: 내번호    fmseq:글주인번호  -->
+insert into follow(mseq,fmseq)
+values (${mseq}, ${fmseq})
+</insert>
+
+<delete id="snsFollowersdelete" parameterType="com.kosmo.sns.SnsFeedVO">
+<!-- mseq: 내번호    fmseq:글주인번호  -->
+delete from follow where mseq=#{mseq} and fmseq=#{fmseq} 
+</delete>
+
+<select id="snsFollowerspage" parameterType="com.kosmo.sns.SnsFeedVO" resultType="com.kosmo.sns.SnsFeedVO">
+select f.feseq, f.mseq, f.fecon, f.feregdate,f.ferange,f.fedelete,i.feimgname 
+from snsfeed f, snsimage i where f.feseq=i.feseq and fedelete='N' and mseq=#{mseq} and ferange='all'
+</select>
+
+
+
+
+
+<select id="snsCommentList" parameterType="int" resultType="com.kosmo.sns.SnsCommentVO">
+<![CDATA[ select rnum,scseq,feseq,sccon,mseq, scdelete, scregdate from 
+( select rownum rnum,scseq,feseq,sccon,mseq, scdelete, scregdate from 
+(select scseq,feseq,sccon,mseq, scdelete,to_char(scregdate, 'YYYY-MM-DD') as scregdate from snscomment where feseq=#{feseq} and scdelete='N' order by scregdate desc))
+ where rnum >= #{sseq} and rnum <= #{eseq} ]]>
+</select>
+
+<select id="snsLike" parameterType="int" resultType="int">
+select count(*) from snslike where feseq=#{feseq}
+</select>
+
+<insert id="snsFeedInsert" parameterType="com.kosmo.sns.SnsFeedVO">
+insert into snsfeed (feseq,mseq,fecon,feregdate,ferange,fedelete)
+values (snsfeed_seq.nextval,#{mseq},#{fecon},sysdate,#{ferange},'N')
+<selectKey resultType="integer" keyProperty="feseq" order="AFTER">
+  SELECT snsfeed_seq.currval FROM dual
+</selectKey>
+</insert>
+
+<insert id="snsImgInsert" parameterType="com.kosmo.sns.SnsImgVO">
+insert into snsimage (feseq,feimgname,feimgpath,feimgsize)
+values (#{feseq},#{feimgname},#{feimgpath},#{feimgsize})
+</insert>
+
+<insert id="snscommentInsert" parameterType="com.kosmo.sns.SnsCommentVO">
+insert into snscomment (scseq,feseq,sccon,mseq,scregdate,scdelete)
+values (snscomment_seq.nextval,#{feseq},#{sccon},#{mseq},sysdate,'N')
+</insert>
+
+
+
+<insert id="snsHashtagInsert" parameterType="com.kosmo.sns.SnsFeedVO">
+insert into hashtag (htseq,feseq,htcon)
+values (hashtag_seq.nextval,#{feseq},#{htcon})
+</insert>
+
+<insert id="snscdeclarationInsert" parameterType="com.kosmo.sns.DeclarationVO">
+insert into cdeclaration (scseq,cdcon,cdregdate,cdmseq)
+values (#{scseq},#{cdcon},sysdate,#{cdmseq})
+</insert>
+
+<insert id="snsfdeclarationInsert" parameterType="com.kosmo.sns.DeclarationVO">
+insert into fdeclaration (feseq,fdcon,fdregdate,fdmseq)
+values (#{feseq},#{fdcon},sysdate,#{fdmseq})
+</insert>
+
+<update id="snsFeedupdate" parameterType="com.kosmo.sns.SnsFeedVO">
+update snsfeed set fecon=#{fecon}, ferange=#{ferange}, feregdate=sysdate
+where feseq=#{feseq}
+</update>
+
+<update id="snsCommentupdate" parameterType="com.kosmo.sns.SnsCommentVO">
+update snscomment set sccon=#{sccon}, scregdate=sysdate
+where scseq=#{scseq}
+</update>
+
+<update id="snsHashtagupdate" parameterType="com.kosmo.sns.SnsFeedVO">
+update hashtag set htcon=#{htcon} where feseq=#{feseq}
+</update>
+
+<delete id="cdeclarationdelete" parameterType="Integer">
+delete from cdeclaration where scseq=#{scseq} and cdmseq=#{cdmseq}
+</delete>
+
+<update id="snsFeedDelete" parameterType="Integer">
+update snsfeed set fedelete='Y' where feseq=${feseq} 
+</update>
+
+<delete id="fdeclarationdelete" parameterType="Integer">
+delete from fdeclaration where feseq=#{feseq} and fdmseq=#{fdmseq}
+</delete>
+
+<update id="snsCommentDelete" parameterType="com.kosmo.sns.SnsCommentVO">
+update snscomment set scdelete='Y' where scseq=#{scseq} and feseq=#{feseq}
+</update>
+
+<select id="snsfDeclarationList" parameterType="Integer" resultType="com.kosmo.sns.DeclarationVO">
+<![CDATA[ select rnum, feseq,fdcon, fdregdate, fdmseq from 
+( select rownum rnum, feseq,fdcon, fdregdate, fdmseq from 
+(select feseq,fdcon,to_char(fdregdate, 'YYYY-MM-DD') fdregdate,fdmseq from fdeclaration order by fdregdate desc))
+ where rnum >= #{sseq} and rnum <= #{eseq} ]]>
+</select>
+
+<select id="snscDeclarationList" parameterType="Integer" resultType="com.kosmo.sns.DeclarationVO">
+<![CDATA[ select rnum, scseq, cdcon, cdregdate, cdmseq from 
+( select rownum rnum, scseq, cdcon, cdregdate, cdmseq from 
+(select scseq, cdcon,to_char(cdregdate, 'YYYY-MM-DD') cdregdate,cdmseq from cdeclaration order by cdregdate desc))
+ where rnum >= #{sseq} and rnum <= #{eseq} ]]>
+</select>
+
+<select id="hashtagSearch" parameterType="map" resultType="com.kosmo.sns.SnsFeedVO">
+select h.htseq, h.feseq, h.htcon, i.feimgname from hashtag h,snsimage i where h.feseq=i.feseq and htcon like '%' || #{searchStr} || '%'
+</select>
+
+<select id="snsMypage" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+select f.feseq, f.mseq, f.fecon, f.feregdate,f.ferange,f.fedelete,i.feimgname 
+from snsfeed f, snsimage i where f.feseq=i.feseq and fedelete='N' and f.mseq=#{mseq}
+</select>
+
+
+<select id="snsallpage" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+select f.feseq, f.mseq, f.fecon, f.feregdate,f.ferange,f.fedelete,i.feimgname 
+from snsfeed f, snsimage i where f.feseq=i.feseq and fedelete='N' and f.mseq=${mseq} and ferange !='secret'
+</select>
+
+
+<select id="fdeclarationCnt" resultType="Integer"> 
+select count(*) fdcnt from fdeclaration 
+</select>
+
+<select id="cdeclarationCnt" resultType="Integer"> 
+select count(*) cdcnt from cdeclaration 
+</select>
+
+<select id="hashtagSearchCnt" resultType="Integer"> 
+select count(*) hscnt from hashtag 
+</select>
+
+
+<select id="snsLikeCheck" parameterType="com.kosmo.sns.SnsFeedVO" resultType="int">
+select mseq from snslike where feseq=#{feseq} and mseq=#{mseq}
+</select>
+
+<insert id="snsLikeInsert" parameterType="com.kosmo.sns.SnsFeedVO">
+insert into snslike (feseq,mseq) values(${feseq}, ${mseq})
+</insert>
+
+<delete id="snsLikedelete" parameterType="com.kosmo.sns.SnsFeedVO">
+delete from snslike where mseq=#{mseq} and feseq=#{feseq}
+</delete>
+
+<update id="snsImgupdate" parameterType="com.kosmo.sns.SnsImgVO">
+update snsimage set feimgname=#{feimgname}, feimgpath=#{feimgpath}, feimgsize=#{feimgsize}
+where feseq=#{feseq}
+</update>
+
+<select id="snscommentCnt" resultType="Integer"> 
+select count(*) sccnt from snscomment 
+</select>
+
+<select id="snsHashtagList" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
+select htseq,feseq,htcon from hashtag where feseq=#{feseq}
+</select>
+
+<select id="snsImgList" parameterType="int" resultType="com.kosmo.sns.SnsImgVO">
+select feseq,feimgname,feimgpath,feimgsize from snsimage
+</select>
+
+<delete id="snsHashtagdelete" parameterType="int">
+delete from hashtag where feseq=#{feseq}
+</delete>
+
+<delete id="snsImgdelete" parameterType="int">
+delete from snsimage where feseq=#{feseq}
+</delete>
+
+<select id="snsImgdetail" parameterType="int" resultType="com.kosmo.sns.SnsImgVO">
+select feseq,feimgname,feimgpath,feimgsize from snsimage where feseq=#{feseq}
+</select>
+
+
+
+</mapper>

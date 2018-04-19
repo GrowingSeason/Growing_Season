@@ -3,6 +3,8 @@ package com.kosmo.applyfarm;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kosmo.payment.PaymentVO;
+
 public interface ApplyFarmService {
 	
 	/**
@@ -18,6 +20,10 @@ public interface ApplyFarmService {
 	public boolean cancelMyFarm(ApplyFarmVO vo);
 	public boolean sendSmsAuthNumber(String phoneNumber);
 	public HashMap<String, Object> checkAuthNumber(String authNumber, String phoneNumber);
+	public ArrayList<HashMap<String, Object>> selectFarmList();
+	public void ApplyCompletForMenber(ApplyFarmVO vo, PaymentVO pvo);
+	public void ApplyCompletForNonJoin(ApplyFarmVO vo, PaymentVO pvo);
+	public HashMap<String, Object> checkHaveFarm(int mseq, int year);
 	
 
 }

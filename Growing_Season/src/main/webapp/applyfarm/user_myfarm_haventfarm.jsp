@@ -12,6 +12,21 @@
 	padding:5em 0;
 }
 </style>
+	 <section id="inner-headline">
+      <div class="container">
+        <div class="row">
+          <div class="span4">
+            <div class="inner-heading">
+              <h2>사이드바없는 예제입니니다</h2>
+            </div>
+          </div>
+          <div class="span8">            
+          </div>
+        </div>
+      </div>
+    </section>
+<section id="content">
+      <div class="container">
 <div class=newsletter>
 <div class="row">
 <div class="col-md-12">
@@ -22,8 +37,9 @@
 	<div style="width:90%;margin-left:auto; margin-right:auto;">
 	<img src="/images/farm.jpg" class="img-fluid">
 	</div>
+	<button onClick="location.href='/index.do'" class="btn-large btn-danger" type="button">확인</button>
 </div>
 </div>
 </div>
-<div>하하</div>
-<div>하하</div>
+</div>
+</section>
