@@ -438,7 +438,7 @@
 									<c:choose>
 										<c:when test="${5 == vo.mseq}">
 											<td style="cursor: pointer;">
-											<a href="#reply" data-toggle="modal">수정</a>
+											<button id="update" class="btn btn-warning">수정</button>
 											<td style="cursor: pointer;">
 											<a href="/snsCommentDelete.do?scseq=${vo.scseq}&feseq=${vo.feseq}">삭제</a>
 											</td>
@@ -460,6 +460,18 @@
 											placeholder='reply 신고이유를 적어주세요' name='cdcon' value=''>
 										<button id="btncreason" class='btn btn-warning'
 											onClick='creason()' style="display: none;">확인</button>
+									</div>
+								</form>
+								<form class="cdupdate" action='/snsCommentupdate.do'
+									method='post'>
+									<input id="scseq" type='hidden' name='scseq' value='${vo.scseq}'>
+									<input type="hidden" name="feseq" value="${SNS_DETAIL.feseq}">
+									<div>
+										<input type='text' id='sccon'
+											style='display: none; height: 10px; width: 400px; margin: 25px 20px 75px;'
+											placeholder='수정할 내용을 적어주세요' name='sccon' value=''>
+										<button id="btnupdate" class='btn btn-warning'
+											onClick='btnupdate()' style="display: none;">확인</button>
 									</div>
 								</form>
 							</c:forEach>
@@ -516,37 +528,7 @@
 		</div>
 	</div>
 	
-	<div class="modal" id="reply" style="top-margin:30px">
-		<div class="modal-dialog modal-login" style="width:100%">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">수정하기</h4>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
-				</div>
-
-				<div class="modal-body">
-					<form class="fupdate" action="/snsCommentupdate.do" method="post">
-						<input type="hidden" name="feseq" value="${SNS_DETAIL.feseq}">
-						
-						<div class="form-group">
-							<div class='span4' id="snstext"
-								style='float: left;'>
-								<input type='text' id='sccon'
-								style='display: inline; height: 10px; width: 200px; margin: 25px 20px 35px;'
-								placeholder='수정할 내용' name='sccon' value=''>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button id="mdbtn" class="btn" onClick="mdbtn()">수정</button>
-				<button type="button" class="btn" data-dismiss="modal">닫기</button>
-
-			</div>
-		</div>
-	</div>
+	
 </section>
 <!-- <script src='//codepen.io/andytran/pen/vLmRVp.js'></script> -->
 <script >
@@ -566,6 +548,10 @@
 		$("#fdcon").show();
 		$("#btnfreason").show();
 	});
+	$("#update").click(function() {
+		$("#sccon").show();
+		$("#btnupdate").show();
+	});
 
 	//# sourceURL=pen.js
 </script>
@@ -581,6 +567,9 @@ function mdbtn() {
 }
 function fdreason() {
 	$(".freason").submit();
+}
+function btnupdate() {
+	$(".cdupdate").submit();
 }
 
 </script>

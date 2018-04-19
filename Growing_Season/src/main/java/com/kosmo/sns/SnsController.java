@@ -307,12 +307,13 @@ public class SnsController {
 	 * @return mav
 	 */
 	@RequestMapping(value = "/snsDeclarationList.do")
-	public ModelAndView snsfDeclarationList(
+	public ModelAndView snsDeclarationList(
 			@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage
 	         )
 	{
 		
 		int totalCount = service.fdeclarationCnt();
+		
 		//------------페이징
 		PagingUtil pu
 		= new PagingUtil("/snsDeclarationList.do?"
@@ -329,7 +330,7 @@ public class SnsController {
 		mav.addObject("SNS_FD_LIST", list.get("fdList"));
 		mav.addObject("SNS_CD_LIST", list.get("cdList"));
 		mav.addObject("SNS_FD_PAGING", html);
-		mav.setViewName("sns_sns_admin_sns_declarationlist");
+		mav.setViewName("sns_sns_admin_sns_declaration");
 		return mav;
 	}
 	
@@ -378,8 +379,11 @@ public class SnsController {
 	 * @return String(redirestURL)
 	 */
 	@RequestMapping(value="/fdeclarationdelete.do")
-	public String fdeclarationdelete(@RequestParam ("feseq") int feseq) {
-		service.fdeclarationdelete(feseq);
+	public String fdeclarationdelete(
+			@RequestParam ("feseq") int feseq,
+			@RequestParam ("fdmseq") int fdmseq
+			) {
+		service.fdeclarationdelete(feseq,fdmseq);
 		return "redirect:/snsDeclarationList.do";
 	}
 
@@ -390,10 +394,12 @@ public class SnsController {
 	 */
 	@RequestMapping(value="/cdeclarationdelete.do")
 	public String cdeclarationdelete(
-			@RequestParam ("feseq") int feseq,
+			@RequestParam ("cdmseq") int cdmseq,
 			@RequestParam ("scseq") int scseq
 			) {
-		service.cdeclarationdeleteservice(feseq, scseq);
+		System.out.println(scseq+"댓글번호");
+		System.out.println(cdmseq+"댓글신고자 회원번호");
+		service.cdeclarationdelete(scseq, cdmseq);
 		return "redirect:/snsDeclarationList.do";
 	}
 
@@ -432,6 +438,7 @@ public class SnsController {
 	public String snsCommentupdate(SnsCommentVO vo){
 		System.out.println(vo.getSccon()+"댓글 수정 내용");
 		service.snsCommentupdate(vo);
+		System.out.println(vo.getSccon()+"댓글 수정 내용");
 		return "redirect:/snsdetail.do?feseq="+vo.getFeseq();
 	}
 	

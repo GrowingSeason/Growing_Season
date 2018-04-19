@@ -183,9 +183,9 @@ public class SnsServiceImpl implements SnsService{
 	}
 
 	@Override
-	public int cdeclarationdelete(int feseq) {
+	public int cdeclarationdelete(int scseq,int cdmseq) {
 		
-		return snsdao.cdeclarationdelete(feseq);
+		return snsdao.cdeclarationdelete(scseq,cdmseq);
 	}
 	
 	@Override
@@ -194,13 +194,13 @@ public class SnsServiceImpl implements SnsService{
 		vo.setFeseq(feseq);
 		vo.setScseq(scseq);
 		snsdao.snsCommentDelete(vo);
-		return snsdao.cdeclarationdelete(feseq);
+		return snsdao.cdeclarationdelete(feseq,vo.getScseq());
 	}
 
 	@Override
-	public int fdeclarationdelete(int feseq) {
+	public int fdeclarationdelete(int feseq,int fdmseq) {
 		
-		return snsdao.fdeclarationdelete(feseq);
+		return snsdao.fdeclarationdelete(feseq,fdmseq);
 	}
 
 	@Override
@@ -226,7 +226,7 @@ public class SnsServiceImpl implements SnsService{
 		map.put("cdList", cdlist);
 		return  map;
 	}
-
+	
 	@Override
 	public ArrayList<DeclarationVO> snscDeclarationList(int sseq,int eseq) {
 		
@@ -431,6 +431,12 @@ public class SnsServiceImpl implements SnsService{
 	public int snsFollwingCnt(int mseq) {
 		// TODO Auto-generated method stub
 		return snsdao.snsFollwingCnt(mseq);
+	}
+
+	@Override
+	public ArrayList<DeclarationVO> snsfDeclarationList(int sseq, int eseq) {
+		// TODO Auto-generated method stub
+		return snsdao.snsfDeclarationList(sseq, eseq);
 	}
 
 

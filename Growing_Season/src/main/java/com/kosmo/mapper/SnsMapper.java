@@ -41,7 +41,10 @@ public interface SnsMapper {
 //	피드글 수정
 	public int snsFeedupdate(SnsFeedVO vo);
 //	신고피드삭제
-	public int fdeclarationdelete(@Param("feseq") int feseq);
+	public int fdeclarationdelete(
+			@Param("feseq") int feseq,
+			@Param("fdmseq") int fdmseq
+			);
 	
 //	신고피드 fedelete값 변경
 	public int snsFeedDelete(@Param("feseq") int feseq);
@@ -106,7 +109,10 @@ public interface SnsMapper {
 //	댓글수정
 	public int snsCommentupdate(SnsCommentVO vo);
 //	신고댓글삭제
-	public int cdeclarationdelete(@Param("feseq") int feseq);
+	public int cdeclarationdelete(
+			@Param("scseq") int scseq,
+			@Param("cdmseq") int cdmseq
+			);
 //	신고댓글 scdelete값 변경
 	public int snsCommentDelete(SnsCommentVO vo);
 

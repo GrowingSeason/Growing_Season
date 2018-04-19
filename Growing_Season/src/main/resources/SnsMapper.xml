@@ -127,7 +127,7 @@ update hashtag set htcon=#{htcon} where feseq=#{feseq}
 </update>
 
 <delete id="cdeclarationdelete" parameterType="Integer">
-delete from cdeclaration where feseq=#{feseq} 
+delete from cdeclaration where scseq=#{scseq} and cdmseq=#{cdmseq}
 </delete>
 
 <update id="snsFeedDelete" parameterType="Integer">
@@ -135,14 +135,14 @@ update snsfeed set fedelete='Y' where feseq=${feseq}
 </update>
 
 <delete id="fdeclarationdelete" parameterType="Integer">
-delete from fdeclaration where feseq=#{feseq}
+delete from fdeclaration where feseq=#{feseq} and fdmseq=#{fdmseq}
 </delete>
 
 <update id="snsCommentDelete" parameterType="com.kosmo.sns.SnsCommentVO">
 update snscomment set scdelete='Y' where scseq=#{scseq} and feseq=#{feseq}
 </update>
 
-<select id="snsfDeclarationList" parameterType="Integer" resultType="com.kosmo.sns.SnsFeedVO">
+<select id="snsfDeclarationList" parameterType="Integer" resultType="com.kosmo.sns.DeclarationVO">
 <![CDATA[ select rnum, feseq,fdcon, fdregdate, fdmseq from 
 ( select rownum rnum, feseq,fdcon, fdregdate, fdmseq from 
 (select feseq,fdcon,to_char(fdregdate, 'YYYY-MM-DD') fdregdate,fdmseq from fdeclaration order by fdregdate desc))
@@ -152,7 +152,7 @@ update snscomment set scdelete='Y' where scseq=#{scseq} and feseq=#{feseq}
 <select id="snscDeclarationList" parameterType="Integer" resultType="com.kosmo.sns.DeclarationVO">
 <![CDATA[ select rnum, scseq, cdcon, cdregdate, cdmseq from 
 ( select rownum rnum, scseq, cdcon, cdregdate, cdmseq from 
-(select scseq, cdcon,to_char(cdregdate, 'YYYY-MM-DD') cdregdate,fdmseq from fdeclaration order by cdregdate desc))
+(select scseq, cdcon,to_char(cdregdate, 'YYYY-MM-DD') cdregdate,cdmseq from cdeclaration order by cdregdate desc))
  where rnum >= #{sseq} and rnum <= #{eseq} ]]>
 </select>
 

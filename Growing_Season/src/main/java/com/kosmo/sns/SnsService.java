@@ -58,10 +58,10 @@ public interface SnsService {
 	public int snsFeedupdate(SnsFeedVO vo,SnsImgVO ivo);
 	
 //	신고댓글삭제
-	public int cdeclarationdelete(int feseq);
+	public int cdeclarationdelete(int scseq,int cdmseq);
 	
 //	신고피드삭제
-	public int fdeclarationdelete(int feseq);
+	public int fdeclarationdelete(int feseq,int fdmseq);
 	
 //	신고피드 fedelete값 변경
 	public int snsFeedDelete(int feseq);
@@ -148,5 +148,7 @@ public interface SnsService {
 	public int cdeclarationdeleteservice(
 			@Param("feseq") int feseq,
 			@Param("scseq") int scseq);
+	
+	public ArrayList<DeclarationVO>	snsfDeclarationList(int sseq,int eseq);
 	
 }
