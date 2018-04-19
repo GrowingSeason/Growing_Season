@@ -108,7 +108,7 @@
 
 <insert id="completeApply" parameterType="com.kosmo.applyfarm.ApplyFarmVO">
 	insert into apply (apseq, mseq, fgseq, aseq, apdivision, year, pdivision, pcode, awinner, apname, apphone, apemail, apbirth, apdate, apcancel)
-    values(apply_seq.nextval, #{mseq},#{fgseq},#{aseq},'농장',#{year},#{pdivision},#{pcode},'y',#{apname},#{apphone},#{apemail},#{apbirth}, sysdate,'n')
+    values(apply_seq.nextval, #{mseq},#{fgseq},#{aseq},'농장',#{year},#{pdivision},#{pcode},'y',#{apname},#{apphone},#{apemail},#{apbirth}, sysdate,'N')
 	<selectKey keyProperty="apseq" resultType="Integer" order="AFTER"> 
 		SELECT apply_seq.currval as apseq FROM dual
 	</selectKey>

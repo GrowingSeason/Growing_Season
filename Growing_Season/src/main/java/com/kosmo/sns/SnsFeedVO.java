@@ -6,14 +6,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class SnsFeedVO {
 
-	private int feseq;
 	private int mseq;
+	private int fmseq;
+	private String fmid;
+	
+	
+	private int feseq;
 	private String fecon;
 	private String feregdate;
 	private String ferange;
 	private String fedelete;
-	private int femseq;
-	private int fimseq;
 	private int htseq;
 	private String htcon;
 	private String searchStr;
@@ -21,9 +23,20 @@ public class SnsFeedVO {
 	private int eseq;
 	private String feimgname;
 	private ArrayList<SnsImgVO> iList;
-	 
 	
 	
+	public int getFmseq() {
+		return fmseq;
+	}
+	public void setFmseq(int fmseq) {
+		this.fmseq = fmseq;
+	}
+	public String getFmid() {
+		return fmid;
+	}
+	public void setFmid(String fmid) {
+		this.fmid = fmid;
+	}
 	public String getFeimgname() {
 		return feimgname;
 	}
@@ -90,18 +103,7 @@ public class SnsFeedVO {
 	public void setFedelete(String fedelete) {
 		this.fedelete = fedelete;
 	}
-	public int getFemseq() {
-		return femseq;
-	}
-	public void setFemseq(int femseq) {
-		this.femseq = femseq;
-	}
-	public int getFimseq() {
-		return fimseq;
-	}
-	public void setFimseq(int fimseq) {
-		this.fimseq = fimseq;
-	}
+	
 	public int getHtseq() {
 		return htseq;
 	}
