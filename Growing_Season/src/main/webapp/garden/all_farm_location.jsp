@@ -371,7 +371,7 @@ input[type=file] {
         <div class="row">
           <div class="span4">
             <div class="inner-heading">
-              <h2>서울시텃밭 신청</h2>
+              <h2>농장정보 확인</h2>
             </div>
           </div>
           <div class="span8">            
@@ -384,7 +384,7 @@ input[type=file] {
     <div class="container">
 		<div class="row">
 			<div class="page-header">
-				<h2 class="h-two">서울시텃밭 신청 Step2 - <small>서류를 첨부해주세요</small></h2>			
+				<h2 class="h-two">농장정보 확인 - <small>각 농장의 정보를 확인할 수 있습니다.</small></h2>			
 			</div>
 		</div>
         <div class="row">

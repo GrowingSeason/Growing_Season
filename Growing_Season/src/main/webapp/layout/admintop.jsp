@@ -2,16 +2,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <style>
+header{
+background-color: gray;
 
+}
 header ul.nav li a {
 border:none;
-	background-color: white;
+	background-color: gray;
 	border:0;
 	font-weight:1000;
 	font-size: 17px; /*세부메뉴 글자크기*/
-	color: black;
+	color: white;
 }header ul.nav li a i {
-	color:red;
+	color:white;
 }
 
 </style>
@@ -54,41 +57,39 @@ border:none;
 
         <div class="row nomargin">
           <div class="span4">
-            <div class="logo">
-              <h1><a href="/index.do"><i class="icon-tint"></i> Growing Season</a></h1>
+            <div class="logo" style="width: 400px;">
+              <h1><a href="/index.do" style="color:white">Growing Season(밤)</a></h1>
             </div>
           </div>
           <div class="span8">
             <div class="navbar navbar-static-top">
               <div class="navigation">
-                <nav>
+                <nav >
                   <ul class="nav topnav">
                     <li>
-                      <a href="/boardnoticelist.do">공지사항</a>
+                      <a href=""  style="color: white;">회원</a>
                     </li>
                     <li>
-                      <a href="#">신청하기</a>
+                      <a href="" style="color: white;">농장과텃밭</a>
                     </li>
                     <li>
-                      <a href="#">신청현황</a>
+                      <a href="" style="color: white;">신청서</a>
+                    </li>
+                    <li>
+                      <a href="" style="color: white;">공지</a>
                     </li>
                     <li class="dropdown">
-                      <a href="/snsmain.do">SNS</a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#">게시판 <i class="icon-angle-down"></i></a>
+                      <a href="#" style="color: white;">게시판 <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
-                        <li><a href="/boardfreelist.do">자유게시판</a></li>
-                        <li><a href="/boardproposallist.do">팁게시판</a></li>
-                        <li><a href="/boardproposallist.do">건의사항</a></li>
+                        <li><a href="">신고글 관리</a></li>
+                        <li><a href="">신고댓글 관리</a></li>
                       </ul>
                     </li>
                     <li class="dropdown">
-                      <a href="#">기타기능<i class="icon-angle-down"></i></a>
+                      <a href="#" style="color: white;">SNS<i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
-                        <li><a href="/crolling.do">농장위치확인</a></li>
-                        <li><a href="/weather/all/weatherInfo.do">날씨정보</a></li>
-                        <li><a href="">쇼핑몰</a></li>
+                        <li><a href="">신고글 관리</a></li>
+                        <li><a href="">신고댓글 관리</a></li>
                       </ul>
                     </li>
                   </ul>

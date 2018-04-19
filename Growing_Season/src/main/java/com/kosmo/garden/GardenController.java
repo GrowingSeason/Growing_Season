@@ -32,7 +32,7 @@ import com.kosmo.common.ThumbnailUtil;
 public class GardenController {
 
 
-	String upload_file_dir="C:\\34DEV\\Growing_Season_git\\Growing_Season\\src\\main\\webapp\\uploads";
+	String upload_file_dir="C:\\GrowingSeason\\Growing_Season\\Growing_Season\\src\\main\\webapp\\uploads";
 	String savedPath = "\\thumbnail";
 	@Autowired
 	GardenService service;
@@ -80,12 +80,12 @@ public class GardenController {
 		return mav;
 	}
 
-	@RequestMapping(value="/apply/user/apply_main.do")
+	@RequestMapping(value="/apply/all/apply_main.do")
 	public ModelAndView applyMain(HttpServletRequest request) {
 
 		ModelAndView mav = new ModelAndView();
 
-		mav.setViewName("applyGarden_apply_user_apply_main2");
+		mav.setViewName("apply_apply_all_apply_main");
 		return mav;
 	}
 
@@ -392,6 +392,15 @@ public class GardenController {
 		mav.setViewName("applyGarden_garden_user_mygarden_condition");
 		return mav;
 	}	
+	
+	
+	@RequestMapping(value="/member/all/member_needMemberLogin.do")
+	public ModelAndView pleaseMemberLogin(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+
+		mav.setViewName("apply_apply_all_please_memberlogin");
+		return mav;
+	}
 
 
 

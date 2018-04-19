@@ -112,13 +112,13 @@ border:none;
         <div class="row">
           <div class="span4">
             <div class="inner-heading">
-              <h2>신청현황</h2>
+              <h2>신청하기</h2>
             </div>
           </div>
           <div class="span8">
           	<ul class="breadcrumb">
-              <li><a href="index.html">메인</a> <i class="icon-angle-right"></i></li>
-              <li><a href="#">신청현황</a></li>
+              <li><a href="/index.do">메인</a> <i class="icon-angle-right"></i></li>
+              <li><a href="#">신청하기</a></li>
             </ul>
           </div>
         </div>
@@ -139,7 +139,7 @@ border:none;
                       <figure>
                         <div><a href=""><img src="/img/fafa.png" alt=""></a></div>
                         <figcaption>
-                          <h3>친환경농장 신청현황</h3>
+                          <h3>친환경농장 신청하기</h3>
                         </figcaption>
                       </figure>
                     </div>
@@ -150,9 +150,9 @@ border:none;
                   <li class="item-thumbs span6 design" data-id="id-1" data-type="icon">
                     <div class="item">
                       <figure>
-                        <div><a href="/myGarden/user/mygarden_condition.do"><img src="/img/gaga.png" alt=""></a></div>
+                        <div><a href="/applyGarden/user/applyGarden_step1.do"><img src="/img/gaga.png" alt=""></a></div>
                         <figcaption>
-                          <h3>서울시텃밭 신청현황</h3>
+                          <h3>서울시텃밭 신청하기</h3>
                           <h6 align="center" style="color: white; font-size: 15px;">어르신, 다둥이가족, 다문화가족</h6>
                         </figcaption>
                       </figure>
