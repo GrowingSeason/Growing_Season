@@ -169,7 +169,7 @@ order by apdivision)
 select *
 from member m left outer join (select *
 from apply a right outer join farm_garden fg on a.fgseq = fg.fgseq) afg on m.mseq = afg.mseq
-where afg.fglocation = #{fgvo.fglocation} and afg.fgname = #{fgvo.fgname}
+where afg.fglocation = #{fgvo.fglocation} and afg.fgname = #{fgvo.fgname} and afg.apcancel='N'
 </select>
 
 <select id="areaList" resultType="com.kosmo.farmadmin.FarmGardenVO" parameterType="com.kosmo.farmadmin.FarmGardenVO">
