@@ -43,14 +43,6 @@ public class SnsFeedVO {
 	public void setFeimgname(String feimgname) {
 		this.feimgname = feimgname;
 	}
-	
-	
-	public String getFeimgname() {
-		return feimgname;
-	}
-	public void setFeimgname(String feimgname) {
-		this.feimgname = feimgname;
-	}
 	public ArrayList<SnsImgVO> getiList() {
 		return iList;
 	}

@@ -28,6 +28,7 @@
 	<mvc:resources mapping="/css/**" location="/css/" />
 	<mvc:resources mapping="/js/**" location="/js/" />
 	<mvc:resources mapping="/images/**" location="/images/" />
+	<mvc:resources mapping="/uploads/**" location="/uploads/" />
 	<mvc:resources mapping="/fonts/**" location="/fonts/" />
 	<mvc:resources mapping="/ico/**" location="/ico/" />
 	<mvc:resources mapping="/img/**" location="/img/" />
@@ -77,6 +78,7 @@
 	    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 	    <property name="prefix" value="/" />
 	    <property name="suffix" value=".jsp" />
+	    <property name="contentType" value="text/html; charset=UTF-8" />
 	</bean>
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
