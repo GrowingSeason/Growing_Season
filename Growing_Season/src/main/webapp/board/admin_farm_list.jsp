@@ -4,8 +4,8 @@
 <!-- body부 sample입니다. 복사해서 이름 명명규칙에 맞춰 바꿔주시고 하단 코딩하시면 되겟습니다 -->
 <!-- sample처럼 div class 하나 잡아주시면 되고, 스크립트 및 jquery, jstl 바로 사용하시면 됩니다-->
 <!-- 별도 js가 필요한 경우 필요한 js파일이나 cdn경로를 주시고 test후 충돌없으면 반영하겟습니다 -->
-<script src="https://code.jquery.com/jquery-3.3.1.js"
-	type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/preview/jquery.gdocsviewer.min.js"></script>
 <style>
 .red {
 	color : red;
@@ -88,6 +88,16 @@
 	display: inline-block;
 	margin: 100px auto;
 }
+
+ #preview_thumb{
+                z-index: 9999;
+                position:absolute;
+                border:0px solid #ccc;
+                background:#333;
+                padding:1px;
+                display:none;
+                color:#fff;
+            }
 </style>
 
 <div class="typo">
@@ -136,7 +146,7 @@
 						<td>${vo.avo.apemail}</td>
 						<td>
 							<c:forEach items="${vo.dvoList}" var="dvo">
-								${dvo.dfilename}<br>
+								<a class="thumbnail_test" id="/uploads/thumbnail/${dvo.dfilename}.png" href="/uploads/${dvo.dfilename}">${dvo.dfilename}</a><br>
 							</c:forEach>
 						</td>
 						<td><input type="button" class="btn btn-warning return" id="${vo.avo.apseq}" style="width:60pt; height:30pt; color:black;" value="반려" ></td>
@@ -248,5 +258,43 @@
 			$('#name').change(function() {
 				$('#fgseq').attr('value',$('#name').val());
 			});
+			
+			var xOffset = 10;
+		    var yOffset = 30;
+			
+			$(document).on("mouseover","a.thumbnail_test",function(e){ //마우스 오버시
+
+			    var thumbnailURL =  e.target.id;
+			    console.log(thumbnailURL);
+			 	  $("body").append("<p id='preview_thumb'><img src="+thumbnailURL+" width='400px' /></p>"); //보여줄 이미지를 선언                       
+			        $("#preview_thumb")
+			            .css("top",(e.pageY - xOffset) + "px")
+			            .css("left",(e.pageX + yOffset) + "px")
+			            .fadeIn("fast"); //미리보기 화면 설정 셋팅
+			    });
+			     
+			    $(document).on("mousemove","a.thumbnail_test",function(e){ //마우스 이동시
+			        $("#preview_thumb")
+			            .css("top",(e.pageY - xOffset) + "px")
+			            .css("left",(e.pageX + yOffset) + "px");
+			    });
+			     
+			    $(document).on("mouseout","a.thumbnail_test",function(){ //마우스 아웃시
+			        $("#preview_thumb").remove();
+			    });
+				
+				function preview(){
+			/* 		xOffset = 10;
+					yOffset = 30;
+
+					$("a.preview").hover(function(e){
+						var thumbnailURL =  $(this).attr('id');	//첨부파일명
+						$("div.bs-docs-example").append("<img id='preview' src='"+ thumbnailURL+"' alt='Image preview' width='400px' height='400px' />");
+						$("#pdfPreview").css("top",(e.pageY - xOffset) + "px").css("left",(e.pageX + yOffset) + "px").fadeIn("fast");
+					},
+					function(){
+						$("#preview").remove();
+					}); */
+				};
 		 
 </script>

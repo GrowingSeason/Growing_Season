@@ -80,12 +80,12 @@ public class GardenController {
 		return mav;
 	}
 
-	@RequestMapping(value="/apply/user/apply_main.do")
+	@RequestMapping(value="/apply/all/apply_main.do")
 	public ModelAndView applyMain(HttpServletRequest request) {
 
 		ModelAndView mav = new ModelAndView();
 
-		mav.setViewName("applyGarden_apply_user_apply_main2");
+		mav.setViewName("apply_apply_all_apply_main");
 		return mav;
 	}
 
@@ -390,6 +390,15 @@ public class GardenController {
 		mav.addObject("LVL_AGVO", avo);
 		mav.addObject("LVL_FGVO",fgvo);
 		mav.setViewName("applyGarden_garden_user_mygarden_condition");
+		return mav;
+	}	
+	
+	
+	@RequestMapping(value="/apply/all/please_login.do")
+	public ModelAndView loginPage(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+
+		mav.setViewName("apply_apply_all_please_login");
 		return mav;
 	}	
 

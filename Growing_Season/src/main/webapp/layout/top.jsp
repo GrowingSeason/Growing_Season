@@ -67,16 +67,16 @@ border:none;
                       <a href="/boardnoticelist.do">공지사항</a>
                     </li>
                     <li>
-                      <a href="#">신청하기</a>
+                      <a href="/apply/all/apply_main.do">신청하기</a>
                     </li>
                     <li>
-                      <a href="#">신청현황</a>
+                      <a href="/myApplyCondition/all/applyCondition_main.do">신청현황</a>
                     </li>
-                    <li class="dropdown">
+                    <li>
                       <a href="/snsmain.do">SNS<i class="icon-angle-down"></i></a>
                     </li>
                     <li class="dropdown">
-                      <a href="#">게시판 <i class="icon-angle-down"></i></a>
+                      <a href="/boardfreelist.do">게시판 <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
                         <li><a href="/boardfreelist.do">자유게시판</a></li>
                         <li><a href="/boardproposallist.do">팁게시판</a></li>
@@ -86,9 +86,9 @@ border:none;
                     <li class="dropdown">
                       <a href="#">기타기능<i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
-                        <li><a href="/crolling.do">농장위치확인</a></li>
+                        <li><a href="/location/all/farmLocation.do">농장위치확인</a></li>
                         <li><a href="/weather/all/weatherInfo.do">날씨정보</a></li>
-                        <li><a href="">쇼핑몰</a></li>
+                        <li><a href="/crolling.do">쇼핑몰</a></li>
                       </ul>
                     </li>
                   </ul>
@@ -100,36 +100,3 @@ border:none;
         </div>
       </div>
     </header>
-    <div id="myModal" class="modal fade" style="margin-top: 13%;">
-	<div class="modal-dialog modal-login">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">로그인</h4>
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">×</button>
-			</div>
-			<div class="modal-body">
-				<form id="login" action="/member/user/loginCheck.do" method="post">
-					<div class="form-group">
-						<input style="width: 100%" type="text" name="mid" id="mid" class="form-control" placeholder="id"
-							required="required">
-					</div>
-					<div class="form-group">
-						<input style="width: 100%" type="password" name="mpw" id="mpw" class="form-control"
-							placeholder="Password" required="required">
-					</div>
-					<div class="form-group">
-						<input type="button" class="btn btn-primary btn-block btn-lg"
-							value="로 그 인" onClick="goPage()" >
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-    <script>
-	function goPage() {
-		/* location.href="/loginCheck.do"; */
-		$("#login").submit();
-		}
-</script>

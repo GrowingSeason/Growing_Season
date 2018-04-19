@@ -15,8 +15,8 @@
 		select apseq, mseq, fgseq, aseq, year, pdivision, pcode, apname, apphone,
 		apemail, apbirth, apcancel, apdivision,awinner
 		from apply
-		where mseq=#{mseq} and apdivision != '농장', 
-	</select>
+		where mseq=#{mseq} and apdivision != '농장' and apcancel='N' and year=to_char(sysdate,'yyyy')
+	</select>	
 
 
 	<insert id="documentInsert" parameterType="com.kosmo.garden.DocumentVO">
@@ -91,7 +91,7 @@
    	<select id="applyGardenCntByMseq" resultType="int" parameterType="int">
 		select count(*)
 		from apply
-		where mseq=#{mseq} and apdivision != '농장' and (apcancel='N' or apcancel='n') 
+		where mseq=#{mseq} and apdivision != '농장' and (apcancel='N' or apcancel='n')
     </select>
     
 	<select id="documentListByMseq" parameterType="Integer"

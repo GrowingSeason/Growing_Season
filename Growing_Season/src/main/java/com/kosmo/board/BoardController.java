@@ -35,7 +35,7 @@ public class BoardController {
 
 	private int upload_file_max_size=100000000;
 	private String upload_file_format="UTF-8";
-	private String upload_file_dir="C:\\34DEV\\Growing_Season_git\\Growing_Season\\src\\main\\webapp\\uploads";
+	private String upload_file_dir="C:\\34DEV\\Growing_Season_git\\Growing_Season\\src\\main\\webapp\\uploads\\board";
 	
 
 	//쇼핑몰크롤링
