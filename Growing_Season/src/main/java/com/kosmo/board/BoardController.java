@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -34,7 +35,8 @@ public class BoardController {
 
 	private int upload_file_max_size=100000000;
 	private String upload_file_format="UTF-8";
-	private String upload_file_dir="C:\\34DEV\\git\\Growing_Season\\Growing_Season\\src\\main\\webapp\\boarduploads";
+	private String upload_file_dir="C:\\34DEV\\Growing_Season_git\\Growing_Season\\src\\main\\webapp\\uploads";
+	
 
 	//쇼핑몰크롤링
 	@RequestMapping(value="/crolling.do")
@@ -98,11 +100,11 @@ public class BoardController {
 
 	//공지 게시판 리스트
 	@RequestMapping(value="/boardnoticelist.do", method = RequestMethod.GET)
-	public ModelAndView boardnoticelist(HttpServletRequest request,@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage) 
+	public ModelAndView boardnoticelist(HttpSession session, HttpServletRequest request,@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage) 
 	{
 		//		HttpSession session=request.getSession();
-		//		String mseqStr=(String)session.getAttribute("MSEQ");
-		//		int mseq=Integer.parseInt("mseqStr");
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
 
 		int totalCount = service.boardNoticeCount();
 
@@ -115,7 +117,7 @@ public class BoardController {
 				);
 		String  html = pu.getPagingHtml();
 
-		int mseq=5;
+		//int mseq=5;
 		Map<String,Object> list = service.boardNoticeList(pu.getStartSeq(), pu.getEndSeq(),mseq);
 
 		System.out.println();
@@ -182,9 +184,12 @@ public class BoardController {
 
 	//공지 게시판 인서트(관리자만)
 	@RequestMapping(value="/boardnoticeinsert.do")
-	public String boardnoticeinsert(BoardVO vo 
+	public String boardnoticeinsert(BoardVO vo, HttpSession session
 			) throws IllegalStateException, IOException {
-		int mseq=5;
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
+		
+		//int mseq=5;
 		vo.setMseq(mseq);
 		//신규첨부파일
 		MultipartFile ufile = vo.getUfile();
@@ -209,9 +214,12 @@ public class BoardController {
 
 	//자유 게시판 인서트
 	@RequestMapping(value="/boardfreeinsert.do")
-	public String boardfreeinsert(BoardVO vo 
+	public String boardfreeinsert(BoardVO vo, HttpSession session
 			) throws IllegalStateException, IOException {
-		int mseq=4;
+		
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
+		//int mseq=4;
 		vo.setMseq(mseq);
 		//신규첨부파일
 		MultipartFile ufile = vo.getUfile();
@@ -235,9 +243,11 @@ public class BoardController {
 
 	//건의사항 게시판 인서트
 	@RequestMapping(value="/boardproposalinsert.do")
-	public String boardproposalinsert(BoardVO vo 
+	public String boardproposalinsert(BoardVO vo, HttpSession session 
 			) throws IllegalStateException, IOException {
-		int mseq=4;
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
+		//int mseq=4;
 		vo.setMseq(mseq);
 		//신규첨부파일
 		MultipartFile ufile = vo.getUfile();
@@ -261,8 +271,12 @@ public class BoardController {
 
 	//자유 댓글 상세보기(수정, 삭제 때문에)
 	@RequestMapping(value="/freereplydetail.do", method = RequestMethod.GET)
-	public ModelAndView freereplydetail(ReplyVO vo) {
-		int mseq=4;
+	public ModelAndView freereplydetail(ReplyVO vo, HttpSession session) {
+		
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
+		
+		//int mseq=4;
 		String mgubun=service.selectMgubun(mseq);
 		System.out.println(vo.getMseq()+"mseq");
 
@@ -275,8 +289,11 @@ public class BoardController {
 
 	//공지 게시판 상세보기 //mgubun에 따라서 디테일 페이지 다르게 보여줌->admin일 때만 수정, 삭제 가능하게 
 	@RequestMapping(value="/boardnoticedetail.do", method = RequestMethod.GET)
-	public ModelAndView boardnoticedetail(BoardVO vo) {
-		int mseq=5;
+	public ModelAndView boardnoticedetail(BoardVO vo, HttpSession session) {
+		
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
+		//int mseq=5;
 		String mgubun=service.selectMgubun(mseq);
 		
 		ModelAndView mav = new ModelAndView();
@@ -299,9 +316,12 @@ public class BoardController {
 
 	//자유 게시판 상세보기
 		@RequestMapping(value="/boardfreedetail.do", method = RequestMethod.GET)
-		public ModelAndView boardfreedetail(HttpServletRequest request,@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage) {
+		public ModelAndView boardfreedetail(HttpServletRequest request,@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage
+											,HttpSession session) {
 
 			String bseq = request.getParameter("bseq");
+			
+			int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
 
 			int totalCount = service.replyCount();
 
@@ -318,7 +338,7 @@ public class BoardController {
 			
 			ModelAndView mav = new ModelAndView();
 
-			int mseq=4;
+			//int mseq=4;
 
 			mav.addObject("flistMap", listMap);
 			mav.addObject("MSEQ", mseq);
@@ -333,7 +353,11 @@ public class BoardController {
 
 	//건의사항 게시판 상세보기
 	@RequestMapping(value="/boardproposaldetail.do", method = RequestMethod.GET)
-	public ModelAndView boardproposaldetail(HttpServletRequest request,@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage) {
+	public ModelAndView boardproposaldetail(HttpSession session, HttpServletRequest request,@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage) {
+
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
+
 
 		String bseq = request.getParameter("bseq");
 
@@ -353,7 +377,7 @@ public class BoardController {
 
 		ModelAndView mav = new ModelAndView();
 
-		int mseq=4;
+		//int mseq=4;
 
 		mav.addObject("plistMap", listMap);
 		mav.addObject("MSEQ", mseq);
@@ -542,10 +566,13 @@ public class BoardController {
 
 	//자유 게시글 신고 인서트
 	@RequestMapping(value="/freebdeclarationinsert.do", method = RequestMethod.POST)
-	public String freebdeclarationinsert(BDeclarationVO vo, HttpServletResponse response) throws IOException {
+	public String freebdeclarationinsert(HttpSession session, BDeclarationVO vo, HttpServletResponse response) throws IOException {
+
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
 
 		int res = 0;
-		int mseq=4;
+		//int mseq=4;
 		vo.setBdmseq(mseq);
 
 		System.out.println(vo.getBdmseq()+"신고자입니다");
@@ -557,10 +584,13 @@ public class BoardController {
 
 	//건의사항 게시글 신고 인서트
 	@RequestMapping(value="/proposalbdeclarationinsert.do", method = RequestMethod.POST)
-	public String proposalbdeclarationinsert(BDeclarationVO vo, HttpServletResponse response) throws IOException {
+	public String proposalbdeclarationinsert(HttpSession session, BDeclarationVO vo, HttpServletResponse response) throws IOException {
 
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
+		
 		int res = 0;
-		int mseq=4;
+		//int mseq=4;
 		vo.setBdmseq(mseq);
 
 		System.out.println(vo.getBdmseq()+"신고자입니다");
@@ -573,10 +603,12 @@ public class BoardController {
 
 	//자유 댓글 신고 인서트
 	@RequestMapping(value="/freerdeclarationinsert.do", method = RequestMethod.POST)
-	public String freerdeclarationinsert(RDeclarationVO vo, HttpServletResponse response) throws IOException {
+	public String freerdeclarationinsert(HttpSession session, RDeclarationVO vo, HttpServletResponse response) throws IOException {
 
+	
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
 		int res = 0;
-		int mseq=4;
+		//int mseq=4;
 		vo.setRdmseq(mseq);
 
 		System.out.println(vo.getRdmseq()+"신고자입니다");
@@ -589,10 +621,14 @@ public class BoardController {
 
 	//건의사항 댓글 신고 인서트
 	@RequestMapping(value="/proposalrdeclarationinsert.do", method = RequestMethod.POST)
-	public String proposalrdeclarationinsert(RDeclarationVO vo, HttpServletResponse response) throws IOException {
-
+	public String proposalrdeclarationinsert(HttpSession session, RDeclarationVO vo, HttpServletResponse response) throws IOException {
+		
+		
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
+		
 		int res = 0;
-		int mseq=4;
+		//int mseq=4;
 		vo.setRdmseq(mseq);
 
 		System.out.println(vo.getRdmseq()+"신고자입니다");
@@ -665,8 +701,13 @@ public class BoardController {
 
 	//건의사항 댓글 상세보기(수정, 삭제 때문에)
 	@RequestMapping(value="/proposalreplydetail.do", method = RequestMethod.GET)
-	public ModelAndView proposalreplydetail(ReplyVO vo) {
-		int mseq=4;
+	public ModelAndView proposalreplydetail(HttpSession session, ReplyVO vo) {
+		
+		
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
+		
+		//int mseq=4;
 		String mgubun=service.selectMgubun(mseq);
 		System.out.println(vo.getMseq()+"mseq");
 
@@ -763,11 +804,14 @@ public class BoardController {
 	//자유게시글 신고 팝업가기전 setting
 	@RequestMapping(value="/freebdeclarationPopup.do", method = RequestMethod.GET)
 	public ModelAndView freebdeclarationPopup(
-			@RequestParam("bseq") int bseq
-			) throws IOException {
+			@RequestParam("bseq") int bseq,
+			HttpSession session) throws IOException {
 		BoardVO vo=service.boardFreeDetail(bseq);
 
-		int mseq=4;
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
+		
+		//int mseq=4;
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("FBPOP_UP", vo);
@@ -780,11 +824,13 @@ public class BoardController {
 	//건의사항 게시글 신고 팝업가기전 setting
 	@RequestMapping(value="/proposalbdeclarationPopup.do", method = RequestMethod.GET)
 	public ModelAndView proposalbdeclarationPopup(
-			@RequestParam("bseq") int bseq
-			) throws IOException {
+			@RequestParam("bseq") int bseq,
+			HttpSession session) throws IOException {
 		BoardVO vo=service.boardProposalDetail(bseq);
-
-		int mseq=4;
+		
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
+		//int mseq=4;
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("PBPOP_UP", vo);
@@ -796,10 +842,13 @@ public class BoardController {
 	//자유 댓글 신고 팝업가기전 setting
 	@RequestMapping(value="/freerdeclarationPopup.do", method = RequestMethod.GET)
 	public ModelAndView freerdeclarationPopup(
-			@RequestParam("rseq") int rseq
+			@RequestParam("rseq") int rseq, HttpSession session
 			) throws IOException {
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
+		
 		ReplyVO vo=service.freereplyDetail(rseq);
-		int mseq=4;
+		//int mseq=4;
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("FRPOP_UP", vo);
@@ -812,11 +861,13 @@ public class BoardController {
 	//건의사항 댓글 신고 팝업가기전 setting
 	@RequestMapping(value="/proposalrdeclarationPopup.do", method = RequestMethod.GET)
 	public ModelAndView proposalrdeclarationPopup(
-			@RequestParam("rseq") int rseq
+			@RequestParam("rseq") int rseq, HttpSession session
 			) throws IOException {
 		ReplyVO vo=service.proposalreplyDetail(rseq);
-
-		int mseq=4;
+		
+		int mseq=Integer.parseInt((session.getAttribute("LVL_SESS_MSEQ").toString()));
+		
+		//int mseq=4;
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("PRPOP_UP", vo);
