@@ -4,12 +4,12 @@ public class DeclarationVO {
 
 	private int scseq;
 	private int feseq;
-	private int cdcon;
-	private int fdcon;
+	private String cdcon;
+	private String fdcon;
 	private int cdmseq;
 	private int fdmseq;
-	private int cdregdate;
-	private int fdregdate;
+	private String cdregdate;
+	private String fdregdate;
 	public int getScseq() {
 		return scseq;
 	}
@@ -22,16 +22,16 @@ public class DeclarationVO {
 	public void setFeseq(int feseq) {
 		this.feseq = feseq;
 	}
-	public int getCdcon() {
+	public String getCdcon() {
 		return cdcon;
 	}
-	public void setCdcon(int cdcon) {
+	public void setCdcon(String cdcon) {
 		this.cdcon = cdcon;
 	}
-	public int getFdcon() {
+	public String getFdcon() {
 		return fdcon;
 	}
-	public void setFdcon(int fdcon) {
+	public void setFdcon(String fdcon) {
 		this.fdcon = fdcon;
 	}
 	public int getCdmseq() {
@@ -46,16 +46,16 @@ public class DeclarationVO {
 	public void setFdmseq(int fdmseq) {
 		this.fdmseq = fdmseq;
 	}
-	public int getCdregdate() {
+	public String getCdregdate() {
 		return cdregdate;
 	}
-	public void setCdregdate(int cdregdate) {
+	public void setCdregdate(String cdregdate) {
 		this.cdregdate = cdregdate;
 	}
-	public int getFdregdate() {
+	public String getFdregdate() {
 		return fdregdate;
 	}
-	public void setFdregdate(int fdregdate) {
+	public void setFdregdate(String fdregdate) {
 		this.fdregdate = fdregdate;
 	}
 	
