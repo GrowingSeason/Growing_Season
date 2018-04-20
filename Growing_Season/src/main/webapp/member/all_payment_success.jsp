@@ -31,7 +31,7 @@
 		<div class="row">
 			<div class="span4">
 				<div class="inner-heading">
-					<h2>결제</h2>
+					<h2>결제완료</h2>
 				</div>
 			</div>
 			<div class="span8"></div>
@@ -48,7 +48,7 @@
 					<div class="span11">
 					<div class="post-image">
 						<div class="post-heading">
-							<h3>결제페이지입니다. 결제수단을 선택해주세요</h3>
+							<h3>결제가 완료되었습니다</h3>
 						<img src="/images/payments.png" alt="" width="100%"/>
 						</div>
 					</div>
@@ -59,12 +59,12 @@
 
 				
 				
-				<div class="row paybtn" style="display:none">
+				<div class="row paybtn" >
 					<div class="span11">
 						<div class="pricing-box-plain">
 							<div class="action">
 						
-							<a href="/index.do" class="btn-large btn-info paymentbtn" id="" type="button">확인</a>
+							<button onClick="location.href='/index.do'" class="btn-large btn-danger" type="button">확인</button>
 							
 							</div>
 						</div>

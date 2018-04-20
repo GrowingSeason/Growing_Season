@@ -212,7 +212,6 @@
 	
 		  $('.return').click(function(){
 			    var o = $(this).attr('id');
-			    alert(o);
 			    if($(this).attr('value') == '반려') {
 			    	$(this).hide();
 			    	$(this).attr('value','반려취소');
@@ -232,7 +231,6 @@
 			
 			$('#loc').change(function(){
 			  	
-					alert($(this).val());
 					var data = {"fglocation":$("#loc option:selected").val()};
 					
 					$.ajax({

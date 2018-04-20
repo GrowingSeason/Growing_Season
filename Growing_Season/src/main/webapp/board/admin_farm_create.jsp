@@ -217,14 +217,12 @@
 		$('#row').keyup(function(){
 			var row = $(this).val();
 			$('#row').attr('value',row);
-			alert(row);
 			
 			$('#col').unbind('keyup');
 			$('#col').keyup(function() {
 				$('.farm').empty();
 				var col = $(this).val();
 				$('#col').attr('value',col);
-				alert(col);
 				$('#total').attr('value', row*col);
 				var tot = $('#total').val();
 				for(i=0; i<row; i++){

@@ -262,7 +262,6 @@
 	
 	  	$('#loc').change(function(){
 	  	
-	  		alert($(this).val());
 	  		var data = {"fglocation":$("#loc option:selected").val()};
 	  		
 	  		$.ajax({
@@ -279,7 +278,6 @@
 					$("#name").empty();
 					$("#name").append("<option>선택해주세요</option>");
 					$.each(result.LVL_RLIST, function(i,v){
-						console.log(v.fgname);
 						$("#name").append("<option value="+ v.fgseq + ">"+ v.fgname + "</option>");
 					});
 				}
@@ -289,7 +287,6 @@
 	
 	
 	  	$('#name').change(function(){
-	  		alert($(this).val())
 			var data = {"fgseq":$("#name option:selected").val()};
 	  		$("#fgseq").attr('value',$("#name option:selected").val());
 	  		$("#fgseqed").attr('value',$("#name option:selected").val());
@@ -335,9 +332,6 @@
 					$('#fgcol').attr('value', result.fgcol);
 					$('#fgrow').attr('value', result.fgrow);
 					$('#fgtotalarea').attr('value', result.fgtotalarea);
-					console.log(result.fgrow);
-					console.log(result.fgcol);
-					console.log(result.fgtotalarea);
 				}
 			});
 	  		

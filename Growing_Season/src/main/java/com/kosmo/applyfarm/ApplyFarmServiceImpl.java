@@ -73,7 +73,7 @@ public class ApplyFarmServiceImpl implements ApplyFarmService {
 	public boolean sendSmsAuthNumber(String phoneNumber){
 		
 		String smsAuthNumber = smsAuth.getAuthNumber(phoneNumber);
-	/*	
+		
 		HashMap resMap = new HashMap();
 	
 		RestTemplate template = new RestTemplate();
@@ -109,7 +109,7 @@ public class ApplyFarmServiceImpl implements ApplyFarmService {
 		System.out.println(res);
 		
 		System.out.println(resMap.get("sent"));
-	 */
+	 
 	
 		//if(res.getStatusCode().toString().equals("200")){
 			HashMap<String, Object> sendSmsMap = new HashMap<String, Object>();
