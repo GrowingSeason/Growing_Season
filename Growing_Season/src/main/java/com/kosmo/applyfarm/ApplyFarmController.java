@@ -233,8 +233,8 @@ public class ApplyFarmController {
 	@RequestMapping(value="/inserttemp.do")
 	public void insert(){
 		AreaYearVO vo = new AreaYearVO();
-		vo.setFgseq(32);
-		for(int i=1;i<=370;i++){
+		vo.setFgseq(123);
+		for(int i=1;i<=50;i++){
 			vo.setAseq(i);
 			System.out.println(vo.getFgseq());
 			System.out.println(vo.getAseq());

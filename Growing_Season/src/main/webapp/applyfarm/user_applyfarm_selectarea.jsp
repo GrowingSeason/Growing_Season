@@ -280,8 +280,8 @@ $(".farmsector").on( "click" , "div", function() {
     	$(".selectarea-infrom").attr('value', number);
     	var test = $(".selectarea-infrom").attr('value');
     	var test2 = $(".fgseq-infrom").attr('value');
-    	alert(test);
-    	alert(test2);
+    	//alert(test);
+    	//alert(test2);
     	$("#selectNum").html("["+number+"]");
     }else if($(this).attr('class')=='selectbox'){
     	$(this).attr('class','box')

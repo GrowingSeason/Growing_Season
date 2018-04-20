@@ -284,8 +284,8 @@ $(".farmsector").on( "click" , "div", function() {
     	var test = $(".selectarea-infrom").attr('value');
     	var test2 = $(".fgseq-infrom").attr('value');
     	$("#selectNum").html("["+number+"]");
-    	alert(test);
-    	alert(test2);
+    	//alert(test);
+    	//alert(test2);
     }else if($(this).attr('class')=='selectbox'){
     	$(this).attr('class','box')
     	$(".selectarea-infrom").attr('value', '');
@@ -298,7 +298,7 @@ $(".farmsector").on( "click" , "div", function() {
 $("#select").click(function(){
 	var number = $(".selectbox").find(".num").attr('value');
 	
-	alert(number);
+	//alert(number);
 	
 });
 

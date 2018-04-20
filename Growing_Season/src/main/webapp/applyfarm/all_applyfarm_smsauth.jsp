@@ -135,12 +135,12 @@
 
 <script>
 	$("#sendsmsauth").click(function() {
-		alert("클릭");
+		//alert("클릭");
 		var test = $("#inputname").val();
 		var pattern = /\s/g;
 		var phonePattern = /^\d{3}\d{3,4}\d{4}$/;
 		
-		alert(test)
+		//alert(test)
 		if ($("#inputname").val() == '') {
 			alert("이름을 입력해주세요");
 			return false;
@@ -179,10 +179,10 @@
 
 	$("#smsauth").click(
 			function() {
-				alert("클릭");
+				//alert("클릭");
 				var authNumber = $("#authinput").val();
 				var phoneNumber = $("#inputphoneNumber").val();
-				alert(authNumber);
+				//alert(authNumber);
 
 				$.ajax({
 							url : "/applyFarm/all/checkAuthNumber.do",

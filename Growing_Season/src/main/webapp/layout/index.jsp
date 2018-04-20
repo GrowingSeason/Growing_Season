@@ -74,7 +74,7 @@ border:none;
             </div>
           </div>
         </div>
-      </div>
+      </div>	
       <div class="container">
 
 
@@ -402,15 +402,15 @@ border:none;
           <div class="span4">
             <div class="widget">
               <div class="footer_logo">
-                <h3><a href="index.html"><i class="icon-tint"></i> Remember</a></h3>
+                <h3><a href="/index.do"><i class="icon-tint"></i> Growing Season</a></h3>
               </div>
               <address>
-							  <strong>Remember company Inc.</strong><br>
-  							Somestreet KW 101, Park Village W.01<br>
-  							Jakarta 13426 Indonesia
+							  <strong>KOSMO_DEV34</strong><br>
+  							서울시 금천구 가산동<br>
+  							월드메르디앙 2차 4층 410호
   						</address>
               <p>
-                <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891 <br>
+                <i class="icon-phone"></i> 02-2638-5687 <br>
                 <i class="icon-envelope-alt"></i> email@domainname.com
               </p>
             </div>
@@ -419,12 +419,13 @@ border:none;
             <div class="widget">
               <h5 class="widgetheading">Browse pages</h5>
               <ul class="link-list">
-                <li><a href="#">Our company</a></li>
-                <li><a href="#">Terms and conditions</a></li>
-                <li><a href="#">Privacy policy</a></li>
-                <li><a href="#">Press release</a></li>
-                <li><a href="#">What we have done</a></li>
-                <li><a href="#">Our support forum</a></li>
+                <li><a href="/boardnoticelist.do">공지사항</a></li>
+                <li><a href="/apply/all/apply_main.do">신청하기</a></li>
+                <li><a href="/myApplyCondition/all/applyCondition_main.do">신청현황</a></li>
+                <li><a href="/snsmain.do">SNS</a></li>
+                <li><a href="/boardfreelist.do">게시판</a></li>
+                <li><a href="/location/all/farmLocation.do">농장위치확인</a></li>
+                <li><a href="/crolling.do">쇼핑몰</a></li>
               </ul>
 
             </div>
@@ -445,7 +446,7 @@ border:none;
           <div class="row">
             <div class="span6">
               <div class="copyright">
-                <p><span>&copy; Remember Inc. All right reserved</span></p>
+                <p><span>&copy; Growing Season. All right reserved</span></p>
               </div>
 
             </div>
