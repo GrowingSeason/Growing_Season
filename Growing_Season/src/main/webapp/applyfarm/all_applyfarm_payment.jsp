@@ -123,13 +123,13 @@ function payList(){
 //kakao 스크립트 코드입력
 
 $(".paymentbtn").click(function(){
-	console.log('클릭되나');
+	//console.log('클릭되나');
 	Kakao.init("30062fa3725e52ec70fe45415dcbe2ea");
 	Kakao.Auth.login({
 		/* container : "#payment", */ 
 		success : function(authObj) {
-			console.log("들어왔다.");
-			console.log(JSON.stringify(authObj));
+			//console.log("들어왔다.");
+			//console.log(JSON.stringify(authObj));
 			var access_token = "";
 			$.map(authObj, function(v, i) {
 				if (i == "access_token") {

@@ -125,7 +125,7 @@
 						<th>이름</th>
 						<th>생년월일</th>
 						<th>성별</th>
-						<th>주소</th>
+						<th  style="width: 150px;">주소</th>
 						<th>전화번호</th>
 						<th>이메일</th>
 						<th>첨부서류</th>

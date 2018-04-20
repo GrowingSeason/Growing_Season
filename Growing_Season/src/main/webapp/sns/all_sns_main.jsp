@@ -56,15 +56,17 @@
 					}
 					
 					$.each(result.SNS_HASHTAGSERCH_LIST, function(i, v) {
+						htmlStr  += "<div class='span4'>"
 						htmlStr += "<a href = /snsdetail.do?feseq="+v.feseq;
 						htmlStr += "><img src='/uploads/"+v.feimgname+"' style='width:300px; height:300px;'></a><br><br><br>";
+						htmlStr  += "</div>"
 						console.log(v.htcon);
 					
 					
 						/* htmlStr += "'<a href='+'/snsdetail.do?feseq='+v.feseq+'>'+v.bcon"; */
 					});
 					
-					$("#searchRes").html(htmlStr);
+					$("#returnTrue").html(htmlStr);
 				}
 			});
 		});
@@ -100,10 +102,10 @@
 					</div>
 				</c:forEach>
 			</div>
-			
+			</div>
+			<div class="span12">
 			<div  id="returnTrue" class="row" align="center">
-				<div class="span4" id="searchRes">
-				</div>
+			</div>
 			</div>
 			</div>
 			

@@ -157,7 +157,7 @@
 	<form name="userInfo" class="contactForm"
 		action="/member/user/memberInsert.do" enctype="multipart/form-data">
 		<div class="container">
-			<div class="span12" style="margin-left:0px;padding-left: 20%;">
+			<div class="span12" style="margin-left:0px;padding-left: 20%; width : 90%;">
 				<div class="span6 margintop10 field form-group">
 					<label for="exampleInputEmail1" class="tatle" style="display:block">아이디</label> 
 					<input type="text" name="mid" id="Mid" class="textstyle" required /> 
@@ -232,7 +232,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row" >
 			<div class="span12" style="width: 100%;">
 				<div class="pricing-box-plain">
 					<div class="action">
@@ -244,50 +244,3 @@
 		</div>
 	</form>
 </section>
-<button class="btn-large btn-info" id="payment">결제하기</button>
-<script type='text/javascript'>
-	//카카오페이 결제 스크립트
-	//kakao 스크립트 코드입력
-$(function(){
-	$("#payment").click(function(){
-		Kakao.init("30062fa3725e52ec70fe45415dcbe2ea");
-		Kakao.Auth.login({
-			/* container : "#payment", */ 
-			success : function(authObj) {
-				console.log("들어왔다.");
-				console.log(JSON.stringify(authObj));
-				var access_token = "";
-				$.map(authObj, function(v, i) {
-					if (i == "access_token") {
-						access_token = v;
-						console.log(access_token);
-					}
-				});
-				var obj = new Object();
-				obj.access_token = access_token;
-
-				$.ajax({
-					url : "/kakaoForGarden.do",
-					headers : {
-						'Content-Type' : 'application/json',
-					},
-					method : "post",
-					data : JSON.stringify(obj),
-					success : function(resMap) {
-						$.each(JSON.parse(resMap), function(i, v) {
-							if (i == "next_redirect_pc_url") {
-								console.log("++++++++++" + v);
-								window.location.href = v;
-							}
-						});
-					}
-				});
-			},
-			fail : function(err) {
-				console.log(JSON.stringify(err));
-				alert("실패");
-			}
-		});
-	});
-});	
-</script>

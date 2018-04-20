@@ -91,7 +91,7 @@ public class MemberController { //extends MultiActionController {
 
 	//회원가입을 했을때 db에 insert를 위하여 들어오는 컨트롤러
 	@RequestMapping(value = "/member/user/memberInsert.do", method = RequestMethod.GET)
-	public ModelAndView memberInsert(MemberVO vo)
+	public String memberInsert(MemberVO vo)
 			throws IOException
 	{
 		vo.setMaddress(vo.getMaddress() + " " + vo.getMaddress2());
@@ -101,9 +101,7 @@ public class MemberController { //extends MultiActionController {
 		int res = service.memberInsert(vo);
 		System.out.println(res + "건 정보 입력");
 
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("member_member_admin_member_list");
-		return mav;
+		return "redirect:/index.do";
 	}
 
 	//맴버의 상세정보 보기를 위하여 들어오는 컨트롤러
@@ -111,9 +109,12 @@ public class MemberController { //extends MultiActionController {
 	public ModelAndView memberDetail(MemberVO vo)
 	{
 		ModelAndView mav = new ModelAndView();
+		
+		
 		String temp = vo.getCurrentPage();
 
 		vo = service.memberDetail(vo.getMseq());
+		
 		vo.setCurrentPage(temp);
 
 		
