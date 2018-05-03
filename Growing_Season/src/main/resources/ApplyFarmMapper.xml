@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 map파일을 구분하는 유일한 속성 -> 서버에서 겹치면 안됨, 유일해야함  -->
+<!-- 인터페이스를 mapper화 할 경우 인터페이스 클래스명과 mapper파일명이 일치해야함 -->
+<!-- 또한 namespace는 인터페이스의 풀패키지경로와 동일하게 지정해주어야 함 -->
+<!-- 인터페이스를 mapper화 해서 사용할 경우 인터페이스의 인자값을 자동으로 받아와 바인딩하므로 parameterType 지정을 할 필요가 없음 -->
+<mapper namespace="com.kosmo.mapper.ApplyFarmMapper">
+
+<!-- 리절트 맵 정의 -> property는 vo의 프로퍼티, column은 DB의 컬럼과 일치 -> 컬럼이름과 일치하는 데이터를 프로퍼티에 넣는 설정을 맵형태로 설정함  -->
+<!-- vo프로퍼티와 컬럼명이 다르면 자동으로 get,set가 되지 않으므로 리절트맵을 이용함 -->
+<!-- 다른효과도많음...나중에 -->
+<!-- association -> 1:1관계 -->
+<!-- collection 1:다 관계 -->
+<resultMap id="farmlist" type="java.util.HashMap">
+	<result property="fgname" column="fgname" />
+	<result property="fgseq" column="fgseq" />
+</resultMap>
+
+<resultMap id="farmlistForWeather" type="java.util.HashMap">
+	<result property="fgname" column="fgname" />
+	<result property="fgseq" column="fgseq" />
+	<result property="fgaddress" column="fgaddress" />	
+</resultMap>
+
+<resultMap id="farmarea" type="java.util.HashMap">
+	<result property="fgcol" column="fgcol" />
+	<result property="fgrow" column="fgrow" />
+	<result property="fgtotalarea" column="fgtotalarea" />
+</resultMap>
+
+<resultMap id="farmAreadyReservation" type="java.util.HashMap">
+	<result property="aseq" column="aseq" />
+	<result property="areservation" column="areservation" />
+</resultMap>
+
+<resultMap id="smsAuthRes" type="java.util.HashMap">
+	<result property="smsseq" column="smsseq" />
+	<result property="authvalidate" column="auth_validate" />
+</resultMap>
+
+<resultMap id="myFarmCheckCount" type="java.util.HashMap">
+	<result property="count" column="count" />
+</resultMap>
+
+  <!--
+	<resultMap id="BoardReplyForMap" type="com.board.board.BoardVO">
+		
+		<result property="bseq" column="bseq" />
+		<result property="btype" column="btype" />
+		<result property="btitle" column="btitle" />
+		<result property="bcon" column="bcon" />
+		<result property="mseq" column="mseq" />
+		<result property="filepath" column="filepath" />
+		<result property="filename" column="filename" />
+		<result property="filesize" column="filesize" />
+		<result property="bregdate" column="bregdate" />
+		    
+		<collection property="rlist" resultMap="BoardReplyMap" columnPrefix="r_" />
+		
+		 
+		<collection property="rlist" columnPrefix="r_" ofType="com.board.board.BoardReplyVO">
+			<result property="rseq" column="rseq" />
+			<result property="mseq" column="mseq" />
+			<result property="reply" column="reply" />
+			<result property="regdate" column="regdate" />
+		</collection>
+		
+		
+	</resultMap>
+	
+	<resultMap id="BoardReplyMap" type="com.board.board.BoardReplyVO">
+		<result property="rseq" column="rseq" />
+		<result property="mseq" column="mseq" />
+		<result property="reply" column="reply" />
+		<result property="regdate" column="regdate" />
+	</resultMap>
+
+	<resultMap id="BoardMap" type="com.board.board.BoardVO">
+		<result property="bseq" column="bseq" />
+		<result property="btype" column="btype" />
+		<result property="btitle" column="btitle" />
+		<result property="bcon" column="bcon" />
+		<result property="mseq" column="mseq" />
+		<result property="filepath" column="filepath" />
+		<result property="filename" column="filename" />
+		<result property="filesize" column="filesize" />
+		<result property="bregdate" column="bregdate" />
+	</resultMap>
+ 매퍼파일안의 id는 해당 xml파일 안에서만 겹치지 않으면 됨 -->
+
+<select id="checkMyFarm" resultMap="myFarmCheckCount">
+	select count(1) as count from apply where mseq=#{mseq} and year=#{year} and apcancel='N'
+</select>
+
+<select id="selectFarmLocation" resultType="String">
+	select fglocation from farm_garden where fgdivision = '농장' and fgdelete='n' group by fglocation
+</select>
+
+<select id="selectFarmName" resultMap="farmlist">
+	select fgname, fgseq from farm_garden where fglocation = #{fglocation} and fgdivision ='농장' and fgdelete='n' group by fgname, fgseq
+</select>
+
+<select id="selectFarmList" resultMap="farmlistForWeather">
+	select fgname, fgseq, fgaddress from farm_garden where fgdivision ='농장' and fgdelete='n' group by fgname, fgseq, fgaddress
+</select>
+
+<select id="selectFarmArea" resultMap="farmarea">
+	select fgcol, fgrow, fgtotalarea from farm_garden where fgseq = #{fgseq}
+</select>
+
+<insert id="completeApply" parameterType="com.kosmo.applyfarm.ApplyFarmVO">
+	insert into apply (apseq, mseq, fgseq, aseq, apdivision, year, pdivision, pcode, awinner, apname, apphone, apemail, apbirth, apdate, apcancel)
+    values(apply_seq.nextval, #{mseq},#{fgseq},#{aseq},'농장',#{year},#{pdivision},#{pcode},'y',#{apname},#{apphone},#{apemail},#{apbirth}, sysdate,'N')
+	<selectKey keyProperty="apseq" resultType="Integer" order="AFTER"> 
+		SELECT apply_seq.currval as apseq FROM dual
+	</selectKey>
+</insert>
+
+<insert id="insertAreaNO">
+	insert into area (aseq, fgseq) values (#{aseq}, #{fgseq})
+</insert>
+
+<select id="checkAreadyReservationFarm" resultType="int">
+	select aseq from area_year where fgseq=#{fgseq} and areservation = 'y';
+</select>
+
+<select id="farmAreadyReservationList" resultMap="farmAreadyReservation">
+	select a.aseq, nvl(ay.areservation, 'y') as areservation
+	from area a, (select aseq, nvl(areservation, 'y') as areservation from area_year where fgseq=#{fgseq}) ay
+	where a.aseq=ay.aseq(+)	
+    and a.fgseq=#{fgseq}
+	order by a.aseq
+</select>
+<select id="myApplyFarmInfo" parameterType="hashmap" resultType="com.kosmo.applyfarm.FarmInfoVO">
+	select
+	a.fgseq, a.aseq, fg.fglocation, fg.fgname, fg.fgmanager, fg.fgaddress, fg.fgphone, fg.fgfeature, fg.fgguide, fg.fgcol, fg.fgrow, fg.fgtotalarea, fg.fglatitude, fg.fglongitude
+	from apply a, farm_garden fg
+	where a.fgseq = fg.fgseq
+	and a.mseq=#{mseq} and a.year=#{year} and a.apcancel='N' and fg.fgdetaildiv='농장'
+</select>
+<select id="selectFarmInfo" resultType="com.kosmo.applyfarm.FarmInfoVO">
+	select
+	fgseq, fgdivision, fgdetaildiv, fglocation, fgname, fgmanager, fgaddress, fgphone, fgfeature, fgguide, fgcol, fgrow, fgtotalarea, fglatitude, fglongitude
+	from farm_garden
+	where fgseq=#{fgseq} and fgdelete='n'
+</select>
+<update id="applyCancel">
+	update apply set apcancel='y' where mseq=#{mseq} and year=#{year} and fgseq=#{fgseq}
+</update>
+<update id="applyCancelForAreaYear">
+	update area_year set areservation='y' where aseq=#{aseq} and ayear=#{year} and fgseq=#{fgseq}
+</update>
+<insert id="farmSmsInsert" parameterType="hashmap">
+	insert into farm_sms (smsseq,smsphone,auth_number,auth_result,auth_validate, sms_regdate)
+			values(farm_sms_seq.nextval,#{phoneNumber},#{authnumber},'n' ,'y', sysdate)
+</insert>
+<update id="farmSmsValidateUpdate">
+	update farm_sms set auth_validate='n' where smsphone=#{phoneNumber}
+</update>
+<update id="farmSmsAuthResultUpdate">
+	update farm_sms set auth_validate='n', auth_Result = 'y' where smsseq=#{smsseq}
+</update>
+<select id="checkSmsAuthValidate" resultMap="smsAuthRes" parameterType="hashmap">
+select auth_validate, smsseq from farm_sms 
+where smsphone = #{phoneNumber} 
+and auth_number = #{authNumber}
+and sms_regdate = (select max(sms_regdate) from farm_sms where smsphone= #{phoneNumber})
+</select>
+<update id="checkOvertimeSmsAuthValidate" parameterType="hashmap">
+	update farm_sms set auth_validate ='n' where smsphone=#{phoneNumber} and auth_number=#{authNumber} and trunc(((sysdate-SMS_REGDATE)*24*60),0) > 3
+</update>
+<insert id="memberInsertForApplyFarmNonJoin" parameterType="com.kosmo.applyfarm.ApplyFarmVO">
+		insert into member(mseq, mid, mphone, mpw, mname, mbirth, memail, maddress, mgender, mmailreceive, mauth, mauthtoken, mregdate)
+		values(MEMBER_SEQ.NEXTVAL, #{mid}, #{apphone}, #{apw}, #{apname}, to_date(#{apbirth}, 'YYYY-MM-DD'), #{apemail},
+	 	#{apaddr}, #{apgender} , #{mmailreceive}, #{mauth}, #{mauthtoken}, sysdate)
+ 	<selectKey keyProperty="mseq" resultType="Integer" order="AFTER"> 
+		SELECT member_seq.currval as apseq FROM dual
+	</selectKey>
+</insert>
+
+<!--
+-->
+</mapper>

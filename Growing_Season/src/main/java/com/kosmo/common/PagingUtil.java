@@ -69,7 +69,13 @@ public class PagingUtil {
 				pagingHtml.append(i);
 				pagingHtml.append("</a></li>");
 			} else {
-				pagingHtml.append("<li><a href='" + url +"?currentPage=");
+				
+				if(url.indexOf("?") >=0) {
+					pagingHtml.append("<li><a href='" + url +"&currentPage=");
+				} else {
+					pagingHtml.append("<li><a href='" + url +"?currentPage=");
+				}
+				
 				pagingHtml.append(i);
 				pagingHtml.append("'>");
 				pagingHtml.append(i);
