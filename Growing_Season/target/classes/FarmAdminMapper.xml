@@ -113,12 +113,21 @@ from
         right outer join 
         (select a.apseq, a.mseq, a.apdivision, a.apname, a.apbirth, a.apphone, a.apemail, d.dfilename, d.docureturn
         from apply a 
+<<<<<<< HEAD
             left outer join (select apseq, docureturn, dfilename from document where docureturn != 'Y') d 
             on a.apseq = d.apseq
         ) ad 
         on m.mseq=ad.mseq
     where ad.apdivision != '농장'
     order by rnum
+=======
+            left outer join document d 
+            on a.apseq = d.apseq
+        ) ad 
+        on m.mseq=ad.mseq
+    where ad.apdivision != '농장' and ad.docureturn !='Y' and ad.docureturn !='NN'
+    order by rnum desc
+>>>>>>> refs/heads/master
 ) t 
 where t.rnum >=#{sseq} and t.rnum <=#{eseq}
 ]]>

@@ -25,7 +25,7 @@ public interface ApplyFarmMapper {
 	 * 해당년도에 신청한 farm이 있는지 없는지 체크...0이면 없음 1이상이면 있음
 	 * @return int
 	 */
-	public int checkMyFarm(int mseq, int year);
+	public HashMap<String, Object> checkMyFarm(@Param("mseq")int mseq, @Param("year")int year);
 	public ArrayList<String> selectFarmLocation();
 	public ArrayList<HashMap<String, Object>> selectFarmName(String fglocation);
 	public HashMap<String, Object> selectFarmArea(int fgseq);
@@ -42,4 +42,7 @@ public interface ApplyFarmMapper {
 	public HashMap<String, Object> checkSmsAuthValidate(HashMap<String, String> map);
 	public int farmSmsAuthResultUpdate(int smsseq);
 	public int checkOvertimeSmsAuthValidate(HashMap map);
+	public ArrayList<HashMap<String, Object>> selectFarmList();
+	public int memberInsertForApplyFarmNonJoin(ApplyFarmVO vo);
+	
 }

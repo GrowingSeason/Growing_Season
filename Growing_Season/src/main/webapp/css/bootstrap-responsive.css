@@ -881,7 +881,8 @@
   .controls-row [class*="span"] + [class*="span"] {
     margin-left: 0;
   }
-  .modal {
+  .modal2 {
+  	display: none;
     position: fixed;
     top: 20px;
     right: 20px;
@@ -889,10 +890,10 @@
     width: auto;
     margin: 0;
   }
-  .modal.fade {
+  .modal2.fade {
     top: -100px;
   }
-  .modal.fade.in {
+  .modal2.fade.in {
     top: 20px;
   }
 }
@@ -935,12 +936,12 @@
     margin-right: 0;
     margin-left: 0;
   }
-  .modal {
+  .modal2 {
     top: 10px;
     right: 10px;
     left: 10px;
   }
-  .modal-header .close {
+  .modal2-header .close {
     padding: 10px;
     margin: -10px;
   }

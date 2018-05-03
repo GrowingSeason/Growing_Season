@@ -35,7 +35,7 @@
 		<div align="center">
 			<nav>
 				<ul class="pagination">
-					<li>${FREE_PAGING}</li>
+					${FREE_PAGING}
 				</ul>
 			</nav>
 		</div>

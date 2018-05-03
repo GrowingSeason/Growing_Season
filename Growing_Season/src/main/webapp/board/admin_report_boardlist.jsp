@@ -1,46 +1,104 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
-<div class="typo">
-	
-
-		<div class="alert alert-info" role="alert" align="center">
-			<strong><h3>[게시글 신고리스트]</h3></strong></br>
+<section id="inner-headline">
+	<div class="container">
+		<div class="row">
+			<div class="span12">
+				<div class="inner-heading">
+					<h2><font color="#008000">게시글 신고 리스트</font></h2>
+				</div>
+			</div>
+			<div class="span8"></div>
 		</div>
-
-		<div class="bs-docs-example">
-			<table class="table" BORDER=1>
-				<thead>
-					<tr>
-						<th>글번호</th>
-						<th>글쓴이</th>
-						<th>제목</th>
-						<th>신고내용(신고자,신고사유,신고일)</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${BDLIST}" var="vo">
-					<tr>
-						<td>${vo.bseq}</td>
-						<td>${vo.mid}</td>
-						<td>${vo.btitle}</td>
-						<td>
-							<c:forEach items="${vo.declarationList}" var="dlist">
-								${dlist.bdmid}  ${dlist.bdreason} ${dlist.bdregdate}<br>
+	</div>
+</section>
+<section id="content">
+	<div class="container">
+		<div class="row">
+			<div class="span10">
+				<div class="bs-docs-example">
+					<table class="table" BORDER=1>
+						<thead>
+							<tr style="background: #8fc04e">
+								<th><font size="3" color="#464646">글번호</font></th>
+								<th><font size="3" color="#464646">작성자</font></th>
+								<th><font size="3" color="#464646">제목</font></th>
+								<th><font size="3" color="#464646">신고자</font></th>
+								<th><font size="3" color="#464646">신고사유</font></th>
+								<th><font size="3" color="#464646">신고일</font></th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${BDLIST}" var="vo">
+								<tr>
+									<td><font color="#008000">${vo.bseq}</font></td>
+									<td>${vo.mid}</td>
+									<td>${vo.btitle}</td>
+									<td><c:forEach items="${vo.bDeclarationList}" var="dlist">
+									${dlist.bdmid} <br><br>
+									</c:forEach></td> 
+									<td><c:forEach items="${vo.bDeclarationList}" var="dlist"> 
+									${dlist.bdreason} <br><br>
+									</c:forEach></td> 
+									<td><c:forEach items="${vo.bDeclarationList}" var="dlist">
+									${dlist.bdregdate} &nbsp;&nbsp;
+									<button class="btn btn-inverse"><a href="/boardnoticedelete.do?bseq=${NOTICE_UPDATE_PAGE.bseq}"><b><font color="white">삭제</font></b></a></button>
+									<br><br>
+									</c:forEach></td>
+								</tr>
 							</c:forEach>
-						</td>
-					</tr>
-					</c:forEach>
-			</tbody>
-			</table>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<style>
+			h4 {
+			color: black;
+			background: #eceae6;   
+			}
+			</style>
+			<div class="span2">
+				<aside class="right-sidebar">
+					<div class="widget">
+						<h4 class="widgetheading"><font color="#008000">게시판</font></h4>
+						<br>
+
+						<ul class="cat">
+							<li><i class="icon-angle-right"></i> <a
+								href="/boardnoticelist.do"><b><font size="5" color="#464646">공지</font></b></a></li>
+							<li><i class="icon-angle-right"></i> <a
+								href="/boardfreelist.do"><b><font size="5" color="#464646">자유</font></b></a></li>
+							<li><i class="icon-angle-right"></i> <a
+								href="/boardproposallist.do"><b><font size="5" color="#464646">건의</font></b></a></li>
+							<li><i class="icon-angle-right"></i> <a
+								href="/bdeclarationlist.do"><b><font size="4" color="#464646">신고게시글<br>리스트</font></b></a></li>
+							<li><i class="icon-angle-right"></i> <a
+								href="/rdeclarationlist.do"><b><font size="4" color="#464646">신고댓글<br>리스트</font></b></a></li>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+						</ul>
+					</div>
+				</aside>
+			</div>
 		</div>
-		<div align="center">
-			<nav>
-				<ul class="pagination">
-					<li>${REPORTBOARD_PAGING}</li>
-				</ul>
-			</nav>
-		</div>
-		
-</div>
+	</div>
+</section>

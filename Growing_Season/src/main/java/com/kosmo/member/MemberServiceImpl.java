@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kosmo.garden.ApplyGardenVO;
+import com.kosmo.mapper.ApplyFarmMapper;
 import com.kosmo.mapper.MemberMapper;
 import com.kosmo.payment.PaymentVO;
 
@@ -16,6 +18,7 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired
 	private MemberMapper dao;
 	private SqlSession sql;
+	private ApplyFarmMapper applyFarmMapper;
 //	public void setBoardDAO(BoardDAO dao) {
 //		this.dao = dao;
 //	}
@@ -65,9 +68,22 @@ public class MemberServiceImpl implements MemberService{
 		return dao.loginCheck(mid, mpw);
 	}
 	
-	@Override
-	public int paymentInsert(PaymentVO pvo){
-		int res = 0;
+	//@Override
+	//public int paymentInsert(PaymentVO pvo){
+		//int res = 0;
+		//kakao결제완료 후 서비스 호출시 받아오는 값은 mseq랑 금액
+		//추가로 필요한건 apseq하나다
+		
+		//페이로그를 인서트하는 sql을 불러옴... 넘겨주는 값을 vo에담아준다
+		
+		//mseq랑 금액은 담겨있으니 패스
+		//여기서 재엽, 지현 메서드를 가져와야함
+		//비회원 결제시 여기서는 회원가입하고나서 신청서를 인서트하고 나서 apseq를 돌려줌
+		//비회원 폼 받아서 가입하는 메서드 멤버에서 호출하고 셀렉트키로 mseq를 리턴
+		//그다음에 mseq를 받아서 mvo에 set해줌
+		//그걸가지고 apply테이블 인서트 하면서 셀렉트키로 apseq를 리턴
+		//apseq를 리턴받아서 pvo set해주머
+		//pvo로 페이로그를 인서트
 //		int insert = dao.payment(mseq, apseq, pprice, ppermit);
 //		int update = dao.----update(\\\\); //apseq 결제완료
 		
@@ -75,7 +91,41 @@ public class MemberServiceImpl implements MemberService{
 //		res = dao.paymentInsert(pvo);
 //		res = dao.pcodeUpdate(pvo.getApseq());
 		
+		//return res;
+	//}
+	
+	@Override
+	public int paymentInsertForGarden(PaymentVO pvo, String year){
+		ApplyGardenVO vo = new ApplyGardenVO();
+		vo.setYear(year);
+		vo.setMseq(pvo.getMseq());
+		int apseq = dao.applyGardenData(vo);
+		pvo.setApseq(apseq);
+		
+		dao.paymentInsertForGarden(pvo);
+		int res = dao.pcodeUpdate(pvo);
 		return res;
+		//kakao결제완료 후 서비스 호출시 받아오는 값은 mseq랑 금액
+		//추가로 필요한건 apseq하나다
+		
+		//페이로그를 인서트하는 sql을 불러옴... 넘겨주는 값을 vo에담아준다
+		
+		//mseq랑 금액은 담겨있으니 패스
+		//여기서 재엽, 지현 메서드를 가져와야함
+		//비회원 결제시 여기서는 회원가입하고나서 신청서를 인서트하고 나서 apseq를 돌려줌
+		//비회원 폼 받아서 가입하는 메서드 멤버에서 호출하고 셀렉트키로 mseq를 리턴
+		//그다음에 mseq를 받아서 mvo에 set해줌
+		//그걸가지고 apply테이블 인서트 하면서 셀렉트키로 apseq를 리턴
+		//apseq를 리턴받아서 pvo set해주머
+		//pvo로 페이로그를 인서트
+//		int insert = dao.payment(mseq, apseq, pprice, ppermit);
+//		int update = dao.----update(\\\\); //apseq 결제완료
+		
+//		int res = dao.paymentFormInsert(pvo);
+//		res = dao.paymentInsert(pvo);
+//		res = dao.pcodeUpdate(pvo.getApseq());
+		
+//		return res;
 	}
 	
 	public int memIDCheck(@Param("mid")String mid){
@@ -83,5 +133,8 @@ public class MemberServiceImpl implements MemberService{
         return dao.memIDCheck(mid);
         
     }
+	
+	//결제//////////서비스
+	
 	
 }

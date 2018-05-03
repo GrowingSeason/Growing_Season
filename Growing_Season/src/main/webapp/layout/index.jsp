@@ -64,7 +64,6 @@ border:none;
               </ul>
             </div>
             <div class="span6">
-
               <ul class="social-network">
                 <li><a href="#" data-placement="bottom" title="Facebook"><i class="icon-circled icon-bglight icon-facebook"></i></a></li>
                 <li><a href="#" data-placement="bottom" title="Twitter"><i class="icon-circled icon-bglight icon-twitter"></i></a></li>
@@ -72,18 +71,17 @@ border:none;
                 <li><a href="#" data-placement="bottom" title="Pinterest"><i class="icon-circled icon-pinterest  icon-bglight"></i></a></li>
                 <li><a href="#" data-placement="bottom" title="Google +"><i class="icon-circled icon-google-plus icon-bglight"></i></a></li>
               </ul>
-
             </div>
           </div>
         </div>
-      </div>
+      </div>	
       <div class="container">
 
 
         <div class="row nomargin">
           <div class="span4">
             <div class="logo">
-              <h1><a href="index.html"><i class="icon-tint"></i> Growing Season</a></h1>
+              <h1><a href="index.jsp"><i class="icon-tint"></i> Growing Season</a></h1>
             </div>
           </div>
           <div class="span8">
@@ -100,12 +98,8 @@ border:none;
                     <li>
                       <a href="#">신청현황</a>
                     </li>
-                    <li class="dropdown">
-                      <a href="#">SNS <i class="icon-angle-down"></i></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="">여기는</a></li>
-                        <li><a href="">모르겠는걸</a></li>
-                      </ul>
+                    <li>
+                      <a href="#">SNS</a>
                     </li>
                     <li class="dropdown">
                       <a href="#">게시판 <i class="icon-angle-down"></i></a>
@@ -408,15 +402,15 @@ border:none;
           <div class="span4">
             <div class="widget">
               <div class="footer_logo">
-                <h3><a href="index.html"><i class="icon-tint"></i> Remember</a></h3>
+                <h3><a href="/index.do"><i class="icon-tint"></i> Growing Season</a></h3>
               </div>
               <address>
-							  <strong>Remember company Inc.</strong><br>
-  							Somestreet KW 101, Park Village W.01<br>
-  							Jakarta 13426 Indonesia
+							  <strong>KOSMO_DEV34</strong><br>
+  							서울시 금천구 가산동<br>
+  							월드메르디앙 2차 4층 410호
   						</address>
               <p>
-                <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891 <br>
+                <i class="icon-phone"></i> 02-2638-5687 <br>
                 <i class="icon-envelope-alt"></i> email@domainname.com
               </p>
             </div>
@@ -425,12 +419,13 @@ border:none;
             <div class="widget">
               <h5 class="widgetheading">Browse pages</h5>
               <ul class="link-list">
-                <li><a href="#">Our company</a></li>
-                <li><a href="#">Terms and conditions</a></li>
-                <li><a href="#">Privacy policy</a></li>
-                <li><a href="#">Press release</a></li>
-                <li><a href="#">What we have done</a></li>
-                <li><a href="#">Our support forum</a></li>
+                <li><a href="/boardnoticelist.do">공지사항</a></li>
+                <li><a href="/apply/all/apply_main.do">신청하기</a></li>
+                <li><a href="/myApplyCondition/all/applyCondition_main.do">신청현황</a></li>
+                <li><a href="/snsmain.do">SNS</a></li>
+                <li><a href="/boardfreelist.do">게시판</a></li>
+                <li><a href="/location/all/farmLocation.do">농장위치확인</a></li>
+                <li><a href="/crolling.do">쇼핑몰</a></li>
               </ul>
 
             </div>
@@ -451,7 +446,7 @@ border:none;
           <div class="row">
             <div class="span6">
               <div class="copyright">
-                <p><span>&copy; Remember Inc. All right reserved</span></p>
+                <p><span>&copy; Growing Season. All right reserved</span></p>
               </div>
 
             </div>

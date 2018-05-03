@@ -29,7 +29,7 @@
   <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png" />
   <link rel="shortcut icon" href="/ico/favicon.png" />
   
-  <script src="//code.jquery.com/jquery-latest.min.js"></script>
+  <script src="//code.jquery.com/jquery-latest.min.js"></script> 
 
   <!-- =======================================================
     Theme Name: Remember

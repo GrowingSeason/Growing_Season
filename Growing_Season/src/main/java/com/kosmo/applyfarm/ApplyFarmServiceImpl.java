@@ -14,13 +14,17 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.kosmo.mapper.ApplyFarmMapper;
+import com.kosmo.mapper.MemberMapper;
+import com.kosmo.member.MemberVO;
+import com.kosmo.payment.PaymentVO;
 
 @Service
 public class ApplyFarmServiceImpl implements ApplyFarmService {
 	
 	@Autowired
 	private ApplyFarmMapper applyFarmMapper;
-	
+	@Autowired
+	private MemberMapper dao;
 	@Autowired
 	private SmsAuth smsAuth;
 	
@@ -38,11 +42,15 @@ public class ApplyFarmServiceImpl implements ApplyFarmService {
 		return farmAreaInfo;
 	}
 	public ArrayList<FarmInfoVO> myApplyFarmInfo(int mseq, int year){
-		HashMap<String, Integer> map = new HashMap();
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("mseq", mseq);
 		map.put("year", year);
+		
 		return applyFarmMapper.myApplyFarmInfo(map);
 		
+	}
+	public HashMap<String, Object> checkHaveFarm(int mseq, int year){
+		return applyFarmMapper.checkMyFarm(mseq, year);
 	}
 	public void inserttemp(AreaYearVO vo){
 		applyFarmMapper.insertAreaNO(vo);
@@ -65,7 +73,7 @@ public class ApplyFarmServiceImpl implements ApplyFarmService {
 	public boolean sendSmsAuthNumber(String phoneNumber){
 		
 		String smsAuthNumber = smsAuth.getAuthNumber(phoneNumber);
-	/*	
+		
 		HashMap resMap = new HashMap();
 	
 		RestTemplate template = new RestTemplate();
@@ -101,7 +109,7 @@ public class ApplyFarmServiceImpl implements ApplyFarmService {
 		System.out.println(res);
 		
 		System.out.println(resMap.get("sent"));
-	 */
+	 
 	
 		//if(res.getStatusCode().toString().equals("200")){
 			HashMap<String, Object> sendSmsMap = new HashMap<String, Object>();
@@ -141,5 +149,27 @@ public class ApplyFarmServiceImpl implements ApplyFarmService {
 		
 		return returnMap;
 	
+	}
+	public ArrayList<HashMap<String, Object>> selectFarmList(){
+		return applyFarmMapper.selectFarmList();
+		
+	}
+	public void ApplyCompletForMenber(ApplyFarmVO vo, PaymentVO pvo){
+		
+		applyFarmMapper.completeApply(vo);
+		System.out.println(vo.getApseq());
+		pvo.setApseq(vo.getApseq());
+		pvo.setMseq(vo.getMseq());
+		dao.paymentInsertForGarden(pvo);
+	}
+	public void ApplyCompletForNonJoin(ApplyFarmVO vo, PaymentVO pvo){
+		
+		vo.setMid(vo.getApphone());
+		applyFarmMapper.memberInsertForApplyFarmNonJoin(vo);
+		applyFarmMapper.completeApply(vo);
+		System.out.println(vo.getApseq());
+		pvo.setApseq(vo.getApseq());
+		pvo.setMseq(vo.getMseq());
+		dao.paymentInsertForGarden(pvo);
 	}
 }

@@ -34,7 +34,7 @@
 		<div align="center">
 			<nav>
 				<ul class="pagination">
-					<li>${NOTICE_PAGING}</li>
+					${NOTICE_PAGING}
 				</ul>
 			</nav>
 		

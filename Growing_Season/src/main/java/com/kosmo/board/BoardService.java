@@ -41,7 +41,7 @@ public interface BoardService {
 	
 	public int bDeclarationDelete(int bseq);
 	
-	public Map<String,Object> replyList(int sseq, int eseq,int bseq);
+	public Map<String,Object> replyList(int sseq, int eseq, int bseq);
 	
 	public int replyInsert(ReplyVO vo);
 	
@@ -74,5 +74,7 @@ public interface BoardService {
 	public int rdeclarationCount();
 	
 	public ArrayList<BoardVO> bDdetailList();
+	
+	public ArrayList<ReplyVO> rDdetailList();
 	
 }

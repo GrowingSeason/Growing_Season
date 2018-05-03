@@ -13,6 +13,19 @@
 
 	-->
 	
+	<update id="pcodeUpdate" parameterType="com.kosmo.payment.PaymentVO">
+		update apply set pcode = '입금확인' where mseq=#{mseq} and apdivision!='농장'
+	</update>
+	
+	<insert id="paymentInsertForGarden" parameterType="com.kosmo.payment.PaymentVO">
+		insert into paymentlog (pseq,mseq,apseq,pregdate,pprice,ppermit)
+		values(payment_seq.nextval, #{mseq}, #{apseq}, sysdate, #{pprice}, 'Y')
+	</insert>
+	
+	<select id="applyGardenData" parameterType="com.kosmo.garden.ApplyGardenVO" resultType="int">
+		select apseq from apply where mseq=#{mseq} and year=to_char(sysdate,'yyyy') and apdivision!='농장' and apcancel='N'
+	</select>
+	
 	<select id="memIDCheck" parameterType="String" resultType="int">
 		select count(*) from member where mid=#{mid}
 	</select>
@@ -23,7 +36,7 @@
     </select>
 	
 	<select id="memberCount" resultType="Integer">
-		select count(*) cnt from member
+		select count(*) from member where mwithdraw <![CDATA[=]]> 'N' 
 	</select>
 	
 	<select id="memberDetail" parameterType="int" resultType="com.kosmo.member.MemberVO">
@@ -39,7 +52,7 @@
 		from
 		(select
 		 mseq, mid, mphone, mpw, mname, mbirth, memail, maddress, mgender, mmailreceive, mauth, mauthtoken, mregdate
-         from MEMBER where mgubun != 'A' order by mseq desc) t)
+         from MEMBER where mgubun != 'A' and mwithdraw != 'Y' order by mseq desc) t)
 		where rnum <![CDATA[>=]]>
 		#{sseq} and rnum <![CDATA[<=]]>
 		#{eseq}
@@ -50,15 +63,6 @@
 	values(MEMBER_SEQ.NEXTVAL, #{mid}, #{mphone}, #{mpw}, #{mname}, to_date(#{mbirth}, 'YYYY-MM-DD'), #{memail},
  	#{maddress}, #{mgender} , #{mmailreceive}, #{mauth}, #{mauthtoken}, sysdate)
 	</insert>
-	  
-	<insert id="paymentInsert" parameterType="com.kosmo.payment.PaymentVO">
-		insert into paymentlog (pseq,mseq,apseq,pregdate,pprice,ppermit)
-		values(payment_seq.nextval, #{mseq}, #{apseq}, sysdate, #{pprice}, #{ppermit})
-	</insert>
-	
-	<update id="pcodeUpdate" parameterType="com.kosmo.payment.PaymentVO">
-		update apply set pcode = '결제완료' where apseq=#{apseq}
-	</update>
 	
 	<update id="memberUpdate" parameterType="com.kosmo.member.MemberVO">
 		update member

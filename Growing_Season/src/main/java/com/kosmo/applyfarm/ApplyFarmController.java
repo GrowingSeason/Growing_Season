@@ -37,13 +37,13 @@ public class ApplyFarmController {
 	
 	//농장진입 컨트롤러
 	@RequestMapping(value="/applyFarm/all/applyFarm.do")
-	public String applyFarmStart(){
-//		if(세션ok){
-//			return "/applyFarm/user/selectFarmArea.do";
-//		}else{
-//			return "/applyFarm/user/smsauth.do";
-//		}
-		return "/applyFarm/user/smsauth.do";
+	public String applyFarmStart(HttpSession session){
+		if(session.getAttribute("LVL_SESS_MSEQ")==null){
+			return "applyFarm_applyfarm_all_please_loginForapply";
+		}else{
+			return "redirect:/applyFarm/User/selectFarmArea.do";
+		}
+		
 		
 	}
 	
@@ -121,7 +121,7 @@ public class ApplyFarmController {
 		//mseq넣어서 member vo리턴받아 ApplyFarmVO vo에 넣어야함...리턴받은 ApplyFarmVO vo를 모델에 넣을 예정
 		//int mseq = (Integer) session.getAttribute("mseq");
 		
-		int mseq = 2;
+		int mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
 		
 		mav.addObject("MEMBER_DETAIL", memberService.memberDetail(mseq));
 		mav.addObject("APPLY_FARM_VO", vo);
@@ -130,14 +130,35 @@ public class ApplyFarmController {
 		return mav;
 	}
 	
+	//농장확인진입 컨트롤러
+	@RequestMapping(value="/myFarm/all/goCheckFarm.do")
+	public String checkFarmStart(HttpSession session){
+		if(session.getAttribute("LVL_SESS_MSEQ")==null){
+			return "applyFarm_applyfarm_all_please_login";
+		}else{	
+			int mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
+			int check = Integer.parseInt(applyFarmServiceImpl.checkHaveFarm(mseq, thisYear).get("count").toString());
+			System.out.println(check);
+			if(check<1){
+				return "redirect:/myFarm/user/haventFarm.do";
+			}else{
+				
+				return "redirect:/myFarm/user/checkFarm.do";
+			}
+		}
+		
+		
+	}
+	
 	//농장을 신청한 회원이 자신의 농장 구획정보를 확인하는 컨트롤러
 	@RequestMapping(value="/myFarm/user/checkFarm.do")
 	public ModelAndView checkMyFarmArea(HttpSession session){
 		ModelAndView mav = new ModelAndView();
+		
 //		int mseq = Integer.parseInt(session.getAttribute("mseq").toString());
 		//int year = Integer.parseInt(thisYear);
-		
-		mav.addObject("MY_FARM_INFO", applyFarmServiceImpl.myApplyFarmInfo(3, thisYear));
+		int mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
+		mav.addObject("MY_FARM_INFO", applyFarmServiceImpl.myApplyFarmInfo(mseq, thisYear));
 		mav.setViewName("applyFarm_applyfarm_user_myfarm_checkfarm");
 		return mav;
 	}
@@ -147,7 +168,8 @@ public class ApplyFarmController {
 	public ModelAndView cancelMyFarmArea(HttpSession session, ApplyFarmVO vo){
 		ModelAndView mav = new ModelAndView();
 //		int mseq = Integer.parseInt(session.getAttribute("mseq").toString());
-		int mseq = 3; // 세션으로 받아올 예정
+//		int mseq = 3; // 세션으로 받아올 예정
+		int mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
 		vo.setMseq(mseq);
 		vo.setYear(thisYear);
 		applyFarmServiceImpl.cancelMyFarm(vo);
@@ -184,23 +206,55 @@ public class ApplyFarmController {
 		return applyFarmServiceImpl.checkAuthNumber(authNumber, phoneNumber);
 	}
 	
+	@RequestMapping(value="/applyFarm/all/payment.do")
+	public ModelAndView paymentAll(ApplyFarmVO vo, HttpSession session){
+		ModelAndView mav = new ModelAndView();
+		vo.setYear(thisYear);
+		session.setAttribute("FARM_APPLY_VO", vo);
+		mav.setViewName("applyFarm_applyfarm_all_applyfarm_payment");
+
+		return mav;
+	}
+	
+	@RequestMapping(value="/applyFarm/user/payment.do")
+	public ModelAndView paymentUser(ApplyFarmVO vo, HttpSession session){
+		ModelAndView mav = new ModelAndView();
+		int mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
+		vo.setMseq(mseq);
+		vo.setYear(thisYear);
+		System.out.println(vo.getApname());
+		session.setAttribute("FARM_APPLY_VO", vo);
+		mav.setViewName("applyFarm_applyfarm_user_applyfarm_payment");
+
+		return mav;
+	}
+	
 	//농장별 구획 셋팅하는 메서드...임시
 	@RequestMapping(value="/inserttemp.do")
 	public void insert(){
 		AreaYearVO vo = new AreaYearVO();
-		vo.setFgseq(32);
-		for(int i=1;i<=370;i++){
+		vo.setFgseq(123);
+		for(int i=1;i<=50;i++){
 			vo.setAseq(i);
 			System.out.println(vo.getFgseq());
 			System.out.println(vo.getAseq());
 			applyFarmServiceImpl.inserttemp(vo);
 		}
 	}
-	
-	@RequestMapping(value="/test")
+	//인증시작페이지로 이동하는 메서드
+	@RequestMapping(value="/applyFarm/all/smsauthGo.do")
 	public ModelAndView viewTest(){
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("applyFarm_applyfarm_all_applyfarm_smsauth");
+		return mav;
+	}
+	//날씨정보 이동 메서드
+	@RequestMapping(value="/weather/all/weatherInfo.do")
+	public ModelAndView viewWeather(){
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("FARM_INFO",applyFarmServiceImpl.selectFarmInfo(25));
+		mav.addObject("FARM_LIST", applyFarmServiceImpl.selectFarmList());
+		mav.setViewName("applyFarm_applyfarm_all_applyfarm_weatherinfo");
 		return mav;
 	}
 	
