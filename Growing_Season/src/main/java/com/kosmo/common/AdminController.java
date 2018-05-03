@@ -219,7 +219,11 @@ public class AdminController {
 		avo.setEseq(pu.getEndSeq());
 		
 		ArrayList<ApplyVO> list = imp.lottoList(avo);
+		ArrayList<FarmGardenVO> floclist = imp.farmlocationList(fgvo);
+		ArrayList<FarmGardenVO> fnamelist = imp.farmnameList(fgvo);
 		
+		mav.addObject("LVL_FLOC", floclist);
+		mav.addObject("LVL_FNAME", fnamelist);
 		mav.addObject("LVL_PAGING", html);
 		mav.addObject("LVL_LIST", list);
 		mav.addObject("LVL_COUNT", totalcount);
@@ -232,25 +236,28 @@ public class AdminController {
 	public String lotto(FarmGardenVO fgvo , ApplyVO avo, HttpServletRequest request, HttpServletResponse response) {
 		
 		int res = 0;
-		
 		ArrayList<FarmGardenVO> areaList = imp.locnameAreaCount(fgvo);
 		avo.setFgvo(fgvo);
 		ArrayList<ApplyVO> applyList = imp.locnameApply(avo);
+		for(int i=0; i<applyList.size(); i++) {
+			System.out.println(applyList.get(i).getApname());
+		}
 		
 		HashSet<ApplyVO> applyMap = new HashSet<ApplyVO>();
 		
 		for(; applyMap.size()<areaList.size(); ) {
 			applyMap.add(applyList.get(applyMap.size()));
-			System.out.println("맵 사이즈" + applyMap.size());
+			if(applyMap.size()==applyList.size()){
+				break;
+			}
 		}
-		
 		Iterator<ApplyVO> applyIt = applyMap.iterator();
-		int i=1;
+		int j=1;
 		while(applyIt.hasNext()) {
 			avo.setApseq(applyIt.next().getApseq());
-			avo.setAseq(i);
+			avo.setAseq(j);
 			res = imp.lottoUpdate(avo);
-			i++;
+			j++;
 		}
 		
 		ModelAndView mav = new ModelAndView();

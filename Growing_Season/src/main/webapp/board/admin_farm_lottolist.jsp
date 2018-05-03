@@ -34,7 +34,23 @@
 			<input type="button" class="btn btn-default" value="신청서 리스트" onClick="location.href='/alist.do'">
 		</div>
 		<br>
-		<div class="bs-docs-example">
+		<div class="row">
+			<div class="span6">
+				<div class="span2">
+					<select class="form-control" id="loc" style="width:150px">
+						<option value="">선택해주세요</option>
+						<c:forEach items="${LVL_FLOC}" var="vo">
+							<option value="${vo.fglocation}">${vo.fglocation}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="span2">
+							<select class="form-control" id="name" style="width:150px">
+							</select>
+						</div>
+				<div class="bs-docs-example">
+			</div>
+		</div>
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -76,5 +92,38 @@
 </div>
 </section>
 <script>
+
+		$('#loc').change(
+				function() {
 	
+					alert($(this).val());
+					var data = {
+						"fglocation" : $("#loc option:selected").val()
+					};
+	
+					$.ajax({
+						url : "/flist.do",
+						dataType : "json",
+						headers : {
+							"Content-Type" : "application/json"
+						},
+						data : JSON.stringify(data),
+						type : "post",
+						success : function(result) {
+							var htmlStr = "";
+	
+							$("#name").empty();
+							$("#name").append("<option>선택해주세요</option>");
+							$.each(result.LVL_RLIST, function(i, v) {
+								$("#name").append(
+										"<option value="+ v.fgseq + ">" + v.fgname
+												+ "</option>");
+							});
+						}
+					});
+				});
+	
+		$('#name').change(function() {
+			$('#fgseq').attr('value', $('#name').val());
+		});
 </script>
