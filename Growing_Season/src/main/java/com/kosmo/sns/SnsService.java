@@ -14,7 +14,7 @@ public interface SnsService {
 	public ArrayList<SnsFeedVO> snsFeedList();
 	
 //	sns댓글리스트
-	public Map<String , Object> snsCommentList(int feseq,int sseq,int eseq);
+	public Map<String , Object> snsCommentList(int feseq,int sseq,int eseq,int mseq);
 	
 //	팔로워리스트
 	public ArrayList<SnsFeedVO> snsFollowersList(int mseq);

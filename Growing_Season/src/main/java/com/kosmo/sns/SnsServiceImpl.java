@@ -25,28 +25,44 @@ public class SnsServiceImpl implements SnsService{
 	}
 	
 	@Override
-	public Map<String , Object> snsCommentList(int feseq,int sseq,int eseq) {
+	public Map<String , Object> snsCommentList(int feseq,int sseq,int eseq,int mseq) {
 		SnsFeedVO fvo=snsdao.snsFeedDetail(feseq);
 		SnsFeedVO hList=snsdao.snsHashtagList(feseq);
 		SnsImgVO iList=snsdao.snsImgdetail(feseq);
 		int snslike=snsdao.snsLike(feseq);
 		ArrayList<SnsCommentVO> clist=snsdao.snsCommentList(feseq, sseq, eseq);
 //		ArrayList<SnsFeedVO> felist=snsdao.snsFollowersList(fvo.getMseq());
-//		ArrayList<SnsFeedVO> filist=snsdao.snsFollowingList(fvo.getMseq());
+//		ArrayList<c> filist=snsdao.snsFollowingList(fvo.getMseq());
+		SnsFeedVO vo=new SnsFeedVO();
+		vo.setMseq(mseq);
+		vo.setFeseq(feseq);
+		int res=0;
+		try{
+			res=snsdao.snsLikeCheck(vo);
+		}catch(BindingException e){
+
+		}
+		System.out.println(res+"좋아요 체크 후 넘어온 mseq");
+		System.out.println(vo.getMseq()+"디테일 좋아요 넘어간 mseq");
+		String like=null;
+		if(vo.getMseq()==res){
+			like="on";
+		} else {
+			like="off";
+		}
 		
-		
+		System.out.println(like+"종아요 누른 횟수");
 		int fecnt=snsdao.snsFollwersCnt(fvo.getMseq()); //글쓴이
 		int ficnt=snsdao.snsFollwingCnt(fvo.getMseq());	//글쓴이
 		Map<String , Object> map = new HashMap<String , Object>();
 		map.put("cList", clist);
 		map.put("fDetail", fvo);
-//		map.put("feList", felist);
-//		map.put("fiList", filist);
 		map.put("hList", hList);
 		map.put("iList", iList);
 		map.put("feCnt", fecnt);
 		map.put("fiCnt", ficnt);
 		map.put("snsLike", snslike);
+		map.put("like", like);
 		
 		return map;
 	}

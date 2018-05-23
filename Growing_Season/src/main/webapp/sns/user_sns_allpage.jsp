@@ -83,11 +83,11 @@ $("#followingbtn").click(function() {
                <td rowspan="2" width="400"><img src='h.gif' width=""></td>
              
                <td colspan="2">
-               <button id="followerbtn" class="btn btn-primary">
+               <button id="followerbtn" class="btn animated infinite pulse btn-primary">
 						<div class="day">${SNS_FOLLOWER_CNT}</div>
 						<div class="month">Follower</div>
 						</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<button id="followingbtn" class="btn btn-primary">
+						<button id="followingbtn" class="btn animated infinite pulse btn-primary">
 						<div class="day">${SNS_FOLLOWING_CNT}</div>
 						<div class="month">Following</div>
 						</button>

@@ -57,9 +57,16 @@ public class SnsController {
 	 */
 	@RequestMapping(value="/snsdetail.do")
 	public ModelAndView snsdetail(
+			HttpSession session,
 			 @RequestParam ("feseq") int feseq
 			,@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage
 			) {
+		
+		int mseq = 0;
+		if(session.getAttribute("LVL_SESS_MSEQ") != null) {
+			mseq = Integer.parseInt(session.getAttribute("LVL_SESS_MSEQ").toString());
+		}
+		
 		ModelAndView mav = new ModelAndView();
 		System.out.println("컨트롤러 디테일");
 				
@@ -75,7 +82,7 @@ public class SnsController {
 				);
 		String  html = pu.getPagingHtml();
 
-		Map<String , Object> map=service.snsCommentList(feseq, pu.getStartSeq(), pu.getEndSeq());
+		Map<String , Object> map=service.snsCommentList(feseq, pu.getStartSeq(), pu.getEndSeq(),mseq);
 		mav.addObject("SNS_HASHTAG_LIST", map.get("hList"));
 		mav.addObject("SNS_IMAGE_LIST", map.get("iList"));
 		mav.addObject("SNS_FOLLOWER_LIST", map.get("feList"));
@@ -86,6 +93,9 @@ public class SnsController {
 		mav.addObject("SNS_FOLLOWING_CNT", map.get("fiCnt"));
 		mav.addObject("SNS_LIKE_CNT", map.get("snsLike"));
 		mav.addObject("SNS_COMMENT_PAGING", html);
+		mav.addObject("SNS_LIKE", map.get("like"));
+		
+		System.out.println(map.get("like")+"좋아요 test");
 		
 		mav.setViewName("sns_sns_user_sns_detail");
 		System.out.println("디테일 페이지 모달");
@@ -288,6 +298,8 @@ public class SnsController {
 		map.put("SNS_LIKE_CNT",likecnt);
 		return map;
 	}
+	
+	
 
 	
 	/**

@@ -9,85 +9,7 @@ background-color: white;
 }
 </style>
 
-<script>
-	$(function() {
-		function convertArrayToJson(formArray) { //serialize data function
-			var returnArray = {};
-			for (var i = 0; i < formArray.length; i++) {
-				returnArray[formArray[i]['name']] = formArray[i]['value'];
-			}
-			return returnArray;
-		}
 
-		$("#snslike").click(function() {
-			alert($("#feseq").val());
-			var jsonObjectData = {
-					"feseq" : $("#feseq").val(),
-					
-				};
-			$.ajax({
-				type:"post",
-				url:"/snsLikeInsert.do",
-				//data:jsonObjectData,
-				headers: {
-			        'Accept': 'application/json',
-			        'Content-Type': 'application/json'
-			    },
-				dataType: "json",
-				//data:JSON.stringify(jsonObjectData),
-				data:// $.param(
-              	 JSON.stringify(jsonObjectData),
-              	success:function(result, textStatus, xhr) {
-					console.log(result);
-					 console.log(xhr.status);
-					 
-					var htmlStr = "";
-					
-					if(xhr.status == 200 && result.SNS_LIKE_IN == "del") {
-						alert("좋아요취소");
-					} else if(xhr.status == 200 && result.SNS_LIKE_IN == "in") {
-						alert("좋아요");
-					}
-				location.reload();
-				}
-			});
-		});
-		$("#follower").click(function() {
-			alert($("#feseq").val());
-			var jsonObjectData = {
-					"feseq" : $("#feseq").val(),
-					"fmseq" : $("#fmseq").val()  //글쓴이번호
-				};
-			$.ajax({
-				type:"post",
-				url:"/snsFollowersInsert.do",
-				//data:jsonObjectData,
-				headers: {
-			        'Accept': 'application/json',
-			        'Content-Type': 'application/json'
-			    },
-				dataType: "json",
-				//data:JSON.stringify(jsonObjectData),
-				data:// $.param(
-              	 JSON.stringify(jsonObjectData),
-              	success:function(result, textStatus, xhr) {
-					console.log(result);
-					 console.log(xhr.status);
-					 
-					var htmlStr = "";
-					
-					if(xhr.status == 200 && result.SNS_FOLLOW_IN == "del") {
-						alert("팔로우 해제 되었습니다");
-					} else if(xhr.status == 200 && result.SNS_FOLLOW_IN == "in") {
-						alert("팔로우 되었습니다");
-					}
-				location.reload();
-				}
-			});
-		});	
-		
-	});
-</script>
 
 <section id="content" style="background-color: white;">
 	<!---728x90--->
@@ -114,11 +36,24 @@ background-color: white;
 				</tr>
 				<tr align="center">
 				<td style="padding-top: 15px; padding-bottom: 15px;">
-				<button id="snslike"
-					class='icon-heart animated infinite pulse btn-color'>${SNS_LIKE_CNT}</button>
-				&nbsp;&nbsp;
+				<div class="like">
+				
 				<button class='icon-fighter-jet animated infinite pulse btn-color'
 					onClick='location.href="/snsFollowerspage.do?feseq=${SNS_DETAIL.feseq}&fmseq=${SNS_DETAIL.mseq}"'>놀러가기</button>
+				&nbsp;&nbsp;
+				<c:choose>
+				<c:when test="${SNS_LIKE == 'on'}">
+				<button id="snslike" style="display: show;"
+					class='icon-heart animated infinite pulse btn-color'>${SNS_LIKE_CNT}</button>
+					</c:when>
+				</c:choose>
+				<c:choose>
+				<c:when test="${SNS_LIKE == 'off'}">
+				<button id="snslike" style="display: show;"
+					class='icon-heart-empty animated infinite pulse btn-color'>${SNS_LIKE_CNT}</button>
+					</c:when>
+				</c:choose>
+				</div>
 				</td>
 				</tr>
 			  <tr style="padding-bottom: 15px;">
@@ -159,9 +94,9 @@ background-color: white;
 						<c:when test="${LVL_SESS_MSEQ > 0}">
 							<label for="ex_input">댓글</label>
 							<input type="text"
-								style="display: inline; height: 10px; width: 400px; margin: 25px 20px 75px;"
+								style="display: inline; height: 10px; width: 400px; margin: 15px 10px 10px;"
 								placeholder="댓글을 작성 해주세요" name="sccon" value="">
-							<input type="button" value="입력" onClick="goInsert()">
+							<input class="" type="button" value="입력" onClick="goInsert()">
 						</c:when>
 					</c:choose>
 					</form>
@@ -272,4 +207,84 @@ function btnupdate() {
 	$(".cdupdate").submit();
 }
 
+</script>
+
+<script>
+	$(function() {
+		function convertArrayToJson(formArray) { //serialize data function
+			var returnArray = {};
+			for (var i = 0; i < formArray.length; i++) {
+				returnArray[formArray[i]['name']] = formArray[i]['value'];
+			}
+			return returnArray;
+		}
+
+		$("#snslike").click(function() {
+			alert($("#feseq").val());
+			var jsonObjectData = {
+					"feseq" : $("#feseq").val(),
+					
+				};
+			$.ajax({
+				type:"post",
+				url:"/snsLikeInsert.do",
+				//data:jsonObjectData,
+				headers: {
+			        'Accept': 'application/json',
+			        'Content-Type': 'application/json'
+			    },
+				dataType: "json",
+				//data:JSON.stringify(jsonObjectData),
+				data:// $.param(
+              	 JSON.stringify(jsonObjectData),
+              	success:function(result, textStatus, xhr) {
+					console.log(result);
+					 console.log(xhr.status);
+					 
+					var htmlStr = "";
+					
+					if(xhr.status == 200 && result.SNS_LIKE_IN == "del") {
+						alert("좋아요취소");
+					} else if(xhr.status == 200 && result.SNS_LIKE_IN == "in") {
+						alert("좋아요");
+					}
+				location.reload();
+				}
+			});
+		});
+		$("#follower").click(function() {
+			alert($("#feseq").val());
+			var jsonObjectData = {
+					"feseq" : $("#feseq").val(),
+					"fmseq" : $("#fmseq").val()  //글쓴이번호
+				};
+			$.ajax({
+				type:"post",
+				url:"/snsFollowersInsert.do",
+				//data:jsonObjectData,
+				headers: {
+			        'Accept': 'application/json',
+			        'Content-Type': 'application/json'
+			    },
+				dataType: "json",
+				//data:JSON.stringify(jsonObjectData),
+				data:// $.param(
+              	 JSON.stringify(jsonObjectData),
+              	success:function(result, textStatus, xhr) {
+					console.log(result);
+					 console.log(xhr.status);
+					 
+					var htmlStr = "";
+					
+					if(xhr.status == 200 && result.SNS_FOLLOW_IN == "del") {
+						alert("팔로우 해제 되었습니다");
+					} else if(xhr.status == 200 && result.SNS_FOLLOW_IN == "in") {
+						alert("팔로우 되었습니다");
+					}
+				location.reload();
+				}
+			});
+		});	
+		
+	});
 </script>

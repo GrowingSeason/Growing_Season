@@ -87,10 +87,14 @@
                </span>
             </div>
          </form>
+         <c:choose>
+					<c:when test="${LVL_SESS_MSEQ != null}">
          <div align="right">
          	<button class="btn btn-color" value="글쓰기" style="width:200px;">
             	<a href="/snsMypage.do"><b><font color="white">마이페이지로</font></b></a></button>
         </div>
+            	</c:when>
+				</c:choose>
 		 </div><br><br><br>
 		<div class="span12">
 		<div id="returnFalse" class="row" align="center">
