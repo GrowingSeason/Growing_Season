@@ -1,6 +1,7 @@
 package com.kosmo.mapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kosmo.sns.DeclarationVO;
 import com.kosmo.sns.SnsCommentVO;
+import com.kosmo.sns.SnsFarmVO;
 import com.kosmo.sns.SnsFeedVO;
 import com.kosmo.sns.SnsImgVO;
 
@@ -168,5 +170,20 @@ public interface SnsMapper {
 			@Param("mseq") int mseq ,
 			@Param("fmseq") int fmseq
 			);
+	
+//	농장지역
+	public ArrayList<SnsFarmVO> snsFarmLocation();
+	
+//	농장지역에 따른 농장 이름
+	public ArrayList<SnsFarmVO> snsFarmName(@Param("fglocation") String fglocation);
+	
+//	농장 구획 행, 열, 전체 구획수
+	public HashMap<String, Object> snsselectFarmArea(@Param("fgseq") int fgseq);
+	
+//	입금완료 및 구획 배정된 회원
+	public ArrayList<SnsFarmVO> snsFarmcomplete(@Param("fgseq") int fgseq);
+	
+//	농장 구획 놀러가기 팔로워 페이지 이동
+	public Map<String , Object> snsfarmFollowerService(@Param("mseq") int mseq);
 	
 }

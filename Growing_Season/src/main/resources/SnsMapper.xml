@@ -157,7 +157,8 @@ update snscomment set scdelete='Y' where scseq=#{scseq} and feseq=#{feseq}
 </select>
 
 <select id="hashtagSearch" parameterType="map" resultType="com.kosmo.sns.SnsFeedVO">
-select h.htseq, h.feseq, h.htcon, i.feimgname from hashtag h,snsimage i where h.feseq=i.feseq and htcon like '%' || #{searchStr} || '%'
+select h.htseq, h.feseq, h.htcon, i.feimgname from hashtag h,snsimage i where h.feseq=i.feseq 
+and htcon like '%' || #{searchStr} || '%'
 </select>
 
 <select id="snsMypage" parameterType="int" resultType="com.kosmo.sns.SnsFeedVO">
@@ -226,6 +227,25 @@ delete from snsimage where feseq=#{feseq}
 select feseq,feimgname,feimgpath,feimgsize from snsimage where feseq=#{feseq}
 </select>
 
+<select id="snsFarmLocation" resultType="String">
+select fglocation from farm_garden where fgdelete='n' group by fglocation
+</select>
 
+<select id="snsFarmName" parameterType="String" resultType="com.kosmo.sns.SnsFarmVO">
+select fgname, fgseq from farm_garden where fglocation = #{fglocation} and fgdelete='n' group by fgname, fgseq
+</select>
+
+<select id="snsselectFarmArea" resultType="hashmap">
+	select fgcol, fgrow, fgtotalarea from farm_garden where fgseq = #{fgseq}
+</select>
+
+<select id="snsFarmcomplete" parameterType="int" resultType="com.kosmo.sns.SnsFarmVO">
+	select nvl(m.mseq,0) as mseq, nvl(m.mid,'미정') as mid,
+	a.aseq, nvl(ay.pcode, '대기') as pcode
+	from area a, apply ay, member m
+	where a.aseq=ay.aseq(+)	and m.mseq(+)=ay.mseq	
+    and a.fgseq=#{fgseq}
+	order by a.aseq
+</select>
 
 </mapper>

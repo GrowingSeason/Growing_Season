@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.itextpdf.text.log.SysoCounter;
 import com.kosmo.common.PagingUtil;
 
 @Controller
@@ -86,7 +87,7 @@ public class SnsController {
 		mav.addObject("SNS_LIKE_CNT", map.get("snsLike"));
 		mav.addObject("SNS_COMMENT_PAGING", html);
 		
-		mav.setViewName("sns_sns_all_sns_detail");
+		mav.setViewName("sns_sns_user_sns_detail");
 		System.out.println("디테일 페이지 모달");
 		return mav;
 	}
@@ -489,5 +490,52 @@ public class SnsController {
 		map.put("SNS_HASHTAGSERCH_LIST",list);
 		return map;
 	}
+
+//	놀러가기 메인
+	@RequestMapping(value = "/snsfarmvisit.do")
+	public ModelAndView snsfarmvisit(HttpSession session){
+				//게시물 목록 가져오기
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("SNS_FARM_LIST", service.snsFarmLocation());
+		mav.setViewName("sns_sns_all_sns_visit");
+		return mav;
+	}
 	
+	//지역선택시 해당 지역의 농장명 리스트를 가져오는 메서드
+	@RequestMapping(value="/snsfarmname.do")
+	@ResponseBody
+	public ArrayList<SnsFarmVO> snsfarmname(@RequestParam String fglocation){
+		return service.snsFarmName(fglocation);
+	}
+
+	//농장선택시 해당 농장의 구획정보를 가져오는 메서드
+	@RequestMapping(value="/snsfarmarea.do")
+	@ResponseBody
+	public HashMap<String, Object> snsfarmarea(@RequestParam int fgseq){
+		return service.snsselectFarmArea(fgseq);
+	}
+	
+	@RequestMapping(value="/snsvisitfollow.do")
+	public ModelAndView snsvisitfollow(@RequestParam int mseq){
+		System.out.println(mseq+"농장에서 넘어온 mseq");
+		
+		Map<String , Object> list=service.snsfarmFollowerService(mseq);
+		ArrayList<SnsFeedVO> alist=(ArrayList<SnsFeedVO>)list.get("allList");
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("SNS_FOLLOW_LIST",list.get("fList"));
+		mav.addObject("SNS_ALL_LIST",list.get("allList"));
+		mav.addObject("SNS_FOLLOWER_LIST",list.get("feList"));
+		mav.addObject("SNS_FOLLOWING_LIST",list.get("fiList"));
+		mav.addObject("SNS_FOLLOWER_CNT",list.get("fecnt"));
+		mav.addObject("SNS_FOLLOWING_CNT",list.get("ficnt"));
+		System.out.println(alist.size());
+		if(alist.size()<=0){
+			mav.setViewName("sns_sns_user_sns_followerspage");
+		} else if (alist.size()>=1){
+			mav.setViewName("sns_sns_user_sns_allpage");
+		}
+
+		return mav;
+	}
+
 }

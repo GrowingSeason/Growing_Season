@@ -7,7 +7,8 @@
 <link rel="shortcut icon" type="image/x-icon" href="//static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
 <link rel="mask-icon" type="" href="//static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
 <link rel="canonical" href="https://codepen.io/andytran/pen/BNjymy/" />
-<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
+<!-- 
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>  -->
 <link rel='stylesheet prefetch' href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
 
 <style class="cp-pen-styles">
@@ -28,7 +29,7 @@
   -o-transition: all 0.3s linear 0s;
   transition: all 0.3s linear 0s;
 }
-.post-module:hover,
+/* .post-module:hover,
 .hover {
   -webkit-box-shadow: 0px 1px 35px 0px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0px 1px 35px 0px rgba(0, 0, 0, 0.3);
@@ -40,9 +41,9 @@
   -moz-transform: scale(1.1);
   transform: scale(1.1);
   opacity: .6;
-}
+} */
 .post-module .thumbnail {
-  background: #01a026;
+  background: #000000;
   height: 100px;
   overflow: hidden;
 }
@@ -137,11 +138,11 @@
   color: #999999;
   text-decoration: none;
 }
-.hover .post-content .description {
+/* .hover .post-content .description {
   display: block !important;
   height: auto !important;
   opacity: 1 !important;
-}
+} 
 .container {
   max-width: 800px;
   min-width: 640px;
@@ -190,7 +191,7 @@
 }	
 .container .info span .fa {
   color: #e74c3c;
-}
+} */
 
 /*     
    body {
@@ -379,17 +380,18 @@
 				&nbsp;&nbsp;
 				<button class='icon-fighter-jet animated infinite pulse btn-color'
 					onClick='location.href="/snsFollowerspage.do?feseq=${SNS_DETAIL.feseq}&fmseq=${SNS_DETAIL.mseq}"'>놀러가기</button>
+				
 				<c:choose>
 					<c:when test="${LVL_SESS_MSEQ == SNS_DETAIL.mseq}">
 						<a href="#testModal" class="btn btn-color pull-right"
 							data-toggle="modal">수정</a>
-						<button class='btn btn-danger pull-right'
+						<button class='btn btn-warning pull-right'
 							onClick='location.href="/snsFeedDelete.do?feseq=${SNS_DETAIL.feseq}"'>삭제</button>
 					</c:when>
 				</c:choose>
 				<c:choose>
 					<c:when test="${LVL_SESS_MSEQ != SNS_DETAIL.mseq}">
-						<button id="fdreasen" class="btn btn-warning pull-right">신고</button>
+						<button id="fdreasen" class="btn btn-color pull-right">신고</button>
 					</c:when>
 				</c:choose>
 				
@@ -400,16 +402,14 @@
 										<input type='text' id='fdcon'
 											style='display: none; height: 10px; width: 400px; margin: 25px 20px 75px;'
 											placeholder='feed 신고이유를 적어주세요' name='fdcon' value=''>
-										<button id="btnfreason" class='btn btn-warning'
+										<button id="btnfreason" class='btn btn-color'
 											onClick='fdreason()' style="display: none;">확인</button>
 									</div>
 								</form>
 				<div class="post-meta">
 					<!-- SNS : 글쓴이번호 (하단 폼안에 넣지 말것~!) -->
-					<input id="fmseq" type="hidden" name="fmseq"
-						value="${SNS_DETAIL.mseq}">
-						<input id="feseq" type="hidden" name="feseq"
-						value="${SNS_DETAIL.feseq}">
+					<input id="fmseq" type="hidden" name="fmseq" value="${SNS_DETAIL.mseq}">
+					<input id="feseq" type="hidden" name="feseq" value="${SNS_DETAIL.feseq}">
 
 					<!-- 커맨트 작성 -->
 					<form action="/snscommentInsert.do" class="commentInsert">
@@ -443,7 +443,7 @@
 									<c:choose>
 										<c:when test="${LVL_SESS_MSEQ == vo.mseq}">
 											<td style="cursor: pointer;">
-											<button id="update" class="btn btn-warning">수정</button>
+											<button id="update" class="btn btn-color">수정</button>
 											<td style="cursor: pointer;">
 											<a href="/snsCommentDelete.do?scseq=${vo.scseq}&feseq=${vo.feseq}">삭제</a>
 											</td>
@@ -451,7 +451,7 @@
 									</c:choose>
 									<td><c:choose>
 											<c:when test="${LVL_SESS_MSEQ != vo.mseq}">
-												<button id="cdreasen" class="btn btn-warning">신고</button>
+												<button id="cdreasen" class="btn btn-color">신고</button>
 											</c:when>
 										</c:choose></td>
 								</tr>
@@ -463,7 +463,7 @@
 										<input type='text' id='cdcon'
 											style='display: none; height: 10px; width: 400px; margin: 25px 20px 75px;'
 											placeholder='reply 신고이유를 적어주세요' name='cdcon' value=''>
-										<button id="btncreason" class='btn btn-warning'
+										<button id="btncreason" class='btn btn-color'
 											onClick='creason()' style="display: none;">확인</button>
 									</div>
 								</form>
@@ -475,7 +475,7 @@
 										<input type='text' id='sccon'
 											style='display: none; height: 10px; width: 400px; margin: 25px 20px 75px;'
 											placeholder='수정할 내용을 적어주세요' name='sccon' value=''>
-										<button id="btnupdate" class='btn btn-warning'
+										<button id="btnupdate" class='btn btn-color'
 											onClick='btnupdate()' style="display: none;">확인</button>
 									</div>
 								</form>

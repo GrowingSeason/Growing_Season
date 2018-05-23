@@ -423,22 +423,67 @@ public class SnsServiceImpl implements SnsService{
 
 	@Override
 	public int snsFollwersCnt(int mseq) {
-		// TODO Auto-generated method stub
+		
 		return snsdao.snsFollwersCnt(mseq);
 	}
 
 	@Override
 	public int snsFollwingCnt(int mseq) {
-		// TODO Auto-generated method stub
+		
 		return snsdao.snsFollwingCnt(mseq);
 	}
 
 	@Override
 	public ArrayList<DeclarationVO> snsfDeclarationList(int sseq, int eseq) {
-		// TODO Auto-generated method stub
+		
 		return snsdao.snsfDeclarationList(sseq, eseq);
 	}
 
+	@Override
+	public ArrayList<SnsFarmVO> snsFarmLocation() {
+		
+		return snsdao.snsFarmLocation();
+	}
+
+	@Override
+	public ArrayList<SnsFarmVO> snsFarmName(String fglocation) {
+		
+		return snsdao.snsFarmName(fglocation);
+	}
+
+	@Override
+	public HashMap<String, Object> snsselectFarmArea(int fgseq) {
+		HashMap<String, Object> map=snsdao.snsselectFarmArea(fgseq);
+		map.put("complete", snsdao.snsFarmcomplete(fgseq));
+		return map;
+	}
+
+	@Override
+	public ArrayList<SnsFarmVO> snsFarmcomplete(int fgseq) {
+		
+		return snsdao.snsFarmcomplete(fgseq);
+	}
+
+	@Override
+	public Map<String , Object> snsfarmFollowerService(int mseq) {
+
+		
+		ArrayList<SnsFeedVO> fList= snsdao.snsFollowerspage(mseq);
+		ArrayList<SnsFeedVO> allList= snsdao.snsallpage(mseq);
+		ArrayList<SnsFeedVO> feList=snsdao.snsFollowersList(mseq);
+		ArrayList<SnsFeedVO> fiList=snsdao.snsFollowingList(mseq);
+		int fecnt=snsdao.snsFollwersCnt(mseq);
+		int ficnt=snsdao.snsFollwingCnt(mseq);
+		
+		Map<String , Object> map = new HashMap<String , Object>();
+		map.put("feList", feList);
+		map.put("fiList", fiList);
+		map.put("fecnt", fecnt);
+		map.put("ficnt", ficnt);
+		map.put("allList", allList);
+		map.put("fList", fList);
+		return map;
+	}
 
 
 
