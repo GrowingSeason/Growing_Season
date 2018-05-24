@@ -165,7 +165,7 @@
 		<div>
 			<select class="form-control" id="loc" style="width:150px">
 				<option value="">선택해주세요</option>
-				<c:forEach items="${LVL_FLOC}" var="vo">
+				<c:forEach items="${LVL_FIELD}" var="vo">
 					<option value="${vo.fglocation}">${vo.fglocation}</option>
 				</c:forEach>
 			</select>

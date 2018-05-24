@@ -35,5 +35,6 @@ public interface FarmAdminMapper {
 	public ArrayList<ApplyVO> winnerList(ApplyVO avo);
 	public int returnUpdate(DocumentVO dvo);
 	public int assignUpdate(int mseq);
+	public ArrayList<FarmGardenVO> fieldList(FarmGardenVO fgvo);
 	
 }

@@ -39,7 +39,7 @@
 				<div class="span2">
 					<select class="form-control" id="loc" style="width:150px">
 						<option value="">선택해주세요</option>
-						<c:forEach items="${LVL_FLOC}" var="vo">
+						<c:forEach items="${LVL_FIELD}" var="vo">
 							<option value="${vo.fglocation}">${vo.fglocation}</option>
 						</c:forEach>
 					</select>
@@ -47,10 +47,10 @@
 				<div class="span2">
 							<select class="form-control" id="name" style="width:150px">
 							</select>
-						</div>
+				</div>
 				<div class="bs-docs-example">
+				</div>
 			</div>
-		</div>
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -65,7 +65,7 @@
 						<th>텃밭취소여부</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="tr">
 				
 				<c:forEach items="${LVL_LIST}" var="avo"> 
 					<tr>
@@ -93,10 +93,7 @@
 </section>
 <script>
 
-		$('#loc').change(
-				function() {
-	
-					alert($(this).val());
+		$('#loc').change(function() {
 					var data = {
 						"fglocation" : $("#loc option:selected").val()
 					};
@@ -115,9 +112,7 @@
 							$("#name").empty();
 							$("#name").append("<option>선택해주세요</option>");
 							$.each(result.LVL_RLIST, function(i, v) {
-								$("#name").append(
-										"<option value="+ v.fgseq + ">" + v.fgname
-												+ "</option>");
+								$("#name").append("<option value="+ v.fgseq + ">" + v.fgname + "</option>");
 							});
 						}
 					});
@@ -125,5 +120,33 @@
 	
 		$('#name').change(function() {
 			$('#fgseq').attr('value', $('#name').val());
+			var data = {"fgseq" : $("#name option:selected").val()}
+			
+			$.ajax({
+				url : "/winlist.do",
+				dataType : "json",
+				headers : {
+					"Content-Type" : "application/json"
+				},
+				data : JSON.stringify(data),
+				type : "post",
+				success : function(result) {
+					$("#tr").empty();
+					$.each(result , function(i,v){
+						$("#tr").append("<tr>");
+						$("#tr").append("<td>"+v.apdivision+"</td>");
+						$("#tr").append("<td>"+v.apseq+"</td>");
+						$("#tr").append("<td>"+v.mseq+"</td>");
+						$("#tr").append("<td>"+v.apname+"</td>");
+						$("#tr").append("<td>"+v.apphone+"</td>");
+						$("#tr").append("<td>"+v.apemail+"</td>");
+						$("#tr").append("<td>"+v.apdate+"</td>");
+						$("#tr").append("<td>"+v.awinner+"</td>");
+						$("#tr").append("<td>"+v.apcancel+"</td>");
+						$("#tr").append("</tr>");
+					});
+					
+				}
+			}); 
 		});
 </script>

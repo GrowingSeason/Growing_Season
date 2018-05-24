@@ -140,6 +140,12 @@ public class FarmAdminServiceImpl implements FarmAdminService {
 		return res;
 	}
 
-	
+	@Override
+	public ArrayList<FarmGardenVO> fieldList(FarmGardenVO fgvo) {
+		ArrayList<FarmGardenVO> list = dao.fieldList(fgvo);
+		return list;
+	}
+
+
 	
 }
