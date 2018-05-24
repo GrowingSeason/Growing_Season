@@ -691,7 +691,6 @@ public class GardenController {
 	    
 	    
 	    String[] array = new String[list.size()];
-	    String temp = "";
 	    
 	    System.out.println(list.size());
 	    System.out.println(array.length);
