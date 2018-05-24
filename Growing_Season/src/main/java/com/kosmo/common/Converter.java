@@ -38,7 +38,7 @@ public class Converter {
 	public static void pptx2png(InputStream in, OutputStream out) throws IOException {
 
 		File tempFile = File.createTempFile("tempfile", ".ppt");
-		
+		//^ㅇ^
 		FileUtils.copyInputStreamToFile(in, tempFile); 
 		FileInputStream fileInputStream = new FileInputStream(tempFile);
 		XMLSlideShow ppt = null;

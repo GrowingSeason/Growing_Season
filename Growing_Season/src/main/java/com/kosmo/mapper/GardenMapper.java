@@ -27,6 +27,7 @@ public interface GardenMapper {
 	
 	public int applyGardenInsert(ApplyGardenVO avo);
 	
+	public ArrayList<String> emailList();
 
 	public ArrayList<String> getFgDivision();
 
@@ -51,5 +52,7 @@ public interface GardenMapper {
 	public int documentReturnCount(int apseq);
 	
 	public int applyGardenCancel(int apseq);
+	
+	
 	
 }

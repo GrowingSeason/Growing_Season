@@ -60,6 +60,10 @@ public class GardenServiceImpl implements GardenService {
 	@Override
 	public ArrayList<String> getFgName(String fgDivision, String fgDetailDiv, String fgLocation){
 		System.out.println(fgDivision+ fgDetailDiv+ fgLocation+"잘옴");
+		
+		
+		
+		
 		return gardenDao.getFgName(fgDivision, fgDetailDiv, fgLocation);
 	}
 
@@ -109,6 +113,10 @@ public class GardenServiceImpl implements GardenService {
 		return gardenDao.applyGardenCancel(apseq);
 	}
 
+	@Override
+	public ArrayList<String> emailList() {
+		return gardenDao.emailList();
+	}
 
 	
 	
