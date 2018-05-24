@@ -1,21 +1,42 @@
 package com.kosmo.garden;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +45,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.kosmo.common.Converter;
-import com.kosmo.common.ThumbnailUtil;
 
 @Controller
 
 public class GardenController {
+	
 
 	//지현이형자리
 	String upload_file_dir="C:\\34DEV\\Growing_Season_git\\Growing_Season\\src\\main\\webapp\\uploads";
@@ -38,9 +64,12 @@ public class GardenController {
 	//String upload_file_dir="C:\\GrowingSeason\\Growing_Season\\Growing_Season\\src\\main\\webapp\\uploads";
 	
 	String savedPath = "\\thumbnail";
+	
 	@Autowired
 	GardenService service;
 
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	@RequestMapping(value="/applyGarden/user/applyGarden_step1.do")
 	public ModelAndView applyGardenStep1(HttpServletRequest request, HttpServletResponse response) {
@@ -405,7 +434,367 @@ public class GardenController {
 		mav.setViewName("apply_apply_all_please_login");
 		return mav;
 	}	
+	
+	
+	@RequestMapping(value="/MailTest.do")
+	public String  mailTest(HttpServletRequest request) {
+		String setfrom = "someday0328@gmail.com";         
+	    String tomail  = request.getParameter("tomail");     // 받는 사람 이메일
+	    String title   = request.getParameter("title");      // 제목
+	    String content = request.getParameter("content");    // 내용
+	   
+	    ArrayList<String> list = service.emailList();
+	    
+	    String[] array = new String[list.size()];
+	    String temp = "";
+	    
+	    System.out.println(list.size());
+	    System.out.println(array.length);
+	    for(int i=0;i<list.size();i++){
+	    	temp = list.get(i); 
+	    	array[i] = temp;
+	    	System.out.println(array[i]+" ");
+	    }
+	    
+	    try {
+	      MimeMessage message = mailSender.createMimeMessage();
+	      MimeMessageHelper messageHelper 
+	                        = new MimeMessageHelper(message, true, "UTF-8");
+	      
+	      messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
+	      //messageHelper.setTo(tomail);     // 받는사람 이메일
+	      messageHelper.setTo(array); // 받는사람'들' 이메일
+	      messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+	     
+	      String s ="<div style=\"width: 800px; height: 800px; background-color: #307509;\">" 
+	      		    + "<table  style=\"width:80%; margin-left:10%; padding-top:10%;\">"
+	      		    +"<tr><td style=\"width: 100%; height: 300px; background-color: white;\"><img src=\"https://cdn.pixabay.com/photo/2014/12/17/14/20/summer-anemone-571531_960_720.jpg\"></td></tr>"
+	      		    +"<tr><td></td></tr>"
+	      		    +"<tr><td></td></tr>"
+	      		    +"<tr><td></td></tr>"
+	      		    +"</table>"
+	      		    +"</div>";
+	      messageHelper.setText("",s);  // 메일 내용
+	     
+	     
+	      mailSender.send(message);
+	    } catch(Exception e){
+	      System.out.println(e);
+	    }
+	   
+	    return "redirect:/index.do";
+	  }
+	
+	
+	// 매월 ??일 금요일 12시 0분 0초에 메일을 보냅니다.
+	@Scheduled(cron="0 36 16 ? * MON") 
+	//@Scheduled(fixedDelay=1000)
+	public void  scheduleTest2() {
+		String setfrom = "someday0328@gmail.com";         
+	    ArrayList<String> list = service.emailList();
+	    Date date = new Date();
+	    
+	    SimpleDateFormat date2 = new SimpleDateFormat("yyyy/MM/dd");
+	    
+	    String today = date2.format(date); 
+	    
+	    
+	    String[] array = new String[list.size()];
+	    String temp = "";
+	    
+	    System.out.println(list.size());
+	    System.out.println(array.length);
+	    for(int i=0;i<list.size();i++){
+	    	temp = list.get(i); 
+	    	array[i] = temp;
+	    	System.out.println(array[i]+" ");
+	    }
+	    
+	    try {
+	    	
+	      MimeMessage message = mailSender.createMimeMessage();
+	      MimeMessageHelper messageHelper 
+	                        = new MimeMessageHelper(message, true, "UTF-8");
+	      
+	      messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
+	      //messageHelper.setTo(tomail);     // 받는사람 이메일
+	      messageHelper.setTo(array); // 받는사람'들' 이메일
+	      messageHelper.setSubject(today+" Growing Season 날씨 정기메일입니다."); // 메일제목은 생략이 가능하다
+	     
+	      StringBuffer mailContent = new StringBuffer();
+	      String start = "<div style=\"width: 800px; height: 800px; background-color: #307509;\">" 
+	      		    + "<table  style=\"width:80%; margin-left:10%; padding-top:10%;\">"
+	      		    +"<tr><td style=\"width: 100%; height: 300px; background-color: white;\"><img src=\"https://fg.startupbridgeva.com/f/m3R/TOS/87M/TslJyOl2NgyLdcyucyyNC-tJDEzrcDItDjF1EivIC994hSms0wNZxkdVuSXliTll-alAAA.png\"></td></tr>";
+	      
+	      mailContent.append(start);
+	      
+	      for(int i=0;i<list.size();i++){
+	      String content = "<tr><td></td></tr>"
+	      		    +"<tr><td></td></tr>"
+	      		    +"<tr><td></td></tr>";
+	      }
+	      
+	      String end ="</table>"+"</div>";
+	      
+	      
+	      
+	      messageHelper.setText("","요기");  // 메일 내용
+	     
+	     
+	      mailSender.send(message);
+	    } catch(Exception e){
+	      System.out.println(e);
+	    }
+		
+		
+		
+		
+	}
+	
+	@Scheduled(cron="0 0 22 ? * FRI,SAT")
+	//@RequestMapping(value="/w.do")
+	public void weatherTest(){
+
+		System.out.println("weatherTest 시작");
+		//String openWeatherApiURL = "http://api.openweathermap.org/data/2.5/weather?id=1840536&units=metric&APPID=cb23fdw17cf4f9db78ac4f5e5209c82ba3";
+		String openWeatherApiURL = "http://api.openweathermap.org/data/2.5/forecast?q=Seoul&lang=kr&appid=46b61ee5117a80b49cf7a80f1647fe28";
+		//String openWeatherApiURL = "http://api.openweathermap.org/data/2.5/forecast?lat=37.566535&lon=126.97796919999996&units=metric&lang=kr&appid=46b61ee5117a80b49cf7a80f1647fe28";
+		
+		
+		ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
+			@Override
+			public String handleResponse(final HttpResponse response)
+					throws ClientProtocolException, IOException {
+				int status = response.getStatusLine().getStatusCode();
+				if (status >= 200 && status < 300) {
+					HttpEntity entity = response.getEntity();
+					return entity != null ? EntityUtils.toString(entity) : null;
+				} else {
+					throw new ClientProtocolException("Unexpected response status: " + status);
+				}
+			}
+		};
+		
+		
+		ArrayList<HashMap<String,String>> mapList = new ArrayList <HashMap<String,String>>();
+		HttpGet httpGet;
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        try {
+        	Gson gson = new Gson();
+            httpGet = new HttpGet(openWeatherApiURL);
+            String jsonResult = httpclient.execute(httpGet,responseHandler);
+
+            JsonObject jsonObject = gson.fromJson(jsonResult, JsonObject.class);
+            
+            JsonElement jsonElement = gson.fromJson(jsonObject.get("list"), JsonElement.class);
+            JsonArray jsonArray = gson.fromJson(jsonElement, new TypeToken<JsonArray>(){}.getType());
+            JsonArray subArray = null;
+
+
+            
+            
+            
+            
+            //for(int i=0; i<jsonArray.size(); i++) {
+            for(int i=3; i<11; i++) { // 1일 22시에 보낼경우 2일 00시, 03시, 06시, 09시, 12시, 15시, 18시, 21시, 3일00시 까지 날아감 
+                JsonObject subObject = (JsonObject)jsonArray.get(i);
+                JsonElement subElement = gson.fromJson(subObject.get("weather"), JsonElement.class);
+                JsonElement subElement2 = gson.fromJson(subObject.get("main"), JsonElement.class);
+                subArray = gson.fromJson(subElement, new TypeToken<JsonArray>(){}.getType());
+                
+                JsonArray ja = gson.fromJson(jsonElement, new TypeToken<JsonArray>(){}.getType());
+                JsonObject jo = (JsonObject)ja.get(i);
+                JsonElement je = gson.fromJson(jo.get("dt_txt"), JsonElement.class);
+                //je = 2018-05-24 15:00:00
+                
+                for(int j=0; j<subArray.size(); j++) { //size 1
+                 	subObject = (JsonObject)subArray.get(j);
+                    
+                 	subElement = gson.fromJson(subObject.get("description"), JsonElement.class);
+                    //subElement = "구름 조금"
+                 	
+                    
+                }
+                
+                
+                
+                JsonObject j = subElement2.getAsJsonObject();
+                //j.get("temp"); 285.2 (화씨)
+                
+                HashMap<String, String> map = new HashMap<String,String>();
+                
+                map.put("시각", je.toString());
+                map.put("날씨", subElement.toString());
+                
+                double d = Double.parseDouble(j.get("temp").toString())-273.15;
+                double tempc = Double.parseDouble(String.format("%.2f",d));
+                map.put("기온", Double.toString(tempc)+"°C");
+                
+//                System.out.println("시각 : "+je.toString());
+//                System.out.println("날씨 : "+subElement.toString());
+//                System.out.println("기온 : "+tempc+"°C");
+                mapList.add(i-3, map);	
+                
+            }
+            
+            for(int i=0;i<mapList.size();i++){
+            	System.out.println(mapList.get(i).get("시각"));
+            	System.out.println(mapList.get(i).get("날씨"));
+            	System.out.println(mapList.get(i).get("기온"));
+            	System.out.println("---------------------");
+            }
+            
+            
+            
+            
+           
+//            JsonElement jsonElement = gson.fromJson(jsonObject.get("city"), )
+            if (jsonResult != null && !"".equals(jsonResult)) {
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//                WeatherVO wvo = mapper.readValue(jsonResult, WeatherVO.class);
+//                System.out.println("ㅎㅎ"+jsonResult);
+//                Gson gson = new Gson();
+//                WeatherVO wvo2= gson.fromJson(jsonResult, WeatherVO.class);
+//                
+//                System.out.println(wvo2.getMain().getTemp());
+            }
+            
+/*            JSONObject jobj = new JSONObject(jsonResult);
+            System.out.println(jobj.toString());
+            System.out.println(jobj.get("city"));*/
+            
+            
+            
+            
+            
+            httpclient.close();
+            
+            
+            
+            
+            
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       
+        
+        String setfrom = "someday0328@gmail.com";         
+	    ArrayList<String> list = service.emailList();
+	    Date date = new Date();
+	    
+	    SimpleDateFormat date2 = new SimpleDateFormat("yyyy/MM/dd");
+	    
+	    String today = date2.format(date); 
+	    
+	    
+	    String[] array = new String[list.size()];
+	    String temp = "";
+	    
+	    System.out.println(list.size());
+	    System.out.println(array.length);
+	    for(int i=0;i<list.size();i++){
+	    	array[i] = list.get(i); 
+	    	 
+	    	System.out.println(array[i]+" ");
+	    }
+	    
+	    try {
+	    	
+	      MimeMessage message = mailSender.createMimeMessage();
+	      MimeMessageHelper messageHelper 
+	                        = new MimeMessageHelper(message, true, "UTF-8");
+	      
+	      messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
+	      //messageHelper.setTo(tomail);     // 받는사람 이메일
+	      messageHelper.setTo(array); // 받는사람'들' 이메일
+	      messageHelper.setSubject(today+" Growing Season 날씨 정기메일입니다."); // 메일제목은 생략이 가능하다
+	      
+	      StringBuffer mailContent = new StringBuffer();
+	      String start = "<div style=\"width: 800px; background-color: white;\">" 
+	      		    + "<table  style=\"width:640px; margin-left:10%; padding-top:10%;\">"
+	      		    +"<tr><td colspan=\"2\" \"><img src=\"https://images.twinkl.co.uk/tr/raw/upload/u/planit/image/Geography-KS1-Wonderful-Weather-1.jpg\"></td></tr>"
+	      		    +"<tr><td colspan=\"2\">------------------------------------------------------------------------------------------</td></tr>";
+	      
+	      mailContent.append(start);
+	      
+	      for(int i=0;i<mapList.size();i++){
+	      String content = "<tr><td>시각</td><td>"+mapList.get(i).get("시각")+"</td></tr>"
+	      		    +"<tr><td>날씨</td><td>"+mapList.get(i).get("날씨")+"</td></tr>"
+	      		    +"<tr><td>기온</td><td>"+mapList.get(i).get("기온")+"</td></tr>"
+	      		    +"<tr><td colspan=\"2\">------------------------------------------------------------------------------------------</td></tr>";
+	      mailContent.append(content);
+	      }
+	      String end ="</table></div>";
+	      mailContent.append(end);
+	      
+	      messageHelper.setText("",mailContent.toString());  // 메일 내용
+	     
+	     
+	      mailSender.send(message);
+	    } catch(Exception e){
+	      System.out.println(e);
+	    }
+        
+        
+        
+        
+        
+        
+
+	        
+	        
+	}
+	
+	
+	@RequestMapping(value="/ww.do")
+	public void weatherTest2(){
+	
+		 URL url;//URL 주소 객체
+	        URLConnection connection;//URL접속을 가지는 객체
+
+	        InputStream is;//URL접속에서 내용을 읽기위한 Stream
+	        InputStreamReader isr;
+	        BufferedReader br;
+
+	        try{
+	            //URL객체를 생성하고 해당 URL로 접속한다..
+	            url = new URL("http://api.openweathermap.org/data/2.5/forecast?lat=37.566535&lon=126.97796919999996&units=metric&lang=kr&appid=46b61ee5117a80b49cf7a80f1647fe28");
+	            			//"http://api.openweathermap.org/data/2.5/forecast?lat=37.566535&lon=126.97796919999996&units=metric&lang=kr&appid=46b61ee5117a80b49cf7a80f1647fe28"
+	            connection = url.openConnection();
+	            //내용을 읽어오기위한 InputStream객체를 생성한다..
+	            is = connection.getInputStream();
+	            isr = new InputStreamReader(is);
+	            br = new BufferedReader(isr);
+
+	            //내용을 읽어서 화면에 출력한다..
+	            String buf = null;
+	            while(true){
+	                buf = br.readLine();
+	                if(buf == null) break;
+	                System.out.println(buf);
+	                int a2 = buf.indexOf("temp");
+	                //double temp=Double.parseDouble(buf.substring(a2+6, a2+12))-273.15;
+	                System.out.println("서울의 현재 온도(섭씨):"+a2);
+	                String s = "";
+	                
+	            }
+	        }catch(MalformedURLException mue){
+	            System.err.println("잘못되 URL입니다.");
+	            
+	        }catch(IOException ioe){
+	            System.err.println("IOException " + ioe);
+	            ioe.printStackTrace();
+	            
+	        }
+		
+	
+	}
+	
+}	
+	
 
 
 
-}
