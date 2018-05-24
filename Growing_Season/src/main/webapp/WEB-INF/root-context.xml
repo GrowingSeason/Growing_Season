@@ -5,7 +5,28 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
+	
+	
+	<!-- 메일보내기 --><!-- org.springframework.mail.javamail.JavaMailSenderImpl -->
+   <bean id="mailSender" class = "org.springframework.mail.javamail.JavaMailSenderImpl">
+      <property name="host" value="smtp.gmail.com" />
+      <property name="port" value="587" />
+      <property name="username" value="someday0328@gmail.com" />
+      <property name="password" value="tjaepljy0328" />
+      <property name="javaMailProperties">
+         <props>
+               <prop key="mail.transport.protocol">smtp</prop>
+               <prop key="mail.smtp.auth">true</prop>
+               <prop key="mail.smtp.starttls.enable">true</prop>
+               <prop key="mail.debug">true</prop>
+         </props>
+      </property>
+ 
+   </bean>
+	
+	
 	<!-- 공통으로 사용할 db관련설정 -->
+	
 
 	<!--  ********************** C O N T E X T *****************************  -->
 	<context:component-scan base-package="com.kosmo.**" />

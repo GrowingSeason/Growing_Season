@@ -41,4 +41,6 @@ public interface GardenService {
 	
 	public int applyGardenCancel(int apseq);
 	
+	public ArrayList<String> emailList();
+	
 }

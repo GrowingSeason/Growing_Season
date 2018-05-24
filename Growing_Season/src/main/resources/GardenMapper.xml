@@ -118,5 +118,11 @@
 		update apply set apcancel='Y'
 		where apseq=#{apseq}
     </update>
+    
+    <select id="emailList" resultType="String">
+		select memail
+		from member
+		where mmailreceive='Y' and memail != '1@1.com'
+    </select>
 
 </mapper>
