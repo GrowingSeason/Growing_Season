@@ -42,19 +42,6 @@ public class AdminController {
 	@Autowired
 	private FarmAdminService imp;
 	
-	@RequestMapping(value="/snsadmin.do")
-	public ModelAndView snsListAdmin(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		
-		ModelAndView mav = new ModelAndView();
-		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
-			mav.setViewName("error_layout_all_error_page");
-			return mav;
-		}
-		
-		mav.setViewName("sns_sns_admin_sns_sample");
-
-		return mav;
-	}
 	
 	@RequestMapping(value="/alist.do")
 	public ModelAndView commontest(FarmGardenVO fgvo, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -75,18 +62,15 @@ public class AdminController {
 		PagingUtil pu = new PagingUtil("/alist.do", currentPage, totalcount, 8 , 5);
 		String html = pu.getPagingHtml();
 		
-		
-		
 		mvo.setSseq(pu.getStartSeq());
 		mvo.setEseq(pu.getEndSeq());
 	
-//		System.out.println(mvo.getSseq());
-//		System.out.println(mvo.getEseq());
-		
 		ArrayList<MemberVO> list = imp.applyList(mvo);
 		ArrayList<FarmGardenVO> floclist = imp.farmlocationList(fgvo);
 		ArrayList<FarmGardenVO> fnamelist = imp.farmnameList(fgvo);
+		ArrayList<FarmGardenVO> fieldlist = imp.fieldList(fgvo);
 		
+		mav.addObject("LVL_FIELD", fieldlist);
 		mav.addObject("LVL_FLOC", floclist);
 		mav.addObject("LVL_FNAME", fnamelist);
 		
@@ -106,7 +90,6 @@ public class AdminController {
 			mav.setViewName("error_layout_all_error_page");
 			return mav;
 		}
-		
 		
 		FarmGardenVO fgvo = new FarmGardenVO();
 		
@@ -184,6 +167,16 @@ public class AdminController {
         return imp.areaList(fgvo);
 	}
 	
+	@RequestMapping(value = "/winlist.do")
+	@ResponseBody
+	public ArrayList<ApplyVO> winList(
+			@RequestBody ApplyVO avo 
+			
+	) throws Exception {
+		ArrayList<ApplyVO> list = imp.winnerList(avo);
+        return list;
+	}
+	
 	@RequestMapping(value="/create.do")
 	public ModelAndView farmCreate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		
@@ -232,8 +225,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/lottolist.do")
-	public ModelAndView lottoList(FarmGardenVO fgvo , ApplyVO avo, HttpServletRequest request, HttpServletResponse response,HttpSession session) {
-		
+	public ModelAndView lottoList(FarmGardenVO fgvo , ApplyVO avo, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		
 		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
@@ -251,20 +243,21 @@ public class AdminController {
 		PagingUtil pu = new PagingUtil("/lottolist.do", currentPage, totalcount, 8 , 5);
 		String html = pu.getPagingHtml();
 		
-		
-		
 		avo.setSseq(pu.getStartSeq());
 		avo.setEseq(pu.getEndSeq());
-		
+	
 		ArrayList<ApplyVO> list = imp.lottoList(avo);
 		ArrayList<FarmGardenVO> floclist = imp.farmlocationList(fgvo);
 		ArrayList<FarmGardenVO> fnamelist = imp.farmnameList(fgvo);
+		ArrayList<FarmGardenVO> fieldlist = imp.fieldList(fgvo);
 		
+		mav.addObject("LVL_FIELD", fieldlist);
 		mav.addObject("LVL_FLOC", floclist);
 		mav.addObject("LVL_FNAME", fnamelist);
 		mav.addObject("LVL_PAGING", html);
 		mav.addObject("LVL_LIST", list);
 		mav.addObject("LVL_COUNT", totalcount);
+		
 		mav.setViewName("board_board_admin_farm_lottolist");
 		
 		return mav;
@@ -294,6 +287,7 @@ public class AdminController {
 		}
 		Iterator<ApplyVO> applyIt = applyMap.iterator();
 		int j=1;
+		
 		while(applyIt.hasNext()) {
 			avo.setApseq(applyIt.next().getApseq());
 			avo.setAseq(j);
@@ -301,9 +295,6 @@ public class AdminController {
 			j++;
 		}
 		
-		ModelAndView mav = new ModelAndView();
-		
-		mav.setViewName("board_board_admin_farm_lottolist");
 		return "redirect: /lottolist.do";
 	}
 	
@@ -328,26 +319,11 @@ public class AdminController {
 		}
 		int res = 0;
 		for(int i =0; i<arr.length; i++) {
-			System.out.println(arr[i]);
 			res = imp.assignUpdate(arr[i]);
 		}
 		
 		return "redirect: /manager.do";
 	}
-	
-	@RequestMapping(value="/snsuser.do")
-	public ModelAndView commonsnstest(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
-		ModelAndView mav = new ModelAndView();
-		
-		if(!(session.getAttribute("LVL_SESS_GUBUN").toString().equals("A"))){
-			mav.setViewName("error_layout_all_error_page");
-			return mav;
-		}
-
-		mav.setViewName("sns_sns_user_sns_sample");
-
-		return mav;
-	}
 	
 }

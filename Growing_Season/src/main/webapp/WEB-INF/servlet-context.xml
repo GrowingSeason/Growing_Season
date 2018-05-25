@@ -5,12 +5,20 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
+
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/task
+		http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
+	<context:component-scan base-package="com.kosmo.garden.GardenController" />
+	<task:scheduler id="jobScheduler" pool-size="10" />
+	<task:annotation-driven scheduler="jobScheduler"/>
+	
 	<!-- 개별적으로 스프링에서 사용할 설정(서블릿설정) 렌더링설정정도가 남음 -->
 	<!-- context:component-scan은 각각의 설정을 어느패키지에서 읽어서 확인할 지 설정하므로, root및 servlet-context에서도 설정해줌 -->
 
@@ -34,6 +42,7 @@
 	<mvc:resources mapping="/img/**" location="/img/" />
 	<mvc:resources mapping="/color/**" location="/color/" />
 	<mvc:resources mapping="/contactform/**" location="/contactform/" />
+	<mvc:resources mapping="/uploads/**" location="/uploads/" />
 
 
 

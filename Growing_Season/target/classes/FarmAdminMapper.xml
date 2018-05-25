@@ -138,10 +138,11 @@ order by fglocation
 </select>
 
 <select id="farmnameList" resultType="com.kosmo.farmadmin.FarmGardenVO" parameterType="com.kosmo.farmadmin.FarmGardenVO">
-select fgname from farm_garden
+select fgname,fgdelete from farm_garden
+where fgdelete='n'
 order by fgname
 </select>
-
+ 
 <select id="fList" resultType="com.kosmo.farmadmin.FarmGardenVO" parameterType="com.kosmo.farmadmin.FarmGardenVO">
 select * from farm_garden
 order by fgseq
@@ -149,7 +150,7 @@ order by fgseq
 
 <select id="searchlocList" resultType="com.kosmo.farmadmin.FarmGardenVO">
 select fgseq, fgname, fglocation from farm_garden
-where fglocation = #{fglocation}
+where fglocation = #{fglocation} and fgdelete='n'
 </select>
 
 <select id="searchfarmList" resultType="com.kosmo.farmadmin.FarmGardenVO">
@@ -157,14 +158,19 @@ select * from farm_garden
 where fgseq = #{fgseq}
 </select>
 
-
+<select id="fieldList" resultType="com.kosmo.farmadmin.FarmGardenVO" parameterType="com.kosmo.farmadmin.FarmGardenVO">
+select fglocation from farm_garden
+where fgdivision='텃밭'
+group by fglocation 
+order by fglocation
+</select>
 
 <select id="lottoList" resultType="com.kosmo.farmadmin.ApplyVO" parameterType="com.kosmo.farmadmin.ApplyVO">
 <![CDATA[
 select rnum, apdivision, apseq, mseq , apname, apphone, apemail, apdate, awinner, apcancel from
 (select rownum rnum, apdivision, apseq, mseq , apname, apphone, apemail, apdate, awinner, apcancel 
 from apply 
-where awinner='W' order by apdivision)
+where awinner='W' and apcancel='N' order by apdivision)
 where rnum >=#{sseq} and rnum <=#{eseq} 
 ]]>
 </select>
@@ -172,7 +178,7 @@ where rnum >=#{sseq} and rnum <=#{eseq}
 <select id="lottoListCount" resultType="int">
 select count(1) from (select apdivision, apseq, mseq , apname, apphone, apemail, apdate, awinner, apcancel 
 from apply 
-where awinner='W'
+where awinner='W' and apcancel='N'
 order by apdivision)
 </select>
 
@@ -180,7 +186,7 @@ order by apdivision)
 select *
 from member m left outer join (select *
 from apply a right outer join farm_garden fg on a.fgseq = fg.fgseq) afg on m.mseq = afg.mseq
-where afg.fglocation = #{fgvo.fglocation} and afg.fgname = #{fgvo.fgname} and afg.apcancel='N'
+where afg.fglocation = #{fgvo.fglocation} and afg.fgname = #{fgvo.fgname} and afg.apcancel='N' and afg.pcode='입금확인'
 </select>
 
 <select id="areaList" resultType="com.kosmo.farmadmin.FarmGardenVO" parameterType="com.kosmo.farmadmin.FarmGardenVO">
@@ -200,11 +206,24 @@ from farm_garden fg right outer join area ar on fg.fgseq = ar.fgseq
 where fg.fgseq=#{fgseq}
 </select>
 
-<select id="winnerList" resultMap="LocNameApplyMap">
-select *
-from apply a left outer join farm_garden fg on a.fgseq = fg.fgseq
-where fg.fgseq=#{fgseq} and a.awinner='Y' and a.apcancel='N'
+<select id="winnerList" parameterType="com.kosmo.farmadmin.ApplyVO" resultType="com.kosmo.farmadmin.ApplyVO">
+<![CDATA[
+select rnum, apdivision, apseq, fgseq, mseq, apname, apphone, apemail, apdate, awinner, apcancel from
+(select rownum rnum, apdivision, apseq, fgseq, mseq , apname, apphone, apemail, apdate, awinner, apcancel 
+from apply 
+where awinner='W' and apcancel='N' order by apdivision)
+where rnum >=1 and rnum <=10 and fgseq=#{fgseq}
+order by rnum
+]]>
 </select>
+
+<select id="locCheck"  resultMap="LocNameApplyMap">
+select fg.fglocation, fg.fgname 
+from apply a left outer join farm_garden fg on a.fgseq=fg.fgseq
+where a.fgseq=123
+group by fg.fglocation,fg.fgname
+</select>
+
 
 <insert id="farmInsert" parameterType="com.kosmo.farmadmin.FarmGardenVO" >
 insert into farm_garden
@@ -212,7 +231,7 @@ values(farmgarden_seq.nextval, #{fgdivision}, #{fgdetaildiv}, #{fglocation}, #{f
 </insert>
 
 <delete id="farmDelete" parameterType="com.kosmo.farmadmin.FarmGardenVO">
-delete from farm_garden where fgseq=#{fgseq}
+update farm_garden set fgdelete='y' where fgseq=#{fgseq}
 </delete>
 
 <update id="farmUpdate" parameterType="com.kosmo.farmadmin.FarmGardenVO">
@@ -230,7 +249,7 @@ from apply where apseq = #{apseq})
 </update>
 
 <update id="assignUpdate" parameterType="int">
-update apply set apcancel='Y' where mseq=#{mseq}
+update apply set pcode='',apcancel='Y' where mseq=#{mseq}
 </update>
 
 </mapper>
