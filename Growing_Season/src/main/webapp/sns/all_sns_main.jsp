@@ -101,7 +101,7 @@
 				<c:forEach var="vo" items="${SNS_IMG_LIST}">
 					<div class="span4">
 					 	<a href="/snsdetail.do?feseq=${vo.feseq}">
-					 	<img src="/uploads/${vo.feimgname}" style="width:300px; height:300px;"></a> <br>
+					 	<img src="/uploads/sns/${vo.feimgname}" style="width:300px; height:300px;"></a> <br>
 						<br> <br> <br>
 					</div>
 				</c:forEach>

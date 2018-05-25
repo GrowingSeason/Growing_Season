@@ -264,7 +264,7 @@ function getArea(){
 	});
 }
 $(".farmsector").on( "click" , "div", function() {              
-    alert("클릭");
+    
     if($(this).attr('class')=='box'){
     	$(".selectbox").attr('class', 'box');
     	$(this).attr('class','selectbox');
@@ -281,11 +281,11 @@ $(".farmsector").on( "click" , "div", function() {
     	$(".selectarea-infrom").attr('value', '');
     	
     }else if($(this).attr('class')=='areadybox'){
-    	alert($(".areadybox").find(".num").attr('value'));
+    	
     	var number = $(".areadybox").find(".num").attr('value');
     	$("#selectNum").html("["+number+"]");
     	var mseq = $(".mseq").find(".vip").val();
-    	alert(mseq);
+    	
     	$("#snsmseq").attr('value', mseq);
     }
 

@@ -58,12 +58,18 @@ public class GardenController {
 	
 
 	//지현이형자리
-	String upload_file_dir="C:\\34DEV\\Growing_Season_git\\Growing_Season\\src\\main\\webapp\\uploads";
+	//String upload_file_dir="C:\\34DEV\\Growing_Season_git\\Growing_Season\\src\\main\\webapp\\uploads";
 	
 	//때요비자리
 	//String upload_file_dir="C:\\GrowingSeason\\Growing_Season\\Growing_Season\\src\\main\\webapp\\uploads";
+	//민지누나자리
+	String upload_file_dir="C:\\Users\\정규반\\git\\Growing_Season\\Growing_Season\\src\\main\\webapp\\uploads";
+	
 	
 	String savedPath = "\\thumbnail";
+	
+	
+	
 	
 	@Autowired
 	GardenService service;
@@ -103,6 +109,7 @@ public class GardenController {
 		MemberVO mvo = service.getMemberInfo(mseq);
 
 		FarmGardenVO fgvo = service.getFgInfoByFseq(fgseq);
+		System.out.println(fgvo.getFgfeature());
 		System.out.println(fgvo.getFgaddress());
 		mav.addObject("LVL_FGVO",fgvo);
 		mav.addObject("LVL_MVO",mvo);
@@ -485,7 +492,7 @@ public class GardenController {
 	    return "redirect:/index.do";
 	  }
 	
-	
+	/*
 	// 매월 ??일 금요일 12시 0분 0초에 메일을 보냅니다.
 	@Scheduled(cron="0 36 16 ? * MON") 
 	//@Scheduled(fixedDelay=1000)
@@ -549,10 +556,10 @@ public class GardenController {
 		
 		
 		
-	}
+	}*/
 	
 	@Scheduled(cron="0 0 22 ? * FRI,SAT")
-	//@RequestMapping(value="/w.do")
+	@RequestMapping(value="/w.do")
 	public void weatherTest(){
 
 		System.out.println("weatherTest 시작");
@@ -746,51 +753,6 @@ public class GardenController {
 
 	        
 	        
-	}
-	
-	
-	@RequestMapping(value="/ww.do")
-	public void weatherTest2(){
-	
-		 URL url;//URL 주소 객체
-	        URLConnection connection;//URL접속을 가지는 객체
-
-	        InputStream is;//URL접속에서 내용을 읽기위한 Stream
-	        InputStreamReader isr;
-	        BufferedReader br;
-
-	        try{
-	            //URL객체를 생성하고 해당 URL로 접속한다..
-	            url = new URL("http://api.openweathermap.org/data/2.5/forecast?lat=37.566535&lon=126.97796919999996&units=metric&lang=kr&appid=46b61ee5117a80b49cf7a80f1647fe28");
-	            			//"http://api.openweathermap.org/data/2.5/forecast?lat=37.566535&lon=126.97796919999996&units=metric&lang=kr&appid=46b61ee5117a80b49cf7a80f1647fe28"
-	            connection = url.openConnection();
-	            //내용을 읽어오기위한 InputStream객체를 생성한다..
-	            is = connection.getInputStream();
-	            isr = new InputStreamReader(is);
-	            br = new BufferedReader(isr);
-
-	            //내용을 읽어서 화면에 출력한다..
-	            String buf = null;
-	            while(true){
-	                buf = br.readLine();
-	                if(buf == null) break;
-	                System.out.println(buf);
-	                int a2 = buf.indexOf("temp");
-	                //double temp=Double.parseDouble(buf.substring(a2+6, a2+12))-273.15;
-	                System.out.println("서울의 현재 온도(섭씨):"+a2);
-	                String s = "";
-	                
-	            }
-	        }catch(MalformedURLException mue){
-	            System.err.println("잘못되 URL입니다.");
-	            
-	        }catch(IOException ioe){
-	            System.err.println("IOException " + ioe);
-	            ioe.printStackTrace();
-	            
-	        }
-		
-	
 	}
 	
 }	

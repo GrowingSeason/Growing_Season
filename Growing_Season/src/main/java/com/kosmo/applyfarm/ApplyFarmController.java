@@ -35,7 +35,7 @@ public class ApplyFarmController {
 	@Autowired
 	private MemberService memberService;
 	
-	//농장진입 컨트롤러
+	//농장진입 컨트롤러+
 	@RequestMapping(value="/applyFarm/all/applyFarm.do")
 	public String applyFarmStart(HttpSession session){
 		if(session.getAttribute("LVL_SESS_MSEQ")==null){

@@ -20,7 +20,7 @@ background-color: white;
 			<input id="feseq" type="hidden" name="feseq" value="${SNS_DETAIL.feseq}">
          <table width="800" height="200">
             <tr align="center">
-               <td rowspan="5" width="400"><img src="/uploads/${SNS_IMAGE_LIST.feimgname}" width="100%"></td>
+               <td rowspan="5" width="400"><img src="/uploads/sns/${SNS_IMAGE_LIST.feimgname}" width="100%"></td>
              
                <td style="padding-top: 15px;">
                <button id="followerbtn" class="btn animated infinite pulse btn-primary">
@@ -252,7 +252,7 @@ function btnupdate() {
 				}
 			});
 		});
-		$("#follower").click(function() {
+		$("#followerbtn").click(function() {
 			alert($("#feseq").val());
 			var jsonObjectData = {
 					"feseq" : $("#feseq").val(),

@@ -33,7 +33,7 @@ border:none;
               <c:choose>
              <c:when test="${LVL_SESS_GUBUN == ''}">
                 <li><a href="#myModal" class="btn btn-inverse" data-placement="bottom" data-toggle="modal" title="로그인 해주세요">login</a></li>
-                <li><a href="/member/user/memberInput.do" class="btn btn-inverse" data-placement="bottom" title="휘원가입">join</a></li>
+                <li><a href="/member/user/memberInput.do" class="btn btn-inverse" data-placement="bottom" title="회원가입">join</a></li>
               </c:when>
               <c:otherwise>
               	<li><a href="/logout.do" class="btn btn-inverse" data-placement="bottom" title="로그아웃">logout</a></li>
@@ -73,13 +73,13 @@ border:none;
                       <a href="/myApplyCondition/all/applyCondition_main.do">신청현황</a>
                     </li>
                     <li>
-                      <a href="/snsmain.do">SNS</a>
+                      <a href="#">커뮤니티</a>
                     </li>
                     <li class="dropdown">
-                      <a href="/boardfreelist.do">게시판 <i class="icon-angle-down"></i></a>
+                      <a href="/snsmain.do">SNS <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
-                        <li><a href="/boardfreelist.do">자유게시판</a></li>
-                        <li><a href="/boardproposallist.do">건의사항</a></li>
+                        <li><a href="/snsmain.do">SNS메인</a></li>
+                        <li><a href="/snsfarmvisit.do">놀러가기</a></li>
                       </ul>
                     </li>
                     <li class="dropdown">

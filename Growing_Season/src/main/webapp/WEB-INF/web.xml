@@ -42,6 +42,30 @@
 	</servlet-mapping>
 
 
+
+
+  <!-- HTTP Status Code -->
+
+  <error-page>
+
+    <error-code>404</error-code>
+
+    <location>/layout/all_error_page.jsp</location>
+
+  </error-page>
+
+   
+
+  <error-page>
+
+    <error-code>500</error-code>
+
+    <location>/layout/all_error_page.jsp</location>
+
+  </error-page>
+
+
+
 	<!-- SPRING SECURITY : Session Filter 
 	<filter>
 	    <filter-name>springSecurityFilterChain</filter-name>

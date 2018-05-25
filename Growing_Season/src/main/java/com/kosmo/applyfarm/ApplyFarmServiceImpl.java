@@ -72,7 +72,8 @@ public class ApplyFarmServiceImpl implements ApplyFarmService {
 	
 	public boolean sendSmsAuthNumber(String phoneNumber){
 		
-		String smsAuthNumber = smsAuth.getAuthNumber(phoneNumber);
+		//String smsAuthNumber = smsAuth.getAuthNumber(phoneNumber);
+		String smsAuthNumber = "918734"; // 임시 시연용
 		
 		HashMap resMap = new HashMap();
 	

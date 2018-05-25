@@ -160,33 +160,33 @@
 			<div class="span12" style="margin-left:0px;padding-left: 20%; width : 90%;">
 				<div class="span6 margintop10 field form-group">
 					<label for="exampleInputEmail1" class="tatle" style="display:block">아이디</label> 
-					<input type="text" name="mid" id="Mid" class="textstyle" required /> 
+					<input type="text" name="mid" id="Mid" class="textstyle" value="final" required /> 
 					<input class="aqua_btn" onclick="openIdChk()" type="button" value="중복체크" />
 					<div class="validation"></div>
 				</div>
 				
 				<div class="span6 margintop10 field form-group">
 					<label for="exampleInputEmail1" class="tatle">비밀번호</label> 
-					<input type="password" name="mpw" maxlength="50" class="textstyle" required />
+					<input type="password" name="mpw" maxlength="50" class="textstyle" value="1111" required />
 					<div class="validation"></div>
 				</div>
 				
 				<div class="span6 margintop10 field form-group">
 					<label for="exampleInputEmail1" class="tatle">이름</label> 
-					<input type="text" name="mname" maxlength="15" class="textstyle" required />
+					<input type="text" name="mname" maxlength="15" class="textstyle" value="파이널시연용" required />
 					<div class="validation"></div>
 				</div>
 				
 				<div class="span6 margintop10 field form-group">
 					<label for="exampleInputEmail1" class="tatle">생년월일</label>
 					<input type="text" name="mbirth" maxlength="8"
-						placeholder="'-'없이 입력해주세요!" class="textstyle" required />
+						placeholder="'-'없이 입력해주세요!" class="textstyle" value="19501212"required />
 					<div class="validation"></div>
 				</div>
 				
 				<div class="span6 margintop10 field form-group">
 					<label for="exampleInputEmail1" class="tatle">성별</label> 
-						<input type="radio" name="mgender" value="M">남 
+						<input type="radio" name="mgender" value="M" checked>남 
 						<input type="radio" name="mgender" value="F">여
 					<div class="validation"></div>
 				</div>
@@ -194,27 +194,27 @@
 				<div class="span6 margintop10 field form-group">
 					<label for="exampleInputEmail1" class="tatle">전화번호</label> 
 					<input type="text" style="width: 100px" name="mphone" maxlength="4"
-						placeholder="010" required> - 
+						placeholder="010" value="010" required> - 
 					<input type="text" style="width: 100px" name="mphone1" maxlength="4"
-						placeholder="1234"  required> - 
+						placeholder="1234" value="1212" required> - 
 					<input type="text" style="width: 100px" name="mphone2" maxlength="4"
-						placeholder="1234" required>
+						placeholder="1234" value="1212" required>
 					<div class="validation"></div>
 				</div>
 			
 				<div class="span6 margintop10 field form-group">
 					<label for="exampleInputEmail1" class="tatle">주소</label> 
 					<input style="width: 100px" type="text" id="sample6_postcode"
-						placeholder="우편번호"> 
+						placeholder="우편번호" value="08793"> 
 					<input class="aqua_btn" type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-					<input type="text" id="sample6_address" name="maddress" placeholder="주소" class="textstyle" required><br>
-					<input type="text" id="sample6_address2" name="maddress2" placeholder="상세주소" class="textstyle">
+					<input type="text" id="sample6_address" name="maddress" placeholder="주소" class="textstyle" value="서울 관악구 남부순환로244가길 9 (봉천동, 파이치치22)" required><br>
+					<input type="text" id="sample6_address2" name="maddress2" placeholder="상세주소" value="1층" class="textstyle">
 					<div class="validation"></div>
 				</div>
 				
 				<div class="span6 margintop10 field form-group">
 					<label for="exampleInputEmail1" class="tatle">이메일</label> 
-					<input type="text" name="memail" maxlength="50" required> @ 
+					<input type="text" name="memail" maxlength="50" value="final" required> @ 
 					<select id="url" name="memail2">
 						<option>naver.com</option>
 						<option>daum.net</option>
