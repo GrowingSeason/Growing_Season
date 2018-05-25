@@ -32,7 +32,7 @@ $("#followingbtn").click(function() {
          <table border='1' width="800" height="200" >
             
             <tr align="center">
-               <td rowspan="2" width="400"><img src='h.gif' width=""></td>
+               <td rowspan="2" width="400"><img src='/images/aaa.jpg' width=""></td>
              
                <td colspan="2">
                <button id="followerbtn" class="btn btn-primary">
